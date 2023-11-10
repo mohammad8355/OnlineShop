@@ -1,8 +1,18 @@
+using DataAccessLayer.Context;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+#region AddContext 
+var connectionString = builder.Configuration.GetConnectionString("ConnectionStrings");
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
+    options.UseSqlServer(connectionString);
+});
+#endregion
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
