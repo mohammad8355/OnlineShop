@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -18,12 +18,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BusinessEntity\BusinessEntity.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Context\" />
-    <Folder Include="Models\" />
-    <Folder Include="ViewModels\" />
   </ItemGroup>
 
 </Project>
