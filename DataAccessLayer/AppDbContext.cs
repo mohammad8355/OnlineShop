@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using BusinessEntity.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,10 @@ namespace DataAccessLayer
             optionsBuilder.UseSqlServer("server=DESKTOP-5FTTMPU\\MSSQLSERVER2022;database=ElectricShopDB;Trusted_Connection=true");
             base.OnConfiguring(optionsBuilder);
         }
-
+        DbSet<Product> products { get; set; }
+        DbSet<Image> images { get; set; }
+        DbSet<Brand> brands { get; set; }
+        DbSet<ProductAttribute> productAttributes { get; set; }
+        DbSet<Category> categories { get; set; }
     }
 }
