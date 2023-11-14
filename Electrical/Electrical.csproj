@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <Folder Include="Models\ViewModels\" />
+    <Folder Include="wwwroot\picture\" />
   </ItemGroup>
 
   <ItemGroup>
