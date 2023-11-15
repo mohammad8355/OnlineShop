@@ -1,4 +1,5 @@
 using DataAccessLayer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -11,6 +12,14 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+#endregion
+#region AddIdentity
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
+{
+    options.Password.RequiredUniqueChars = 0;
+    options.Password.RequireNonAlphanumeric = false;
+    options.User.RequireUniqueEmail = true;
 });
 #endregion
 var app = builder.Build();
