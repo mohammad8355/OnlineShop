@@ -15,7 +15,7 @@ namespace DataAccessLayer
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("server=DESKTOP-5FTTMPU\\MSSQLSERVER2022;database=ElectricShopDB;Trusted_Connection=true");
+            optionsBuilder.UseSqlServer("server=DESKTOP-5FTTMPU\\MSSQLSERVER2022;database=ElectricShopDB;Trusted_Connection=true;");
             base.OnConfiguring(optionsBuilder);
         }
         DbSet<Product> products { get; set; }
