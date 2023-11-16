@@ -1,6 +1,7 @@
 using DataAccessLayer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);

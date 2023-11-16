@@ -9,10 +9,10 @@
   <ItemGroup>
     <ProjectReference Include="..\BusinessEntity\BusinessEntity.csproj" />
     <ProjectReference Include="..\BusinessLogicLayer\BusinessLogicLayer.csproj" />
+    <ProjectReference Include="..\DataAccessLayer\DataAccessLayer.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\ViewModels\" />
     <Folder Include="wwwroot\picture\" />
   </ItemGroup>
 
@@ -28,6 +28,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+   <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.11" />
   </ItemGroup>
 
 </Project>
