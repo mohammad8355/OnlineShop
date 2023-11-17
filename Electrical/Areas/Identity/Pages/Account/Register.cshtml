@@ -3,9 +3,10 @@
 @{
     ViewData["Title"] = "Register";
 }
-
-<h1>@ViewData["Title"]</h1>
-
+@section AccountCssLink {
+    <link href="~/css/Account.css" rel="stylesheet" />
+}
+@*
 <div class="row">
     <div class="col-md-4">
         <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
@@ -60,8 +61,72 @@
             }
         </section>
     </div>
-</div>
+</div>*@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script>
+            const switchers = [...document.querySelectorAll('.switcher')]
+
+        switchers.forEach(item => {
+            item.addEventListener('click', function() {
+                switchers.forEach(item => item.parentElement.classList.remove('is-active'))
+                this.parentElement.classList.add('is-active')
+            })
+        })
+    </script>
 }
+<section class="forms-section">
+    <h1 class="section-title">ورود به وبسایت</h1>
+    <div class="forms">
+        <div class="form-wrapper">
+            <button type="button" class="switcher switcher-login">
+                <a class="nav-link text-dark" id="login" asp-area="Identity" asp-page="/Account/Login">ورود</a>
+                <span class="underline"></span>
+            </button>
+            <form class="form form-login">
+                <fieldset>
+                    <legend></legend>
+                    <div class="input-block">
+                        <label for="login-email">ایمیل</label>
+                        <input id="login-email" type="email" required>
+                    </div>
+                    <div class="input-block">
+                        <label for="login-password">رمز عبور</label>
+                        <input id="login-password" type="password" required>
+                    </div>
+                </fieldset>
+                <button type="submit" class="btn-login">ورود</button>
+            </form>
+        </div>
+        <div class="form-wrapper is-active">
+            <button type="button" class="switcher switcher-signup">
+                <a class="nav-link text-dark" id="register" asp-area="Identity" asp-page="/Account/Register">عضویت</a>
+                <span class="underline"></span>
+            </button>
+             <form class="form form-signup" id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post" >
+                   <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                 <fieldset>
+                    <legend></legend>
+                    <div class="input-block">
+                        <label asp-for="Input.Email">Email</label>
+                        <input asp-for="Input.Email" autocomplete="username" aria-required="true" placeholder="name@example.com مثال" id="signup-email" required>
+                        <span asp-validation-for="Input.Email" class="text-danger"></span>
+                    </div>
+                    <div class="input-block">
+                        <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="رمز عبور" />
+                        <label asp-for="Input.Password">Password</label>
+                        <span asp-validation-for="Input.Password" class="text-danger" id="signup-password"></span>
+                    </div>
+                    <div class="input-block" >
+                        <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="تایید رمز عبور" id="signup-password-confirm" />
+                        <label asp-for="Input.ConfirmPassword">Confirm Password</label>
+                        <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                        </div>
+
+                 </fieldset>
+                    <button id="registerSubmit" type="submit" class="btn btn-login">ثبت نام</button>
+            </form>
+        </div>
+    </div>
+</section>
