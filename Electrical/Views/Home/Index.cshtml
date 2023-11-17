@@ -77,4 +77,10 @@
         </div>
       </div>
 <div class="only"><h1>یه سر فصل دیگه</h1></div>
-      
+@section HeaderFixed {
+    <script>
+        $(window).scroll(function () {
+            $("header").css("position", "fixed");
+        })
+    </script>
+}
