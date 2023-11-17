@@ -80,7 +80,11 @@
 @section HeaderFixed {
     <script>
         $(window).scroll(function () {
-            $("header").css("position", "fixed");
+            if(window.scrollY == 0)
+                $("header").css("position", "relative");
+            else{
+              $("header").css("position", "fixed");
+            }
         })
     </script>
 }
