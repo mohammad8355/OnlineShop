@@ -1,10 +1,10 @@
 using BusinessLogicLayer.services;
 using DataAccessLayer;
-using DataAccessLayer.services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
+using PresentationLayer.MessageSender;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +22,10 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 //#region AddIdentity
 //builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<AppDbContext>();
 //#endregion
+#region SendEmail
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSetting"));
+builder.Services.AddSingleton<EmailSender>();
+#endregion
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

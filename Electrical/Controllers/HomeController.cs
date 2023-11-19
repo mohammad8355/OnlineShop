@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
-namespace Electrical.Controllers
+namespace PresentationLayer.Controllers
 {
     public class HomeController : Controller
     {
