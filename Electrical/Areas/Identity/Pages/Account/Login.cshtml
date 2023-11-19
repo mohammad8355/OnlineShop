@@ -4,11 +4,7 @@
 @{
     ViewData["Title"] = "Log in";
 }
-@section AccountCssLink {
-    <link href="~/css/Account.css" rel="stylesheet" />
-}
-
-@*<div class="row">
+<div class="row">
     <div class="col-md-4">
         <section>
             <form id="account" method="post">
@@ -78,91 +74,5 @@
             }
         </section>
     </div>
-</div>*@
+</div>
 
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-    <script>
-
-        const switchers = [...document.querySelectorAll('.switcher')]
-
-        switchers.forEach(item => {
-            item.addEventListener('click', function () {
-                switchers.forEach(item => item.parentElement.classList.remove('is-active'))
-                this.parentElement.classList.add('is-active')
-            })
-        })
-    </script>
-}
-<section class="forms-section">
-    <h1 class="section-title">ورود به وبسایت</h1>
-    <div class="forms">
-        <div class="form-wrapper is-active">
-            <button type="button" class="switcher switcher-login">
-                <a class="nav-link text-dark" id="login" asp-area="Identity" asp-page="/Account/Login">ورود</a>
-                <span class="underline"></span>
-            </button>
-            <form class="form form-login" id="account" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-                <fieldset>
-                    <legend></legend>
-                    <div class="input-block">
-                        <label asp-for="Input.Email">ایمیل</label>
-                        <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" id="login-email" required>
-                        <span asp-validation-for="Input.Email" class="text-danger"></span>
-                    </div>
-                    <div class="input-block">
-                        <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                        <label asp-for="Input.Password">رمز عبور</label>
-                        <span asp-validation-for="Input.Password" class="text-danger" id="login-password"></span>
-                    </div>
-                    <div class="input-block">
-                        @{
-                       <label asp-for="Input.RememberMe" class="form-label">
-                        <input  asp-for="Input.RememberMe" />
-                          @Html.DisplayNameFor(m => m.Input.RememberMe)
-                       </label>
-                        }
-             
-                   </div>
-                </fieldset>
-                <button id="login-submit" type="submit" class="btn-login">ورود</button>
-                <div>
-                    <p>
-                        <a id="forgot-password" asp-page="./ForgotPassword">فراموشی رمز عبور</a>
-                    </p>
-                    <p>
-                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">ایجاد حساب کاربری</a>
-                    </p>
-                    <p>
-                        <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">تایید ایمیل</a>
-                    </p>
-                </div>
-            </form>
-        </div>
-        <div class="form-wrapper">
-            <button type="button" class="switcher switcher-signup">
-                <a class="nav-link text-dark" id="register" asp-area="Identity" asp-page="/Account/Register">عضویت</a>
-                <span class="underline"></span>
-            </button>
-            <form class="form form-signup">
-                <fieldset>
-                    <legend>Please, enter your email, password and password confirmation for sign up.</legend>
-                    <div class="input-block">
-                        <label for="signup-email">ایمیل</label>
-                        <input id="signup-email" type="email" required>
-                    </div>
-                    <div class="input-block">
-                        <label for="signup-password">رمز ورود</label>
-                        <input id="signup-password" type="password" required>
-                    </div>
-                    <div class="input-block">
-                        <label for="signup-password-confirm">تایید رمز ورود</label>
-                        <input id="signup-password-confirm" type="password" required>
-                    </div>
-                </fieldset>
-                <button type="submit" class="btn-signup">ثبت نام</button>
-            </form>
-        </div>
-    </div>
-</section>
