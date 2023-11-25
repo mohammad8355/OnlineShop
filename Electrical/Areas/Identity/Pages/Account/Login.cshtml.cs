@@ -120,23 +120,32 @@ namespace Electrical.Areas.Identity.Pages.Account
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(Input.Name,Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 var user = await _userManager.FindByNameAsync(Input.Name);
-                var claims = new List<Claim>
+                if(user != null)
+                {
+                  var claims = new List<Claim>
         {
-                 new Claim(ClaimTypes.NameIdentifier,user.Email),
+                 new Claim(ClaimTypes.NameIdentifier,user.Id),
+                 new Claim(ClaimTypes.Email,user.Email),
                  new Claim(ClaimTypes.Name,user.UserName),
                  new Claim(ClaimTypes.Role, "Administrator"),
         };
 
-                var claimsIdentity = new ClaimsIdentity(
-                    claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                var authProperties = new AuthenticationProperties
+                    var claimsIdentity = new ClaimsIdentity(
+                        claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    var authProperties = new AuthenticationProperties
+                    {
+                        IsPersistent = Input.RememberMe,
+                    };
+                    await HttpContext.SignInAsync(
+                   CookieAuthenticationDefaults.AuthenticationScheme,
+                   new ClaimsPrincipal(claimsIdentity),
+                    authProperties);
+                }
+                else
                 {
-                    IsPersistent = Input.RememberMe,
-                };
-                await HttpContext.SignInAsync(
-               CookieAuthenticationDefaults.AuthenticationScheme,
-               new ClaimsPrincipal(claimsIdentity),
-                authProperties);
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    return Page();
+                }
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
