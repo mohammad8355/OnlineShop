@@ -14,7 +14,6 @@
 
   <ItemGroup>
     <Folder Include="Areas\Identity\Data\" />
-    <Folder Include="wwwroot\js\" />
     <Folder Include="wwwroot\picture\" />
   </ItemGroup>
 
