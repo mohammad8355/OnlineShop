@@ -8,12 +8,17 @@
 <h3>@ViewData["Title"]</h3>
 <partial name="_StatusMessage" for="StatusMessage" />
 <div class="row">
+  @*  @if (ViewData["TwoStepAuth"].ToString() == "Y")
+    {
+        <div class="alert alert-warning">please enable your 2fa authentication</div>
+    }*@
+  
     <div class="col-md-6">
         <form id="profile-form" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
             <div class="form-floating mb-3">
-                <input asp-for="Username" class="form-control" placeholder="Please choose your username." disabled />
-                <label asp-for="Username" class="form-label"></label>
+                <input asp-for="Input.Username" class="form-control" placeholder="Please choose your username."  />
+                <label asp-for="Input.Username" class="form-label"></label>
             </div>
             <div class="form-floating mb-3">
                 <input asp-for="Input.PhoneNumber" class="form-control" placeholder="Please enter your phone number."/>

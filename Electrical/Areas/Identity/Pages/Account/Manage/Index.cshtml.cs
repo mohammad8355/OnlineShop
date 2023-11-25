@@ -4,6 +4,7 @@
 
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Net.NetworkInformation;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
@@ -29,7 +30,6 @@ namespace Electrical.Areas.Identity.Pages.Account.Manage
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
-        public string Username { get; set; }
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -37,11 +37,13 @@ namespace Electrical.Areas.Identity.Pages.Account.Manage
         /// </summary>
         [TempData]
         public string StatusMessage { get; set; }
-
+        //[ViewData]
+        //public string TwoStepAuth { get; set; }
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
+
         [BindProperty]
         public InputModel Input { get; set; }
 
@@ -58,24 +60,34 @@ namespace Electrical.Areas.Identity.Pages.Account.Manage
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+            [Required]
+            [MaxLength(100)]
+            [Display(Name = "نام کاربری")]
+            public string Username { get; set; }
+
         }
 
         private async Task LoadAsync(IdentityUser user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-
-            Username = userName;
-
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
+                Username = userName,
             };
+  
         }
 
         public async Task<IActionResult> OnGetAsync()
         {
-            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            var user = await _userManager.GetUserAsync(User);
+            //var TwostepAuthentication = await _userManager.GetTwoFactorEnabledAsync(user);
+            //if (TwostepAuthentication)
+            //{
+            //    ViewData["TwoStepAuth"] = "Y";
+            //    TwoStepAuth = "Y";
+            //}
             if (user == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
@@ -87,7 +99,7 @@ namespace Electrical.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnPostAsync()
         {
-            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
@@ -109,7 +121,16 @@ namespace Electrical.Areas.Identity.Pages.Account.Manage
                     return RedirectToPage();
                 }
             }
+            if(Input.Username != User.Identity.Name)
+            {
+                var setUserNameResult = await _userManager.SetUserNameAsync(user,Input.Username);
+                if (!setUserNameResult.Succeeded)
+                {
+                    StatusMessage = "Error changing user name.";
+                    return Page();
+                }
 
+            }
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
             return RedirectToPage();
