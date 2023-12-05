@@ -3123,24 +3123,24 @@
     fn: hide
   };
 
-  function distanceAndSkiddingToXY(placement, rects, offset) {
+  function AdminLTE/distanceAndSkiddingToXY(placement, rects, offset) {
     var basePlacement = getBasePlacement(placement);
-    var invertDistance = [left, top].indexOf(basePlacement) >= 0 ? -1 : 1;
+    var invertAdminLTE/distance = [left, top].indexOf(basePlacement) >= 0 ? -1 : 1;
 
     var _ref = typeof offset === 'function' ? offset(Object.assign({}, rects, {
       placement: placement
     })) : offset,
         skidding = _ref[0],
-        distance = _ref[1];
+        AdminLTE/distance = _ref[1];
 
     skidding = skidding || 0;
-    distance = (distance || 0) * invertDistance;
+    AdminLTE/distance = (AdminLTE/distance || 0) * invertAdminLTE/distance;
     return [left, right].indexOf(basePlacement) >= 0 ? {
-      x: distance,
+      x: AdminLTE/distance,
       y: skidding
     } : {
       x: skidding,
-      y: distance
+      y: AdminLTE/distance
     };
   }
 
@@ -3151,7 +3151,7 @@
     var _options$offset = options.offset,
         offset = _options$offset === void 0 ? [0, 0] : _options$offset;
     var data = placements.reduce(function (acc, placement) {
-      acc[placement] = distanceAndSkiddingToXY(placement, state.rects, offset);
+      acc[placement] = AdminLTE/distanceAndSkiddingToXY(placement, state.rects, offset);
       return acc;
     }, {});
     var _data$state$placement = data[state.placement],

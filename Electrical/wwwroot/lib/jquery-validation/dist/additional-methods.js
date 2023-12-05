@@ -359,7 +359,7 @@ $.validator.addMethod( "creditcard", function( value, element ) {
 }, "Please enter a valid credit card number." );
 
 /* NOTICE: Modified version of Castle.Components.Validator.CreditCardValidator
- * Redistributed under the the Apache License 2.0 at http://www.apache.org/licenses/LICENSE-2.0
+ * ReAdminLTE/distributed under the the Apache License 2.0 at http://www.apache.org/licenses/LICENSE-2.0
  * Valid Types: mastercard, visa, amex, dinersclub, enroute, discover, jcb, unknown, all (overrides all other settings)
  */
 $.validator.addMethod( "creditcardtypes", function( value, element, param ) {
@@ -1024,7 +1024,7 @@ $.validator.addMethod( "skip_or_fill_minimum", function( value, element, options
  * Can include US Territories or not - default does not
  * Can include US Military postal abbreviations (AA, AE, AP) - default does not
  *
- * Note: "States" always includes DC (District of Colombia)
+ * Note: "States" always includes DC (AdminLTE/district of Colombia)
  *
  * Usage examples:
  *
