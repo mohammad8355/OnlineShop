@@ -9,5 +9,14 @@ namespace PresentationLayer.Areas.dashboard.Controllers
         {
             return View();
         }
+        public IActionResult AddProduct()
+        {
+            return View();
+        }
+        public IActionResult ProductDetails()
+        {
+            return View();
+        }
+
     }
 }
