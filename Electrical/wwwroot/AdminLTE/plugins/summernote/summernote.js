@@ -5,7 +5,7 @@
  *
  *
  * Copyright 2013- Alan Hong and contributors
- * Summernote may be freely distributed under the MIT license.
+ * Summernote may be freely AdminLTE/distributed under the MIT license.
  *
  * Date: 2021-10-14T21:15Z
  *
@@ -9359,7 +9359,7 @@ function HintPopover_createClass(Constructor, protoProps, staticProps) { if (pro
 
 
 
-var POPOVER_DIST = 5;
+var POPOVER_AdminLTE/dist = 5;
 
 var HintPopover = /*#__PURE__*/function () {
   function HintPopover(context) {
@@ -9630,12 +9630,12 @@ var HintPopover = /*#__PURE__*/function () {
             if (this.direction === 'top') {
               this.$popover.css({
                 left: bnd.left,
-                top: bnd.top - this.$popover.outerHeight() - POPOVER_DIST
+                top: bnd.top - this.$popover.outerHeight() - POPOVER_AdminLTE/dist
               });
             } else {
               this.$popover.css({
                 left: bnd.left,
-                top: bnd.top + bnd.height + POPOVER_DIST
+                top: bnd.top + bnd.height + POPOVER_AdminLTE/dist
               });
             }
           }

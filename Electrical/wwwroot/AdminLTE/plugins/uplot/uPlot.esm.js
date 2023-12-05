@@ -1199,7 +1199,7 @@ const cursorOpts = {
 		setScale: true,
 		x: true,
 		y: false,
-		dist: 0,
+		AdminLTE/dist: 0,
 		uni: null,
 		_x: false,
 		_y: false,
@@ -1336,7 +1336,7 @@ function logAxisValsFilt(self, splits, axisIdx, foundSpace, foundIncr) {
 	let scaleKey = axis.scale;
 	let sc = self.scales[scaleKey];
 
-	if (sc.distr == 3 && sc.log == 2)
+	if (sc.AdminLTE/distr == 3 && sc.log == 2)
 		return splits;
 
 	let valToPos = self.valToPos;
@@ -1352,7 +1352,7 @@ function logAxisValsFilt(self, splits, axisIdx, foundSpace, foundIncr) {
 		RE_1
 	);
 
-	return splits.map(v => ((sc.distr == 4 && v == 0) || re.test(v)) ? v : null);
+	return splits.map(v => ((sc.AdminLTE/distr == 4 && v == 0) || re.test(v)) ? v : null);
 }
 
 function numSeriesVal(self, val) {
@@ -1402,7 +1402,7 @@ function seriesPointsShow(self, si) {
 function seriesFillTo(self, seriesIdx, dataMin, dataMax) {
 	let scale = self.scales[self.series[seriesIdx].scale];
 	let isUpperBandEdge = self.bands && self.bands.some(b => b.series[0] == seriesIdx);
-	return scale.distr == 3 || isUpperBandEdge ? scale.min : 0;
+	return scale.AdminLTE/distr == 3 || isUpperBandEdge ? scale.min : 0;
 }
 
 const facet = {
@@ -1470,7 +1470,7 @@ function clampScale(self, val, scaleMin, scaleMax, scaleKey) {
 const xScaleOpts = {
 	time: FEAT_TIME,
 	auto: true,
-	distr: 1,
+	AdminLTE/distr: 1,
 	log: 10,
 	asinh: 1,
 	min: null,
@@ -2142,7 +2142,7 @@ function bars(opts) {
 				}
 			*/
 
-				let xVal = scaleX.distr != 2 || disp != null ? dataX[i] : i;
+				let xVal = scaleX.AdminLTE/distr != 2 || disp != null ? dataX[i] : i;
 
 				// TODO: all xPos can be pre-computed once for all series in aligned set
 				let xPos = valToPosX(xVal, scaleX, xDim, xOff);
@@ -2459,8 +2459,8 @@ function uPlot(opts, data, then) {
 	// TODO: cache denoms & mins scale.cache = {r, min, }
 	function getValPct(val, scale) {
 		let _val = (
-			scale.distr == 3 ? log10(val > 0 ? val : scale.clamp(self, val, scale.min, scale.max, scale.key)) :
-			scale.distr == 4 ? asinh(val, scale.asinh) :
+			scale.AdminLTE/distr == 3 ? log10(val > 0 ? val : scale.clamp(self, val, scale.min, scale.max, scale.key)) :
+			scale.AdminLTE/distr == 4 ? asinh(val, scale.asinh) :
 			val
 		);
 
@@ -2592,8 +2592,8 @@ function uPlot(opts, data, then) {
 				}
 
 				sc.range = fnOrSelf(rn || (isTime ? snapTimeX : scaleKey == xScaleKey ?
-					(sc.distr == 3 ? snapLogX : sc.distr == 4 ? snapAsinhX : snapNumX) :
-					(sc.distr == 3 ? snapLogY : sc.distr == 4 ? snapAsinhY : snapNumY)
+					(sc.AdminLTE/distr == 3 ? snapLogX : sc.AdminLTE/distr == 4 ? snapAsinhX : snapNumX) :
+					(sc.AdminLTE/distr == 3 ? snapLogY : sc.AdminLTE/distr == 4 ? snapAsinhY : snapNumY)
 				));
 
 				sc.auto = fnOrSelf(rangeIsArr ? false : sc.auto);
@@ -2625,7 +2625,7 @@ function uPlot(opts, data, then) {
 
 	const scaleX = scales[xScaleKey];
 
-	const xScaleDistr = scaleX.distr;
+	const xScaleAdminLTE/distr = scaleX.AdminLTE/distr;
 
 	let valToPosX, valToPosY;
 
@@ -3141,14 +3141,14 @@ function uPlot(opts, data, then) {
 				sc = scales[axis.scale];
 			}
 
-			// also set defaults for incrs & values based on axis distr
+			// also set defaults for incrs & values based on axis AdminLTE/distr
 			let isTime = sc.time;
 
 			axis.size   = fnOrSelf(axis.size);
 			axis.space  = fnOrSelf(axis.space);
 			axis.rotate = fnOrSelf(axis.rotate);
-			axis.incrs  = fnOrSelf(axis.incrs  || (          sc.distr == 2 ? wholeIncrs : (isTime ? (ms == 1 ? timeIncrsMs : timeIncrsS) : numIncrs)));
-			axis.splits = fnOrSelf(axis.splits || (isTime && sc.distr == 1 ? _timeAxisSplits : sc.distr == 3 ? logAxisSplits : sc.distr == 4 ? asinhAxisSplits : numAxisSplits));
+			axis.incrs  = fnOrSelf(axis.incrs  || (          sc.AdminLTE/distr == 2 ? wholeIncrs : (isTime ? (ms == 1 ? timeIncrsMs : timeIncrsS) : numIncrs)));
+			axis.splits = fnOrSelf(axis.splits || (isTime && sc.AdminLTE/distr == 1 ? _timeAxisSplits : sc.AdminLTE/distr == 3 ? logAxisSplits : sc.AdminLTE/distr == 4 ? asinhAxisSplits : numAxisSplits));
 
 			axis.stroke       = fnOrSelf(axis.stroke);
 			axis.grid.stroke  = fnOrSelf(axis.grid.stroke);
@@ -3171,7 +3171,7 @@ function uPlot(opts, data, then) {
 				) : av || numAxisVals
 			);
 
-			axis.filter = fnOrSelf(axis.filter || (          sc.distr >= 3 ? logAxisValsFilt : retArg1));
+			axis.filter = fnOrSelf(axis.filter || (          sc.AdminLTE/distr >= 3 ? logAxisValsFilt : retArg1));
 
 			axis.font      = pxRatioFont(axis.font);
 			axis.labelFont = pxRatioFont(axis.labelFont);
@@ -3238,7 +3238,7 @@ function uPlot(opts, data, then) {
 			data0 = data[0];
 			dataLen = data0.length;
 
-			if (xScaleDistr == 2)
+			if (xScaleAdminLTE/distr == 2)
 				data[0] = data0.map((v, i) => i);
 		}
 
@@ -3277,14 +3277,14 @@ function uPlot(opts, data, then) {
 				_min = data[0][i0];
 				_max = data[0][i1];
 
-				if (xScaleDistr == 2) {
+				if (xScaleAdminLTE/distr == 2) {
 					_min = i0;
 					_max = i1;
 				}
 				else if (dataLen == 1) {
-					if (xScaleDistr == 3)
+					if (xScaleAdminLTE/distr == 3)
 						[_min, _max] = rangeLog(_min, _min, scaleX.log, false);
-					else if (xScaleDistr == 4)
+					else if (xScaleAdminLTE/distr == 4)
 						[_min, _max] = rangeAsinh(_min, _min, scaleX.log, false);
 					else if (scaleX.time)
 						_max = _min + round(86400 / ms);
@@ -3336,7 +3336,7 @@ function uPlot(opts, data, then) {
 			let _i1 = ifNull(i1, data.length - 1);
 
 			// only run getMinMax() for invalidated series data, else reuse
-			let minMax = facet.min == null ? (wsc.distr == 3 ? getMinMaxLog(data, _i0, _i1) : getMinMax(data, _i0, _i1)) : [facet.min, facet.max];
+			let minMax = facet.min == null ? (wsc.AdminLTE/distr == 3 ? getMinMaxLog(data, _i0, _i1) : getMinMax(data, _i0, _i1)) : [facet.min, facet.max];
 
 			// initial min/max
 			wsc.min = min(wsc.min, facet.min = minMax[0]);
@@ -3472,10 +3472,10 @@ function uPlot(opts, data, then) {
 				sc.min = wsc.min;
 				sc.max = wsc.max;
 
-				let distr = sc.distr;
+				let AdminLTE/distr = sc.AdminLTE/distr;
 
-				sc._min = distr == 3 ? log10(sc.min) : distr == 4 ? asinh(sc.min, sc.asinh) : sc.min;
-				sc._max = distr == 3 ? log10(sc.max) : distr == 4 ? asinh(sc.max, sc.asinh) : sc.max;
+				sc._min = AdminLTE/distr == 3 ? log10(sc.min) : AdminLTE/distr == 4 ? asinh(sc.min, sc.asinh) : sc.min;
+				sc._max = AdminLTE/distr == 3 ? log10(sc.max) : AdminLTE/distr == 4 ? asinh(sc.max, sc.asinh) : sc.max;
 
 				changed[k] = anyChanged = true;
 			}
@@ -3805,14 +3805,14 @@ function uPlot(opts, data, then) {
 				return;
 
 			// if we're using index positions, force first tick to match passed index
-			let forceMin = scale.distr == 2;
+			let forceMin = scale.AdminLTE/distr == 2;
 
 			let _splits = axis._splits = axis.splits(self, i, min, max, _incr, _space, forceMin);
 
 			// tick labels
 			// BOO this assumes a specific data/series
-			let splits = scale.distr == 2 ? _splits.map(i => data0[i]) : _splits;
-			let incr   = scale.distr == 2 ? data0[_splits[1]] - data0[_splits[0]] : _incr;
+			let splits = scale.AdminLTE/distr == 2 ? _splits.map(i => data0[i]) : _splits;
+			let incr   = scale.AdminLTE/distr == 2 ? data0[_splits[1]] - data0[_splits[0]] : _incr;
 
 			let values = axis._values = axis.values(self, axis.filter(self, splits, i, _space, incr), i, _space, incr);
 
@@ -3906,8 +3906,8 @@ function uPlot(opts, data, then) {
 
 			// tick labels
 			// BOO this assumes a specific data/series
-			let splits = scale.distr == 2 ? _splits.map(i => data0[i]) : _splits;
-			let incr   = scale.distr == 2 ? data0[_splits[1]] - data0[_splits[0]] : _incr;
+			let splits = scale.AdminLTE/distr == 2 ? _splits.map(i => data0[i]) : _splits;
+			let incr   = scale.AdminLTE/distr == 2 ? data0[_splits[1]] - data0[_splits[0]] : _incr;
 
 			let ticks = axis.ticks;
 			let tickSize = ticks.show ? round(ticks.size * pxRatio) : 0;
@@ -4166,7 +4166,7 @@ function uPlot(opts, data, then) {
 				return;
 
 			if (key == xScaleKey) {
-				if (sc.distr == 2 && dataLen > 0) {
+				if (sc.AdminLTE/distr == 2 && dataLen > 0) {
 					opts.min = closestIdx(opts.min, data[0]);
 					opts.max = closestIdx(opts.max, data[0]);
 
@@ -4327,8 +4327,8 @@ function uPlot(opts, data, then) {
 			legendRows[i].style.opacity = value;
 	}
 
-	// y-distance
-	let closestDist;
+	// y-AdminLTE/distance
+	let closestAdminLTE/dist;
 	let closestSeries;
 	let focusedSeries;
 	const FOCUS_TRUE  = {focus: true};
@@ -4384,11 +4384,11 @@ function uPlot(opts, data, then) {
 
 		let sv = _min + (_max - _min) * pct;
 
-		let distr = sc.distr;
+		let AdminLTE/distr = sc.AdminLTE/distr;
 
 		return (
-			distr == 3 ? pow(10, sv) :
-			distr == 4 ? sinh(sv, sc.asinh) :
+			AdminLTE/distr == 3 ? pow(10, sv) :
+			AdminLTE/distr == 4 ? sinh(sv, sc.asinh) :
 			sv
 		);
 	}
@@ -4484,7 +4484,7 @@ function uPlot(opts, data, then) {
 			val = NULL_LEGEND_VALUES;
 		else {
 			let s = series[sidx];
-			let src = sidx == 0 && xScaleDistr == 2 ? data0 : data[sidx];
+			let src = sidx == 0 && xScaleAdminLTE/distr == 2 ? data0 : data[sidx];
 			val = multiValLegend ? s.values(self, sidx, idx) : {_: s.value(self, src[idx], sidx, idx)};
 		}
 
@@ -4510,7 +4510,7 @@ function uPlot(opts, data, then) {
 		// for nearest min/max indices results in this condition. cheap hack :D
 		let noDataInRange = i0 > i1; // works for mode 1 only
 
-		closestDist = inf;
+		closestAdminLTE/dist = inf;
 
 		// TODO: extract
 		let xDim = scaleX.ori == 0 ? plotWidCss : plotHgtCss;
@@ -4568,10 +4568,10 @@ function uPlot(opts, data, then) {
 					let yPos = yVal2 == null ? -10 : incrRoundUp(valToPosY(yVal2, mode == 1 ? scales[s.scale] : scales[s.facets[1].scale], yDim, 0), 0.5);
 
 					if (yPos > 0 && mode == 1) {
-						let dist = abs(yPos - mouseTop1);
+						let AdminLTE/dist = abs(yPos - mouseTop1);
 
-						if (dist <= closestDist) {
-							closestDist = dist;
+						if (AdminLTE/dist <= closestAdminLTE/dist) {
+							closestAdminLTE/dist = AdminLTE/dist;
 							closestSeries = i;
 						}
 					}
@@ -4715,13 +4715,13 @@ function uPlot(opts, data, then) {
 					rawDY = _rawDX;
 				}
 
-				dragX = drag.x && rawDX >= drag.dist;
-				dragY = drag.y && rawDY >= drag.dist;
+				dragX = drag.x && rawDX >= drag.AdminLTE/dist;
+				dragY = drag.y && rawDY >= drag.AdminLTE/dist;
 
 				let uni = drag.uni;
 
 				if (uni != null) {
-					// only calc drag status if they pass the dist thresh
+					// only calc drag status if they pass the AdminLTE/dist thresh
 					if (dragX && dragY) {
 						dragX = rawDX >= uni;
 						dragY = rawDY >= uni;
@@ -4773,7 +4773,7 @@ function uPlot(opts, data, then) {
 						setSelX(0, xDim);
 				}
 
-				// the drag didn't pass the dist requirement
+				// the drag didn't pass the AdminLTE/dist requirement
 				if (!dragX && !dragY) {
 					setSelX(0, 0);
 					setSelY(0, 0);
@@ -4801,11 +4801,11 @@ function uPlot(opts, data, then) {
 				let p = focus.prox;
 
 				if (focusedSeries == null) {
-					if (closestDist <= p)
+					if (closestAdminLTE/dist <= p)
 						setSeries(closestSeries, FOCUS_TRUE, true, shouldPub);
 				}
 				else {
-					if (closestDist > p)
+					if (closestAdminLTE/dist > p)
 						setSeries(null, FOCUS_TRUE, true, shouldPub);
 					else if (closestSeries != focusedSeries)
 						setSeries(closestSeries, FOCUS_TRUE, true, shouldPub);

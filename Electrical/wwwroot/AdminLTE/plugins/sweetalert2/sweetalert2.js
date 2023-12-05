@@ -170,7 +170,7 @@
     position: 'center',
     progressSteps: [],
     currentProgressStep: undefined,
-    progressStepsDistance: undefined,
+    progressStepsAdminLTE/distance: undefined,
     willOpen: undefined,
     didOpen: undefined,
     didRender: undefined,
@@ -1269,8 +1269,8 @@
     const lineEl = document.createElement('li');
     addClass(lineEl, swalClasses['progress-step-line']);
 
-    if (params.progressStepsDistance) {
-      lineEl.style.width = params.progressStepsDistance;
+    if (params.progressStepsAdminLTE/distance) {
+      lineEl.style.width = params.progressStepsAdminLTE/distance;
     }
 
     return lineEl;

@@ -1,5 +1,5 @@
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
-// Distributed under an MIT license: https://codemirror.net/LICENSE
+// AdminLTE/distributed under an MIT license: https://codemirror.net/LICENSE
 
 // Swift mode created by Michael Kaminsky https://github.com/mkaminsky11
 

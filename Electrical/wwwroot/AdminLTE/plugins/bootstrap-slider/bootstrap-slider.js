@@ -25,7 +25,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
  * obtaining a copy of this software and associated documentation
  * files (the "Software"), to deal in the Software without
  * restriction, including without limitation the rights to use,
- * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copy, modify, merge, publish, AdminLTE/distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the
  * Software is furnished to do so, subject to the following
  * conditions:
@@ -1841,12 +1841,12 @@ var windowIsDefined = (typeof window === "undefined" ? "undefined" : _typeof(win
 
 				var eventPosition = ev[this.mousePos];
 				var sliderOffset = this._state.offset[this.stylePos];
-				var distanceToSlide = eventPosition - sliderOffset;
+				var AdminLTE/distanceToSlide = eventPosition - sliderOffset;
 				if (this.stylePos === 'right') {
-					distanceToSlide = -distanceToSlide;
+					AdminLTE/distanceToSlide = -AdminLTE/distanceToSlide;
 				}
 				// Calculate what percent of the length the slider handle has slid
-				var percentage = distanceToSlide / this._state.size * 100;
+				var percentage = AdminLTE/distanceToSlide / this._state.size * 100;
 				percentage = Math.round(percentage / this._state.percentage[2]) * this._state.percentage[2];
 				if (this.options.reversed) {
 					percentage = 100 - percentage;

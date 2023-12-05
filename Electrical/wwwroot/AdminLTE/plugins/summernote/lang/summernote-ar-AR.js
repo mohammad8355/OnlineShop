@@ -5,7 +5,7 @@
  *
  *
  * Copyright 2013- Alan Hong and contributors
- * Summernote may be freely distributed under the MIT license.
+ * Summernote may be freely AdminLTE/distributed under the MIT license.
  *
  * Date: 2021-10-14T21:15Z
  *

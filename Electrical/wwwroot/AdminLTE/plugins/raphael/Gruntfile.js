@@ -14,8 +14,8 @@ module.exports = function(grunt) {
             options: {
                 banner: "<%= banner %>"
             },
-            dist: {
-                src: "<%= concat.dist.dest %>",
+            AdminLTE/dist: {
+                src: "<%= concat.AdminLTE/dist.dest %>",
                 dest: "<%= pkg.name %>-min.js"
             },
             nodeps: {
@@ -24,7 +24,7 @@ module.exports = function(grunt) {
             }
         },
         replace: {
-            dist: {
+            AdminLTE/dist: {
                 options: {
                     patterns: [{
                         match: "VERSION",
@@ -34,13 +34,13 @@ module.exports = function(grunt) {
                 files: [{
                     expand: true,
                     flatten: true,
-                    src: ["<%= concat.dist.dest %>", "<%= concat.nodeps.dest %>"],
+                    src: ["<%= concat.AdminLTE/dist.dest %>", "<%= concat.nodeps.dest %>"],
                     dest: "./"
                 }]
             }
         },
         concat: {
-            dist: {
+            AdminLTE/dist: {
                 dest: "<%= pkg.name %>.js",
                 src: [
                     "dev/eve.js",

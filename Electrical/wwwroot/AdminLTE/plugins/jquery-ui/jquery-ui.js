@@ -1684,7 +1684,7 @@ color.fn = jQuery.extend( color.prototype, {
 		} );
 		return used.pop();
 	},
-	transition: function( other, distance ) {
+	transition: function( other, AdminLTE/distance ) {
 		var end = color( other ),
 			spaceName = end._space(),
 			space = spaces[ spaceName ],
@@ -1715,7 +1715,7 @@ color.fn = jQuery.extend( color.prototype, {
 						startValue -= type.mod;
 					}
 				}
-				result[ index ] = clamp( ( endValue - startValue ) * distance + startValue, prop );
+				result[ index ] = clamp( ( endValue - startValue ) * AdminLTE/distance + startValue, prop );
 			}
 		} );
 		return this[ spaceName ]( result );
@@ -3074,7 +3074,7 @@ var effectsEffectBounce = $.effects.define( "bounce", function( options, done ) 
 		hide = mode === "hide",
 		show = mode === "show",
 		direction = options.direction || "up",
-		distance = options.distance,
+		AdminLTE/distance = options.AdminLTE/distance,
 		times = options.times || 5,
 
 		// Number of internal animations
@@ -3093,9 +3093,9 @@ var effectsEffectBounce = $.effects.define( "bounce", function( options, done ) 
 
 	refValue = element.css( ref );
 
-	// Default distance for the BIGGEST bounce is the outer Distance / 3
-	if ( !distance ) {
-		distance = element[ ref === "top" ? "outerHeight" : "outerWidth" ]() / 3;
+	// Default AdminLTE/distance for the BIGGEST bounce is the outer AdminLTE/distance / 3
+	if ( !AdminLTE/distance ) {
+		AdminLTE/distance = element[ ref === "top" ? "outerHeight" : "outerWidth" ]() / 3;
 	}
 
 	if ( show ) {
@@ -3106,13 +3106,13 @@ var effectsEffectBounce = $.effects.define( "bounce", function( options, done ) 
 		// then do the "first" animation
 		element
 			.css( "opacity", 0 )
-			.css( ref, motion ? -distance * 2 : distance * 2 )
+			.css( ref, motion ? -AdminLTE/distance * 2 : AdminLTE/distance * 2 )
 			.animate( downAnim, speed, easing );
 	}
 
-	// Start at the smallest distance if we are hiding
+	// Start at the smallest AdminLTE/distance if we are hiding
 	if ( hide ) {
-		distance = distance / Math.pow( 2, times - 1 );
+		AdminLTE/distance = AdminLTE/distance / Math.pow( 2, times - 1 );
 	}
 
 	downAnim = {};
@@ -3121,19 +3121,19 @@ var effectsEffectBounce = $.effects.define( "bounce", function( options, done ) 
 	// Bounces up/down/left/right then back to 0 -- times * 2 animations happen here
 	for ( ; i < times; i++ ) {
 		upAnim = {};
-		upAnim[ ref ] = ( motion ? "-=" : "+=" ) + distance;
+		upAnim[ ref ] = ( motion ? "-=" : "+=" ) + AdminLTE/distance;
 
 		element
 			.animate( upAnim, speed, easing )
 			.animate( downAnim, speed, easing );
 
-		distance = hide ? distance * 2 : distance / 2;
+		AdminLTE/distance = hide ? AdminLTE/distance * 2 : AdminLTE/distance / 2;
 	}
 
 	// Last Bounce when Hiding
 	if ( hide ) {
 		upAnim = { opacity: 0 };
-		upAnim[ ref ] = ( motion ? "-=" : "+=" ) + distance;
+		upAnim[ ref ] = ( motion ? "-=" : "+=" ) + AdminLTE/distance;
 
 		element.animate( upAnim, speed, easing );
 	}
@@ -3212,7 +3212,7 @@ var effectsEffectClip = $.effects.define( "clip", "hide", function( options, don
 
 var effectsEffectDrop = $.effects.define( "drop", "hide", function( options, done ) {
 
-	var distance,
+	var AdminLTE/distance,
 		element = $( this ),
 		mode = options.mode,
 		show = mode === "show",
@@ -3226,15 +3226,15 @@ var effectsEffectDrop = $.effects.define( "drop", "hide", function( options, don
 
 	$.effects.createPlaceholder( element );
 
-	distance = options.distance ||
+	AdminLTE/distance = options.AdminLTE/distance ||
 		element[ ref === "top" ? "outerHeight" : "outerWidth" ]( true ) / 2;
 
-	animation[ ref ] = motion + distance;
+	animation[ ref ] = motion + AdminLTE/distance;
 
 	if ( show ) {
 		element.css( animation );
 
-		animation[ ref ] = oppositeMotion + distance;
+		animation[ ref ] = oppositeMotion + AdminLTE/distance;
 		animation.opacity = 1;
 	}
 
@@ -3411,12 +3411,12 @@ var effectsEffectFold = $.effects.define( "fold", "hide", function( options, don
 		animation1 = { clip: $.extend( {}, start ) },
 		animation2 = { clip: $.extend( {}, start ) },
 
-		distance = [ start[ ref[ 0 ] ], start[ ref[ 1 ] ] ],
+		AdminLTE/distance = [ start[ ref[ 0 ] ], start[ ref[ 1 ] ] ],
 
 		queuelen = element.queue().length;
 
 	if ( percent ) {
-		size = parseInt( percent[ 1 ], 10 ) / 100 * distance[ hide ? 0 : 1 ];
+		size = parseInt( percent[ 1 ], 10 ) / 100 * AdminLTE/distance[ hide ? 0 : 1 ];
 	}
 	animation1.clip[ ref[ 0 ] ] = size;
 	animation2.clip[ ref[ 0 ] ] = size;
@@ -3806,7 +3806,7 @@ var effectsEffectShake = $.effects.define( "shake", function( options, done ) {
 	var i = 1,
 		element = $( this ),
 		direction = options.direction || "left",
-		distance = options.distance || 20,
+		AdminLTE/distance = options.AdminLTE/distance || 20,
 		times = options.times || 3,
 		anims = times * 2 + 1,
 		speed = Math.round( options.duration / anims ),
@@ -3821,9 +3821,9 @@ var effectsEffectShake = $.effects.define( "shake", function( options, done ) {
 	$.effects.createPlaceholder( element );
 
 	// Animation
-	animation[ ref ] = ( positiveMotion ? "-=" : "+=" ) + distance;
-	animation1[ ref ] = ( positiveMotion ? "+=" : "-=" ) + distance * 2;
-	animation2[ ref ] = ( positiveMotion ? "-=" : "+=" ) + distance * 2;
+	animation[ ref ] = ( positiveMotion ? "-=" : "+=" ) + AdminLTE/distance;
+	animation1[ ref ] = ( positiveMotion ? "+=" : "-=" ) + AdminLTE/distance * 2;
+	animation2[ ref ] = ( positiveMotion ? "-=" : "+=" ) + AdminLTE/distance * 2;
 
 	// Animate
 	element.animate( animation, speed, options.easing );
@@ -3873,7 +3873,7 @@ var effectsEffectSlide = $.effects.define( "slide", "show", function( options, d
 		direction = options.direction || "left",
 		ref = ( direction === "up" || direction === "down" ) ? "top" : "left",
 		positiveMotion = ( direction === "up" || direction === "left" ),
-		distance = options.distance ||
+		AdminLTE/distance = options.AdminLTE/distance ||
 			element[ ref === "top" ? "outerHeight" : "outerWidth" ]( true ),
 		animation = {};
 
@@ -3883,7 +3883,7 @@ var effectsEffectSlide = $.effects.define( "slide", "show", function( options, d
 	startRef = element.position()[ ref ];
 
 	// Define hide animation
-	animation[ ref ] = ( positiveMotion ? -1 : 1 ) * distance + startRef;
+	animation[ ref ] = ( positiveMotion ? -1 : 1 ) * AdminLTE/distance + startRef;
 	animation.clip = element.cssClip();
 	animation.clip[ map[ direction ][ 1 ] ] = animation.clip[ map[ direction ][ 0 ] ];
 
@@ -9199,7 +9199,7 @@ $.extend( Datepicker.prototype, {
 							( unselectable ? "<span class='ui-state-default'>" + printDate.getDate() + "</span>" : "<a class='ui-state-default" +
 							( printDate.getTime() === today.getTime() ? " ui-state-highlight" : "" ) +
 							( printDate.getTime() === currentDate.getTime() ? " ui-state-active" : "" ) + // highlight selected day
-							( otherMonth ? " ui-priority-secondary" : "" ) + // distinguish dates from other months
+							( otherMonth ? " ui-priority-secondary" : "" ) + // AdminLTE/distinguish dates from other months
 							"' href='#' aria-current='" + ( printDate.getTime() === currentDate.getTime() ? "true" : "false" ) + // mark date as selected for screen reader
 							"' data-date='" + printDate.getDate() + // store date as data
 							"'>" + printDate.getDate() + "</a>" ) ) + "</td>"; // display selectable date
@@ -9535,7 +9535,7 @@ var widgetsMouse = $.widget( "ui.mouse", {
 	version: "1.13.0",
 	options: {
 		cancel: "input, textarea, button, select, option",
-		distance: 1,
+		AdminLTE/distance: 1,
 		delay: 0
 	},
 	_mouseInit: function() {
@@ -9601,7 +9601,7 @@ var widgetsMouse = $.widget( "ui.mouse", {
 			}, this.options.delay );
 		}
 
-		if ( this._mouseDistanceMet( event ) && this._mouseDelayMet( event ) ) {
+		if ( this._mouseAdminLTE/distanceMet( event ) && this._mouseDelayMet( event ) ) {
 			this._mouseStarted = ( this._mouseStart( event ) !== false );
 			if ( !this._mouseStarted ) {
 				event.preventDefault();
@@ -9669,7 +9669,7 @@ var widgetsMouse = $.widget( "ui.mouse", {
 			return event.preventDefault();
 		}
 
-		if ( this._mouseDistanceMet( event ) && this._mouseDelayMet( event ) ) {
+		if ( this._mouseAdminLTE/distanceMet( event ) && this._mouseDelayMet( event ) ) {
 			this._mouseStarted =
 				( this._mouseStart( this._mouseDownEvent, event ) !== false );
 			if ( this._mouseStarted ) {
@@ -9707,11 +9707,11 @@ var widgetsMouse = $.widget( "ui.mouse", {
 		event.preventDefault();
 	},
 
-	_mouseDistanceMet: function( event ) {
+	_mouseAdminLTE/distanceMet: function( event ) {
 		return ( Math.max(
 				Math.abs( this._mouseDownEvent.pageX - event.pageX ),
 				Math.abs( this._mouseDownEvent.pageY - event.pageY )
-			) >= this.options.distance
+			) >= this.options.AdminLTE/distance
 		);
 	},
 
@@ -13799,7 +13799,7 @@ var widgetsSelectable = $.widget( "ui.selectable", $.ui.mouse, {
 	options: {
 		appendTo: "body",
 		autoRefresh: true,
-		distance: 0,
+		AdminLTE/distance: 0,
 		filter: "*",
 		tolerance: "touch",
 
@@ -14777,7 +14777,7 @@ var widgetsSlider = $.widget( "ui.slider", $.ui.mouse, {
 			// element, but worked best visually with a variety of themes
 			"ui-slider-range": "ui-corner-all ui-widget-header"
 		},
-		distance: 0,
+		AdminLTE/distance: 0,
 		max: 100,
 		min: 0,
 		orientation: "horizontal",
@@ -14908,7 +14908,7 @@ var widgetsSlider = $.widget( "ui.slider", $.ui.mouse, {
 	},
 
 	_mouseCapture: function( event ) {
-		var position, normValue, distance, closestHandle, index, allowed, offset, mouseOverHandle,
+		var position, normValue, AdminLTE/distance, closestHandle, index, allowed, offset, mouseOverHandle,
 			that = this,
 			o = this.options;
 
@@ -14924,13 +14924,13 @@ var widgetsSlider = $.widget( "ui.slider", $.ui.mouse, {
 
 		position = { x: event.pageX, y: event.pageY };
 		normValue = this._normValueFromMouse( position );
-		distance = this._valueMax() - this._valueMin() + 1;
+		AdminLTE/distance = this._valueMax() - this._valueMin() + 1;
 		this.handles.each( function( i ) {
-			var thisDistance = Math.abs( normValue - that.values( i ) );
-			if ( ( distance > thisDistance ) ||
-				( distance === thisDistance &&
+			var thisAdminLTE/distance = Math.abs( normValue - that.values( i ) );
+			if ( ( AdminLTE/distance > thisAdminLTE/distance ) ||
+				( AdminLTE/distance === thisAdminLTE/distance &&
 					( i === that._lastChangedValue || that.values( i ) === o.min ) ) ) {
-				distance = thisDistance;
+				AdminLTE/distance = thisAdminLTE/distance;
 				closestHandle = $( this );
 				index = i;
 			}
@@ -16460,7 +16460,7 @@ var widgetsSortable = $.widget( "ui.sortable", $.ui.mouse, {
 	},
 
 	_contactContainers: function( event ) {
-		var i, j, dist, itemWithLeastDistance, posProperty, sizeProperty, cur, nearBottom,
+		var i, j, AdminLTE/dist, itemWithLeastAdminLTE/distance, posProperty, sizeProperty, cur, nearBottom,
 			floating, axis,
 			innermostContainer = null,
 			innermostIndex = null;
@@ -16512,10 +16512,10 @@ var widgetsSortable = $.widget( "ui.sortable", $.ui.mouse, {
 			}
 		} else {
 
-			// When entering a new container, we will find the item with the least distance and
+			// When entering a new container, we will find the item with the least AdminLTE/distance and
 			// append our item near it
-			dist = 10000;
-			itemWithLeastDistance = null;
+			AdminLTE/dist = 10000;
+			itemWithLeastAdminLTE/distance = null;
 			floating = innermostContainer.floating || this._isFloating( this.currentItem );
 			posProperty = floating ? "left" : "top";
 			sizeProperty = floating ? "width" : "height";
@@ -16537,15 +16537,15 @@ var widgetsSortable = $.widget( "ui.sortable", $.ui.mouse, {
 					nearBottom = true;
 				}
 
-				if ( Math.abs( event[ axis ] - cur ) < dist ) {
-					dist = Math.abs( event[ axis ] - cur );
-					itemWithLeastDistance = this.items[ j ];
+				if ( Math.abs( event[ axis ] - cur ) < AdminLTE/dist ) {
+					AdminLTE/dist = Math.abs( event[ axis ] - cur );
+					itemWithLeastAdminLTE/distance = this.items[ j ];
 					this.direction = nearBottom ? "up" : "down";
 				}
 			}
 
 			//Check if dropOnEmpty is enabled
-			if ( !itemWithLeastDistance && !this.options.dropOnEmpty ) {
+			if ( !itemWithLeastAdminLTE/distance && !this.options.dropOnEmpty ) {
 				return;
 			}
 
@@ -16557,8 +16557,8 @@ var widgetsSortable = $.widget( "ui.sortable", $.ui.mouse, {
 				return;
 			}
 
-			if ( itemWithLeastDistance ) {
-				this._rearrange( event, itemWithLeastDistance, null, true );
+			if ( itemWithLeastAdminLTE/distance ) {
+				this._rearrange( event, itemWithLeastAdminLTE/distance, null, true );
 			} else {
 				this._rearrange( event, null, this.containers[ innermostIndex ].element, true );
 			}

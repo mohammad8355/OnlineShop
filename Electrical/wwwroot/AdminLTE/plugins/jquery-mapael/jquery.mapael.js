@@ -58,7 +58,7 @@
         self.zoomCenterY = 0;
 
         // Zoom pinch (set at touchstart and touchmove)
-        self.previousPinchDist = 0;
+        self.previousPinchAdminLTE/dist = 0;
 
         // Zoom data
         self.zoomData = {
@@ -643,27 +643,27 @@
                     if (e.originalEvent.touches.length === 2) {
                         self.zoomCenterX = (e.originalEvent.touches[0].pageX + e.originalEvent.touches[1].pageX) / 2;
                         self.zoomCenterY = (e.originalEvent.touches[0].pageY + e.originalEvent.touches[1].pageY) / 2;
-                        self.previousPinchDist = Math.sqrt(Math.pow((e.originalEvent.touches[1].pageX - e.originalEvent.touches[0].pageX), 2) + Math.pow((e.originalEvent.touches[1].pageY - e.originalEvent.touches[0].pageY), 2));
+                        self.previousPinchAdminLTE/dist = Math.sqrt(Math.pow((e.originalEvent.touches[1].pageX - e.originalEvent.touches[0].pageX), 2) + Math.pow((e.originalEvent.touches[1].pageY - e.originalEvent.touches[0].pageY), 2));
                     }
                 });
 
                 self.$map.on("touchmove." + pluginName, function (e) {
-                    var pinchDist = 0;
+                    var pinchAdminLTE/dist = 0;
                     var zoomLevel = 0;
 
                     if (e.originalEvent.touches.length === 2) {
-                        pinchDist = Math.sqrt(Math.pow((e.originalEvent.touches[1].pageX - e.originalEvent.touches[0].pageX), 2) + Math.pow((e.originalEvent.touches[1].pageY - e.originalEvent.touches[0].pageY), 2));
+                        pinchAdminLTE/dist = Math.sqrt(Math.pow((e.originalEvent.touches[1].pageX - e.originalEvent.touches[0].pageX), 2) + Math.pow((e.originalEvent.touches[1].pageY - e.originalEvent.touches[0].pageY), 2));
 
-                        if (Math.abs(pinchDist - self.previousPinchDist) > 15) {
+                        if (Math.abs(pinchAdminLTE/dist - self.previousPinchAdminLTE/dist) > 15) {
                             var coord = self.mapPagePositionToXY(self.zoomCenterX, self.zoomCenterY);
-                            zoomLevel = (pinchDist - self.previousPinchDist) / Math.abs(pinchDist - self.previousPinchDist);
+                            zoomLevel = (pinchAdminLTE/dist - self.previousPinchAdminLTE/dist) / Math.abs(pinchAdminLTE/dist - self.previousPinchAdminLTE/dist);
                             self.$container.trigger("zoom", {
                                 "fixedCenter": true,
                                 "level": self.zoomData.zoomLevel + zoomLevel,
                                 "x": coord.x,
                                 "y": coord.y
                             });
-                            self.previousPinchDist = pinchDist;
+                            self.previousPinchAdminLTE/dist = pinchAdminLTE/dist;
                         }
                         return false;
                     }
@@ -1476,18 +1476,18 @@
             var acd = -1 / ((yb - ya) / (xb - xa));
             var bcd = yc - acd * xc;
 
-            // dist(c,d) = dist(a,b) (=abDist)
-            var abDist = Math.sqrt((xb - xa) * (xb - xa) + (yb - ya) * (yb - ya));
+            // AdminLTE/dist(c,d) = AdminLTE/dist(a,b) (=abAdminLTE/dist)
+            var abAdminLTE/dist = Math.sqrt((xb - xa) * (xb - xa) + (yb - ya) * (yb - ya));
 
-            // Solution for equation dist(cd) = sqrt((xd - xc)² + (yd - yc)²)
-            // dist(c,d)² = (xd - xc)² + (yd - yc)²
-            // We assume that dist(c,d) = dist(a,b)
-            // so : (xd - xc)² + (yd - yc)² - dist(a,b)² = 0
-            // With the factor : (xd - xc)² + (yd - yc)² - (factor*dist(a,b))² = 0
-            // (xd - xc)² + (acd*xd + bcd - yc)² - (factor*dist(a,b))² = 0
+            // Solution for equation AdminLTE/dist(cd) = sqrt((xd - xc)² + (yd - yc)²)
+            // AdminLTE/dist(c,d)² = (xd - xc)² + (yd - yc)²
+            // We assume that AdminLTE/dist(c,d) = AdminLTE/dist(a,b)
+            // so : (xd - xc)² + (yd - yc)² - AdminLTE/dist(a,b)² = 0
+            // With the factor : (xd - xc)² + (yd - yc)² - (factor*AdminLTE/dist(a,b))² = 0
+            // (xd - xc)² + (acd*xd + bcd - yc)² - (factor*AdminLTE/dist(a,b))² = 0
             var a = 1 + acd * acd;
             var b = -2 * xc + 2 * acd * bcd - 2 * acd * yc;
-            var c = xc * xc + bcd * bcd - bcd * yc - yc * bcd + yc * yc - ((elemOptions.factor * abDist) * (elemOptions.factor * abDist));
+            var c = xc * xc + bcd * bcd - bcd * yc - yc * bcd + yc * yc - ((elemOptions.factor * abAdminLTE/dist) * (elemOptions.factor * abAdminLTE/dist));
             var delta = b * b - 4 * a * c;
             var x = 0;
             var y = 0;

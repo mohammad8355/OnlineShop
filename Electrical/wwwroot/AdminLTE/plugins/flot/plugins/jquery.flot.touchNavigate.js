@@ -16,7 +16,7 @@
         }
     };
 
-    var ZOOM_DISTANCE_MARGIN = $.plot.uiConstants.ZOOM_DISTANCE_MARGIN;
+    var ZOOM_AdminLTE/distANCE_MARGIN = $.plot.uiConstants.ZOOM_AdminLTE/distANCE_MARGIN;
 
     function init(plot) {
         plot.hooks.processOptions.push(initTouchNavigation);
@@ -25,7 +25,7 @@
     function initTouchNavigation(plot, options) {
         var gestureState = {
                 zoomEnable: false,
-                prevDistance: null,
+                prevAdminLTE/distance: null,
                 prevTapTime: 0,
                 prevPanPosition: { x: 0, y: 0 },
                 prevTapPosition: { x: 0, y: 0 }
@@ -123,7 +123,7 @@
                     pinchDragTimeout = null;
                 }
                 presetNavigationState(e, 'pinch', gestureState);
-                setPrevDistance(e, gestureState);
+                setPrevAdminLTE/distance(e, gestureState);
                 updateData(e, 'pinch', gestureState, navigationState);
             },
 
@@ -140,9 +140,9 @@
                     });
                     updatePrevPanPosition(e, 'pinch', gestureState, navigationState);
 
-                    var dist = pinchDistance(e);
+                    var AdminLTE/dist = pinchAdminLTE/distance(e);
 
-                    if (gestureState.zoomEnable || Math.abs(dist - gestureState.prevDistance) > ZOOM_DISTANCE_MARGIN) {
+                    if (gestureState.zoomEnable || Math.abs(AdminLTE/dist - gestureState.prevAdminLTE/distance) > ZOOM_AdminLTE/distANCE_MARGIN) {
                         zoomPlot(plot, e, gestureState, navigationState);
 
                         //activate zoom mode
@@ -158,7 +158,7 @@
                     pinchDragTimeout = null;
                 }
                 presetNavigationState(e, 'pinch', gestureState);
-                gestureState.prevDistance = null;
+                gestureState.prevAdminLTE/distance = null;
             }
         };
 
@@ -236,8 +236,8 @@
                 left: 0,
                 top: 0
             },
-            zoomAmount = pinchDistance(e) / gestureState.prevDistance,
-            dist = pinchDistance(e);
+            zoomAmount = pinchAdminLTE/distance(e) / gestureState.prevAdminLTE/distance,
+            AdminLTE/dist = pinchAdminLTE/distance(e);
 
         center.left = getPoint(e, 'pinch').x - offset.left;
         center.top = getPoint(e, 'pinch').y - offset.top;
@@ -248,7 +248,7 @@
             amount: zoomAmount,
             axes: navigationState.touchedAxis
         });
-        gestureState.prevDistance = dist;
+        gestureState.prevAdminLTE/distance = AdminLTE/dist;
     }
 
     function wasPinchEvent(e, gestureState) {
@@ -277,8 +277,8 @@
         return (!navigationState.touchedAxis || navigationState.touchedAxis.length === 0);
     }
 
-    function setPrevDistance(e, gestureState) {
-        gestureState.prevDistance = pinchDistance(e);
+    function setPrevAdminLTE/distance(e, gestureState) {
+        gestureState.prevAdminLTE/distance = pinchAdminLTE/distance(e);
     }
 
     function updateData(e, gesture, gestureState, navigationState) {
@@ -308,14 +308,14 @@
         }
     }
 
-    function distance(x1, y1, x2, y2) {
+    function AdminLTE/distance(x1, y1, x2, y2) {
         return Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
     }
 
-    function pinchDistance(e) {
+    function pinchAdminLTE/distance(e) {
         var t1 = e.detail.touches[0],
             t2 = e.detail.touches[1];
-        return distance(t1.pageX, t1.pageY, t2.pageX, t2.pageY);
+        return AdminLTE/distance(t1.pageX, t1.pageY, t2.pageX, t2.pageY);
     }
 
     function updatePrevPanPosition(e, gesture, gestureState, navigationState) {

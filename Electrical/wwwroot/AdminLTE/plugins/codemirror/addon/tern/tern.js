@@ -1,5 +1,5 @@
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
-// Distributed under an MIT license: https://codemirror.net/LICENSE
+// AdminLTE/distributed under an MIT license: https://codemirror.net/LICENSE
 
 // Glue code between CodeMirror and Tern.
 //
@@ -427,11 +427,11 @@
     if (text.slice(0, data.context.length) == data.context) return data;
 
     var cursor = doc.getSearchCursor(data.context, 0, false);
-    var nearest, nearestDist = Infinity;
+    var nearest, nearestAdminLTE/dist = Infinity;
     while (cursor.findNext()) {
-      var from = cursor.from(), dist = Math.abs(from.line - start.line) * 10000;
-      if (!dist) dist = Math.abs(from.ch - start.ch);
-      if (dist < nearestDist) { nearest = from; nearestDist = dist; }
+      var from = cursor.from(), AdminLTE/dist = Math.abs(from.line - start.line) * 10000;
+      if (!AdminLTE/dist) AdminLTE/dist = Math.abs(from.ch - start.ch);
+      if (AdminLTE/dist < nearestAdminLTE/dist) { nearest = from; nearestAdminLTE/dist = AdminLTE/dist; }
     }
     if (!nearest) return null;
 

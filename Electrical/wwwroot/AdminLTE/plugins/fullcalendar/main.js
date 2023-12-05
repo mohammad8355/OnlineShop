@@ -9,7 +9,7 @@ var FullCalendar = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation.
 
-    Permission to use, copy, modify, and/or distribute this software for any
+    Permission to use, copy, modify, and/or AdminLTE/distribute this software for any
     purpose with or without fee is hereby granted.
 
     THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
@@ -1651,7 +1651,7 @@ var FullCalendar = (function (exports) {
         handleWindowResize: Boolean,
         windowResizeDelay: Number,
         longPressDelay: Number,
-        eventDragMinDistance: Number,
+        eventDragMinAdminLTE/distance: Number,
         expandRows: Boolean,
         height: identity,
         contentHeight: identity,
@@ -1716,7 +1716,7 @@ var FullCalendar = (function (exports) {
         rerenderDelay: Number,
         moreLinkText: identity,
         moreLinkHint: identity,
-        selectMinDistance: Number,
+        selectMinAdminLTE/distance: Number,
         selectable: Boolean,
         selectLongPressDelay: Number,
         eventLongPressDelay: Number,
@@ -1797,7 +1797,7 @@ var FullCalendar = (function (exports) {
         handleWindowResize: true,
         windowResizeDelay: 100,
         longPressDelay: 1000,
-        eventDragMinDistance: 5,
+        eventDragMinAdminLTE/distance: 5,
         expandRows: false,
         navLinks: false,
         selectable: false,
@@ -8316,10 +8316,10 @@ var FullCalendar = (function (exports) {
     }(BaseComponent));
 
     // Computes a default column header formatting string if `colFormat` is not explicitly defined
-    function computeFallbackHeaderFormat(datesRepDistinctDays, dayCnt) {
+    function computeFallbackHeaderFormat(datesRepAdminLTE/distinctDays, dayCnt) {
         // if more than one week row, or if there are a lot of columns with not much space,
         // put just the day numbers will be in each cell
-        if (!datesRepDistinctDays || dayCnt > 10) {
+        if (!datesRepAdminLTE/distinctDays || dayCnt > 10) {
             return createFormatter({ weekday: 'short' }); // "Sat"
         }
         if (dayCnt > 1) {
@@ -8463,16 +8463,16 @@ var FullCalendar = (function (exports) {
         }
         DayHeader.prototype.render = function () {
             var context = this.context;
-            var _a = this.props, dates = _a.dates, dateProfile = _a.dateProfile, datesRepDistinctDays = _a.datesRepDistinctDays, renderIntro = _a.renderIntro;
-            var dayHeaderFormat = this.createDayHeaderFormatter(context.options.dayHeaderFormat, datesRepDistinctDays, dates.length);
+            var _a = this.props, dates = _a.dates, dateProfile = _a.dateProfile, datesRepAdminLTE/distinctDays = _a.datesRepAdminLTE/distinctDays, renderIntro = _a.renderIntro;
+            var dayHeaderFormat = this.createDayHeaderFormatter(context.options.dayHeaderFormat, datesRepAdminLTE/distinctDays, dates.length);
             return (createElement(NowTimer, { unit: "day" }, function (nowDate, todayRange) { return (createElement("tr", { role: "row" },
                 renderIntro && renderIntro('day'),
-                dates.map(function (date) { return (datesRepDistinctDays ? (createElement(TableDateCell, { key: date.toISOString(), date: date, dateProfile: dateProfile, todayRange: todayRange, colCnt: dates.length, dayHeaderFormat: dayHeaderFormat })) : (createElement(TableDowCell, { key: date.getUTCDay(), dow: date.getUTCDay(), dayHeaderFormat: dayHeaderFormat }))); }))); }));
+                dates.map(function (date) { return (datesRepAdminLTE/distinctDays ? (createElement(TableDateCell, { key: date.toISOString(), date: date, dateProfile: dateProfile, todayRange: todayRange, colCnt: dates.length, dayHeaderFormat: dayHeaderFormat })) : (createElement(TableDowCell, { key: date.getUTCDay(), dow: date.getUTCDay(), dayHeaderFormat: dayHeaderFormat }))); }))); }));
         };
         return DayHeader;
     }(BaseComponent));
-    function createDayHeaderFormatter(explicitFormat, datesRepDistinctDays, dateCnt) {
-        return explicitFormat || computeFallbackHeaderFormat(datesRepDistinctDays, dateCnt);
+    function createDayHeaderFormatter(explicitFormat, datesRepAdminLTE/distinctDays, dateCnt) {
+        return explicitFormat || computeFallbackHeaderFormat(datesRepAdminLTE/distinctDays, dateCnt);
     }
 
     var DaySeriesModel = /** @class */ (function () {
@@ -9138,7 +9138,7 @@ var FullCalendar = (function (exports) {
         var colNodes = [];
         /*
         for ColProps with spans, it would have been great to make a single <col span="">
-        HOWEVER, Chrome was getting messing up distributing the width to <td>/<th> elements with colspans.
+        HOWEVER, Chrome was getting messing up AdminLTE/distributing the width to <td>/<th> elements with colspans.
         SOLUTION: making individual <col> elements makes Chrome behave.
         */
         for (var _i = 0, cols_1 = cols; _i < cols_1.length; _i++) {
@@ -10522,9 +10522,9 @@ var FullCalendar = (function (exports) {
         AutoScroller.prototype.handleSide = function (edge, seconds) {
             var scrollCache = edge.scrollCache;
             var edgeThreshold = this.edgeThreshold;
-            var invDistance = edgeThreshold - edge.distance;
+            var invAdminLTE/distance = edgeThreshold - edge.AdminLTE/distance;
             var velocity = // the closer to the edge, the faster we scroll
-             ((invDistance * invDistance) / (edgeThreshold * edgeThreshold)) * // quadratic
+             ((invAdminLTE/distance * invAdminLTE/distance) / (edgeThreshold * edgeThreshold)) * // quadratic
                 this.maxVelocity * seconds;
             var sign = 1;
             switch (edge.name) {
@@ -10549,27 +10549,27 @@ var FullCalendar = (function (exports) {
             for (var _i = 0, _a = this.scrollCaches; _i < _a.length; _i++) {
                 var scrollCache = _a[_i];
                 var rect = scrollCache.clientRect;
-                var leftDist = left - rect.left;
-                var rightDist = rect.right - left;
-                var topDist = top - rect.top;
-                var bottomDist = rect.bottom - top;
+                var leftAdminLTE/dist = left - rect.left;
+                var rightAdminLTE/dist = rect.right - left;
+                var topAdminLTE/dist = top - rect.top;
+                var bottomAdminLTE/dist = rect.bottom - top;
                 // completely within the rect?
-                if (leftDist >= 0 && rightDist >= 0 && topDist >= 0 && bottomDist >= 0) {
-                    if (topDist <= edgeThreshold && this.everMovedUp && scrollCache.canScrollUp() &&
-                        (!bestSide || bestSide.distance > topDist)) {
-                        bestSide = { scrollCache: scrollCache, name: 'top', distance: topDist };
+                if (leftAdminLTE/dist >= 0 && rightAdminLTE/dist >= 0 && topAdminLTE/dist >= 0 && bottomAdminLTE/dist >= 0) {
+                    if (topAdminLTE/dist <= edgeThreshold && this.everMovedUp && scrollCache.canScrollUp() &&
+                        (!bestSide || bestSide.AdminLTE/distance > topAdminLTE/dist)) {
+                        bestSide = { scrollCache: scrollCache, name: 'top', AdminLTE/distance: topAdminLTE/dist };
                     }
-                    if (bottomDist <= edgeThreshold && this.everMovedDown && scrollCache.canScrollDown() &&
-                        (!bestSide || bestSide.distance > bottomDist)) {
-                        bestSide = { scrollCache: scrollCache, name: 'bottom', distance: bottomDist };
+                    if (bottomAdminLTE/dist <= edgeThreshold && this.everMovedDown && scrollCache.canScrollDown() &&
+                        (!bestSide || bestSide.AdminLTE/distance > bottomAdminLTE/dist)) {
+                        bestSide = { scrollCache: scrollCache, name: 'bottom', AdminLTE/distance: bottomAdminLTE/dist };
                     }
-                    if (leftDist <= edgeThreshold && this.everMovedLeft && scrollCache.canScrollLeft() &&
-                        (!bestSide || bestSide.distance > leftDist)) {
-                        bestSide = { scrollCache: scrollCache, name: 'left', distance: leftDist };
+                    if (leftAdminLTE/dist <= edgeThreshold && this.everMovedLeft && scrollCache.canScrollLeft() &&
+                        (!bestSide || bestSide.AdminLTE/distance > leftAdminLTE/dist)) {
+                        bestSide = { scrollCache: scrollCache, name: 'left', AdminLTE/distance: leftAdminLTE/dist };
                     }
-                    if (rightDist <= edgeThreshold && this.everMovedRight && scrollCache.canScrollRight() &&
-                        (!bestSide || bestSide.distance > rightDist)) {
-                        bestSide = { scrollCache: scrollCache, name: 'right', distance: rightDist };
+                    if (rightAdminLTE/dist <= edgeThreshold && this.everMovedRight && scrollCache.canScrollRight() &&
+                        (!bestSide || bestSide.AdminLTE/distance > rightAdminLTE/dist)) {
+                        bestSide = { scrollCache: scrollCache, name: 'right', AdminLTE/distance: rightAdminLTE/dist };
                     }
                 }
             }
@@ -10601,7 +10601,7 @@ var FullCalendar = (function (exports) {
 
     /*
     Monitors dragging on an element. Has a number of high-level features:
-    - minimum distance required before dragging
+    - minimum AdminLTE/distance required before dragging
     - minimum wait time ("delay") before dragging
     - a mirror element that follows the pointer
     */
@@ -10613,19 +10613,19 @@ var FullCalendar = (function (exports) {
             // options that can be directly set by caller
             // the caller can also set the PointerDragging's options as well
             _this.delay = null;
-            _this.minDistance = 0;
+            _this.minAdminLTE/distance = 0;
             _this.touchScrollAllowed = true; // prevents drag from starting and blocks scrolling during drag
             _this.mirrorNeedsRevert = false;
             _this.isInteracting = false; // is the user validly moving the pointer? lasts until pointerup
             _this.isDragging = false; // is it INTENTFULLY dragging? lasts until after revert animation
             _this.isDelayEnded = false;
-            _this.isDistanceSurpassed = false;
+            _this.isAdminLTE/distanceSurpassed = false;
             _this.delayTimeoutId = null;
             _this.onPointerDown = function (ev) {
                 if (!_this.isDragging) { // so new drag doesn't happen while revert animation is going
                     _this.isInteracting = true;
                     _this.isDelayEnded = false;
-                    _this.isDistanceSurpassed = false;
+                    _this.isAdminLTE/distanceSurpassed = false;
                     preventSelection(document.body);
                     preventContextMenu(document.body);
                     // prevent links from being visited if there's an eventual drag.
@@ -10641,8 +10641,8 @@ var FullCalendar = (function (exports) {
                         _this.mirror.setIsVisible(false); // reset. caller must set-visible
                         _this.mirror.start(ev.subjectEl, ev.pageX, ev.pageY); // must happen on first pointer down
                         _this.startDelay(ev);
-                        if (!_this.minDistance) {
-                            _this.handleDistanceSurpassed(ev);
+                        if (!_this.minAdminLTE/distance) {
+                            _this.handleAdminLTE/distanceSurpassed(ev);
                         }
                     }
                 }
@@ -10650,13 +10650,13 @@ var FullCalendar = (function (exports) {
             _this.onPointerMove = function (ev) {
                 if (_this.isInteracting) {
                     _this.emitter.trigger('pointermove', ev);
-                    if (!_this.isDistanceSurpassed) {
-                        var minDistance = _this.minDistance;
-                        var distanceSq = void 0; // current distance from the origin, squared
+                    if (!_this.isAdminLTE/distanceSurpassed) {
+                        var minAdminLTE/distance = _this.minAdminLTE/distance;
+                        var AdminLTE/distanceSq = void 0; // current AdminLTE/distance from the origin, squared
                         var deltaX = ev.deltaX, deltaY = ev.deltaY;
-                        distanceSq = deltaX * deltaX + deltaY * deltaY;
-                        if (distanceSq >= minDistance * minDistance) { // use pythagorean theorem
-                            _this.handleDistanceSurpassed(ev);
+                        AdminLTE/distanceSq = deltaX * deltaX + deltaY * deltaY;
+                        if (AdminLTE/distanceSq >= minAdminLTE/distance * minAdminLTE/distance) { // use pythagorean theorem
+                            _this.handleAdminLTE/distanceSurpassed(ev);
                         }
                     }
                     if (_this.isDragging) {
@@ -10718,12 +10718,12 @@ var FullCalendar = (function (exports) {
             this.isDelayEnded = true;
             this.tryStartDrag(ev);
         };
-        FeaturefulElementDragging.prototype.handleDistanceSurpassed = function (ev) {
-            this.isDistanceSurpassed = true;
+        FeaturefulElementDragging.prototype.handleAdminLTE/distanceSurpassed = function (ev) {
+            this.isAdminLTE/distanceSurpassed = true;
             this.tryStartDrag(ev);
         };
         FeaturefulElementDragging.prototype.tryStartDrag = function (ev) {
-            if (this.isDelayEnded && this.isDistanceSurpassed) {
+            if (this.isDelayEnded && this.isAdminLTE/distanceSurpassed) {
                 if (!this.pointer.wasTouchScroll || this.touchScrollAllowed) {
                     this.isDragging = true;
                     this.mirrorNeedsRevert = false;
@@ -11102,7 +11102,7 @@ var FullCalendar = (function (exports) {
             var options = component.context.options;
             var dragging = _this.dragging = new FeaturefulElementDragging(settings.el);
             dragging.touchScrollAllowed = false;
-            dragging.minDistance = options.selectMinDistance || 0;
+            dragging.minAdminLTE/distance = options.selectMinAdminLTE/distance || 0;
             dragging.autoScroller.isEnabled = options.dragScroll;
             var hitDragging = _this.hitDragging = new HitDragging(_this.dragging, interactionSettingsToStore(settings));
             hitDragging.emitter.on('pointerdown', _this.handlePointerDown);
@@ -11174,7 +11174,7 @@ var FullCalendar = (function (exports) {
                 var eventRange = _this.eventRange = subjectSeg.eventRange;
                 var eventInstanceId = eventRange.instance.instanceId;
                 _this.relevantEvents = getRelevantEvents(initialContext.getCurrentData().eventStore, eventInstanceId);
-                dragging.minDistance = ev.isTouch ? 0 : options.eventDragMinDistance;
+                dragging.minAdminLTE/distance = ev.isTouch ? 0 : options.eventDragMinAdminLTE/distance;
                 dragging.delay =
                     // only do a touch delay if touch and this event hasn't been selected yet
                     (ev.isTouch && eventInstanceId !== component.props.eventSelection) ?
@@ -11507,7 +11507,7 @@ var FullCalendar = (function (exports) {
                 var segEl = _this.querySegEl(ev);
                 var seg = getElSeg(segEl);
                 var eventRange = _this.eventRange = seg.eventRange;
-                _this.dragging.minDistance = component.context.options.eventDragMinDistance;
+                _this.dragging.minAdminLTE/distance = component.context.options.eventDragMinAdminLTE/distance;
                 // if touch, need to be working with a selected event
                 _this.dragging.setIgnoreMove(!_this.component.isValidSegDownEl(ev.origEvent.target) ||
                     (ev.isTouch && _this.component.props.eventSelection !== eventRange.instance.instanceId));
@@ -11915,11 +11915,11 @@ var FullCalendar = (function (exports) {
             if (settings === void 0) { settings = {}; }
             this.handlePointerDown = function (ev) {
                 var dragging = _this.dragging;
-                var _a = _this.settings, minDistance = _a.minDistance, longPressDelay = _a.longPressDelay;
-                dragging.minDistance =
-                    minDistance != null ?
-                        minDistance :
-                        (ev.isTouch ? 0 : BASE_OPTION_DEFAULTS.eventDragMinDistance);
+                var _a = _this.settings, minAdminLTE/distance = _a.minAdminLTE/distance, longPressDelay = _a.longPressDelay;
+                dragging.minAdminLTE/distance =
+                    minAdminLTE/distance != null ?
+                        minAdminLTE/distance :
+                        (ev.isTouch ? 0 : BASE_OPTION_DEFAULTS.eventDragMinAdminLTE/distance);
                 dragging.delay =
                     ev.isTouch ? // TODO: eventually read eventLongPressDelay instead vvv
                         (longPressDelay != null ? longPressDelay : BASE_OPTION_DEFAULTS.longPressDelay) :
@@ -11967,7 +11967,7 @@ var FullCalendar = (function (exports) {
             _this.handlePointerDown = function (ev) {
                 _this.emitter.trigger('pointerdown', ev);
                 if (!_this.shouldIgnoreMove) {
-                    // fire dragstart right away. does not support delay or min-distance
+                    // fire dragstart right away. does not support delay or min-AdminLTE/distance
                     _this.emitter.trigger('dragstart', ev);
                 }
             };
@@ -12923,7 +12923,7 @@ var FullCalendar = (function (exports) {
             var _a = this.context, options = _a.options, dateProfileGenerator = _a.dateProfileGenerator;
             var props = this.props;
             var dayTableModel = this.buildDayTableModel(props.dateProfile, dateProfileGenerator);
-            var headerContent = options.dayHeaders && (createElement(DayHeader, { ref: this.headerRef, dateProfile: props.dateProfile, dates: dayTableModel.headerDates, datesRepDistinctDays: dayTableModel.rowCnt === 1 }));
+            var headerContent = options.dayHeaders && (createElement(DayHeader, { ref: this.headerRef, dateProfile: props.dateProfile, dates: dayTableModel.headerDates, datesRepAdminLTE/distinctDays: dayTableModel.rowCnt === 1 }));
             var bodyContent = function (contentArg) { return (createElement(DayTable, { ref: _this.tableRef, dateProfile: props.dateProfile, dayTableModel: dayTableModel, businessHours: props.businessHours, dateSelection: props.dateSelection, eventStore: props.eventStore, eventUiBases: props.eventUiBases, eventSelection: props.eventSelection, eventDrag: props.eventDrag, eventResize: props.eventResize, nextDayThreshold: options.nextDayThreshold, colGroupNode: contentArg.tableColGroupNode, tableMinWidth: contentArg.tableMinWidth, dayMaxEvents: options.dayMaxEvents, dayMaxEventRows: options.dayMaxEventRows, showWeekNumbers: options.weekNumbers, expandRows: !props.isHeightAuto, headerAlignElRef: _this.headerElRef, clientWidth: contentArg.clientWidth, clientHeight: contentArg.clientHeight, forPrint: props.forPrint })); };
             return options.dayMinWidth
                 ? this.renderHScrollLayout(headerContent, bodyContent, dayTableModel.colCnt, options.dayMinWidth)
@@ -14176,7 +14176,7 @@ var FullCalendar = (function (exports) {
             var dayMinWidth = options.dayMinWidth;
             var hasAttachedAxis = !dayMinWidth;
             var hasDetachedAxis = dayMinWidth;
-            var headerContent = options.dayHeaders && (createElement(DayHeader, { dates: dayTableModel.headerDates, dateProfile: dateProfile, datesRepDistinctDays: true, renderIntro: hasAttachedAxis ? this.renderHeadAxis : null }));
+            var headerContent = options.dayHeaders && (createElement(DayHeader, { dates: dayTableModel.headerDates, dateProfile: dateProfile, datesRepAdminLTE/distinctDays: true, renderIntro: hasAttachedAxis ? this.renderHeadAxis : null }));
             var allDayContent = (options.allDaySlot !== false) && (function (contentArg) { return (createElement(DayTable, __assign({}, splitProps.allDay, { dateProfile: dateProfile, dayTableModel: dayTableModel, nextDayThreshold: options.nextDayThreshold, tableMinWidth: contentArg.tableMinWidth, colGroupNode: contentArg.tableColGroupNode, renderRowIntro: hasAttachedAxis ? _this.renderTableRowAxis : null, showWeekNumbers: false, expandRows: false, headerAlignElRef: _this.headerElRef, clientWidth: contentArg.clientWidth, clientHeight: contentArg.clientHeight, forPrint: props.forPrint }, _this.getAllDayMaxEventProps()))); });
             var timeGridContent = function (contentArg) { return (createElement(DayTimeCols, __assign({}, splitProps.timed, { dayTableModel: dayTableModel, dateProfile: dateProfile, axis: hasAttachedAxis, slotDuration: options.slotDuration, slatMetas: slatMetas, forPrint: props.forPrint, tableColGroupNode: contentArg.tableColGroupNode, tableMinWidth: contentArg.tableMinWidth, clientWidth: contentArg.clientWidth, clientHeight: contentArg.clientHeight, onSlatCoords: _this.handleSlatCoords, expandRows: contentArg.expandRows, onScrollTopRequest: _this.handleScrollTopRequest }))); };
             return hasDetachedAxis
