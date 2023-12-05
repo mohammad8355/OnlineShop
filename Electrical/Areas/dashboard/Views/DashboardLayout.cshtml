@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="AdminLTE/plugins/fontawesome-free/css/all.min.css">
     <!-- IonIcons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    @RenderSection("CssRefrence",false);
     <!-- Theme style -->
     <link rel="stylesheet" href="AdminLTE/dist/css/adminlte.min.css">
 </head>
@@ -446,6 +447,29 @@
                                 </li>
                             </ul>
                         </li>
+                        <li class="nav-item">
+                            <a asp-area="dashboard" asp-controller="Product" asp-action="Index" class="nav-link">
+                                <i class="nav-icon fas fa-table"></i>
+                                <p>
+                                    مدیریت محصولات
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a asp-area="dashboard" asp-controller="Product" asp-action="Index" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>لیست محصولات</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="pages/tables/data.html" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>افزودن محصول</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                         <li class="nav-header">EXAMPLES</li>
                         <li class="nav-item">
                             <a href="pages/calendar.html" class="nav-link">
@@ -870,7 +894,9 @@
     <script src="AdminLTE/plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap -->
     <script src="AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    @RenderSection("RefrenceScripts",false)
     <!-- AdminLTE -->
     <script src="AdminLTE/dist/js/adminlte.js"></script>
+    @RenderSection("InlineScripts",false)
 </body>
 </html>
