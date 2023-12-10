@@ -13,5 +13,18 @@ namespace PresentationLayer.Areas.dashboard.Controllers
         {
             return View();  
         }
+        public IActionResult EditUser()
+        {
+            return View();
+        }
+        public IActionResult RoleList()
+        {
+            return View();
+        }
+        public IActionResult AddRole()
+        {
+            return View();
+        }
+
     }
 }
