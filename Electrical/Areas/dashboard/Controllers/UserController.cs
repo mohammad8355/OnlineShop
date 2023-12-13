@@ -25,6 +25,10 @@ namespace PresentationLayer.Areas.dashboard.Controllers
         {
             return View();
         }
+        public IActionResult UserDetails()
+        {
+            return View();
+        }
 
     }
 }
