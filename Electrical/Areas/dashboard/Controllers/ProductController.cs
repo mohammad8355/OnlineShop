@@ -17,6 +17,9 @@ namespace PresentationLayer.Areas.dashboard.Controllers
         {
             return View();
         }
-
+        public IActionResult AddOptions()
+        {
+            return View();
+        }
     }
 }
