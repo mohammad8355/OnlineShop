@@ -5,57 +5,77 @@
                 <h3 class="card-title col-6">مشخصات فنی</h3>
             </div>
             <form>
-            <div class="card-body row">
-                <!-- select -->
-                <div class="form-group col-sm-4">
-                    <label>سر دسته بندی</label>
-                    <select class="form-control">
-                        <option>تجهیزات کامپیوتر</option>
-                        <option>تجهیزات موبایل</option>
-                        <option>کیس اسمبل شده</option>
-                        <option>تجهیزات جانبی</option>
-                    </select>
+                <div class="card-body row">
+                    <!-- select -->
+                    <div class="form-group col-sm-6">
+                        <label>سر دسته بندی</label>
+                        <select class="form-control">
+                            <option>تجهیزات کامپیوتر</option>
+                            <option>تجهیزات موبایل</option>
+                            <option>کیس اسمبل شده</option>
+                            <option>تجهیزات جانبی</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <label>زیر دسته بندی</label>
+                        <select class="form-control">
+                            <option>مانیتور</option>
+                            <option>رم</option>
+                            <option>مادربرد</option>
+                            <option>پاور</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-12">
+                        <div class="form-group col-sm-12">
+                            <label>Multiple</label>
+                            <select class="select2" multiple="multiple" data-placeholder="Select a State" style="width:100%">
+                                <option>مانیتور x33 </option>
+                                <option> proمانیتور</option>
+                                <option>HQultraمانیتور</option>
+                                <option>2023مانیتور</option>
+                                <option>مانیتورAZH</option>
+                                <option>مانیتور super</option>
+                                <option>مانیتورProx4</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label>مشخصات کلید ها</label>
+                            <select class="form-control">
+                                <option>وزن</option>
+                                <option>رم</option>
+                                <option>مادربرد</option>
+                                <option>پاور</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label>مقدار ها</label>
+                            <select class="form-control">
+                                <option>128</option>
+                                <option>64</option>
+                                <option>32</option>
+                                <option>16</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">افزودن</button>
+                        <!-- /.card-body -->
+                    </div>
                 </div>
-                <div class="form-group col-sm-4">
-                    <label>زیر دسته بندی</label>
-                    <select class="form-control">
-                        <option>مانیتور</option>
-                        <option>رم</option>
-                        <option>مادربرد</option>
-                        <option>پاور</option>
-                    </select>
-                </div>
-                <div class="form-group col-sm-4">
-                    <label>محصول</label>
-                    <select class="form-control">
-                        <option>x33 مانیتور </option>
-                        <option>H432Qمانیتور</option>
-                        <option>z12pro مانیتور </option>
-                        <option>Dragon مانیتور </option>
-                    </select>
-                </div>
-                <div class="form-group col-sm-6">
-                    <label>مشخصات کلید ها</label>
-                    <select class="form-control">
-                        <option>وزن</option>
-                        <option>رم</option>
-                        <option>مادربرد</option>
-                        <option>پاور</option>
-                    </select>
-                </div>
-                <div class="form-group col-sm-6">
-                    <label>مقدار ها</label>
-                    <select class="form-control">
-                        <option>128</option>
-                        <option>64</option>
-                        <option>32</option>
-                        <option>16</option>
-                    </select>
-                </div>
-                <button type="submit" class="btn btn-primary">افزودن</button>
-                <!-- /.card-body -->
-            </div>
             </form>
         </div>
     </div>
 </div>
+@section RefrenceScripts{
+    <script src="AdminLTE/plugins/select2/js/select2.full.min.js"></script>
+
+}
+@section InlineScripts{
+    <script>
+        //Initialize Select2 Elements
+        $('.select2').select2()
+
+        //Initialize Select2 Elements
+        $('.select2bs4').select2({
+            theme: 'bootstrap4'
+        })
+    </script>
+}
