@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,5 +22,13 @@ namespace BusinessEntity.Models
         public string Description { get; set; }
         [Required]
         public int QuantityInStock { get; set; }
+        [AllowNull]
+        public int Weight { get; set; }
+        [AllowNull]
+        public int Width { get; set; }
+        [AllowNull]
+        public int height { get; set; }
+        [AllowNull]
+        public int length { get; set; }
     }
 }

@@ -1,25 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BusinessEntity.Models
+namespace BusinessEntity
 {
-    public class ProductAttribute
+    public class Weblog
     {
         [Key]
         public int Id { get; set; }
         [Required]
-        [MaxLength(150)]
-        public string KeyName { get; set; }
+        [MaxLength(100)]
+        public string Title { get; set; }
         [Required]
-        [MaxLength(150)]
-        public string KeyValue { get; set; }
+        public DateTime DateTime { get; set; }
         [Required]
-        [MaxLength(150)]
-        public string Unit { get; set; }
-
+        public  int ReadingTime { get; set; }
     }
 }

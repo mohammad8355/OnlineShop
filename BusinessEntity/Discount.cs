@@ -5,21 +5,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BusinessEntity.Models
+namespace BusinessEntity
 {
-    public class Image
+    public class Discount
     {
         [Key]
         public int Id { get; set; }
-        public float Size { get; set; }
         [Required]
-        [MaxLength(300)]
+        [MaxLength(100)]
         public string Name { get; set; }
         [Required]
-        [MaxLength(500)]
-        public string Description { get; set; }
+        public decimal Value { get; set; }
         [Required]
-        [MaxLength(300)]
-        public string Link { get; set; }
+        public DateTime dateTime { get; set; }
+        [Required]
+        [MaxLength(100)]
+        public string DateBase { get; set; }
+        public bool Active { get; set; }
     }
 }
