@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -30,5 +31,12 @@ namespace BusinessEntity.Models
         public int height { get; set; }
         [AllowNull]
         public int length { get; set; }
+
+        //navigation property
+        public SubCategory subCategory { get; set; }
+        public int SubCategory_Id { get; set; }
+        public ICollection<KeyToProduct>  keyToProducts { get; set; }
+        public ICollection<DiscountToProduct> discountToProducts { get; set; }
     }
+
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BusinessEntity.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -20,6 +21,12 @@ namespace BusinessEntity
         [Required]
         [MaxLength(100)]
         public string Parent { get; set; }
+
+        //navigation property
+        public Category category { get; set; }
+        public int category_Id { get; set; }
+        public ICollection<Product> products { get; set; }
+        public ICollection<KeyToSubCategory> keyToSubCategories { get; set; }
     }
 
 }

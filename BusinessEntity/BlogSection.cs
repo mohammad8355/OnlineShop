@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace BusinessEntity
 {
-    public class Weblog
+    public class BlogSection
     {
         [Key]
         public int Id { get; set; }
@@ -16,14 +16,14 @@ namespace BusinessEntity
         [MaxLength(100)]
         public string Title { get; set; }
         [Required]
-        public DateTime DateTime { get; set; }
-        [Required]
-        public  int ReadingTime { get; set; }
-        [Required]
+        [MaxLength(800)]
+        public string Text { get; set; }
+        [AllowNull]
         [MaxLength(300)]
-        public  string CoverLink { get; set; }
+        public string photo { get; set; }
 
-        //navigation property
-        public ICollection<BlogSection> blogSections { get; set; }
+        //navication property
+        public Weblog Weblog { get; set; }
+        public int Weblog_Id  { get; set; }
     }
 }

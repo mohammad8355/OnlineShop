@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BusinessEntity.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -17,5 +18,10 @@ namespace BusinessEntity
         [Required]
         [MaxLength(100)]
         public string DataType { get; set; }
+
+        //navigation property
+        public ICollection<AdjValue> adjValues { get; set; }
+        public ICollection<KeyToProduct> KeyToProducts { get; set; }
+        public ICollection<KeyToSubCategory> keyToSubCategories { get; set; }
     }
 }

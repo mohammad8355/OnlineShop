@@ -19,6 +19,10 @@ namespace BusinessEntity
         public string StringValue { get; set; }
         [AllowNull]
         public bool BoolValue { get; set; }
+
+        //navigation property 
+        public AdjKey adjKey { get; set; }
+        public int adjkey_Id { get; set; }
     }
 
 }
