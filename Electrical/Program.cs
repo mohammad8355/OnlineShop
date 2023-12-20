@@ -1,3 +1,6 @@
+using BusinessEntity;
+using BusinessEntity.Models;
+using BusinessLogicLayer.CategoryService;
 using BusinessLogicLayer.services;
 using DataAccessLayer;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -42,6 +45,25 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     options.ExpireTimeSpan = TimeSpan.FromDays(15);
     options.LogoutPath = "/Account/Logout";
 });
+#endregion
+#region businessLogic layer service
+builder.Services.AddScoped<CategoryLogic>();
+#endregion
+#region main repository service
+builder.Services.AddScoped<MainRepository<Category>>();
+builder.Services.AddScoped<MainRepository<Product>>();
+builder.Services.AddScoped<MainRepository<SubCategory>>();
+builder.Services.AddScoped<MainRepository<AdjKey>>();
+builder.Services.AddScoped<MainRepository<AdjValue>>();
+builder.Services.AddScoped<MainRepository<Discount>>();
+builder.Services.AddScoped<MainRepository<Order>>();
+builder.Services.AddScoped<MainRepository<OrderDetails>>();
+builder.Services.AddScoped<MainRepository<General>>();
+builder.Services.AddScoped<MainRepository<Weblog>>();
+builder.Services.AddScoped<MainRepository<BlogSection>>();
+builder.Services.AddScoped<MainRepository<KeyToProduct>>();
+builder.Services.AddScoped<MainRepository<KeyToSubCategory>>();
+
 #endregion
 var app = builder.Build();
 
