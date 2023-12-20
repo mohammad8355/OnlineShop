@@ -1,0 +1,70 @@
+﻿using BusinessEntity;
+using BusinessEntity.Models;
+using BusinessLogicLayer.services;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace BusinessLogicLayer.CategoryService
+{
+    public class CategoryLogic
+    {
+        private readonly MainRepository<Category> CategoryRepository;
+        private readonly MainRepository<SubCategory> SubCategoryRepository;
+        public CategoryLogic(MainRepository<Category> CategoryRepository,MainRepository<SubCategory> SubCategoryRepository)
+        {
+            this.CategoryRepository = CategoryRepository;
+            this.SubCategoryRepository = SubCategoryRepository;
+        }
+        public async Task<bool> AddCategory(Category model)
+        {
+            if(string.IsNullOrEmpty(model.Name) && string.IsNullOrEmpty(model.IdentifierName) && string.IsNullOrEmpty(model.Description))
+            {
+                return false;
+            }
+            else
+            {
+             await CategoryRepository.AddItem(model);
+                return true;
+            }
+        }
+        public async Task<bool> UpdateCategory(Category model)
+        {
+            if (string.IsNullOrEmpty(model.Name) && string.IsNullOrEmpty(model.IdentifierName) && string.IsNullOrEmpty(model.Description))
+            {
+                return false;
+            }
+            else
+            {
+                await CategoryRepository.EditItem(model);
+                return true;
+            }
+        }
+        public async Task DeleteCategory(int Id)
+        {
+            if (SubCategoryRepository.Get(c => c.category_Id == Id).Result.Count() > 0)
+            {
+                foreach(var item in SubCategoryRepository.Get(c => c.category_Id == Id).Result.ToList())
+                {
+                   await SubCategoryRepository.DeleteItem(item.Id);
+                }
+              await  CategoryRepository.DeleteItem(Id);
+            }
+            else
+            {
+              await  CategoryRepository.DeleteItem(Id);
+            }
+        }
+        public ICollection<Category> CategoryList()
+        {
+            ICollection<Category> categories = new List<Category>();
+            foreach (var item in CategoryRepository.Get().Result.ToList())
+            {
+               categories.Add(item);
+            }
+            return categories;
+        }
+    }
+}

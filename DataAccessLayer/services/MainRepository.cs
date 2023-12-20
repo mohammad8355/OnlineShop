@@ -1,9 +1,11 @@
 ﻿using DataAccessLayer;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,33 +14,40 @@ namespace BusinessLogicLayer.services
     public class MainRepository<TEntity> where TEntity : class
     {
         private readonly AppDbContext context;
+        private DbSet<TEntity> _dbSet;
         public MainRepository(AppDbContext context)
         {
            this.context = context;
+            _dbSet = context.Set<TEntity>();
         }
-        public void AddItem (TEntity entity)
+        public async Task AddItem(TEntity entity)
         {
-            context.Add(entity);
+           await context.AddAsync(entity);
             context.SaveChanges();
         }
-        public void EditItem(TEntity entity)
+        public async Task EditItem(TEntity entity)
         {
             context.Update(entity);
-            context.SaveChanges();
+         await context.SaveChangesAsync();
         }
-        public void DeleteItem(TEntity entity)
+        private async Task DeleteItem(TEntity entity)
         {
             context.Remove(entity);
-            context.SaveChanges();
+           await context.SaveChangesAsync();
         }
-        public void DeleteItem(object Id)
+        public async Task DeleteItem(object Id)
         {
            var entity = context.Find(Id.GetType());
-            DeleteItem(entity);
+             await DeleteItem(entity);
         }
-        public List<TEntity> GetAllItem()
+        public async Task<IEnumerable<TEntity>> Get(Expression<Func<TEntity,bool>>? where = null)
         {
-            return context.Set<TEntity>().ToList();
+            IQueryable<TEntity> query = _dbSet;
+            if (where != null)
+            {
+                query = query.Where(where);
+            }
+            return await query.ToListAsync();
         }
 
     }
