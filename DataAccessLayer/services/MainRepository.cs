@@ -35,10 +35,18 @@ namespace BusinessLogicLayer.services
             context.Remove(entity);
            await context.SaveChangesAsync();
         }
-        public async Task DeleteItem(object Id)
+        public async Task<bool> DeleteItem(int Id)
         {
-           var entity = context.Find(Id.GetType());
-             await DeleteItem(entity);
+            var entity = context.Set<TEntity>().Find(Id);
+            if(entity != null)
+            {
+                await DeleteItem(entity);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
         public async Task<IEnumerable<TEntity>> Get(Expression<Func<TEntity,bool>>? where = null)
         {

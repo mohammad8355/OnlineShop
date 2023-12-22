@@ -42,7 +42,7 @@ namespace BusinessLogicLayer.CategoryService
                 return true;
             }
         }
-        public async Task DeleteCategory(int Id)
+        public async Task<bool> DeleteCategory(int Id)
         {
             if (SubCategoryRepository.Get(c => c.category_Id == Id).Result.Count() > 0)
             {
@@ -50,11 +50,25 @@ namespace BusinessLogicLayer.CategoryService
                 {
                    await SubCategoryRepository.DeleteItem(item.Id);
                 }
-              await  CategoryRepository.DeleteItem(Id);
+              if(await CategoryRepository.DeleteItem(Id))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             else
             {
-              await  CategoryRepository.DeleteItem(Id);
+              if(await CategoryRepository.DeleteItem(Id))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
         }
         public ICollection<Category> CategoryList()
@@ -62,9 +76,22 @@ namespace BusinessLogicLayer.CategoryService
             ICollection<Category> categories = new List<Category>();
             foreach (var item in CategoryRepository.Get().Result.ToList())
             {
+               if(SubCategoryRepository.Get(s => s.category_Id == item.Id).Result.Any())
+                {
+                    var subcategoryList = new List<SubCategory>();
+                    foreach(var subItem in SubCategoryRepository.Get(s => s.category_Id == item.Id).Result.ToList())
+                    {
+                        subcategoryList.Add(subItem);
+                    }
+                    item.subCategories = subcategoryList;
+                }
                categories.Add(item);
             }
             return categories;
+        }
+        public Category CategoryDetail(int Id)
+        {
+            return CategoryRepository.Get(c => c.Id == Id).Result.FirstOrDefault();
         }
     }
 }
