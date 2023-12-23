@@ -23,6 +23,9 @@ namespace BusinessEntity.Models
         public string Description { get; set; }
         [Required]
         public int QuantityInStock { get; set; }
+        [Required]
+        [MaxLength(300)]
+        public string photo { get; set; }
         [AllowNull]
         public int Weight { get; set; }
         [AllowNull]
