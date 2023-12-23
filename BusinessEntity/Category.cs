@@ -5,24 +5,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BusinessEntity.Models
+namespace BusinessEntity;
+
+public class Category
 {
-    public class Category
-    {
-        [Key]
-        public int Id { get; set; }
-        [Required]
-        [MaxLength(100)]
-        public string Name { get; set; }
-        [Required]
-        [MaxLength(100)]
-        public string IdentifierName { get; set; }
-        [Required]
-        [MaxLength(500)]
-        public string Description { get; set; }
+    [Key]
+    public int Id { get; set; }
+    [Required]
+    [MaxLength(100)]
+    public string Name { get; set; }
+    [Required]
+    [MaxLength(100)]
+    public string IdentifierName { get; set; }
+    [Required]
+    [MaxLength(500)]
+    public string Description { get; set; }
 
-         //navigation property
-         public ICollection<SubCategory> subCategories { get; set; }
+     //navigation property
+     public ICollection<SubCategory> subCategories { get; set; }
 
-    }
 }
