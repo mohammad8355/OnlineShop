@@ -9,7 +9,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BusinessLogicLayer.services
+namespace DataAccessLayer.services
 {
     public class MainRepository<TEntity> where TEntity : class
     {
