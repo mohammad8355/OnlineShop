@@ -1,6 +1,6 @@
 ﻿using BusinessEntity;
 using BusinessEntity.Models;
-using BusinessLogicLayer.services;
+using DataAccessLayer.services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +20,7 @@ namespace BusinessLogicLayer.CategoryService
         }
         public async Task<bool> AddCategory(Category model)
         {
-            if(string.IsNullOrEmpty(model.Name) && string.IsNullOrEmpty(model.IdentifierName) && string.IsNullOrEmpty(model.Description))
+            if(string.IsNullOrEmpty(model.Name) || string.IsNullOrEmpty(model.IdentifierName) || string.IsNullOrEmpty(model.Description))
             {
                 return false;
             }
@@ -32,7 +32,7 @@ namespace BusinessLogicLayer.CategoryService
         }
         public async Task<bool> UpdateCategory(Category model)
         {
-            if (string.IsNullOrEmpty(model.Name) && string.IsNullOrEmpty(model.IdentifierName) && string.IsNullOrEmpty(model.Description))
+            if (string.IsNullOrEmpty(model.Name) || string.IsNullOrEmpty(model.IdentifierName) || string.IsNullOrEmpty(model.Description))
             {
                 return false;
             }
