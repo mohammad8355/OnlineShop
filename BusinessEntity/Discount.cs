@@ -22,6 +22,9 @@ namespace BusinessEntity
         [MaxLength(100)]
         public string DateBase { get; set; }
         public bool Active { get; set; }
+        [Required]
+        [MaxLength(50)]
+        public string DiscountCode { get; set; }
 
         //navigation property
         public ICollection<DiscountToProduct> discountToProducts { get; set; }
