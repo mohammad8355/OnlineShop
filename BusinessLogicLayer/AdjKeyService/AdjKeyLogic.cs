@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Utility.ReturnMultipleData;
 
 namespace BusinessLogicLayer.AdjKeyService
 {
@@ -72,14 +73,20 @@ namespace BusinessLogicLayer.AdjKeyService
             {
                 foreach(var item in KeyToSubCategoryRepository.Get(k => k.key_Id == Id).Result.ToList())
                 {
-                    await KeyToSubCategoryRepository.DeleteItem(item.key_Id)
+                    if(!await KeyToSubCategoryRepository.DeleteItem(item.key_Id))
+                    {
+                        return false; 
+                    }
                 }
             }
             if (KeyToProductRepository.Get(k => k.Key_Id == Id).Result.Any())
             {
                 foreach (var item in KeyToProductRepository.Get(k => k.Key_Id == Id).Result.ToList())
                 {
-                    await KeyToProductRepository.DeleteItem(item.Key_Id)
+                    if (!await KeyToProductRepository.DeleteItem(item.Key_Id))
+                    {
+                        return false;
+                    }
                 }
             }
             if(AdjValueRepository.Get(v => v.adjkey_Id == Id).Result.Any())
@@ -101,8 +108,6 @@ namespace BusinessLogicLayer.AdjKeyService
         public AdjKey AdjKeyDetail(int Id)
         {
             var model = AdjKeyRepository.Get(k => k.Id == Id).Result.FirstOrDefault();
-            if(model != null)
-            {
                 var keyToProduct = KeyToProductRepository.Get(kp => kp.Key_Id == Id).Result.ToList();
                 var keyToSubcategory = KeyToSubCategoryRepository.Get(ks => ks.key_Id == Id).Result.ToList();
                 var AdjValues = AdjValueRepository.Get(v => v.adjkey_Id == Id).Result.ToList();
@@ -110,11 +115,6 @@ namespace BusinessLogicLayer.AdjKeyService
                 model.keyToSubCategories = keyToSubcategory;
                 model.adjValues = AdjValues;
                 return model;
-            }
-            else
-            {
-                return new AdjKey();
-            }
         }
         public ICollection<AdjKey> AdjKeyList()
         {

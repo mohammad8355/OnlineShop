@@ -13,32 +13,30 @@ namespace BusinessLogicLayer.AdjValueService
     {
         private readonly MainRepository<AdjValue> AdjValueRepository;
         private readonly MainRepository<AdjKey> AdjKeyRepository;
-        private readonly ReturnMultipleData<AdjValue> returnMultipleData;
-        public AdjValueLogic(MainRepository<AdjValue> AdjValueRepository, MainRepository<AdjKey> AdjKeyRepository, ReturnMultipleData<AdjValue> returnMultipleData)
+        public AdjValueLogic(MainRepository<AdjValue> AdjValueRepository, MainRepository<AdjKey> AdjKeyRepository)
         {
-            this.returnMultipleData = returnMultipleData;
             this.AdjKeyRepository = AdjKeyRepository;
             this.AdjValueRepository = AdjValueRepository;
         }
-        public async Task<List<object>> AddAdjValue(AdjValue model)
+        public async Task<bool> AddAdjValue(AdjValue model)
         {
             if(model == null || model.adjkey_Id == 0)
             {
-                return await returnMultipleData.Return(false,"مشخصه مورد نظر یافت نشد و یا مدل خالی بوده است");
+                return false;
             }
             else
             {
                var adjKey = AdjKeyRepository.Get(k => k.Id == model.adjkey_Id).Result.FirstOrDefault();
                 model.adjKey = adjKey;
                await AdjValueRepository.AddItem(model);
-                return await returnMultipleData.Return(true,"عملیات افزودن با موفقیت انجام شد");
+                return true;
             }
         }
-        public async Task<List<object>> EditAdjValue(AdjValue model)
+        public async Task<bool> EditAdjValue(AdjValue model)
         {
             if (model == null || model.adjkey_Id == 0)
             {
-                return await returnMultipleData.Return(false, "مشخصه مورد نظر یافت نشد و یا مدل خالی بوده است");
+                return false;
             }
             else
             {
@@ -46,34 +44,25 @@ namespace BusinessLogicLayer.AdjValueService
                 model.adjKey = adjKey;
                  await AdjValueRepository.EditItem(model);
 
-                return await returnMultipleData.Return(true, "عملیات ویرایش با موفقیت انجام شد");
+                return true;
             }
         }
-        public async Task<List<object>> DeleteAdjValue(int Id)
+        public async Task<bool> DeleteAdjValue(int Id)
         {
             if(await AdjValueRepository.DeleteItem(Id))
             {
-                return await returnMultipleData.Return(true, "عملیات حذف با موفقیت انجام شد");
+                return true;
             }
             else
             {
-                return await returnMultipleData.Return(false, "مقدار مورد نظر یافت نشد !");
+                return false;
             }
         }
-        public async Task<List<object>> AdjValueDetail(int Id)
+        public AdjValue AdjValueDetail(int Id)
         {
-            if(AdjValueRepository.Get(a => a.Id == Id).Result.Any())
-            {
                 var model = AdjValueRepository.Get(a => a.Id == Id).Result.FirstOrDefault();
                     model.adjKey = AdjKeyRepository.Get(k => k.Id == model.adjkey_Id).Result.FirstOrDefault();
-                    return await returnMultipleData.Return(true,"مقدار مورد نظر یافت شد",model);
-                
-            }
-            else
-            {
-                return await returnMultipleData.Return(false, "مقدار مورد نظر یافت نشد !"); ;
-            }
-
+                    return model;
         }
         public ICollection<AdjValue> AdjValueList()
         {
