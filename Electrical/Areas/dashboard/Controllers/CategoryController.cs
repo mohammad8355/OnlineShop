@@ -28,8 +28,16 @@ namespace PresentationLayer.Areas.dashboard.Controllers
         [HttpPost]
         public async Task<IActionResult> AddCategory(Category model)
         {
-            await categoryLogic.AddCategory(model);
-            return RedirectToAction("Index");
+            if(await categoryLogic.AddCategory(model))
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                ModelState.AddModelError("", "عملیات افزودن با شکست مواجه شد");
+                return View(model);
+            }
+
         }
         [HttpGet]
         public async Task<IActionResult> EditCategory(int Id)
