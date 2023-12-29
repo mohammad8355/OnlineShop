@@ -1,0 +1,118 @@
+﻿@using BusinessEntity;
+
+@model List<SubCategory>
+<div class="zc-body">
+    <div class="row m-0">
+        <div class="container">
+            <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <td>نام زیر دسته بندی</td>
+                        <th>آیدی زیر دسته بندی</th>
+                        <td>توضیحات</td>
+                        <th>پدر</th>
+                        <th>حذف / ویرایش</th>
+                    </tr>
+
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @item.Name
+                            </td>
+                            <td>
+                                @item.IdentifierName
+                            </td>
+                            <td>
+                                @item.Description
+                            </td>
+                            <td>
+                                @item.Parent
+                            </td>
+                            <td>
+                                <div class="btn-group">
+                                    <a type="button" class="btn btn-info" asp-action="EditSubCategory" asp-route-Id="@item.Id" asp-controller="category"><i class="fa-solid fa-pen"></i></a>
+                                    <button type="button" class="btn btn-danger"><i value="@item.Id" class="fa-solid fa-trash-can"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td>نام زیر دسته بندی</td>
+                        <th>آیدی زیر دسته بندی</th>
+                        <td>توضیحات</td>
+                        <th>پدر</th>
+                        <th>حذف / ویرایش</th>
+                    </tr>
+
+                </tfoot>
+            </table>
+        </div>
+    </div>
+    <!-- CHART CONTAINER -->
+</div>
+@section RefrenceScripts{
+    <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
+    <script src="AdminLTE/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="AdminLTE/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="AdminLTE/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="AdminLTE/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="AdminLTE/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="AdminLTE/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="AdminLTE/plugins/jszip/jszip.min.js"></script>
+    <script src="AdminLTE/plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="AdminLTE/plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="AdminLTE/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="AdminLTE/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="AdminLTE/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+    }
+@section InlineScripts
+    {
+    <script>
+        var btnDelete = document.querySelectorAll(".fa-trash-can");
+        var confrimDelete = false;
+        btnDelete.forEach((item) => {
+
+            item.addEventListener("click", function () {
+                if (window.confirm("آیا از حذف این زیر دسته بندی اطمینان دارید ؟")) {
+
+                    $.ajax(
+                        {
+                            url: '@Url.Action("DeleteSubCategory","Category")',
+                            async: true,
+                            data: { Id: $(item).attr('value') },
+                            type: 'Get',
+                            success: function (result) {
+                                console.log(result);
+                                if (result.resualt) {
+                                    alert("زیر  دسته بندی حذف " + result.name + " با موفقیت انجام شد  ");
+                                }
+                                else {
+                                    alert("زیر دسته بندی حذف " + result.name + " با شکست مواجه شد  ");
+                                }
+                                console.log("ajax");
+                            },
+                            error: function () {
+                                alert("delete fail");
+                            }
+
+                        }
+                    );
+                    console.log(item.value);
+                    console.log($(item).attr('value'));
+                }
+
+
+
+
+
+            })
+
+
+        });
+    </script>
+    }

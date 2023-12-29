@@ -13,6 +13,7 @@
                     {
                         <form enctype="multipart/form-data" method="post">
                             <div class="alert alert-danger" asp-validation-summary="ModelOnly"></div>
+                            <input class="hidden" hidden asp-for="@Model.Id" />
                             <div class="form-group">
                                 <label>نام دسته بندی</label>
                                 <input type="text" placeholder="نام سر دسته بندی  را وارد کنید" asp-for="Name" class="form-control" />
