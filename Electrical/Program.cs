@@ -1,6 +1,11 @@
 using BusinessEntity;
 using BusinessEntity.Models;
+using BusinessLogicLayer.AdjKeyService;
+using BusinessLogicLayer.AdjValueService;
 using BusinessLogicLayer.CategoryService;
+using BusinessLogicLayer.DiscountService;
+using BusinessLogicLayer.GeneralService;
+using BusinessLogicLayer.ProductService;
 using DataAccessLayer;
 using DataAccessLayer.services;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -11,11 +16,16 @@ using Microsoft.Extensions.Configuration;
 using PresentationLayer.MessageSender;
 using PresentationLayer.MessageSender.TotpPhoneVarification;
 using System.Security.Policy;
+using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddJsonOptions(opt =>
+{
+    opt.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+});
 #region AddContext 
 
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -46,9 +56,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     options.LogoutPath = "/Account/Logout";
 });
 #endregion
-#region businessLogic layer service
-builder.Services.AddScoped<CategoryLogic>();
-#endregion
+
 #region main repository service
 builder.Services.AddScoped<MainRepository<Category>>();
 builder.Services.AddScoped<MainRepository<Product>>();
@@ -63,6 +71,16 @@ builder.Services.AddScoped<MainRepository<Weblog>>();
 builder.Services.AddScoped<MainRepository<BlogSection>>();
 builder.Services.AddScoped<MainRepository<KeyToProduct>>();
 builder.Services.AddScoped<MainRepository<KeyToSubCategory>>();
+
+#endregion
+#region businessLogic layer service
+builder.Services.AddScoped<CategoryLogic>();
+builder.Services.AddScoped<SubCategoryLogic>();
+//builder.Services.AddScoped<AdjKeyLogic>();
+//builder.Services.AddScoped<AdjValueLogic>();
+//builder.Services.AddScoped<DiscountLogic>();
+//builder.Services.AddScoped<ProductLogic>();
+//builder.Services.AddScoped<GeneralLogic>();
 
 #endregion
 var app = builder.Build();
