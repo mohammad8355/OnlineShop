@@ -17,7 +17,7 @@ namespace BusinessLogicLayer.CategoryService
         }
         public async Task<bool> AddSubCategory(SubCategory model)
         {
-            if (string.IsNullOrEmpty(model.Name) || string.IsNullOrEmpty(model.Description) || string.IsNullOrEmpty(model.Parent) || model.category_Id != 0)
+            if (string.IsNullOrEmpty(model.Name) || string.IsNullOrEmpty(model.Description) || string.IsNullOrEmpty(model.Parent) || model.category_Id == 0)
             {
                 return false;
             }
@@ -29,7 +29,7 @@ namespace BusinessLogicLayer.CategoryService
         }
         public async Task<bool> UpdateSubCategory(SubCategory model)
         {
-            if (string.IsNullOrEmpty(model.Name) || string.IsNullOrEmpty(model.Description) || string.IsNullOrEmpty(model.Parent) || model.category_Id != 0)
+            if (string.IsNullOrEmpty(model.Name) || string.IsNullOrEmpty(model.Description) || string.IsNullOrEmpty(model.Parent) || model.category_Id == 0)
             {
                 return false;
             }
