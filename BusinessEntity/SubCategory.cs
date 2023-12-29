@@ -21,6 +21,9 @@ namespace BusinessEntity
         [Required]
         [MaxLength(100)]
         public string Parent { get; set; }
+        [Required]
+        [MaxLength(100)]
+        public string IdentifierName { get; set; }
 
         //navigation property
         public Category category { get; set; }
