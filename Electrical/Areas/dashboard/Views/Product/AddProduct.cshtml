@@ -1,84 +1,105 @@
-﻿<section class="content">
+﻿@model AddEditProductViewModel;
+<section class="content">
     <div class="container-fluid">
         <div class="row">
             <!-- left column -->
             <div class="col-12">
                 <!-- general form elements -->
-                <form class="form">
-                    <div class="card card-primary">
-                        <div class="card-header">
-                            <h3 class="card-title">اطلاعات اولیه</h3>
-                        </div>
-                        <!-- /.card-header -->
-                        <!-- form start -->
-                        <div class="card-body">
+
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">اطلاعات اولیه</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <div class="card-body">
+                        <form asp-action="AddProduct" method="post" class="form" enctype="multipart/form-data">
+                            <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+                            <input asp-for="@Model.Product.Id" hidden />
                             <div class="form-group">
                                 <label for="exampleInputEmail1">نام محصول</label>
-                                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="نام محصول را وارد کنید">
+                                <input class="form-control" asp-for="@Model.Product.Name" id="exampleInputEmail1" placeholder="نام محصول را وارد کنید">
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">قیمت</label>
-                                <input type="number" class="form-control" id="exampleInputPassword1" placeholder="ریال)قیمت محصول) ">
+                                <input class="form-control" asp-for="@Model.Product.Price" id="exampleInputPassword1" placeholder="ریال)قیمت محصول) ">
                             </div>
                             <div class="form-group">
                                 <label>Textarea</label>
-                                <textarea class="form-control" rows="3" placeholder=" توضیحات محصول را وارد کنید..."></textarea>
+                                <textarea class="form-control" rows="3" asp-for="@Model.Product.Description" placeholder=" توضیحات محصول را وارد کنید..."></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">وزن</label>
-                                <input type="number" class="form-control" id="exampleInputPassword1" placeholder="وزن محصول">
+                                <input class="form-control" asp-for="@Model.Product.Weight" id="exampleInputPassword1" placeholder="وزن محصول">
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">عرض</label>
-                                <input type="number" class="form-control" id="exampleInputPassword1" placeholder="عرض محصول">
+                                <input class="form-control" asp-for="@Model.Product.Width" id="exampleInputPassword1" placeholder="عرض محصول">
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">طول</label>
-                                <input type="number" class="form-control" id="exampleInputPassword1" placeholder="طول محصول">
+                                <input class="form-control" asp-for="@Model.Product.length" id="exampleInputPassword1" placeholder="طول محصول">
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">ارتفاع</label>
-                                <input type="number" class="form-control" id="exampleInputPassword1" placeholder="ارتفاع محصول">
+                                <input class="form-control" asp-for="@Model.Product.height" id="exampleInputPassword1" placeholder="ارتفاع محصول">
                             </div>
-                            <!-- /.card-body -->
-                        </div>
-                        <!-- /.card -->
-
-                    </div>
-                    <div class="card card-success">
-                        <div class="card-header">
-                            <h3 class="card-title">دسته بندی</h3>
-                        </div>
-                        <div class="card-body row">
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">تعداد</label>
+                                <input class="form-control" asp-for="@Model.Product.QuantityInStock" id="exampleInputPassword1" placeholder="تعداد محصول">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">عکس</label>
+                                <input class="form-control" asp-for="@Model.File" id="exampleInputPassword1" multiple>
+                            </div>
                             <!-- select -->
                             <div class="form-group col-sm-6">
                                 <label>سر دسته بندی</label>
-                                <select class="form-control">
-                                    <option>تجهیزات کامپیوتر</option>
-                                    <option>تجهیزات موبایل</option>
-                                    <option>کیس اسمبل شده</option>
-                                    <option>تجهیزات جانبی</option>
+                                <select asp-items="ViewBag.categories" class="form-select form-control" id="category">
+                                    <option value="0">سر دسته بندی مورد نطر را انتخاب کنید</option>
                                 </select>
                             </div>
                             <div class="form-group col-sm-6">
                                 <label>زیر دسته بندی</label>
-                                <select class="form-control">
-                                    <option>مانیتور</option>
-                                    <option>رم</option>
-                                    <option>مادربرد</option>
-                                    <option>پاور</option>
+                                <select class="form-control" id="subcategory" asp-for="@Model.Product.SubCategory_Id">
                                 </select>
                             </div>
-                        </div>
+                            <!-- /.card-body -->
+                            <button type="submit" class="btn btn-primary">افزودن</button>
+
+                        </form>
+
                         <!-- /.card-body -->
                     </div>
-                    <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">افزودن</button>
-                    </div>
-                </form>
+                    <!-- /.card -->
+
+                </div>
+
                 <!--/.col (right) -->
             </div>
         </div>
         <!-- /.row -->
     </div><!-- /.container-fluid -->
 </section>
+                                @section  InlineScripts{
+    <script>
+        $("#category").change(function (){
+            $.ajax(
+                {
+                    url: '@Url.Action("SubCategoryDropDown","Product")',
+                    type: 'GET',
+                    data: {
+                        category_Id: $("#category").val(),
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        $('#subcategory').empty();
+                        for(const item of data["$values"]){
+                            $('#subcategory').append('<option value="' + item.value + '">' + item.text + '</ option>');
+                        };
+                    }
+                });
+        })
+      
+    </script>
+}

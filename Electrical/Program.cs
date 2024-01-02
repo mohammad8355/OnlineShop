@@ -1,5 +1,4 @@
 using BusinessEntity;
-using BusinessEntity.Models;
 using BusinessLogicLayer.AdjKeyService;
 using BusinessLogicLayer.AdjValueService;
 using BusinessLogicLayer.CategoryService;
@@ -18,6 +17,9 @@ using PresentationLayer.MessageSender.TotpPhoneVarification;
 using System.Security.Policy;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json;
+using PresentationLayer.uploadfile;
+using Utility.ReturnMultipleData;
+using BusinessLogicLayer.ProductPhotoService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -58,9 +60,12 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 #endregion
 
 #region main repository service
+builder.Services.AddScoped<MainRepository<SubCategory>>();
+builder.Services.AddScoped<MainRepository<KeyToProduct>>();
+builder.Services.AddScoped<MainRepository<DiscountToProduct>>();
+builder.Services.AddScoped<MainRepository<KeyToSubCategory>>();
 builder.Services.AddScoped<MainRepository<Category>>();
 builder.Services.AddScoped<MainRepository<Product>>();
-builder.Services.AddScoped<MainRepository<SubCategory>>();
 builder.Services.AddScoped<MainRepository<AdjKey>>();
 builder.Services.AddScoped<MainRepository<AdjValue>>();
 builder.Services.AddScoped<MainRepository<Discount>>();
@@ -69,20 +74,22 @@ builder.Services.AddScoped<MainRepository<OrderDetails>>();
 builder.Services.AddScoped<MainRepository<General>>();
 builder.Services.AddScoped<MainRepository<Weblog>>();
 builder.Services.AddScoped<MainRepository<BlogSection>>();
-builder.Services.AddScoped<MainRepository<KeyToProduct>>();
-builder.Services.AddScoped<MainRepository<KeyToSubCategory>>();
+builder.Services.AddScoped<MainRepository<ProductPhoto>>();
 
 #endregion
 #region businessLogic layer service
 builder.Services.AddScoped<CategoryLogic>();
 builder.Services.AddScoped<SubCategoryLogic>();
-//builder.Services.AddScoped<AdjKeyLogic>();
-//builder.Services.AddScoped<AdjValueLogic>();
-//builder.Services.AddScoped<DiscountLogic>();
-//builder.Services.AddScoped<ProductLogic>();
-//builder.Services.AddScoped<GeneralLogic>();
+builder.Services.AddScoped<AdjKeyLogic>();
+builder.Services.AddScoped<AdjValueLogic>();
+builder.Services.AddScoped<DiscountLogic>();
+builder.Services.AddScoped<ProductLogic>();
+builder.Services.AddScoped<GeneralLogic>();
+builder.Services.AddScoped<ProductPhotoLogic>();
 
 #endregion
+builder.Services.AddScoped<ReturnMultipleData<UploadFile>>();
+builder.Services.AddScoped<UploadFile>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
