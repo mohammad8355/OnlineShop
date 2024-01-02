@@ -1,5 +1,4 @@
 ﻿using BusinessEntity;
-using BusinessEntity.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -42,7 +41,7 @@ namespace DataAccessLayer
             builder.Entity<DiscountToProduct>().HasKey(k => new { k.Discount_Id, k.Product_Id });
             builder.Entity<DiscountToProduct>().HasOne(c => c.discount).WithMany(b => b.discountToProducts).HasForeignKey(v => v.Discount_Id);
             builder.Entity<DiscountToProduct>().HasOne(c => c.product).WithMany(b => b.discountToProducts).HasForeignKey(v => v.Product_Id);
-
+            builder.Entity<Product>().HasMany(p => p.ProductPhotos).WithOne(p => p.product).HasForeignKey(p => p.Product_Id);
 
         }
         DbSet<Product> products { get; set; }
@@ -59,6 +58,6 @@ namespace DataAccessLayer
         DbSet<OrderDetails> orderDetails { get; set; }
         DbSet<Contact> contacts { get; set; }
         DbSet<General> generals { get; set; }
-         
+        DbSet<ProductPhoto> productPhotos { get; set; }
     }
 }
