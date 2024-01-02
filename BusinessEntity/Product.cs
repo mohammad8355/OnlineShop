@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BusinessEntity.Models
+namespace BusinessEntity
 {
     public class Product
     {
@@ -23,9 +23,6 @@ namespace BusinessEntity.Models
         public string Description { get; set; }
         [Required]
         public int QuantityInStock { get; set; }
-        [Required]
-        [MaxLength(300)]
-        public string photo { get; set; }
         [AllowNull]
         public int Weight { get; set; }
         [AllowNull]
@@ -40,6 +37,7 @@ namespace BusinessEntity.Models
         public int SubCategory_Id { get; set; }
         public ICollection<KeyToProduct>  keyToProducts { get; set; }
         public ICollection<DiscountToProduct> discountToProducts { get; set; }
+        public ICollection<ProductPhoto>  ProductPhotos { get; set; }
     }
 
 }
