@@ -1,4 +1,7 @@
-﻿<section class="content">
+﻿@using BusinessEntity;
+@model Product
+
+<section class="content">
     <div class="container-fluid">
         <div class="row">
             <div class="info-box col-sm-6 col-lg-3">
@@ -23,7 +26,7 @@
                 <!-- small card -->
                 <div class="small-box bg-info">
                     <div class="inner">
-                        <h3>150</h3>
+                        <h3>@Model.QuantityInStock</h3>
 
                         <p>تعداد محصول</p>
                     </div>
@@ -78,23 +81,22 @@
                     <div class="col-12 col-sm-6">
                         <h3 class="d-inline-block d-sm-none">LOWA Men’s Renegade GTX Mid Hiking Boots Review</h3>
                         <div class="col-12">
-                            <img src="AdminLTE/dist/img/manitor.jfif" class="product-image" alt="Product Image">
+                            <div class="product-image-thumb active"><img src="~/Image/Product/@Model.subCategory.Parent/@Model.subCategory.IdentifierName/@Model.Name/@Model.ProductPhotos.First().Name" alt="@Model.Name"></div>
                         </div>
                         <div class="col-12 product-image-thumbs">
-                            <div class="product-image-thumb active"><img src="AdminLTE/dist/img/prod-1.jpg" alt="Product Image"></div>
-                            <div class="product-image-thumb"><img src="AdminLTE/dist/img/prod-2.jpg" alt="Product Image"></div>
-                            <div class="product-image-thumb"><img src="AdminLTE/dist/img/prod-3.jpg" alt="Product Image"></div>
-                            <div class="product-image-thumb"><img src="AdminLTE/dist/img/prod-4.jpg" alt="Product Image"></div>
-                            <div class="product-image-thumb"><img src="AdminLTE/dist/img/prod-5.jpg" alt="Product Image"></div>
+                            @foreach(var img in @Model.ProductPhotos)
+                            {
+                                <div class="product-image-thumb active"><img src="~/Image/Product/@Model.subCategory.Parent/@Model.subCategory.IdentifierName/@Model.Name/@img.Name" alt="@Model.Name"></div>
+                            }
                         </div>
                     </div>
                     <div class="col-12 col-sm-6">
-                        <h3 class="my-3">مانیتور جی پلاس مدل GDM-245LN سایز 24 اینچ</h3>
-                        <p><span>تجهیزات کامپیوتری</span> < <span>مانیتور</span></p>
+                        <h3 class="my-3">@Model.Name</h3>
+                        <p><span>@Model.subCategory.Parent</span> > <span>@Model.subCategory.Name</span></p>
                         <hr>
                         <div class="bg-gray py-2 px-3 mt-4">
                             <h2 class="mb-0">
-                                $80.00
+                           @Model.Price
                             </h2>
                         </div>
                         <div class="col-12 col-sm-6 p-3">
@@ -108,12 +110,11 @@
                         <div class="nav nav-tabs" id="product-tab" role="tablist">
                             <a class="nav-item nav-link active" id="product-desc-tab" data-toggle="tab" href="#product-desc" role="tab" aria-controls="product-desc" aria-selected="true">توضیحات</a>
                             <a class="nav-item nav-link" id="product-comments-tab" data-toggle="tab" href="#product-comments" role="tab" aria-controls="product-comments" aria-selected="false">مشخصات فنی</a>
-                            <a class="nav-item nav-link" id="product-rating-tab" data-toggle="tab" href="#product-rating" role="tab" aria-controls="product-rating" aria-selected="false">Rating</a>
                         </div>
                     </nav>
                     <div class="tab-content p-3" id="nav-tabContent">
                         <div class="tab-pane fade show active" id="product-desc" role="tabpanel" aria-labelledby="product-desc-tab">
-                            Vivamus rhoncus nisl sed venenatis luctus. Sed condimentum risus ut tortor feugiat laoreet. Suspendisse potenti. Donec et finibus sem, ut commodo lectus. Cras eget neque dignissim, placerat orci interdum, venenatis odio. Nulla turpis elit, consequat eu eros ac, consectetur fringilla urna. Duis gravida ex pulvinar mauris ornare, eget porttitor enim vulputate. Mauris hendrerit, massa nec aliquam cursus, ex elit euismod lorem, vehicula rhoncus nisl dui sit amet eros. Nulla turpis lorem, dignissim a sapien eget, ultrices venenatis dolor. Curabitur vel turpis at magna elementum hendrerit vel id dui. Curabitur a ex ullamcorper, ornare velit vel, tincidunt ipsum.
+                         @Model.Description
                         </div>
                         <div class="tab-pane fade" id="product-comments" role="tabpanel" aria-labelledby="product-comments-tab">
                             <table class="table">
