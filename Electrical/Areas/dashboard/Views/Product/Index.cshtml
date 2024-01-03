@@ -85,10 +85,6 @@
                     <th>نام </th>
                     <th>قیمت </th>
                     <th>تعداد </th>
-                    <th>وزن </th>
-                    <th>طول</th>
-                    <th>عرض</th>
-                    <th>ارتفاع</th>
                     <th>عکس</th>
                     <th>مشاهده</th>
                   </tr>
@@ -100,12 +96,10 @@
                                         <th>@product.Name</th>
                                         <th>@product.Price </th>
                                         <th>@product.QuantityInStock </th>
-                                        <th>@product.Weight </th>
-                                        <th>@product.length</th>
-                                        <th>@product.Width</th>
-                                        <th>@product.height</th>
-                                        <th><img src="~/Image/Product/@(product.subCategory.Parent)/@(product.subCategory.IdentifierName)/(@product.Name)/@(product.ProductPhotos.First().Name)" /></th>
-                                        <th>مشاهده</th>
+                                        <th>
+                                            <img title="@product.Name" width="200px" src="~/Image/Product/@product.subCategory.Parent/@product.subCategory.IdentifierName/@product.Name/@product.ProductPhotos.First().Name" />
+                                            </th> 
+                                        <th><a asp-action="ProductDetails" asp-controller="Product" asp-area="dashboard" asp-route-Id="@product.Id">مشاهده</a></th>
                                     </tr>
                                 }
                             </tbody>
@@ -114,10 +108,6 @@
                                     <th>نام </th>
                                     <th>قیمت </th>
                                     <th>تعداد </th>
-                                    <th>وزن </th>
-                                    <th>طول</th>
-                                    <th>عرض</th>
-                                    <th>ارتفاع</th>
                                     <th>عکس</th>
                                     <th>مشاهده</th>
                   </tr>
