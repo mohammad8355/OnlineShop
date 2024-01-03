@@ -104,9 +104,11 @@ namespace PresentationLayer.Areas.dashboard.Controllers
             return Json(new SelectList(subcategories, "Id", "Name"));
 
         }
-        public IActionResult ProductDetails()
+        [HttpGet]
+        public async Task<IActionResult> ProductDetails(int Id)
         {
-            return View();
+            var model = await productLogic.ProductDetail(Id);
+            return View(model);
         }
         public IActionResult AddOptions()
         {
