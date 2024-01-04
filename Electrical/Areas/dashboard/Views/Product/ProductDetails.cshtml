@@ -100,8 +100,8 @@
                             </h2>
                         </div>
                         <div class="col-12 col-sm-6 p-3">
-                            <a href="#" class="btn btn-primary">ویرایش</a>
-                            <a href="#" class="btn btn-danger">حدف</a>
+                            <a asp-action="ProductEdit" asp-controller="Product" asp-area="dashboard" asp-route-Id="@Model.Id" asp class="btn btn-primary">ویرایش</a>
+                            <button type="button" class="btn btn-danger"><i value="@Model.Id" class="fa-solid fa-trash-can"></i></button>
                         </div>
                     </div>
                 </div>
@@ -361,6 +361,46 @@
             // initiate drawing the chart
             chart.draw();
         });
+
+        var btnDelete = document.querySelector(".fa-trash-can");
+        var confrimDelete = false;
+
+        btnDelete.addEventListener("click", function () {
+                if (window.confirm("آیا از حذف این محصول اطمینان دارید ؟")) {
+
+                    $.ajax(
+                        {
+                            url: '@Url.Action("DeleteProduct","Product")',
+                            async: true,
+                            data: { Id: $(btnDelete).attr('value') },
+                            type: 'Get',
+                            success: function (result) {
+                                console.log(result);
+                                if (result.resualt) {
+                                    alert("  محصول  حذف " + result.name + " با موفقیت انجام شد  ");
+                                    location.replace('@Url.Action("Index","Product")');
+                                }
+                                else {
+                                    alert("  محصول حذف " + result.name + " با شکست مواجه شد  ");
+                                }
+                                console.log("ajax");
+                            },
+                            error: function () {
+                                alert("delete fail");
+                            }
+
+                        }
+                    );
+                    console.log(item.value);
+                    console.log($(item).attr('value'));
+                }
+
+
+
+
+
+            })
+
 
     </script>
     }
