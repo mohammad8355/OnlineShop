@@ -18,7 +18,7 @@ namespace PresentationLayer.uploadfile
             hostingEnvironment = HostingEnvironment;
             returnMultipleData = ReturnMultipleData;
         }
-        public async Task<List<object>> UploadImage(string name,string destination,int? limitSize,string? format,IFormFile file)
+        public async Task<List<object>> fileManager(string name,string destination,int? limitSize,string? format,IFormFile file)
         {
             if(file != null)
             {
@@ -37,8 +37,11 @@ namespace PresentationLayer.uploadfile
                     var newFileName = name + extention;
                     Directory.CreateDirectory(uploads);
                     var filepath = Path.Combine(uploads, newFileName);
-                    
-                    file.CopyTo(new FileStream(filepath, FileMode.Create));
+                    var newfileStream = new FileStream(filepath, FileMode.Create);
+                    file.CopyTo(newfileStream);
+                    newfileStream.Close();
+
+
                     return await returnMultipleData.Return(true,extention);
                 }
             }
@@ -46,6 +49,32 @@ namespace PresentationLayer.uploadfile
             {
                 return await returnMultipleData.Return(false, $"لطفا فایل را آپلود کنید"); ;
             }
+        }
+        public async Task<List<object>> DeleteFile(string path)
+        {
+            var completePath = Path.Combine(hostingEnvironment.WebRootPath, path);
+            FileInfo file = new FileInfo(completePath);
+            if (file.Exists)
+            {
+                file.Delete();
+                return await returnMultipleData.Return(true, "");
+            }
+            else
+            {
+                return await returnMultipleData.Return(false, "چنین فایلی وجود ندارد");
+            }
+        }
+        public bool FormatChecker(IFormFile file,List<string> formats)
+        {
+           var fileFormat =  Path.GetExtension(file.FileName);
+            foreach (var format in formats)
+            {
+                if(format == fileFormat)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }
