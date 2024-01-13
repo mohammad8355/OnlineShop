@@ -42,7 +42,7 @@ namespace BusinessLogicLayer.AdjValueService
             {
                 var adjKey = AdjKeyRepository.Get(k => k.Id == model.adjkey_Id).Result.FirstOrDefault();
                 model.adjKey = adjKey;
-                 await AdjValueRepository.EditItem(model);
+                 AdjValueRepository.EditItem(model);
 
                 return true;
             }

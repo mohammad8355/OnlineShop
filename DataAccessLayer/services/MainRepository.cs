@@ -25,10 +25,10 @@ namespace DataAccessLayer.services
            await context.AddAsync(entity);
             context.SaveChanges();
         }
-        public async Task EditItem(TEntity entity)
+        public void EditItem(TEntity entity)
         {
             context.Update(entity);
-         await context.SaveChangesAsync();
+            context.SaveChanges();
         }
         private async Task DeleteItem(TEntity entity)
         {

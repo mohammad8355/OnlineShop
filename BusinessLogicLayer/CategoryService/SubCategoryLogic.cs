@@ -27,7 +27,7 @@ namespace BusinessLogicLayer.CategoryService
                 return true;
             }
         }
-        public async Task<bool> UpdateSubCategory(SubCategory model)
+        public  bool UpdateSubCategory(SubCategory model)
         {
             if (string.IsNullOrEmpty(model.Name) || string.IsNullOrEmpty(model.Description) || string.IsNullOrEmpty(model.Parent) || model.category_Id == 0)
             {
@@ -35,7 +35,7 @@ namespace BusinessLogicLayer.CategoryService
             }
             else
             {
-                await SubCategoryRepository.EditItem(model);
+                 SubCategoryRepository.EditItem(model);
                 return true;
             }
         }

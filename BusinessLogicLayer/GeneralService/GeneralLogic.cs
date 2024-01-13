@@ -36,7 +36,7 @@ namespace BusinessLogicLayer.GeneralService
             }
             else
             {
-                await GeneralRepository.AddItem(model);
+                 GeneralRepository.EditItem(model);
                 return true;
             }
         }

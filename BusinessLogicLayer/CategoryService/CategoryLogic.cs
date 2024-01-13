@@ -1,5 +1,4 @@
 ﻿using BusinessEntity;
- 
 using DataAccessLayer.services;
 using System;
 using System.Collections.Generic;
@@ -13,85 +12,77 @@ namespace BusinessLogicLayer.CategoryService
     {
         private readonly MainRepository<Category> CategoryRepository;
         private readonly MainRepository<SubCategory> SubCategoryRepository;
-        public CategoryLogic(MainRepository<Category> CategoryRepository,MainRepository<SubCategory> SubCategoryRepository)
+        public CategoryLogic(MainRepository<SubCategory> SubCategoryRepository, MainRepository<Category> categoryRepository)
         {
-            this.CategoryRepository = CategoryRepository;
             this.SubCategoryRepository = SubCategoryRepository;
+            CategoryRepository = categoryRepository;
+
         }
         public async Task<bool> AddCategory(Category model)
         {
-            if(string.IsNullOrEmpty(model.Name) || string.IsNullOrEmpty(model.IdentifierName) || string.IsNullOrEmpty(model.Description))
+            if (string.IsNullOrEmpty(model.Name) || string.IsNullOrEmpty(model.IdentifierName) || string.IsNullOrEmpty(model.Description) || model.headCategory_Id == 0)
             {
                 return false;
             }
             else
             {
-             await CategoryRepository.AddItem(model);
+                await CategoryRepository.AddItem(model);
                 return true;
             }
         }
-        public async Task<bool> UpdateCategory(Category model)
+        public bool UpdateCategory(Category model)
         {
-            if (string.IsNullOrEmpty(model.Name) || string.IsNullOrEmpty(model.IdentifierName) || string.IsNullOrEmpty(model.Description))
+            if (string.IsNullOrEmpty(model.Name) || string.IsNullOrEmpty(model.IdentifierName) || string.IsNullOrEmpty(model.Description) || model.headCategory_Id == 0)
             {
                 return false;
             }
             else
             {
-                await CategoryRepository.EditItem(model);
+                CategoryRepository.EditItem(model);
                 return true;
             }
         }
         public async Task<bool> DeleteCategory(int Id)
         {
-            if (SubCategoryRepository.Get(c => c.category_Id == Id).Result.Count() > 0)
+            if (SubCategoryRepository.Get(sc => sc.category_Id == Id).Result.Any())
             {
-                foreach(var item in SubCategoryRepository.Get(c => c.category_Id == Id).Result.ToList())
+                foreach (var subcategory in SubCategoryRepository.Get(sc => sc.Id == Id).Result.ToList())
                 {
-                   await SubCategoryRepository.DeleteItem(item.Id);
-                }
-              if(await CategoryRepository.DeleteItem(Id))
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
+                    if (!await SubCategoryRepository.DeleteItem(subcategory.Id))
+                        return false;
                 }
             }
-            else
+            if (await CategoryRepository.DeleteItem(Id))
             {
-              if(await CategoryRepository.DeleteItem(Id))
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+                return true;
             }
+            return false;
         }
         public ICollection<Category> CategoryList()
         {
             ICollection<Category> categories = new List<Category>();
             foreach (var item in CategoryRepository.Get().Result.ToList())
             {
-               if(SubCategoryRepository.Get(s => s.category_Id == item.Id).Result.Any())
+                if (SubCategoryRepository.Get(s => s.category_Id == item.Id).Result.Any())
                 {
                     var subcategoryList = new List<SubCategory>();
-                    foreach(var subItem in SubCategoryRepository.Get(s => s.category_Id == item.Id).Result.ToList())
+                    foreach (var subItem in SubCategoryRepository.Get(s => s.category_Id == item.Id).Result.ToList())
                     {
                         subcategoryList.Add(subItem);
                     }
-                    item.subCategories = subcategoryList;
+                    item.SubCategories = subcategoryList;
                 }
-               categories.Add(item);
+                categories.Add(item);
             }
             return categories;
         }
         public Category CategoryDetail(int Id)
         {
-            return CategoryRepository.Get(c => c.Id == Id).Result.FirstOrDefault();
+            var Category = CategoryRepository.Get(c => c.Id == Id).Result.FirstOrDefault();
+            Category.SubCategories = SubCategoryRepository.Get(sc => sc.category_Id == Category.Id).Result.ToList();
+            return Category;
         }
     }
 }
+
+

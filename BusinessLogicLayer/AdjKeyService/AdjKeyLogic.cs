@@ -25,45 +25,25 @@ namespace BusinessLogicLayer.AdjKeyService
         }
         public async Task<bool> AddAdjKey(AdjKey model)
         {
-            if (model == null || string.IsNullOrEmpty(model.Name) || string.IsNullOrEmpty(model.DataType) || model.keyToSubCategories != null || model.KeyToProducts != null)
+            if (model == null || string.IsNullOrEmpty(model.Name) || string.IsNullOrEmpty(model.DataType))
             {
                 return false;
             }
             else
             {
                  await AdjKeyRepository.AddItem(model);
-                foreach (var item in model.keyToSubCategories)
-                {
-                  await  KeyToSubCategoryRepository.AddItem(item);
-
-                }
-                foreach (var item in model.KeyToProducts)
-                {
-                  await  KeyToProductRepository.AddItem(item);
-
-                }
                 return true;
             }
         }
         public async Task<bool> EditAdjKey(AdjKey model)
         {
-            if (model == null || string.IsNullOrEmpty(model.Name) || string.IsNullOrEmpty(model.DataType) || model.keyToSubCategories != null || model.KeyToProducts != null)
+            if (model == null || string.IsNullOrEmpty(model.Name) || string.IsNullOrEmpty(model.DataType))
             {
                 return false;
             }
             else
             {
-                await AdjKeyRepository.EditItem(model);
-                foreach (var item in model.keyToSubCategories)
-                {
-                    await KeyToSubCategoryRepository.EditItem(item);
-
-                }
-                foreach (var item in model.KeyToProducts)
-                {
-                    await KeyToProductRepository.EditItem(item);
-
-                }
+                 AdjKeyRepository.EditItem(model);
                 return true;
             }
         }

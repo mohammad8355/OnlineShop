@@ -37,7 +37,7 @@ namespace BusinessLogicLayer.ProductPhotoService
             }
             else
             {
-                await ProductPhotoRepository.EditItem(model);
+                 ProductPhotoRepository.EditItem(model);
                 return true;
             }
         }

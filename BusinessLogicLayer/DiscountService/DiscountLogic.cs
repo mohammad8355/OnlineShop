@@ -23,10 +23,6 @@ namespace BusinessLogicLayer.DiscountService
             if (string.IsNullOrEmpty(model.Name) || string.IsNullOrEmpty(model.DateBase) || model.Value != 0 || string.IsNullOrEmpty(model.DiscountCode))
             {
                 await DiscountRepository.AddItem(model);
-                foreach (var item in model.discountToProducts)
-                {
-                    await DiscountToProductRepository.AddItem(item);
-                }
                 return true;
             }
             else
@@ -39,11 +35,7 @@ namespace BusinessLogicLayer.DiscountService
 
             if (string.IsNullOrEmpty(model.Name) || string.IsNullOrEmpty(model.DateBase) || model.Value != 0)
             {
-                await DiscountRepository.EditItem(model);
-                foreach (var item in model.discountToProducts)
-                {
-                    await DiscountToProductRepository.EditItem(item);
-                }
+                 DiscountRepository.EditItem(model);
                 return true;
             }
             else

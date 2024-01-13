@@ -47,7 +47,7 @@ namespace BusinessLogicLayer.ProductService
             }
             else
             {
-                await ProductRepository.EditItem(model);
+                 ProductRepository.EditItem(model);
                 return true;
             }
         }
