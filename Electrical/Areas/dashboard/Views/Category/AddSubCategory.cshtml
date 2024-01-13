@@ -1,4 +1,4 @@
-﻿@using PresentationLayer.Models.ViewModels;
+﻿@using BusinessEntity;
 @model AddEditSubCategoryViewModel
 
 <section class="content">
@@ -9,34 +9,77 @@
                     <h3>افزودن زیر دسته بندی</h3>
                 </div>
                 <div class="card-body">
-                        <form method="post">
+                    @if(Model == null)
+                    {
+                        <form method="post" asp-action="AddSubCategory" asp-controller="Category" asp-area="dashboard">
                             <div class="alert alert-danger" asp-validation-summary="ModelOnly"></div>
                             <div class="form-group">
-                            <input class="hidden" hidden asp-for="@Model.subCategory.Id"/>
                                 <label>  دسته بندی</label>
-                            <select asp-for="@Model.subCategory.category_Id" asp-items="ViewBag.categories" class="form-select form-control">
-                                <optgroup label=" دسته بندی">
-                              <option value="0" >سر دسته بندی را انتخاب کنید</option>
+                                <select asp-items="ViewBag.categories" class="form-select form-control" id="category">
+                                    <optgroup label=" دسته بندی">
+                                        <option value="0">سر دسته بندی را انتخاب کنید</option>
+                                    </optgroup>
+                                </select>
+                                <select asp-for="category_Id" class="form-select form-control" id="subcategory">
+                                    <optgroup label=" دسته بندی">
+                                        <option value="0"> دسته بندی را انتخاب کنید</option>
 
-                                </optgroup>
-                            </select>
+                                    </optgroup>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label>نام زیر دسته بندی</label>
-                                <input type="text" placeholder="نام زیر دسته بندی  را وارد کنید" asp-for="@Model.subCategory.Name" class="form-control" />
+                                <input type="text" placeholder="نام زیر دسته بندی  را وارد کنید" asp-for="Name" class="form-control" />
                             </div>
                             <div class="form-group">
                                 <label>آیدی زیر دسته بندی</label>
-                                <input type="text" placeholder="آیدی زیر دسته بندی را وارد کنید" asp-for="@Model.subCategory.IdentifierName" class=" form-control" />
+                                <input type="text" placeholder="آیدی زیر دسته بندی را وارد کنید" asp-for="IdentifierName" class=" form-control" />
                             </div>
                             <div class="form-group">
                                 <label>توضیح  زیر دسته بندی</label>
-                                <textarea type="text" class="form-control" asp-for="@Model.subCategory.Description">
+                                <textarea type="text" class="form-control" asp-for="Description">
 
-                                </textarea>
+                                    </textarea>
                             </div>
                             <button class="btn btn-success" type="submit">ثبت</button>
                         </form>
+                    }
+                    else
+                    {
+                        <form method="post" asp-action="EditSubCategory" asp-controller="Category" asp-area="dashboard">
+                            <div class="alert alert-danger" asp-validation-summary="ModelOnly"></div>
+                            <div class="form-group">
+                                <input class="hidden" hidden asp-for="Id" />
+                                <label>  دسته بندی</label>
+                                <select asp-items="ViewBag.categories" class="form-select form-control" id="category">
+                                    <optgroup label=" دسته بندی">
+                                        <option value="0">سر دسته بندی را انتخاب کنید</option>
+                                    </optgroup>
+                                </select>
+                                <select asp-for="category_Id" class="form-select form-control" id="subcategory">
+                                    <optgroup label=" دسته بندی">
+                                        <option value="0"> دسته بندی را انتخاب کنید</option>
+
+                                    </optgroup>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>نام زیر دسته بندی</label>
+                                <input type="text" placeholder="نام زیر دسته بندی  را وارد کنید" asp-for="Name" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label>آیدی زیر دسته بندی</label>
+                                <input type="text" placeholder="آیدی زیر دسته بندی را وارد کنید" asp-for="IdentifierName" class=" form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label>توضیح  زیر دسته بندی</label>
+                                <textarea type="text" class="form-control" asp-for="Description">
+
+                                    </textarea>
+                            </div>
+                            <button class="btn btn-success" type="submit">ثبت</button>
+                        </form>
+                    }
 
 
                 </div>
@@ -48,3 +91,25 @@
     <link rel="stylesheet" href="~/AdminLTE/plugins/select2/css/select2.css" />
     <link rel="stylesheet" href="~/AdminLTE/plugins/select2-bootstrap4-theme/select2-bootstrap4.css" />
 }*@
+@section  InlineScripts{
+    <script>
+        $("#category").click(function () {
+            $.ajax(
+                {
+                    url: '@Url.Action("SubCategoryDropDown","Category")',
+                    type: 'GET',
+                    data: {
+                        headCategory_Id: $("#category").val(),
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        $('#subcategory').empty();
+                        for (const item of data["$values"]) {
+                            $('#subcategory').append('<option value="' + item.value + '">' + item.text + '</ option>');
+                        };
+                    }
+                });
+        })
+
+    </script>
+}

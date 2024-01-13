@@ -1,14 +1,14 @@
 ﻿@using BusinessEntity;
 
-@model List<SubCategory>
+@model List<Category>
 <div class="zc-body">
     <div class="row m-0">
         <div class="container">
             <table id="example1" class="table table-bordered table-striped">
                 <thead>
                     <tr>
-                        <td>نام زیر دسته بندی</td>
-                        <th>آیدی زیر دسته بندی</th>
+                        <td>نام  دسته بندی</td>
+                        <th>آیدی  دسته بندی</th>
                         <td>توضیحات</td>
                         <th>پدر</th>
                         <th>حذف / ویرایش</th>
@@ -33,7 +33,7 @@
                             </td>
                             <td>
                                 <div class="btn-group">
-                                    <a type="button" class="btn btn-info" asp-action="EditSubCategory" asp-route-Id="@item.Id" asp-controller="category"><i class="fa-solid fa-pen"></i></a>
+                                    <a type="button" class="btn btn-info" asp-action="EditCategory" asp-route-Id="@item.Id" asp-controller="category"><i class="fa-solid fa-pen"></i></a>
                                     <button type="button" class="btn btn-danger"><i value="@item.Id" class="fa-solid fa-trash-can"></i></button>
                                 </div>
                             </td>
@@ -42,8 +42,8 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td>نام زیر دسته بندی</td>
-                        <th>آیدی زیر دسته بندی</th>
+                        <td>نام  دسته بندی</td>
+                        <th>آیدی  دسته بندی</th>
                         <td>توضیحات</td>
                         <th>پدر</th>
                         <th>حذف / ویرایش</th>
@@ -78,21 +78,21 @@
         btnDelete.forEach((item) => {
 
             item.addEventListener("click", function () {
-                if (window.confirm("آیا از حذف این زیر دسته بندی اطمینان دارید ؟")) {
+                if (window.confirm("آیا از حذف این  دسته بندی اطمینان دارید ؟")) {
 
                     $.ajax(
                         {
-                            url: '@Url.Action("DeleteSubCategory","Category")',
+                            url: '@Url.Action("DeleteCategory","Category")',
                             async: true,
                             data: { Id: $(item).attr('value') },
                             type: 'Get',
                             success: function (result) {
                                 console.log(result);
                                 if (result.resualt) {
-                                    alert("  دسته بندی حذف زیر" + result.name + " با موفقیت انجام شد  ");
+                                    alert("  دسته بندی حذف " + result.name + " با موفقیت انجام شد  ");
                                 }
                                 else {
-                                    alert(" دسته بندی حذف زیر" + result.name + " با شکست مواجه شد  ");
+                                    alert(" دسته بندی حذف " + result.name + " با شکست مواجه شد  ");
                                 }
                                 console.log("ajax");
                             },

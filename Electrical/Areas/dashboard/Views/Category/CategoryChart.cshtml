@@ -1,6 +1,6 @@
 ﻿@using BusinessEntity;
 
-@model List<Category>
+@model List<HeadCategory>
 <div class="zc-body">
     <div class="row m-0">
         <!-- CHART CONTAINER -->
@@ -87,27 +87,39 @@
                     success: function (result) {
                         var chartData = [
                         {
-                            id:"category",
-                            name:"دسته بندی",
+                                id: "Headcategory",
+                            name:"سر دسته بندی",
                             parent:'',
                         }
                         ];
-                       
-                       for(const value of result["$values"]){
+
+                        for (const value of result["$values"]) {
                             var element = {};
                             element.id = value.identifierName;
                             element.name = value.name;
-                            element.parent = 'category';
+                            element.parent = 'Headcategory';
                             chartData.push(element);
-                            console.log(value.subCategories);
-                                for (const subCategories of value.subCategories["$values"]){
-                                   var element = {};
-                                   element.id = subCategories.identifierName;
-                                   element.name = subCategories.name;
-                                   element.parent = subCategories.parent;
-                                   chartData.push(element);
+                            if (value.categories != null) {
+                                for (const item of value.categories["$values"]) {
+                                    var element = {};
+                                    element.id = item.identifierName;
+                                    element.name = item.name;
+                                    element.parent = item.parent;
+                                    chartData.push(element);
+                                    console.log(item);
+                                    if (item.subCategories != null) {
+                                        for (const Subcategories of item.subCategories["$values"]) {
+                                            var element = {};
+                                            element.id = Subcategories.identifierName;
+                                            element.name = Subcategories.name;
+                                            element.parent = Subcategories.parent;
+                                            chartData.push(element);
+                                        }
+                                    }
                                 }
-                       }
+
+                            }
+                        }
                        console.log(chartData);
 
 

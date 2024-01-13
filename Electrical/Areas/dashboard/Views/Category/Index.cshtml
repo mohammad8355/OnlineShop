@@ -1,6 +1,6 @@
 ﻿@using BusinessEntity;
 
-@model List<Category>
+@model List<HeadCategory>
 <div class="zc-body">
     <div class="row m-0">
         <div class="container">
@@ -9,79 +9,158 @@
                     <h3 class="card-title">دسته بندی ها</h3>
                 </div>
                 <div class="card-body">
-                 </div>
-                             <table id="example1" class="table table-bordered table-striped">
-                <thead>
-                    <tr>
-                        <td>نام سر دسته بندی</td>
-                        <th>آیدی دسته بندی</th>
-                       <td>توضیحات</td>
-                       <th>زیر دسته بندی ها </th>
-                       <th>حذف / ویرایش</th>
-                    </tr>
+                </div>
+                <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <td>نام سر دسته بندی</td>
+                            <th>آیدی دسته بندی</th>
+                            <td>توضیحات</td>
+                            <th>زیر دسته بندی ها </th>
+                            <th>حذف / ویرایش</th>
+                        </tr>
 
-               </thead>
-               <tbody>
-                   @foreach(var item in Model)
-                   {
-                   <tr>
-                       <td>
-                           @item.Name
-                       </td>
-                       <td>
-                           @item.IdentifierName
-                       </td>
-                       <td>
-                           @item.Description
-                       </td>
-                       <td>
-                                @if(item.subCategories != null)
-                                {
-                                    if (item.subCategories.Count() > 0)
-                                    @foreach(var sub in item.subCategories)
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @item.Name
+                                </td>
+                                <td>
+                                    @item.IdentifierName
+                                </td>
+                                <td>
+                                    @item.Description
+                                </td>
+                                <td>
+                                    @if (item.Categories != null)
                                     {
-                                        <h6 >@sub.Name</h6><br />
+                                        @if (item.Categories.Count() > 0)
+                                        {
+                                            <ul>
+                                                @foreach (var category in item.Categories)
+                                                {
+                                                    <li>
+                                                        @category.Name
+                                                        <ul>
+                                                            @if (category.SubCategories != null)
+                                                                @foreach (var sub in category.SubCategories)
+                                                                {
+                                                                    <li>@sub.Name</li>
+                                                                }
+                                                        </ul>
+                                                    </li>
+                                                }
+                                            </ul>
+                                        }
                                     }
-                                }
-                                else
-                                {
-                                    <h6>ندارد</h6>
-                                }
-                            </td>
-                            <td>
-                                <div class="btn-group">
-                                    <a type="button" class="btn btn-info" asp-action="EditCategory" asp-route-Id="@item.Id" asp-controller="category" ><i class="fa-solid fa-pen"></i></a>
-                                    <button type="button" class="btn btn-danger"  ><i value="@item.Id" class="fa-solid fa-trash-can"></i></button>
-                                </div>
-                            </td>
-                   </tr>
-                   }
-               </tbody>
-                <tfoot>
-                    <tr>
-                        <td>نام سر دسته بندی</td>
-                        <th>آیدی دسته بندی</th>
-                        <td>توضیحات</td>
-                        <th>زیر دسته بندی ها </th>
-                        <th>حذف / ویرایش</th>
-                    </tr>
+                                    else
+                                    {
+                                        <h6>ندارد</h6>
+                                    }
+                                </td>
+                                <td>
+                                    <div class="btn-group">
+                                        <a type="button" class="btn btn-info" asp-action="EditHeadCategory" asp-route-Id="@item.Id" asp-controller="category"><i class="fa-solid fa-pen"></i></a>
+                                        <button type="button" class="btn btn-danger"><i value="@item.Id" class="fa-solid fa-trash-can"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td>نام سر دسته بندی</td>
+                            <th>آیدی دسته بندی</th>
+                            <td>توضیحات</td>
+                            <th>زیر دسته بندی ها </th>
+                            <th>حذف / ویرایش</th>
+                        </tr>
 
-                </tfoot>
-            </table>
-           </div>
-
+                    </tfoot>
+                </table>
+            </div>
+            <div class="zc-body">
+                <div class="row m-0">
+                    <!-- CHART CONTAINER -->
+                    <div id="myChart" class="chart--container">
+                        <a href="https://www.zingchart.com/" rel="noopener" class="zc-ref">Powered by ZingChart</a>
+                        <label for="tree-aspect">Layout</label>
+                        <select id="tree-aspect">
+                            <option value="tree-right" selected>Right to left</option>
+                            <option value="tree-left">Left to right</option>
+                            <option value="tree-up">Bottom up</option>
+                            <option value="tree-down">Top Down</option>
+                            <option value="tree-radial">Circle</option>
+                        </select>
+                        <label for="tree-node">Node Connector Type</label>
+                        <select id="tree-node">
+                            <option value="arc" selected>Arc</option>
+                            <option value="line">Line</option>
+                            <option value="side-before">Side Before</option>
+                            <option value="side-after">Side After</option>
+                            <option value="side-between">Side Between</option>
+                            <option value="split">Split</option>
+                            <option value="sibling">Sibling</option>
+                        </select>
+                        <label for="tree-node">Node Shape</label>
+                        <select id="tree-node-shape">
+                            <option value="circle" selected>Circle</option>
+                            <option value="square">Square</option>
+                            <option value="diamond">Diamond</option>
+                            <option value="triangle">Triangle</option>
+                            <option value="star5">Star</option>
+                            <option value="star6">Star Type 2</option>
+                            <option value="star7">Star Type 3</option>
+                            <option value="star8">Star Type 4</option>
+                            <option value="rpoly5">Polygon</option>
+                            <option value="gear5">Gear</option>
+                            <option value="gear6">Gear 2</option>
+                            <option value="gear7">Gear 3</option>
+                            <option value="gear8">Gear 4</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-   
+
 </div>
 @section CssRefrence {
-        <!-- DataTables -->
-        <link rel="stylesheet" href="AdminLTE/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-        <link rel="stylesheet" href="AdminLTE/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-        <link rel="stylesheet" href="AdminLTE/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="AdminLTE/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="AdminLTE/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="AdminLTE/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+    <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
+    <style>
+        .zc-html,
+        .zc-body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .chart--container {
+            height: 100%;
+            width: 100%;
+            min-height: 530px;
+        }
+
+        .zc-ref {
+            display: none;
+        }
+
+        select {
+            margin: 10px;
+        }
+    </style>
     }
-    @section RefrenceScripts{
-   
+@section RefrenceScripts{
+    <script src="~/js/zingchart.min.js"></script>
+        <script src="~/js/zingchart-tree.min.js"></script>
     <script src="AdminLTE/plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="AdminLTE/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
     <script src="AdminLTE/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
@@ -94,68 +173,161 @@
     <script src="AdminLTE/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
     <script src="AdminLTE/plugins/datatables-buttons/js/buttons.print.min.js"></script>
     <script src="AdminLTE/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+    <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
     }
-    @section InlineScripts
+@section InlineScripts
     {
     <script>
-            $(function () {
-                $("#example1").DataTable({
-                    "responsive": true, "lengthChange": true, "autoWidth": false,
-                    "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-                }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-                $('#example2').DataTable({
-                    "paging": true,
-                    "lengthChange": true,
-                    "searching": false,
-                    "ordering": true,
-                    "info": true,
-                    "autoWidth": false,
-                    "responsive": true,
-                });
+        $(function () {
+            $("#example1").DataTable({
+                "responsive": true, "lengthChange": true, "autoWidth": false,
+                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+            $('#example2').DataTable({
+                "paging": true,
+                "lengthChange": true,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
             });
+        });
         var btnDelete = document.querySelectorAll(".fa-trash-can");
         var confrimDelete = false;
         btnDelete.forEach((item) => {
 
             item.addEventListener("click", function () {
-                if(window.confirm("آیا از حذف این دسته بندی اطمینان دارید ؟"))
-                {
+                if (window.confirm("آیا از حذف این دسته بندی اطمینان دارید ؟")) {
 
-                        $.ajax(
-                            {
-                            url: '@Url.Action("DeleteCategory","Category")',
-                                async: true,
+                    $.ajax(
+                        {
+                            url: '@Url.Action("DeleteHeadCategory","Category")',
+                            async: true,
                             data: { Id: $(item).attr('value') },
-                                type: 'Get',
-                                success: function (result) {
+                            type: 'Get',
+                            success: function (result) {
                                 console.log(result);
-                                    if (result.resualt) {
-                                        alert("  دسته بندی حذف " + result.name + " با موفقیت انجام شد  ");
-                                    }
-                                    else {
-                                        alert(" دسته بندی حذف " + result.name + " با شکست مواجه شد  ");
-                                    }
-                                    console.log("ajax");
-                                },
-                                error: function (){
-                                    alert("delete fail");
+                                if (result.resualt) {
+                                    alert("  دسته بندی حذف " + result.name + " با موفقیت انجام شد  ");
                                 }
-
+                                else {
+                                    alert(" دسته بندی حذف " + result.name + " با شکست مواجه شد  ");
+                                }
+                                console.log("ajax");
+                            },
+                            error: function () {
+                                alert("delete fail");
                             }
-                        );
-                        console.log(item.value);
+
+                        }
+                    );
+                    console.log(item.value);
                     console.log($(item).attr('value'));
                 }
-
-
-
-
-               
             })
 
 
         });
+        window.addEventListener('load', () => {
+            ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9", "b55b025e438fa8a98e32482b5f768ff5"]; // window:load event for Javascript to run after HTML
+            $.ajax(
+                {
+                    type: "GET",
+                    async: false,
+                    cache: false,
+                    url: '@Url.Action("chart","Category")',
+                    success: function (result) {
+                        var chartData = [
+                            {
+                                id: "Headcategory",
+                                name: "سر دسته بندی",
+                                parent: '',
+                            }
+                        ];
+                        console.log(result);
+                        for (const value of result["$values"]) {
+                            var element = {};
+                            element.id = value.identifierName;
+                            element.name = value.name;
+                            element.parent = 'Headcategory';
+                            chartData.push(element);
+                            if (value.categories != null) {
+                                for (const item of value.categories["$values"]) {
+                                    var element = {};
+                                    element.id = item.identifierName;
+                                    element.name = item.name;
+                                    element.parent = item.parent;
+                                    chartData.push(element);
+                                    console.log(item);
+                                    if (item.subCategories != null) {
+                                        for (const Subcategories of item.subCategories["$values"]) {
+                                            var element = {};
+                                            element.id = Subcategories.identifierName;
+                                            element.name = Subcategories.name;
+                                            element.parent = Subcategories.parent;
+                                            chartData.push(element);
+                                        }
+                                    }
+                                }
 
-       
+                            }
+                        }
+                        console.log(chartData);
+                        var chartConfig = {
+                            type: 'tree',
+                            options: {
+                                link: {
+                                    aspect: 'arc'
+                                },
+                                maxSize: 15,
+                                minSize: 5,
+                                node: {
+                                    type: 'circle',
+                                    tooltip: {
+                                        padding: '8px 10px',
+                                        borderRadius: '3px',
+                                    }
+                                }
+                            },
+                            series: chartData
+                        };
+
+                        zingchart.render({
+                            id: 'myChart',
+                            data: chartConfig,
+                            height: '95%',
+                            width: '100%',
+                            output: 'canvas'
+                        });
+
+                        // change tree layout
+                        document.getElementById('tree-aspect').addEventListener('change', function (e) {
+                            chartConfig.options.aspect = e.srcElement.value;
+                            zingchart.exec('myChart', 'setdata', {
+                                data: chartConfig
+                            });
+                        });
+
+                        // change tree connector
+                        document.getElementById('tree-node').addEventListener('change', function (e) {
+                            chartConfig.options.link.aspect = e.srcElement.value;
+                            zingchart.exec('myChart', 'setdata', {
+                                data: chartConfig
+                            });
+                        });
+
+                        // change node type
+                        document.getElementById('tree-node-shape').addEventListener('change', function (e) {
+                            chartConfig.options.node.type = e.srcElement.value;
+                            zingchart.exec('myChart', 'setdata', {
+                                data: chartConfig
+                            });
+                        })
+                    }
+                });
+        });
+
+
     </script>
     }
