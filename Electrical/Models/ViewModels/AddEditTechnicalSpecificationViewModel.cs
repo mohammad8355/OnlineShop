@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PresentationLayer.Models.ViewModels
 {
-    public class AddEditSubCategoryViewModel
+    public class AddEditTechnicalSpecificationViewModel
     {
         [Key]
         public int Id { get; set; }
@@ -11,13 +11,7 @@ namespace PresentationLayer.Models.ViewModels
         [MaxLength(100)]
         public string Name { get; set; }
         [Required]
-        [MaxLength(500)]
-        public string Description { get; set; }
-        [Required]
         [MaxLength(100)]
-        public string IdentifierName { get; set; }
-        [Required]
-        public int category_Id { get; set; }
-
+        public string DataType { get; set; }
     }
 }

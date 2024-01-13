@@ -2,10 +2,9 @@
 
 namespace PresentationLayer.Models.ViewModels
 {
-    public class ProductListViewModel
+    public class ProductDetailViewModel
     {
-        public IEnumerable<Product> products { get; set; }
+        public Product product { get; set; }
         public IEnumerable<Category> categories { get; set; }
-
     }
 }

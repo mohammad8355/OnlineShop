@@ -1,9 +1,8 @@
-﻿using BusinessEntity;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace PresentationLayer.Models.ViewModels
 {
-    public class AddEditSubCategoryViewModel
+    public class AddEditHeadCategoryViewModel
     {
         [Key]
         public int Id { get; set; }
@@ -11,13 +10,10 @@ namespace PresentationLayer.Models.ViewModels
         [MaxLength(100)]
         public string Name { get; set; }
         [Required]
-        [MaxLength(500)]
-        public string Description { get; set; }
-        [Required]
         [MaxLength(100)]
         public string IdentifierName { get; set; }
         [Required]
-        public int category_Id { get; set; }
-
+        [MaxLength(500)]
+        public string Description { get; set; }
     }
 }
