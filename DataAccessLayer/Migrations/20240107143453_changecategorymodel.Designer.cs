@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231226081401_addCodeProdpertToDiscount")]
-    partial class addCodeProdpertToDiscount
+    [Migration("20240107143453_changecategorymodel")]
+    partial class changecategorymodel
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -137,7 +137,20 @@ namespace DataAccessLayer.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<string>("Parent")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("headCategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("headCategory_Id")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("headCategoryId");
 
                     b.ToTable("categories");
                 });
@@ -250,6 +263,34 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("generals");
                 });
 
+            modelBuilder.Entity("BusinessEntity.HeadCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("IdentifierName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("headCategories");
+                });
+
             modelBuilder.Entity("BusinessEntity.KeyToProduct", b =>
                 {
                     b.Property<int>("Key_Id")
@@ -278,60 +319,6 @@ namespace DataAccessLayer.Migrations
                     b.HasIndex("SubCategory_Id");
 
                     b.ToTable("keyToSubCategories");
-                });
-
-            modelBuilder.Entity("BusinessEntity.Models.Product", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("QuantityInStock")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SubCategory_Id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Weight")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Width")
-                        .HasColumnType("int");
-
-                    b.Property<int>("height")
-                        .HasColumnType("int");
-
-                    b.Property<int>("length")
-                        .HasColumnType("int");
-
-                    b.Property<string>("photo")
-                        .IsRequired()
-                        .HasMaxLength(300)
-                        .HasColumnType("nvarchar(300)");
-
-                    b.Property<int>("subCategoryId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("subCategoryId");
-
-                    b.ToTable("products");
                 });
 
             modelBuilder.Entity("BusinessEntity.Order", b =>
@@ -391,6 +378,84 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("orderDetails");
                 });
 
+            modelBuilder.Entity("BusinessEntity.Product", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("QuantityInStock")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SubCategory_Id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Weight")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Width")
+                        .HasColumnType("int");
+
+                    b.Property<int>("height")
+                        .HasColumnType("int");
+
+                    b.Property<int>("length")
+                        .HasColumnType("int");
+
+                    b.Property<int>("subCategoryId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("subCategoryId");
+
+                    b.ToTable("products");
+                });
+
+            modelBuilder.Entity("BusinessEntity.ProductPhoto", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Product_Id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Size")
+                        .HasColumnType("int");
+
+                    b.Property<string>("format")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Product_Id");
+
+                    b.ToTable("productPhotos");
+                });
+
             modelBuilder.Entity("BusinessEntity.SubCategory", b =>
                 {
                     b.Property<int>("Id")
@@ -403,6 +468,11 @@ namespace DataAccessLayer.Migrations
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("IdentifierName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -680,6 +750,17 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("Weblog");
                 });
 
+            modelBuilder.Entity("BusinessEntity.Category", b =>
+                {
+                    b.HasOne("BusinessEntity.HeadCategory", "headCategory")
+                        .WithMany("Categories")
+                        .HasForeignKey("headCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("headCategory");
+                });
+
             modelBuilder.Entity("BusinessEntity.DiscountToProduct", b =>
                 {
                     b.HasOne("BusinessEntity.Discount", "discount")
@@ -688,7 +769,7 @@ namespace DataAccessLayer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BusinessEntity.Models.Product", "product")
+                    b.HasOne("BusinessEntity.Product", "product")
                         .WithMany("discountToProducts")
                         .HasForeignKey("Product_Id")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -707,7 +788,7 @@ namespace DataAccessLayer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BusinessEntity.Models.Product", "product")
+                    b.HasOne("BusinessEntity.Product", "product")
                         .WithMany("keyToProducts")
                         .HasForeignKey("Product_Id")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -737,20 +818,9 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("subCategory");
                 });
 
-            modelBuilder.Entity("BusinessEntity.Models.Product", b =>
-                {
-                    b.HasOne("BusinessEntity.SubCategory", "subCategory")
-                        .WithMany("products")
-                        .HasForeignKey("subCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("subCategory");
-                });
-
             modelBuilder.Entity("BusinessEntity.OrderDetails", b =>
                 {
-                    b.HasOne("BusinessEntity.Models.Product", "Product")
+                    b.HasOne("BusinessEntity.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -767,10 +837,32 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("order");
                 });
 
+            modelBuilder.Entity("BusinessEntity.Product", b =>
+                {
+                    b.HasOne("BusinessEntity.SubCategory", "subCategory")
+                        .WithMany("products")
+                        .HasForeignKey("subCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("subCategory");
+                });
+
+            modelBuilder.Entity("BusinessEntity.ProductPhoto", b =>
+                {
+                    b.HasOne("BusinessEntity.Product", "product")
+                        .WithMany("ProductPhotos")
+                        .HasForeignKey("Product_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("product");
+                });
+
             modelBuilder.Entity("BusinessEntity.SubCategory", b =>
                 {
                     b.HasOne("BusinessEntity.Category", "category")
-                        .WithMany("subCategories")
+                        .WithMany("SubCategories")
                         .HasForeignKey("categoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -840,7 +932,7 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("BusinessEntity.Category", b =>
                 {
-                    b.Navigation("subCategories");
+                    b.Navigation("SubCategories");
                 });
 
             modelBuilder.Entity("BusinessEntity.Discount", b =>
@@ -848,16 +940,23 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("discountToProducts");
                 });
 
-            modelBuilder.Entity("BusinessEntity.Models.Product", b =>
+            modelBuilder.Entity("BusinessEntity.HeadCategory", b =>
                 {
-                    b.Navigation("discountToProducts");
-
-                    b.Navigation("keyToProducts");
+                    b.Navigation("Categories");
                 });
 
             modelBuilder.Entity("BusinessEntity.Order", b =>
                 {
                     b.Navigation("orderDetails");
+                });
+
+            modelBuilder.Entity("BusinessEntity.Product", b =>
+                {
+                    b.Navigation("ProductPhotos");
+
+                    b.Navigation("discountToProducts");
+
+                    b.Navigation("keyToProducts");
                 });
 
             modelBuilder.Entity("BusinessEntity.SubCategory", b =>
