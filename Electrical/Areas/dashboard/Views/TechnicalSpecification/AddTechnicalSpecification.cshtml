@@ -18,15 +18,13 @@
                                 <div asp-validation-summary="All" class="alert alert-danger"></div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">نام مشخصه</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="نام مشخصه را وارد کنید" asp-for="@Model.Name">
+                                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="نام مشخصه را وارد کنید" asp-for="Name">
                                 </div>
                                 <div class="form-group">
-                                    <label>نوع مقدار</label>
-                                    <select class="form-control" asp-for="@Model.DataType">
-                                        <option value="string" name="string">string</option>
-                                        <option value="int" name="int">int</option>
-                                        <option value="bool" name="bool">bool</option>
-                                    </select>
+                                    <label> توضیح مقدار</label>
+                                    <textarea asp-for="Description" class="form-control">
+
+                                    </textarea>
                                 </div>
                                 <!-- /.card-body -->
                             </div>
@@ -54,13 +52,11 @@
                                     <input type="text" class="form-control" id="exampleInputEmail1" placeholder="نام مشخصه را وارد کنید" asp-for="@Model.Name">
                                 </div>
                                 <div class="form-group">
-                                    <label>نوع مقدار</label>
-                                    <select class="form-control" asp-for="@Model.DataType">
-                                        <option value="string" name="string">string</option>
-                                        <option value="int" name="int">int</option>
-                                        <option value="bool" name="bool">bool</option>
-                                    </select>
-                                </div>
+                                    <label> توضیح مقدار</label>
+                                    <textarea asp-for="Description">
+
+                                        </textarea>
+                                </div>>
                                 <!-- /.card-body -->
                             </div>
                             <!-- /.card -->
@@ -86,23 +82,6 @@
 }
 @section InlineScripts{
     <script>
-        $("#category").click(function () {
-            $.ajax(
-                {
-                    url: '@Url.Action("DropDown","TechnicalSpecification")',
-                    type: 'GET',
-                    data: {
-                        category_Id: $("#category").val(),
-                    },
-                    success: function (data) {
-                        console.log(data);
-                        $('#multiple-select-field').empty();
-                        for (const item of data["$values"]) {
-                            $('#multiple-select-field').append('<option value="' + item.value + '">' + item.text + '</ option>');
-                        };
-                    }
-                });
-        });
         $('#multiple-select-field').select2({
             theme: "bootstrap-5",
             width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',

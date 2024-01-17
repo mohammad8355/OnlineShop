@@ -1,0 +1,123 @@
+﻿
+@model AddAdjValuesViewModel
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="card card-warning col-12">
+                <div class="card-header">
+                    <h3 class="card-title col-6">ویرایش و حذف مقادیر مشخصه</h3>
+
+                </div>
+                <div class="card-body">
+                    <form method="Post" asp-action="EditValue" asp-controller="TechnicalSpecification" class="form">
+
+                        @if (ViewBag.success != null)
+                        {
+                            <div class="alert alert-success">
+                                <strong>@ViewBag.success</strong>
+                            </div>
+                        }
+                        <div class="alert alert-danger" asp-validation-summary="ModelOnly"></div>
+
+                        <!-- select -->
+                        <div class="form-group col-sm-4">
+                            <label>مشخصات کلید ها</label>
+                            <select class="form-control" asp-items="ViewBag.AdjKeys" asp-for="@Model.adjkey_Id" id="adjkey">
+                                <option value="0">کلید ها</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <label>مشخصات مقادیر </label>
+                            <select class="form-control" id="adjvalue" asp-for="@Model.Id">
+                                <option value="0">مقدار مورد نظر را انتخاب کنید</option>
+                            </select>
+                        </div>
+                        <div class="col-12">
+
+                            <div class="form-group">
+                                <label>مقدار </label>
+                                <input type="text" class="form-control" placeholder="مفدار  را وارد کنید" asp-for="@Model.Value" id="ValueInput" />
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary" id="submitbtn">ویرایش</button>
+                        <button type="button" class="btn btn-danger" id="btndelete"><i class="fa-solid fa-trash-can"></i></button>
+                        <!-- /.card-body -->
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@section InlineScripts{
+    <script>
+        var adjkeySelect = document.getElementById("adjkey");
+        var ValueInput = document.getElementById("ValueInput");
+        adjkeySelect.addEventListener("change", function () {
+            var value = adjkeySelect.value;
+            $.ajax(
+                {
+                    url: '@Url.Action("DropDown","TechnicalSpecification")',
+                    type: 'GET',
+                    data: { adjkey_Id: value },
+                    success: function (data) {
+                        console.log(data);
+                        $('#adjvalue').empty();
+                        $('#adjvalue').append('<option value="0" >مقدار مورد نظر را انتخاب کنید</ option>');
+                        console.log(data);
+                        for (const item of data["$values"]) {
+                            $('#adjvalue').append('<option value="' + item.value + '">' + item.text + '</ option>');
+                        };
+                    },
+                });
+        })
+        $('#adjvalue').change(function () {
+            var adjvalueValue = $('#adjvalue').val();
+            $("#btndelete").val(adjvalueValue);
+            console.log(adjvalueValue);
+            $.ajax({
+                url: '@Url.Action("EditValue","TechnicalSpecification")',
+                type: 'GET',
+                data: { Id: adjvalueValue },
+                success: function (data) {
+                    console.log(data.model.Value);
+                    ValueInput.value = data.model.value;
+                }
+            })
+        })
+        $("#btndelete").click(function () {
+            if (window.confirm("آیا از حذف این مقدار اطمینان دارید ؟")) {
+                if ($("#btndelete").val() != 0 || $("#btndelete").val() != null) {
+                    $.ajax(
+                        {
+
+                            url: '@Url.Action("DeleteValue","TechnicalSpecification")',
+                            async: true,
+                            data: { Id: $("#btndelete").attr('value'), key_Id: adjkeySelect.value },
+                            type: 'Get',
+                            success: function (result) {
+                                console.log(result);
+                                if (result.result) {
+                                    alert("  مقدار  حذف " + result.name + " با موفقیت انجام شد  ");
+                                    location.reload();
+                                }
+
+                                else {
+                                    alert("  حذف مقدار مورد نطر با شکست مواجه شد");
+                                }
+                            },
+                            error: function () {
+                                alert("حذف با شکست مواجه شد");
+                            }
+
+                        }
+                    );
+                }
+                else {
+                    alert("لطفا مقدار مورد نطر را انتخاب کنید !");
+                }
+
+            }
+        })
+
+    </script>
+    }

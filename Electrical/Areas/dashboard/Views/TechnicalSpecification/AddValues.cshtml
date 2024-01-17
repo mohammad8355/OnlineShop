@@ -25,18 +25,9 @@
                             </select>
                         </div>
                         <div class="col-12">
-
                             <div class="form-group">
-                                <label>مقدار عددی</label>
-                                <input type="number" class="form-control" placeholder="مفدار عددی را وارد کنید" asp-for="@Model.NumericValue" id="numberInput" />
-                            </div>
-                            <div class="form-group">
-                                <label>مقدار متنی</label>
-                                <input type="text" class="form-control" placeholder="مفدار متنی را وارد کنید" asp-for="@Model.StringValue" id="textInput" />
-                            </div>
-                            <div class="form-group">
-                                <label>مقدار دارد /ندارد</label>
-                                <input type="checkbox" class="form-control" placeholder="مفدار دارد / ندارد را وارد کنید" asp-for="@Model.BoolValue" id="boolInput" />
+                                <label>مقدار </label>
+                                <input type="text" class="form-control" placeholder="مفدار  را وارد کنید" asp-for="@Model.Value" id="textInput" />
                             </div>
 
                         </div>
@@ -48,52 +39,4 @@
         </div>
     </div>
 </section>
-@section InlineScripts{
-    <script>
 
-        var numberInput = document.querySelector("#numberInput");
-        var textInput = document.querySelector("#textInput");
-        var boolInput = document.querySelector("#boolInput");
-        var adjkeySelect = document.getElementById("adjkey");
-        console.log(adjkeySelect);
-        adjkeySelect.addEventListener("change", function () {
-            var value = adjkeySelect.value;
-            $.ajax({
-                url: '@Url.Action("GetAdjkeyById","TechnicalSpecification")',
-                type: 'GET',
-                data: { id: value },
-                success: function (result) {
-                    switch (result.datatype) {
-                        case "int":
-                            textInput.disabled = true;
-                            boolInput.disabled = true;
-                            numberInput.disabled = false;
-                            break;
-                        case "string":
-                            numberInput.disabled = true;
-                            boolInput.disabled = true;
-                            textInput.disabled = false;
-                            break;
-                        case "bool":
-                            textInput.disabled = true;
-                            numberInput.disabled = true;
-                            boolInput.disabled = false;
-                            break;
-                        default:
-                            boolInput.disabled = false;
-                            numberInput.disabled = false;
-                            textInput.disabled = false;
-
-                    }
-                },
-                error: function () {
-                    textInput.disabled = false;
-                    boolInput.disabled = false;
-                    numberInput.disabled = false;
-                }
-
-            })
-
-        })
-    </script>
-    }

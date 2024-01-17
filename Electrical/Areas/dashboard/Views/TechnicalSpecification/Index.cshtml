@@ -22,28 +22,17 @@
                 {
                     <tr>
                         <th>@adj.Name</th>
-                        <th>@adj.DataType </th>
+                        <th>@adj.Description </th>
                         <th>
                             @if (adj.adjValues != null)
                             {
+                                <ul>
                                 @foreach (var value in adj.adjValues)
-                                {
-                                    <ul>
-                                    @switch (@adj.DataType)
                                     {
-                                        case "int":
-                                            <li> @value.NumericValue </li>
-                                            break;
-                                        case "string":
-                                            <li>  @value.StringValue </li>
-                                            break;
-                                        case "bool":
-                                            <li> @value.BoolValue </li>
-                                            break;
+                                        <li>@value.Value</li>
                                     }
-                                    
-                                    </ul>
-                                }
+
+                                </ul>
                             }
                             else
                             {
