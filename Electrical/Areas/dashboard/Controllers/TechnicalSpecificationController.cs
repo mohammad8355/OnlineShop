@@ -17,7 +17,7 @@ namespace PresentationLayer.Areas.dashboard.Controllers
         private readonly CategoryLogic categoryLogic;
         private readonly SubCategoryLogic subCategoryLogic;
         private readonly AdjValueLogic adjValueLogic;
-        public TechnicalSpecificationController(AdjValueLogic adjValueLogic,CategoryLogic categoryLogic,AdjKeyLogic adjKeyLogic, HeadCategoryLogic headCategoryLogic, SubCategoryLogic subCategoryLogic)
+        public TechnicalSpecificationController(AdjValueLogic adjValueLogic, CategoryLogic categoryLogic, AdjKeyLogic adjKeyLogic, HeadCategoryLogic headCategoryLogic, SubCategoryLogic subCategoryLogic)
         {
             this.subCategoryLogic = subCategoryLogic;
             this.headCategoryLogic = headCategoryLogic;
@@ -43,7 +43,7 @@ namespace PresentationLayer.Areas.dashboard.Controllers
                 var adjkeyModel = new AdjKey()
                 {
                     Name = model.Name,
-                    DataType = model.DataType,
+                    Description = model.Description,
                 };
                 var resault = await adjKeyLogic.AddAdjKey(adjkeyModel);
                 if (resault)
@@ -57,10 +57,8 @@ namespace PresentationLayer.Areas.dashboard.Controllers
                     return View(model);
                 }
             }
-            var categories = categoryLogic.CategoryList();
-            ViewBag.categories = new SelectList(categories, "Id", "Name");
             return View(model);
-   
+
         }
         [HttpGet]
         public IActionResult EditTechnicalSpecification(int Id)
@@ -70,7 +68,7 @@ namespace PresentationLayer.Areas.dashboard.Controllers
             {
                 Id = adjkeyModel.Id,
                 Name = adjkeyModel.Name,
-                DataType = adjkeyModel.DataType,
+                Description = adjkeyModel.Description,
             };
             return View("AddTechnicalSpecification", model);
         }
@@ -81,7 +79,7 @@ namespace PresentationLayer.Areas.dashboard.Controllers
             {
                 var adjKeyModel = adjKeyLogic.AdjKeyDetail(model.Id);
                 adjKeyModel.Name = model.Name;
-                adjKeyModel.DataType = model.DataType;
+                adjKeyModel.Description = model.Description;
                 var result = await adjKeyLogic.EditAdjKey(adjKeyModel);
                 if (result)
                 {
@@ -92,20 +90,24 @@ namespace PresentationLayer.Areas.dashboard.Controllers
                     return View("AddTechnicalSpecification", model);
                 }
             }
-            return View("AddTechnicalSpecification",model);
+            return View("AddTechnicalSpecification", model);
         }
         public IActionResult AddValuesToOption()
         {
             return View();
         }
-        [HttpGet("TechnicalSpecification/DropDown/Id")]
-        public JsonResult DropDown(int category_Id)
+        [HttpGet("TechnicalSpecification/DropDown/adjkey_Id")]
+        public IActionResult DropDown(int adjkey_Id)
         {
-            #region make list of categories and subcategories for create select list
-            var category = categoryLogic.CategoryDetail(category_Id);
-            var subcategories = subCategoryLogic.SubCategoryList().Where(s => s.Parent == category.IdentifierName).ToList();
-            #endregion
-            return Json(new SelectList(subcategories, "Id", "Name"));
+            if (adjkey_Id != 0)
+            {
+                #region make list of adjkey and adjvalues for create select list
+                var adjkey = adjKeyLogic.AdjKeyDetail(adjkey_Id);
+                var adjvalues = adjValueLogic.AdjValueList().Where(s => s.adjkey_Id == adjkey.Id).ToList();
+                #endregion
+                return Json(new SelectList(adjvalues, "Id", "Value"));
+            }
+            return RedirectToAction("EditValue");
         }
         [HttpGet]
         public async Task<JsonResult> DeleteAdjKey(string Id)
@@ -121,7 +123,7 @@ namespace PresentationLayer.Areas.dashboard.Controllers
         public IActionResult AddValues()
         {
             var Adjkeis = adjKeyLogic.AdjKeyList();
-            ViewBag.AdjKeys = new SelectList(Adjkeis,"Id","Name");
+            ViewBag.AdjKeys = new SelectList(Adjkeis, "Id", "Name");
             return View();
         }
         [HttpPost]
@@ -130,13 +132,13 @@ namespace PresentationLayer.Areas.dashboard.Controllers
             if (ModelState.IsValid)
             {
                 var adjvalue = new AdjValue();
-                adjvalue.StringValue = model.StringValue;
-                adjvalue.NumericValue = model.NumericValue;
-                adjvalue.BoolValue = model.BoolValue;
+                adjvalue.Value = model.Value;
                 adjvalue.adjkey_Id = model.adjkey_Id;
                 var result = await adjValueLogic.AddAdjValue(adjvalue);
                 if (result)
                 {
+                    var Adjkeis = adjKeyLogic.AdjKeyList();
+                    ViewBag.AdjKeys = new SelectList(Adjkeis, "Id", "Name");
                     ViewBag.success = "عملیات افزودن مقدار با موفقیت انجام شد !";
                     return View();
                 }
@@ -146,10 +148,66 @@ namespace PresentationLayer.Areas.dashboard.Controllers
             return View(model);
 
         }
+        [HttpGet]
+        public IActionResult EditValue(int Id)
+        {
+            if (Id != 0)
+            {
+                var adjvalue = adjValueLogic.AdjValueDetail(Id);
+                var model = new AddAdjValuesViewModel()
+                {
+                    Id = adjvalue.Id,
+                    Value = adjvalue.Value,
+                    adjkey_Id = adjvalue.adjkey_Id,
+                };
+                return Json(new { model = model });
+            }
+            var Adjkeis = adjKeyLogic.AdjKeyList();
+            ViewBag.AdjKeys = new SelectList(Adjkeis, "Id", "Name");
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditValue(AddAdjValuesViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var adjvalue = adjValueLogic.AdjValueDetail(model.Id);
+                adjvalue.Value = model.Value;
+                adjvalue.adjkey_Id = model.adjkey_Id;
+                adjvalue.Id = model.Id;
+                var result = await adjValueLogic.EditAdjValue(adjvalue);
+                if (result)
+                {
+                    var Adjkeis = adjKeyLogic.AdjKeyList();
+                    ViewBag.AdjKeys = new SelectList(Adjkeis, "Id", "Name");
+                    ViewBag.success = "عملیات افزودن مقدار با موفقیت انجام شد !";
+                    return View();
+                }
+                ModelState.AddModelError("", "عملیات ویرایش با شکست مواجه شد");
+                return View(model);
+            }
+            return View(model);
+        }
         public IActionResult GetAdjkeyById(int id)
         {
-            var adjkey = adjKeyLogic.AdjKeyDetail(id);
-            return Json(new { datatype = adjkey.DataType });
+            if (id != 0)
+            {
+                var adjkey = adjKeyLogic.AdjKeyDetail(id);
+                return Json(new { Description = adjkey.Description });
+            }
+            return Json(new { Description = "" });
+        }
+        public async Task<IActionResult> DeleteValue(int Id, int key_Id)
+        {
+            var adjkey = adjKeyLogic.AdjKeyDetail(key_Id);
+            var adjvalue = adjValueLogic.AdjValueDetail(Id);
+            var result = await adjValueLogic.DeleteAdjValue(Id);
+            if (result)
+            {
+                return Json(new { name = adjvalue.Value, result = result });
+                    
+            }
+          return Json(new { name = ' ', result = result });
         }
 
     }
