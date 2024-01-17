@@ -17,7 +17,7 @@ namespace BusinessEntity
         public string Name { get; set; }
         [Required]
         [MaxLength(100)]
-        public string DataType { get; set; }
+        public string Description { get; set; }
 
         //navigation property
         public ICollection<AdjValue> adjValues { get; set; }
