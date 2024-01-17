@@ -12,13 +12,9 @@ namespace BusinessEntity
     {
         [Key]
         public int Id { get; set; }
-        [AllowNull]
-        public int NumericValue { get; set; }
-        [AllowNull]
+        [Required]
         [MaxLength(300)]
-        public string StringValue { get; set; }
-        [AllowNull]
-        public bool BoolValue { get; set; }
+        public string Value { get; set; }
 
         //navigation property 
         public AdjKey adjKey { get; set; }
