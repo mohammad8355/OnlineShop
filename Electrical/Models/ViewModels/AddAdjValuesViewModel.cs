@@ -7,10 +7,10 @@ namespace PresentationLayer.Models.ViewModels
     {
         [Key]
         public int Id { get; set; }
-        public int NumericValue { get; set; }
+        [Required]
         [MaxLength(300)]
-        public string? StringValue { get; set; }
-        public bool BoolValue { get; set; }
+        public string Value { get; set; }
+        [Required]
         public int adjkey_Id { get; set; }
     }
 }

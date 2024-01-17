@@ -1091,7 +1091,7 @@
 				 * _fnInitialise will be fired by the returned Ajax handler, rather than the constructor
 				 */
 				$.ajax( {
-					dataType: 'json',
+					Description: 'json',
 					url: oLanguage.sUrl,
 					success: function ( json ) {
 						_fnCamelToHungarian( defaults.oLanguage, json );
@@ -2119,7 +2119,7 @@
 		_fnCompatMap( init, 'orderable',     'bSortable' );
 		_fnCompatMap( init, 'orderData',     'aDataSort' );
 		_fnCompatMap( init, 'orderSequence', 'asSorting' );
-		_fnCompatMap( init, 'orderDataType', 'sortDataType' );
+		_fnCompatMap( init, 'orderDescription', 'sortDescription' );
 	
 		// orderData can be given as an integer
 		var dataSort = init.aDataSort;
@@ -3980,7 +3980,7 @@
 		var baseAjax = {
 			"data": data,
 			"success": callback,
-			"dataType": "json",
+			"Description": "json",
 			"cache": false,
 			"type": oSettings.sServerMethod,
 			"error": function (xhr, error, thrown) {
@@ -6014,7 +6014,7 @@
 	{
 		var
 			i, ien, iLen, j, jLen, k, kLen,
-			sDataType, nTh,
+			sDescription, nTh,
 			aiOrig = [],
 			oExtSort = DataTable.ext.type.order,
 			aoData = oSettings.aoData,
@@ -6350,7 +6350,7 @@
 	{
 		// Custom sorting function - provided by the sort data type
 		var column = settings.aoColumns[ idx ];
-		var customSort = DataTable.ext.order[ column.sSortDataType ];
+		var customSort = DataTable.ext.order[ column.sSortDescription ];
 		var customData;
 	
 		if ( customSort ) {
@@ -10017,7 +10017,7 @@
 		 *  @type string
 		 *  @default std
 		 */
-		"sSortDataType": 'std',
+		"sSortDescription": 'std',
 	
 		/**
 		 * Class to be applied to the header element when sorting on this column
@@ -11155,7 +11155,7 @@
 		 *        "stateLoadCallback": function (settings, callback) {
 		 *          $.ajax( {
 		 *            "url": "/state_load",
-		 *            "dataType": "json",
+		 *            "Description": "json",
 		 *            "success": function (json) {
 		 *              callback( json );
 		 *            }
@@ -11260,7 +11260,7 @@
 		 *          $.ajax( {
 		 *            "url": "/state_save",
 		 *            "data": data,
-		 *            "dataType": "json",
+		 *            "Description": "json",
 		 *            "method": "POST"
 		 *            "success": function () {}
 		 *          } );
@@ -12963,7 +12963,7 @@
 		 *  @type string
 		 *  @default std
 		 *
-		 *  @name DataTable.defaults.column.orderDataType
+		 *  @name DataTable.defaults.column.orderDescription
 		 *  @dtopt Columns
 		 *
 		 *  @example
@@ -12971,10 +12971,10 @@
 		 *    $(document).ready( function() {
 		 *      $('#example').dataTable( {
 		 *        "columnDefs": [
-		 *          { "orderDataType": "dom-text", "targets": [ 2, 3 ] },
+		 *          { "orderDescription": "dom-text", "targets": [ 2, 3 ] },
 		 *          { "type": "numeric", "targets": [ 3 ] },
-		 *          { "orderDataType": "dom-select", "targets": [ 4 ] },
-		 *          { "orderDataType": "dom-checkbox", "targets": [ 5 ] }
+		 *          { "orderDescription": "dom-select", "targets": [ 4 ] },
+		 *          { "orderDescription": "dom-checkbox", "targets": [ 5 ] }
 		 *        ]
 		 *      } );
 		 *    } );
@@ -12986,15 +12986,15 @@
 		 *        "columns": [
 		 *          null,
 		 *          null,
-		 *          { "orderDataType": "dom-text" },
-		 *          { "orderDataType": "dom-text", "type": "numeric" },
-		 *          { "orderDataType": "dom-select" },
-		 *          { "orderDataType": "dom-checkbox" }
+		 *          { "orderDescription": "dom-text" },
+		 *          { "orderDescription": "dom-text", "type": "numeric" },
+		 *          { "orderDescription": "dom-select" },
+		 *          { "orderDescription": "dom-checkbox" }
 		 *        ]
 		 *      } );
 		 *    } );
 		 */
-		"sSortDataType": "std",
+		"sSortDescription": "std",
 	
 	
 		/**
@@ -14318,7 +14318,7 @@
 		 * wish to be ordering for the column in question and then return that
 		 * array. The data in the array much be in the index order of the rows in
 		 * the table (not the currently ordering order!). Which order data gathering
-		 * function is run here depends on the `dt-init columns.orderDataType`
+		 * function is run here depends on the `dt-init columns.orderDescription`
 		 * parameter that is used for the column (if any).
 		 *
 		 * The functions defined take two parameters:

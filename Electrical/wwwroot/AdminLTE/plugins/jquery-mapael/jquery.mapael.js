@@ -399,7 +399,7 @@
             // Mapping between data-type value and the corresponding elements array
             // Note: legend-elem and legend-label are not in this table because
             //       they need a special processing
-            var dataTypeToElementMapping = {
+            var DescriptionToElementMapping = {
                 'area'  : self.areas,
                 'area-text' : self.areas,
                 'plot' : self.plots,
@@ -420,8 +420,8 @@
                     var id = $elem.attr('data-id');
                     var type = $elem.attr('data-type');
 
-                    if (dataTypeToElementMapping[type] !== undefined) {
-                        self.elemEnter(dataTypeToElementMapping[type][id]);
+                    if (DescriptionToElementMapping[type] !== undefined) {
+                        self.elemEnter(DescriptionToElementMapping[type][id]);
                     } else if (type === 'legend-elem' || type === 'legend-label') {
                         var legendIndex = $elem.attr('data-legend-id');
                         var legendType = $elem.attr('data-legend-type');
@@ -442,8 +442,8 @@
                     var id = $elem.attr('data-id');
                     var type = $elem.attr('data-type');
 
-                    if (dataTypeToElementMapping[type] !== undefined) {
-                        self.elemHover(dataTypeToElementMapping[type][id], event);
+                    if (DescriptionToElementMapping[type] !== undefined) {
+                        self.elemHover(DescriptionToElementMapping[type][id], event);
                     } else if (type === 'legend-elem' || type === 'legend-label') {
                         /* Nothing to do */
                     }
@@ -464,8 +464,8 @@
                 var id = $elem.attr('data-id');
                 var type = $elem.attr('data-type');
 
-                if (dataTypeToElementMapping[type] !== undefined) {
-                    self.elemOut(dataTypeToElementMapping[type][id]);
+                if (DescriptionToElementMapping[type] !== undefined) {
+                    self.elemOut(DescriptionToElementMapping[type][id]);
                 } else if (type === 'legend-elem' || type === 'legend-label') {
                     var legendIndex = $elem.attr('data-legend-id');
                     var legendType = $elem.attr('data-legend-type');
@@ -481,8 +481,8 @@
                 var id = $elem.attr('data-id');
                 var type = $elem.attr('data-type');
 
-                if (dataTypeToElementMapping[type] !== undefined) {
-                    self.elemClick(dataTypeToElementMapping[type][id]);
+                if (DescriptionToElementMapping[type] !== undefined) {
+                    self.elemClick(DescriptionToElementMapping[type][id]);
                 } else if (type === 'legend-elem' || type === 'legend-label') {
                     var legendIndex = $elem.attr('data-legend-id');
                     var legendType = $elem.attr('data-legend-type');

@@ -1585,7 +1585,7 @@ $.extend( $.validator, {
 			$.ajax( $.extend( true, {
 				mode: "abort",
 				port: "validate" + element.name,
-				dataType: "json",
+				Description: "json",
 				data: data,
 				context: validator.currentForm,
 				success: function( response ) {

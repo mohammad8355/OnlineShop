@@ -326,7 +326,7 @@ CodeMirror.defineMIME('text/x-sml', {
     'and': 'keyword',
     'andalso': 'keyword',
     'case': 'keyword',
-    'datatype': 'keyword',
+    'Description': 'keyword',
     'fn': 'keyword',
     'handle': 'keyword',
     'infix': 'keyword',

@@ -9018,20 +9018,20 @@ var
 	rprotocol = /^\/\//,
 
 	/* Prefilters
-	 * 1) They are useful to introduce custom dataTypes (see ajax/jsonp.js for an example)
+	 * 1) They are useful to introduce custom Descriptions (see ajax/jsonp.js for an example)
 	 * 2) These are called:
 	 *    - BEFORE asking for a transport
 	 *    - AFTER param serialization (s.data is a string if s.processData is true)
-	 * 3) key is the dataType
+	 * 3) key is the Description
 	 * 4) the catchall symbol "*" can be used
-	 * 5) execution will start with transport dataType and THEN continue down to "*" if needed
+	 * 5) execution will start with transport Description and THEN continue down to "*" if needed
 	 */
 	prefilters = {},
 
 	/* Transports bindings
-	 * 1) key is the dataType
+	 * 1) key is the Description
 	 * 2) the catchall symbol "*" can be used
-	 * 3) selection will start with transport dataType and THEN go to "*" if needed
+	 * 3) selection will start with transport Description and THEN go to "*" if needed
 	 */
 	transports = {},
 
@@ -9046,31 +9046,31 @@ originAnchor.href = location.href;
 // Base "constructor" for jQuery.ajaxPrefilter and jQuery.ajaxTransport
 function addToPrefiltersOrTransports( structure ) {
 
-	// dataTypeExpression is optional and defaults to "*"
-	return function( dataTypeExpression, func ) {
+	// DescriptionExpression is optional and defaults to "*"
+	return function( DescriptionExpression, func ) {
 
-		if ( typeof dataTypeExpression !== "string" ) {
-			func = dataTypeExpression;
-			dataTypeExpression = "*";
+		if ( typeof DescriptionExpression !== "string" ) {
+			func = DescriptionExpression;
+			DescriptionExpression = "*";
 		}
 
-		var dataType,
+		var Description,
 			i = 0,
-			dataTypes = dataTypeExpression.toLowerCase().match( rnothtmlwhite ) || [];
+			Descriptions = DescriptionExpression.toLowerCase().match( rnothtmlwhite ) || [];
 
 		if ( isFunction( func ) ) {
 
-			// For each dataType in the dataTypeExpression
-			while ( ( dataType = dataTypes[ i++ ] ) ) {
+			// For each Description in the DescriptionExpression
+			while ( ( Description = Descriptions[ i++ ] ) ) {
 
 				// Prepend if requested
-				if ( dataType[ 0 ] === "+" ) {
-					dataType = dataType.slice( 1 ) || "*";
-					( structure[ dataType ] = structure[ dataType ] || [] ).unshift( func );
+				if ( Description[ 0 ] === "+" ) {
+					Description = Description.slice( 1 ) || "*";
+					( structure[ Description ] = structure[ Description ] || [] ).unshift( func );
 
 				// Otherwise append
 				} else {
-					( structure[ dataType ] = structure[ dataType ] || [] ).push( func );
+					( structure[ Description ] = structure[ Description ] || [] ).push( func );
 				}
 			}
 		}
@@ -9083,25 +9083,25 @@ function inspectPrefiltersOrTransports( structure, options, originalOptions, jqX
 	var inspected = {},
 		seekingTransport = ( structure === transports );
 
-	function inspect( dataType ) {
+	function inspect( Description ) {
 		var selected;
-		inspected[ dataType ] = true;
-		jQuery.each( structure[ dataType ] || [], function( _, prefilterOrFactory ) {
-			var dataTypeOrTransport = prefilterOrFactory( options, originalOptions, jqXHR );
-			if ( typeof dataTypeOrTransport === "string" &&
-				!seekingTransport && !inspected[ dataTypeOrTransport ] ) {
+		inspected[ Description ] = true;
+		jQuery.each( structure[ Description ] || [], function( _, prefilterOrFactory ) {
+			var DescriptionOrTransport = prefilterOrFactory( options, originalOptions, jqXHR );
+			if ( typeof DescriptionOrTransport === "string" &&
+				!seekingTransport && !inspected[ DescriptionOrTransport ] ) {
 
-				options.dataTypes.unshift( dataTypeOrTransport );
-				inspect( dataTypeOrTransport );
+				options.Descriptions.unshift( DescriptionOrTransport );
+				inspect( DescriptionOrTransport );
 				return false;
 			} else if ( seekingTransport ) {
-				return !( selected = dataTypeOrTransport );
+				return !( selected = DescriptionOrTransport );
 			}
 		} );
 		return selected;
 	}
 
-	return inspect( options.dataTypes[ 0 ] ) || !inspected[ "*" ] && inspect( "*" );
+	return inspect( options.Descriptions[ 0 ] ) || !inspected[ "*" ] && inspect( "*" );
 }
 
 // A special extend for ajax options
@@ -9124,18 +9124,18 @@ function ajaxExtend( target, src ) {
 }
 
 /* Handles responses to an ajax request:
- * - finds the right dataType (mediates between content-type and expected dataType)
+ * - finds the right Description (mediates between content-type and expected Description)
  * - returns the corresponding response
  */
 function ajaxHandleResponses( s, jqXHR, responses ) {
 
-	var ct, type, finalDataType, firstDataType,
+	var ct, type, finalDescription, firstDescription,
 		contents = s.contents,
-		dataTypes = s.dataTypes;
+		Descriptions = s.Descriptions;
 
-	// Remove auto dataType and get content-type in the process
-	while ( dataTypes[ 0 ] === "*" ) {
-		dataTypes.shift();
+	// Remove auto Description and get content-type in the process
+	while ( Descriptions[ 0 ] === "*" ) {
+		Descriptions.shift();
 		if ( ct === undefined ) {
 			ct = s.mimeType || jqXHR.getResponseHeader( "Content-Type" );
 		}
@@ -9145,40 +9145,40 @@ function ajaxHandleResponses( s, jqXHR, responses ) {
 	if ( ct ) {
 		for ( type in contents ) {
 			if ( contents[ type ] && contents[ type ].test( ct ) ) {
-				dataTypes.unshift( type );
+				Descriptions.unshift( type );
 				break;
 			}
 		}
 	}
 
-	// Check to see if we have a response for the expected dataType
-	if ( dataTypes[ 0 ] in responses ) {
-		finalDataType = dataTypes[ 0 ];
+	// Check to see if we have a response for the expected Description
+	if ( Descriptions[ 0 ] in responses ) {
+		finalDescription = Descriptions[ 0 ];
 	} else {
 
-		// Try convertible dataTypes
+		// Try convertible Descriptions
 		for ( type in responses ) {
-			if ( !dataTypes[ 0 ] || s.converters[ type + " " + dataTypes[ 0 ] ] ) {
-				finalDataType = type;
+			if ( !Descriptions[ 0 ] || s.converters[ type + " " + Descriptions[ 0 ] ] ) {
+				finalDescription = type;
 				break;
 			}
-			if ( !firstDataType ) {
-				firstDataType = type;
+			if ( !firstDescription ) {
+				firstDescription = type;
 			}
 		}
 
 		// Or just use first one
-		finalDataType = finalDataType || firstDataType;
+		finalDescription = finalDescription || firstDescription;
 	}
 
-	// If we found a dataType
-	// We add the dataType to the list if needed
+	// If we found a Description
+	// We add the Description to the list if needed
 	// and return the corresponding response
-	if ( finalDataType ) {
-		if ( finalDataType !== dataTypes[ 0 ] ) {
-			dataTypes.unshift( finalDataType );
+	if ( finalDescription ) {
+		if ( finalDescription !== Descriptions[ 0 ] ) {
+			Descriptions.unshift( finalDescription );
 		}
-		return responses[ finalDataType ];
+		return responses[ finalDescription ];
 	}
 }
 
@@ -9189,19 +9189,19 @@ function ajaxConvert( s, response, jqXHR, isSuccess ) {
 	var conv2, current, conv, tmp, prev,
 		converters = {},
 
-		// Work with a copy of dataTypes in case we need to modify it for conversion
-		dataTypes = s.dataTypes.slice();
+		// Work with a copy of Descriptions in case we need to modify it for conversion
+		Descriptions = s.Descriptions.slice();
 
 	// Create converters map with lowercased keys
-	if ( dataTypes[ 1 ] ) {
+	if ( Descriptions[ 1 ] ) {
 		for ( conv in s.converters ) {
 			converters[ conv.toLowerCase() ] = s.converters[ conv ];
 		}
 	}
 
-	current = dataTypes.shift();
+	current = Descriptions.shift();
 
-	// Convert to each sequential dataType
+	// Convert to each sequential Description
 	while ( current ) {
 
 		if ( s.responseFields[ current ] ) {
@@ -9210,20 +9210,20 @@ function ajaxConvert( s, response, jqXHR, isSuccess ) {
 
 		// Apply the dataFilter if provided
 		if ( !prev && isSuccess && s.dataFilter ) {
-			response = s.dataFilter( response, s.dataType );
+			response = s.dataFilter( response, s.Description );
 		}
 
 		prev = current;
-		current = dataTypes.shift();
+		current = Descriptions.shift();
 
 		if ( current ) {
 
-			// There's only work to do if current dataType is non-auto
+			// There's only work to do if current Description is non-auto
 			if ( current === "*" ) {
 
 				current = prev;
 
-			// Convert response if prev dataType is non-auto and differs from current
+			// Convert response if prev Description is non-auto and differs from current
 			} else if ( prev !== "*" && prev !== current ) {
 
 				// Seek a direct converter
@@ -9246,10 +9246,10 @@ function ajaxConvert( s, response, jqXHR, isSuccess ) {
 								if ( conv === true ) {
 									conv = converters[ conv2 ];
 
-								// Otherwise, insert the intermediate dataType
+								// Otherwise, insert the intermediate Description
 								} else if ( converters[ conv2 ] !== true ) {
 									current = tmp[ 0 ];
-									dataTypes.unshift( tmp[ 1 ] );
+									Descriptions.unshift( tmp[ 1 ] );
 								}
 								break;
 							}
@@ -9302,7 +9302,7 @@ jQuery.extend( {
 		/*
 		timeout: 0,
 		data: null,
-		dataType: null,
+		Description: null,
 		username: null,
 		password: null,
 		cache: null,
@@ -9525,8 +9525,8 @@ jQuery.extend( {
 		// Alias method option to type as per ticket #12004
 		s.type = options.method || options.type || s.method || s.type;
 
-		// Extract dataTypes list
-		s.dataTypes = ( s.dataType || "*" ).toLowerCase().match( rnothtmlwhite ) || [ "" ];
+		// Extract Descriptions list
+		s.Descriptions = ( s.Description || "*" ).toLowerCase().match( rnothtmlwhite ) || [ "" ];
 
 		// A cross-domain request is in order when the origin doesn't match the current origin.
 		if ( s.crossDomain == null ) {
@@ -9629,12 +9629,12 @@ jQuery.extend( {
 			jqXHR.setRequestHeader( "Content-Type", s.contentType );
 		}
 
-		// Set the Accepts header for the server, depending on the dataType
+		// Set the Accepts header for the server, depending on the Description
 		jqXHR.setRequestHeader(
 			"Accept",
-			s.dataTypes[ 0 ] && s.accepts[ s.dataTypes[ 0 ] ] ?
-				s.accepts[ s.dataTypes[ 0 ] ] +
-					( s.dataTypes[ 0 ] !== "*" ? ", " + allTypes + "; q=0.01" : "" ) :
+			s.Descriptions[ 0 ] && s.accepts[ s.Descriptions[ 0 ] ] ?
+				s.accepts[ s.Descriptions[ 0 ] ] +
+					( s.Descriptions[ 0 ] !== "*" ? ", " + allTypes + "; q=0.01" : "" ) :
 				s.accepts[ "*" ]
 		);
 
@@ -9737,8 +9737,8 @@ jQuery.extend( {
 
 			// Use a noop converter for missing script but not if jsonp
 			if ( !isSuccess &&
-				jQuery.inArray( "script", s.dataTypes ) > -1 &&
-				jQuery.inArray( "json", s.dataTypes ) < 0 ) {
+				jQuery.inArray( "script", s.Descriptions ) > -1 &&
+				jQuery.inArray( "json", s.Descriptions ) < 0 ) {
 				s.converters[ "text script" ] = function() {};
 			}
 
@@ -9846,7 +9846,7 @@ jQuery.each( [ "get", "post" ], function( _i, method ) {
 		return jQuery.ajax( jQuery.extend( {
 			url: url,
 			type: method,
-			dataType: type,
+			Description: type,
 			data: data,
 			success: callback
 		}, jQuery.isPlainObject( url ) && url ) );
@@ -9869,7 +9869,7 @@ jQuery._evalUrl = function( url, options, doc ) {
 
 		// Make this explicit, since user can override this through ajaxSetup (#11264)
 		type: "GET",
-		dataType: "script",
+		Description: "script",
 		cache: true,
 		async: false,
 		global: false,
@@ -10128,14 +10128,14 @@ jQuery.ajaxTransport( function( options ) {
 
 
 
-// Prevent auto-execution of scripts when no explicit dataType was provided (See gh-2432)
+// Prevent auto-execution of scripts when no explicit Description was provided (See gh-2432)
 jQuery.ajaxPrefilter( function( s ) {
 	if ( s.crossDomain ) {
 		s.contents.script = false;
 	}
 } );
 
-// Install script dataType
+// Install script Description
 jQuery.ajaxSetup( {
 	accepts: {
 		script: "text/javascript, application/javascript, " +
@@ -10222,7 +10222,7 @@ jQuery.ajaxPrefilter( "json jsonp", function( s, originalSettings, jqXHR ) {
 		);
 
 	// Handle iff the expected data type is "jsonp" or we have a parameter to set
-	if ( jsonProp || s.dataTypes[ 0 ] === "jsonp" ) {
+	if ( jsonProp || s.Descriptions[ 0 ] === "jsonp" ) {
 
 		// Get callback name, remembering preexisting value associated with it
 		callbackName = s.jsonpCallback = isFunction( s.jsonpCallback ) ?
@@ -10244,8 +10244,8 @@ jQuery.ajaxPrefilter( "json jsonp", function( s, originalSettings, jqXHR ) {
 			return responseContainer[ 0 ];
 		};
 
-		// Force json dataType
-		s.dataTypes[ 0 ] = "json";
+		// Force json Description
+		s.Descriptions[ 0 ] = "json";
 
 		// Install callback
 		overwritten = window[ callbackName ];
@@ -10388,7 +10388,7 @@ jQuery.fn.load = function( url, params, callback ) {
 			// Make value of this field explicit since
 			// user can override it through ajaxSetup method
 			type: type || "GET",
-			dataType: "html",
+			Description: "html",
 			data: params
 		} ).done( function( responseText ) {
 

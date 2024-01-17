@@ -3667,14 +3667,14 @@
 
     function isNumberOrStringArray(input) {
         var arrayTest = isArray(input),
-            dataTypeTest = false;
+            DescriptionTest = false;
         if (arrayTest) {
-            dataTypeTest =
+            DescriptionTest =
                 input.filter(function (item) {
                     return !isNumber(item) && isString(input);
                 }).length === 0;
         }
-        return arrayTest && dataTypeTest;
+        return arrayTest && DescriptionTest;
     }
 
     function isCalendarSpec(input) {

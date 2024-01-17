@@ -101,7 +101,7 @@ CodeMirror.defineMode("fortran", function() {
                           "unpack", "verify", "xor", "zabs", "zcos", "zexp",
                           "zlog", "zsin", "zsqrt"]);
 
-    var dataTypes =  words(["c_bool", "c_char", "c_double", "c_double_complex",
+    var Descriptions =  words(["c_bool", "c_char", "c_double", "c_double_complex",
                      "c_float", "c_float_complex", "c_funptr", "c_int",
                      "c_int16_t", "c_int32_t", "c_int64_t", "c_int8_t",
                      "c_int_fast16_t", "c_int_fast32_t", "c_int_fast64_t",
@@ -146,7 +146,7 @@ CodeMirror.defineMode("fortran", function() {
     if (keywords.hasOwnProperty(word)){
             return 'keyword';
     }
-    if (builtins.hasOwnProperty(word) || dataTypes.hasOwnProperty(word)) {
+    if (builtins.hasOwnProperty(word) || Descriptions.hasOwnProperty(word)) {
             return 'builtin';
     }
     return "variable";
