@@ -20,7 +20,7 @@ namespace BusinessLogicLayer.AdjValueService
         }
         public async Task<bool> AddAdjValue(AdjValue model)
         {
-            if(model == null || model.adjkey_Id == 0)
+            if(model == null || model.adjkey_Id == 0 || string.IsNullOrEmpty(model.Value))
             {
                 return false;
             }
@@ -34,7 +34,7 @@ namespace BusinessLogicLayer.AdjValueService
         }
         public async Task<bool> EditAdjValue(AdjValue model)
         {
-            if (model == null || model.adjkey_Id == 0)
+            if (model == null || model.adjkey_Id == 0 || string.IsNullOrEmpty(model.Value))
             {
                 return false;
             }

@@ -25,7 +25,7 @@ namespace BusinessLogicLayer.AdjKeyService
         }
         public async Task<bool> AddAdjKey(AdjKey model)
         {
-            if (model == null || string.IsNullOrEmpty(model.Name) || string.IsNullOrEmpty(model.DataType))
+            if (model == null || string.IsNullOrEmpty(model.Name) || string.IsNullOrEmpty(model.Description))
             {
                 return false;
             }
@@ -37,7 +37,7 @@ namespace BusinessLogicLayer.AdjKeyService
         }
         public async Task<bool> EditAdjKey(AdjKey model)
         {
-            if (model == null || string.IsNullOrEmpty(model.Name) || string.IsNullOrEmpty(model.DataType))
+            if (model == null || string.IsNullOrEmpty(model.Name) || string.IsNullOrEmpty(model.Description))
             {
                 return false;
             }
