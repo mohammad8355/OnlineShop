@@ -24,7 +24,7 @@ namespace DataAccessLayer
         {
         
             base.OnModelCreating(builder);
-            builder.Entity<AdjValue>().Property(p => p.StringValue).IsRequired(false);
+            builder.Entity<AdjValue>().Property(p => p.Value).IsRequired(true);
             builder.Entity<BlogSection>().Property(p => p.photo).IsRequired(false);
             builder.Entity<General>().Property(p => p.label).IsRequired(false);
             builder.Entity<General>().Property(p => p.Link).IsRequired(false);
