@@ -48,14 +48,27 @@ namespace DataAccessLayer.services
                 return false;
             }
         }
-        public async Task<IEnumerable<TEntity>> Get(Expression<Func<TEntity,bool>>? where = null)
+        public async Task<IEnumerable<TEntity>> Get(Expression<Func<TEntity,bool>>? where = null,params Expression<Func<TEntity, object>>[]? includes)
         {
             IQueryable<TEntity> query = _dbSet;
             if (where != null)
             {
                 query = query.Where(where);
+                if (includes != null)
+                {
+                    query = includes.Aggregate(query, (current, include) => current.Include(include));
+                }
             }
             return await query.ToListAsync();
+        }
+        public async Task SaveChangeAsync()
+        {
+           await context.SaveChangesAsync();
+        }
+        public async Task Attach(TEntity entity)
+        {
+            context.Attach(entity);
+           await SaveChangeAsync();
         }
 
     }
