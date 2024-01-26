@@ -9,50 +9,8 @@
                         <h3 class="card-title">اطلاعات اولیه</h3>
                     </div>
                     <div class="card-body">
-                        <form class="form" asp-action="EditTechnicalSpecification" asp-controller="TechnicalSpecification" asp-area="dashboard" method="Post">
-
-                                <!-- /.card-header -->
-                                <!-- form start -->
-                                <div class="card-body">
-                                    <div asp-validation-summary="All" class="alert alert-danger"></div>
-                                    <div class="row">
-                                        <input asp-for="@Model.Id" hidden class="Id hidden" />
-                                    </div>
-                                    <div class="form-group col-sm-4">
-                                        <label>سر دسته بندی</label>
-                                        <select class="form-control" asp-items="ViewBag.HeadCategories" id="headcategory">
-                                            <option value="0">سر دسته بندی</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group col-sm-4">
-                                        <label> دسته بندی</label>
-                                        <select class="form-control" id="category" asp-items="ViewBag.Categories">
-                                            <option value="0">دسته بندی</option>
-                                        </select>
-                                    </div>
-                                    <!-- select -->
-                                    <div class="form-group col-sm-4">
-                                        <label>زیر دسته بندی</label>
-                                        <select class="form-control js-example-basic-multiple" asp-for="subCategories" id="subcategory">
-                                            <option value="0">زیر دسته بندی</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1">نام مشخصه</label>
-                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="نام مشخصه را وارد کنید" asp-for="@Model.Name">
-                                    </div>
-                                    <div class="form-group">
-                                        <label> توضیح مقدار</label>
-                                        <textarea asp-for="Description">
-
-                                        </textarea>
-                                    </div>
-                                    <!-- /.card-body -->
-                                </div>
-                                <!-- /.card -->
-                                <button href="#" type="submit" class="btn btn-primary">ویرایش</button>
-                     
-                        </form>
+    
+       
                     </div>
                 </div>
             </div>

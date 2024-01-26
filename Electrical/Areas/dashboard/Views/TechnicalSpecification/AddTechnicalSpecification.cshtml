@@ -4,15 +4,18 @@
         <div class="row">
             <!-- left column -->
             <div class="col-12">
-                <!-- general form elements -->
-                    <form class="form" asp-action="AddTechnicalSpecification" asp-controller="TechnicalSpecification" asp-area="dashboard" method="Post">
-                        <div class="card card-primary">
-                            <div class="card-header">
-                                <h3 class="card-title">اطلاعات اولیه</h3>
-                            </div>
-                            <!-- /.card-header -->
-                            <!-- form start -->
-                            <div class="card-body">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">اطلاعات اولیه</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <div class="card-body">
+
+                        <!-- general form elements -->
+                        @if (Model == null)
+                        {
+                            <form class="form" asp-action="AddTechnicalSpecification" asp-controller="TechnicalSpecification" asp-area="dashboard" method="Post">
                                 @if (ViewBag.success != null)
                                 {
                                     <div class="alert alert-success">
@@ -21,42 +24,64 @@
                                 }
                                 <div asp-validation-summary="All" class="alert alert-danger"></div>
                                 <div class="form-group col-sm-4">
-                                    <label>سر دسته بندی</label>
-                                    <select class="form-control" asp-items="ViewBag.HeadCategories" id="headcategory">
-                                        <option value="0">سر دسته بندی</option>
-                                    </select>
-                                </div>
-                                <div class="form-group col-sm-4">
-                                    <label> دسته بندی</label>
-                                    <select class="form-control"  id="category">
-                                        <option value="0">دسته بندی</option>
-                                    </select>
-                                </div>
-                                <!-- select -->
-                                <div class="form-group col-sm-4">
-                                    <label>زیر دسته بندی</label>
-                                    <select class="form-control js-example-basic-multiple select2bs4" asp-for="subCategories" id="subcategory" multiple>
-                                        <option value="0">زیر دسته بندی</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">نام مشخصه</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="نام مشخصه را وارد کنید" asp-for="Name">
-                                </div>
-                                <div class="form-group">
-                                    <label> توضیح مقدار</label>
-                                    <textarea asp-for="Description" class="form-control">
+                                    <label>دسته بندی</label>
+                                    <div class="form-group">
+                                        @await Component.InvokeAsync("CategoryList","subCategories")
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">نام مشخصه</label>
+                                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="نام مشخصه را وارد کنید" asp-for="Name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label> توضیح مقدار</label>
+                                        <textarea asp-for="Description" class="form-control">
 
-                                    </textarea>
+                                                </textarea>
+
+                                        <!-- /.card -->
+                                        <button href="#" type="submit" class="btn btn-primary">افزودن</button>
+                                    </div>
                                 </div>
-                                <!-- /.card-body -->
-                            </div>
-                            <!-- /.card -->
-                            <button href="#" type="submit" class="btn btn-primary">افزودن</button>
-                        </div>
-                    </form>
-                  
-                }
+                            </form>
+
+                        }
+                        else
+                        {
+                            <form class="form" asp-action="EditTechnicalSpecification" asp-controller="TechnicalSpecification" asp-area="dashboard" method="Post">
+
+                                <!-- /.card-header -->
+                                <!-- form start -->
+                                <div class="card-body">
+                                    <div asp-validation-summary="All" class="alert alert-danger"></div>
+                                    <div class="row">
+                                        <input asp-for="@Model.Id" hidden class="Id hidden" />
+                                    </div>
+                                    <div class="form-group col-sm-4">
+                                        <label>دسته بندی</label>
+                                        <div class="form-group">
+                                            @await Component.InvokeAsync("CategoryList","subCategories")
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">نام مشخصه</label>
+                                            <input type="text" class="form-control" id="exampleInputEmail1" placeholder="نام مشخصه را وارد کنید" asp-for="@Model.Name">
+                                        </div>
+                                        <div class="form-group">
+                                            <label> توضیح مقدار</label>
+                                            <textarea asp-for="Description">
+
+                                                    </textarea>
+                                        </div>
+                                        <!-- /.card-body -->
+                                    </div>
+                                </div>
+                                <!-- /.card -->
+                                <button href="#" type="submit" class="btn btn-primary">ویرایش</button>
+
+                            </form>
+                        }
+                    </div>
+                    <!-- /.card-body -->
+                </div>
             </div>
         </div>
     </div>
@@ -71,7 +96,7 @@
     <!-- Or for RTL support -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.rtl.min.css" />
     <link rel="stylesheet" href="AdminLTE/plugins/fontawesome-free/css/all.min.css">
-   
+
     <!-- iCheck for checkboxes and radio inputs -->
     <link rel="stylesheet" href="AdminLTE/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
 
@@ -85,88 +110,32 @@
 }
 @section InlineScripts{
     <script>
-        $.ajax(
-            {
-                url: '@Url.Action("CategoryDropDown","Product")',
-                type: 'GET',
-                data: {
-                    category_Id: $("#headcategory").val(),
-                },
-                success: function (data) {
-                    console.log(data);
-                    $('#category').empty();
-                    $('#category').append('<option value="0"> دسته بندی</option>');
-                    for (const item of data["$values"]) {
-                        $('#category').append('<option value="' + item.value + '">' + item.text + '</ option>');
-                    };
+        $(".headlist").next(".list").slideUp();
+        $(".headlist").click(function () {
+            $(this).next(".list").slideToggle();
+        });
 
-                }
-            });
-               console.log($('#subcategory').val());
-        console.log($("#category").val());
-        window.addEventListener('load', () => {
-            $.ajax(
-                {
-                    url: '@Url.Action("SubCategoryDropDown","Product")',
-                    type: 'GET',
-                    data: {
-                        category_Id: $("#category").val(),
-                    },
-                    success: function (data) {
-                        console.log(data);
-                        $('#subcategory').empty();
-                        for (const item of data["$values"]) {
-                            $('#subcategory').append('<option value="' + item.value + '">' + item.text + '</ option>');
-                        };
-
-                    }
-                });
-        })
-
-        $("#headcategory").click(function () {
-            $.ajax(
-                {
-                    url: '@Url.Action("CategoryDropDown","Product")',
-                    type: 'GET',
-                    data: {
-                        category_Id: $("#headcategory").val(),
-                    },
-                    success: function (data) {
-                     
-                        $('#category').empty();
-                           $('#category').append('<option value="0"> دسته بندی</option>');
-                        for (const item of data["$values"]) {
-                            $('#category').append('<option value="' + item.value + '">' + item.text + '</ option>');
-                        };
-                    }
-                });
-        })
-        $("#category").change(function () {
-            $.ajax(
-                {
-                    url: '@Url.Action("SubCategoryDropDown","Product")',
-                    type: 'GET',
-                    data: {
-                        category_Id: $("#category").val(),
-                    },
-                    success: function (data) {
-                        console.log(data);
-                        $('#subcategory').empty();
-                        $('#subcategory').append('<option value="0">زیر دسته بندی</option>');
-                        for (const item of data["$values"]) {
-                            $('#subcategory').append('<option value="' + item.value + '">' + item.text + '</ option>');
-                        };
-                        $(document).ready(function () {
-                            $('.js-example-basic-multiple').select2({
-                                   placeholder: "Select a state",
-                                   allowClear: true,
-                                  theme: 'bootstrap4',
-                                  dire:'rtl',
-                            });
-                        });
-                    }
-                });
-        })
 
     </script>
+
+
+
+
+    @if (Model != null)
+    {
+        <script>
+            var SelectList = @Model.subCategories.ToArray();
+            console.log(SelectList);
+            console.log(@Model.subCategories.ToArray());
+            $('input[type="checkbox"]').each(function () {
+                $(SelectList).each((selectint), function () {
+                    var checkboxValue = $(this).val();
+
+                    if (checkboxValue == selectint) {
+                        $(this).prop('checked', true);
+                    }
+                });
+            });
+        </script>
+    }
 }
