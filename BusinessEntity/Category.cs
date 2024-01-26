@@ -17,17 +17,13 @@ namespace BusinessEntity
         [Required]
         [MaxLength(500)]
         public string Description { get; set; }
-        [Required]
-        [MaxLength(100)]
-        public string Parent { get; set; }
-        [Required]
-        [MaxLength(100)]
-        public string IdentifierName { get; set; }
 
         //navigation property
-        public HeadCategory headCategory { get; set; }
-        public int headCategory_Id { get; set; }
-        public ICollection<SubCategory> SubCategories { get; set; }
+        public Category ParentCategory { get; set; }
+        public int? ParentId { get; set; }
+        public ICollection<KeyToSubCategory> keyToSubCategories { get; set; }
+        public ICollection<CategoryToProduct> CategoryToProducts { get; set; }
+        public ICollection<Category> ChildCategories { get; set; }
     }
 
 }

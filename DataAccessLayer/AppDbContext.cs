@@ -36,28 +36,27 @@ namespace DataAccessLayer
             builder.Entity<KeyToProduct>().HasOne(c => c.product).WithMany(b => b.keyToProducts).HasForeignKey(v => v.Product_Id);
             builder.Entity<KeyToSubCategory>().HasOne(c => c.adjKey).WithMany(b => b.keyToSubCategories).HasForeignKey(v => v.key_Id);
             builder.Entity<KeyToSubCategory>().HasOne(c => c.subCategory).WithMany(b => b.keyToSubCategories).HasForeignKey(v => v.SubCategory_Id);
-            builder.Entity<SubCategory>().HasMany(c => c.products).WithOne(s => s.subCategory).HasForeignKey(d => d.SubCategory_Id);
-            builder.Entity<HeadCategory>().HasMany(c => c.Categories).WithOne(s => s.headCategory).HasForeignKey(b => b.headCategory_Id);
-            builder.Entity<Category>().HasMany(c => c.SubCategories).WithOne(s => s.category).HasForeignKey(s => s.category_Id);
+            builder.Entity<Category>().HasMany(c => c.ChildCategories).WithOne(c => c.ParentCategory).HasForeignKey(m => m.ParentId).OnDelete(DeleteBehavior.NoAction);
             builder.Entity<Weblog>().HasMany(c => c.blogSections).WithOne(s => s.Weblog).HasForeignKey(w => w.Weblog_Id);
             builder.Entity<Order>().HasMany(c => c.orderDetails).WithOne(s => s.order).HasForeignKey(f => f.order_Id);
             builder.Entity<DiscountToProduct>().HasKey(k => new { k.Discount_Id, k.Product_Id });
             builder.Entity<DiscountToProduct>().HasOne(c => c.discount).WithMany(b => b.discountToProducts).HasForeignKey(v => v.Discount_Id);
             builder.Entity<DiscountToProduct>().HasOne(c => c.product).WithMany(b => b.discountToProducts).HasForeignKey(v => v.Product_Id);
             builder.Entity<Product>().HasMany(p => p.ProductPhotos).WithOne(p => p.product).HasForeignKey(p => p.Product_Id);
-
+            builder.Entity<CategoryToProduct>().HasKey(o => new { o.Product_Id, o.Category_Id });
+            builder.Entity<CategoryToProduct>().HasOne(c => c.Category).WithMany(p => p.CategoryToProducts).HasForeignKey(l => l.Category_Id).OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<CategoryToProduct>().HasOne(c => c.Product).WithMany(p => p.CategoryToProducts).HasForeignKey(l => l.Product_Id).OnDelete(DeleteBehavior.Restrict);
         }
         DbSet<Product> products { get; set; }
         DbSet<AdjKey> adjKeys { get; set; }
         DbSet<AdjValue> adjValues { get; set; }
-        DbSet<HeadCategory> headCategories { get; set; }
-        DbSet<Category> categories { get; set; }
-        DbSet<SubCategory> subCategories { get; set; }
+        DbSet<Category> Categories { get; set; }
         DbSet<Weblog> weblogs { get; set; }
         DbSet<BlogSection> blogSections { get; set; }
         DbSet<Discount> discounts { get; set; }
         DbSet<KeyToProduct> keyToProducts { get; set; }
         DbSet<KeyToSubCategory> keyToSubCategories { get; set; }
+        DbSet<CategoryToProduct> categoryToProducts { get; set; }
         DbSet<Order> orders { get; set; }
         DbSet<OrderDetails> orderDetails { get; set; }
         DbSet<Contact> contacts { get; set; }

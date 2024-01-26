@@ -16,6 +16,6 @@ namespace BusinessEntity
 
         //navigation proprty
         public AdjKey adjKey { get; set; }
-        public SubCategory subCategory { get; set; }
+        public Category subCategory { get; set; }
     }
 }

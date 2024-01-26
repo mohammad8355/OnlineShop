@@ -102,8 +102,8 @@ namespace BusinessLogicLayer.AdjKeyService
             ICollection<AdjKey> keys = new List<AdjKey>();
             foreach(var item in AdjKeyRepository.Get().Result.ToList())
             {
-                var keyToProduct = KeyToProductRepository.Get(kp => kp.Key_Id == item.Id).Result.ToList();
-                var keyToSubcategory = KeyToSubCategoryRepository.Get(ks => ks.key_Id == item.Id).Result.ToList();
+                var keyToProduct = KeyToProductRepository.Get(kp => kp.Key_Id == item.Id,v => v.product).Result.ToList();
+                var keyToSubcategory = KeyToSubCategoryRepository.Get(ks => ks.key_Id == item.Id,k => k.subCategory).Result.ToList();
                 var AdjValues = AdjValueRepository.Get(v => v.adjkey_Id == item.Id).Result.ToList();
                 item.keyToSubCategories = keyToSubcategory;
                 item.KeyToProducts = keyToProduct;

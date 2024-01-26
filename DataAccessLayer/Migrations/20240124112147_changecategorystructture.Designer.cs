@@ -4,6 +4,7 @@ using DataAccessLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240124112147_changecategorystructture")]
+    partial class changecategorystructture
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -126,21 +129,6 @@ namespace DataAccessLayer.Migrations
                     b.HasIndex("ParentId");
 
                     b.ToTable("Categories");
-                });
-
-            modelBuilder.Entity("BusinessEntity.CategoryToProduct", b =>
-                {
-                    b.Property<int>("Product_Id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Category_Id")
-                        .HasColumnType("int");
-
-                    b.HasKey("Product_Id", "Category_Id");
-
-                    b.HasIndex("Category_Id");
-
-                    b.ToTable("categoryToProducts");
                 });
 
             modelBuilder.Entity("BusinessEntity.Contact", b =>
@@ -359,6 +347,9 @@ namespace DataAccessLayer.Migrations
                     b.Property<int>("QuantityInStock")
                         .HasColumnType("int");
 
+                    b.Property<int>("SubCategory_Id")
+                        .HasColumnType("int");
+
                     b.Property<int>("Weight")
                         .HasColumnType("int");
 
@@ -372,6 +363,8 @@ namespace DataAccessLayer.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("SubCategory_Id");
 
                     b.ToTable("products");
                 });
@@ -668,25 +661,6 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("ParentCategory");
                 });
 
-            modelBuilder.Entity("BusinessEntity.CategoryToProduct", b =>
-                {
-                    b.HasOne("BusinessEntity.Category", "Category")
-                        .WithMany("CategoryToProducts")
-                        .HasForeignKey("Category_Id")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("BusinessEntity.Product", "Product")
-                        .WithMany("CategoryToProducts")
-                        .HasForeignKey("Product_Id")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("BusinessEntity.DiscountToProduct", b =>
                 {
                     b.HasOne("BusinessEntity.Discount", "discount")
@@ -763,6 +737,17 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("order");
                 });
 
+            modelBuilder.Entity("BusinessEntity.Product", b =>
+                {
+                    b.HasOne("BusinessEntity.Category", "subCategory")
+                        .WithMany("products")
+                        .HasForeignKey("SubCategory_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("subCategory");
+                });
+
             modelBuilder.Entity("BusinessEntity.ProductPhoto", b =>
                 {
                     b.HasOne("BusinessEntity.Product", "product")
@@ -836,11 +821,11 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("BusinessEntity.Category", b =>
                 {
-                    b.Navigation("CategoryToProducts");
-
                     b.Navigation("ChildCategories");
 
                     b.Navigation("keyToSubCategories");
+
+                    b.Navigation("products");
                 });
 
             modelBuilder.Entity("BusinessEntity.Discount", b =>
@@ -855,8 +840,6 @@ namespace DataAccessLayer.Migrations
 
             modelBuilder.Entity("BusinessEntity.Product", b =>
                 {
-                    b.Navigation("CategoryToProducts");
-
                     b.Navigation("ProductPhotos");
 
                     b.Navigation("discountToProducts");

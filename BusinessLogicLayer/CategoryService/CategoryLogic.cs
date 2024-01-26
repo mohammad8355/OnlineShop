@@ -11,16 +11,15 @@ namespace BusinessLogicLayer.CategoryService
     public class CategoryLogic
     {
         private readonly MainRepository<Category> CategoryRepository;
-        private readonly MainRepository<SubCategory> SubCategoryRepository;
-        public CategoryLogic(MainRepository<SubCategory> SubCategoryRepository, MainRepository<Category> categoryRepository)
+        private readonly MainRepository<AdjKey> adjkeyRepository;
+        public CategoryLogic( MainRepository<Category> CategoryRepository, MainRepository<AdjKey> adjkeyRepository)
         {
-            this.SubCategoryRepository = SubCategoryRepository;
-            CategoryRepository = categoryRepository;
-
+            this.CategoryRepository = CategoryRepository;
+            this.adjkeyRepository = adjkeyRepository;
         }
         public async Task<bool> AddCategory(Category model)
         {
-            if (string.IsNullOrEmpty(model.Name) || string.IsNullOrEmpty(model.IdentifierName) || string.IsNullOrEmpty(model.Description) || model.headCategory_Id == 0)
+            if (string.IsNullOrEmpty(model.Name) || string.IsNullOrEmpty(model.Description))
             {
                 return false;
             }
@@ -30,47 +29,50 @@ namespace BusinessLogicLayer.CategoryService
                 return true;
             }
         }
-        public bool UpdateCategory(Category model)
+        public  bool UpdateCategory(Category model)
         {
-            if (string.IsNullOrEmpty(model.Name) || string.IsNullOrEmpty(model.IdentifierName) || string.IsNullOrEmpty(model.Description) || model.headCategory_Id == 0)
+            if (string.IsNullOrEmpty(model.Name) || string.IsNullOrEmpty(model.Description))
             {
                 return false;
             }
             else
             {
-                CategoryRepository.EditItem(model);
+                 CategoryRepository.EditItem(model);
+                return true;
+            }
+        }
+        public async Task<bool> AttachCategory(Category model)
+        {
+            if (string.IsNullOrEmpty(model.Name) || string.IsNullOrEmpty(model.Description))
+            {
+                return false;
+            }
+            else
+            {
+               await CategoryRepository.Attach(model);
                 return true;
             }
         }
         public async Task<bool> DeleteCategory(int Id)
         {
-            if (SubCategoryRepository.Get(sc => sc.category_Id == Id).Result.Any())
-            {
-                foreach (var subcategory in SubCategoryRepository.Get(sc => sc.Id == Id).Result.ToList())
-                {
-                    if (!await SubCategoryRepository.DeleteItem(subcategory.Id))
-                        return false;
-                }
-            }
             if (await CategoryRepository.DeleteItem(Id))
             {
                 return true;
             }
-            return false;
+            else
+            {
+
+                return false;
+            }
         }
         public ICollection<Category> CategoryList()
         {
             ICollection<Category> categories = new List<Category>();
-            foreach (var item in CategoryRepository.Get().Result.ToList())
+            foreach (var item in CategoryRepository.Get(null,v => v.keyToSubCategories ,f => f.ChildCategories,i => i.ParentCategory ).Result.ToList())
             {
-                if (SubCategoryRepository.Get(s => s.category_Id == item.Id).Result.Any())
+                foreach(var key in item.keyToSubCategories)
                 {
-                    var subcategoryList = new List<SubCategory>();
-                    foreach (var subItem in SubCategoryRepository.Get(s => s.category_Id == item.Id).Result.ToList())
-                    {
-                        subcategoryList.Add(subItem);
-                    }
-                    item.SubCategories = subcategoryList;
+                    key.adjKey = adjkeyRepository.Get(k => k.Id == key.key_Id).Result.FirstOrDefault();
                 }
                 categories.Add(item);
             }
@@ -78,11 +80,7 @@ namespace BusinessLogicLayer.CategoryService
         }
         public Category CategoryDetail(int Id)
         {
-            var Category = CategoryRepository.Get(c => c.Id == Id).Result.FirstOrDefault();
-            Category.SubCategories = SubCategoryRepository.Get(sc => sc.category_Id == Category.Id).Result.ToList();
-            return Category;
+            return CategoryRepository.Get(c => c.Id == Id,v => v.keyToSubCategories ,o => o.ChildCategories).Result.FirstOrDefault();
         }
     }
 }
-
-

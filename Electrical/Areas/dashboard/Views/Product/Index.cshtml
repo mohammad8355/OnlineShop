@@ -97,9 +97,11 @@
                                         <th>@product.Price </th>
                                         <th>@product.QuantityInStock </th>
                                         <th>
-
-                                          <img title="@product.Name" width="200px" src="~/Image/Product/@Model.categories.Where(c => c.IdentifierName == product.subCategory.Parent).First().Parent/@product.subCategory.Parent/@product.subCategory.IdentifierName/@product.Name/@product.ProductPhotos.First().Name" />
-                                         
+                                            @if(product.ProductPhotos.Any())
+                                            {
+                                                <img title="@product.Name" width="200px" src="~/Image/Product/@product.Name/@product.ProductPhotos.First().Name" />
+                                            }
+                                        
 </th> 
                                         <th><a asp-action="ProductDetails" asp-controller="Product" asp-area="dashboard" asp-route-Id="@product.Id">مشاهده</a></th>
                                     </tr>

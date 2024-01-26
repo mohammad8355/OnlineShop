@@ -18,7 +18,7 @@ namespace PresentationLayer.uploadfile
             hostingEnvironment = HostingEnvironment;
             returnMultipleData = ReturnMultipleData;
         }
-        public async Task<List<object>> fileManager(string name,string destination,int? limitSize,string? format,IFormFile file)
+        public async Task<List<object>> Upload(string name,string destination,int? limitSize,string? format,IFormFile file)
         {
             if(file != null)
             {
@@ -35,7 +35,10 @@ namespace PresentationLayer.uploadfile
                     var extention = Path.GetExtension(file.FileName);
                     var uploads = Path.Combine(hostingEnvironment.WebRootPath, destination);
                     var newFileName = name + extention;
-                    Directory.CreateDirectory(uploads);
+                    if (!Directory.Exists(uploads))
+                    {
+                        Directory.CreateDirectory(uploads);
+                    }
                     var filepath = Path.Combine(uploads, newFileName);
                     var newfileStream = new FileStream(filepath, FileMode.Create);
                     file.CopyTo(newfileStream);

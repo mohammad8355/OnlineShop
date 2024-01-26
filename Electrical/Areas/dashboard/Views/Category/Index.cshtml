@@ -1,6 +1,6 @@
 ﻿@using BusinessEntity;
 
-@model List<HeadCategory>
+@model List<Category>
 <div class="zc-body">
     <div class="row m-0">
         <div class="container">
@@ -14,8 +14,8 @@
                     <thead>
                         <tr>
                             <td>نام سر دسته بندی</td>
-                            <th>آیدی دسته بندی</th>
                             <td>توضیحات</td>
+                            <th>سر دسته بندی  </th>
                             <th>زیر دسته بندی ها </th>
                             <th>حذف / ویرایش</th>
                         </tr>
@@ -29,28 +29,28 @@
                                     @item.Name
                                 </td>
                                 <td>
-                                    @item.IdentifierName
-                                </td>
-                                <td>
                                     @item.Description
                                 </td>
                                 <td>
-                                    @if (item.Categories != null)
+                                        @if (item.ParentCategory != null)
                                     {
-                                        @if (item.Categories.Count() > 0)
+                                        @item.ParentCategory.Name
+                                    }
+                                    else
+                                    {
+                                        <p>ندارد</p>
+                                    }
+                                </td>
+                                <td>
+                                    @if (item.ChildCategories != null)
+                                    {
+                                        @if (item.ChildCategories.Count() > 0)
                                         {
                                             <ul>
-                                                @foreach (var category in item.Categories)
+                                                @foreach (var category in item.ChildCategories)
                                                 {
                                                     <li>
                                                         @category.Name
-                                                        <ul>
-                                                            @if (category.SubCategories != null)
-                                                                @foreach (var sub in category.SubCategories)
-                                                                {
-                                                                    <li>@sub.Name</li>
-                                                                }
-                                                        </ul>
                                                     </li>
                                                 }
                                             </ul>
@@ -63,7 +63,7 @@
                                 </td>
                                 <td>
                                     <div class="btn-group">
-                                        <a type="button" class="btn btn-info" asp-action="EditHeadCategory" asp-route-Id="@item.Id" asp-controller="category"><i class="fa-solid fa-pen"></i></a>
+                                        <a type="button" class="btn btn-info" asp-action="EditCategory" asp-route-Id="@item.Id" asp-controller="category"><i class="fa-solid fa-pen"></i></a>
                                         <button type="button" class="btn btn-danger"><i value="@item.Id" class="fa-solid fa-trash-can"></i></button>
                                     </div>
                                 </td>
@@ -73,8 +73,8 @@
                     <tfoot>
                         <tr>
                             <td>نام سر دسته بندی</td>
-                            <th>آیدی دسته بندی</th>
                             <td>توضیحات</td>
+                            <th>سر دسته بندی  </th>
                             <th>زیر دسته بندی ها </th>
                             <th>حذف / ویرایش</th>
                         </tr>

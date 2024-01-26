@@ -5,8 +5,6 @@
             <!-- left column -->
             <div class="col-12">
                 <!-- general form elements -->
-                @if (Model == null)
-                {
                     <form class="form" asp-action="AddTechnicalSpecification" asp-controller="TechnicalSpecification" asp-area="dashboard" method="Post">
                         <div class="card card-primary">
                             <div class="card-header">
@@ -15,7 +13,32 @@
                             <!-- /.card-header -->
                             <!-- form start -->
                             <div class="card-body">
+                                @if (ViewBag.success != null)
+                                {
+                                    <div class="alert alert-success">
+                                        <strong>@ViewBag.success</strong>
+                                    </div>
+                                }
                                 <div asp-validation-summary="All" class="alert alert-danger"></div>
+                                <div class="form-group col-sm-4">
+                                    <label>سر دسته بندی</label>
+                                    <select class="form-control" asp-items="ViewBag.HeadCategories" id="headcategory">
+                                        <option value="0">سر دسته بندی</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-sm-4">
+                                    <label> دسته بندی</label>
+                                    <select class="form-control"  id="category">
+                                        <option value="0">دسته بندی</option>
+                                    </select>
+                                </div>
+                                <!-- select -->
+                                <div class="form-group col-sm-4">
+                                    <label>زیر دسته بندی</label>
+                                    <select class="form-control js-example-basic-multiple select2bs4" asp-for="subCategories" id="subcategory" multiple>
+                                        <option value="0">زیر دسته بندی</option>
+                                    </select>
+                                </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">نام مشخصه</label>
                                     <input type="text" class="form-control" id="exampleInputEmail1" placeholder="نام مشخصه را وارد کنید" asp-for="Name">
@@ -32,61 +55,118 @@
                             <button href="#" type="submit" class="btn btn-primary">افزودن</button>
                         </div>
                     </form>
-                }
-                else
-                {
-                    <form class="form" asp-action="EditTechnicalSpecification" asp-controller="TechnicalSpecification" asp-area="dashboard" method="Post">
-                        <div class="card card-primary">
-                            <div class="card-header">
-                                <h3 class="card-title">اطلاعات اولیه</h3>
-                            </div>
-                            <!-- /.card-header -->
-                            <!-- form start -->
-                            <div class="card-body">
-                                <div asp-validation-summary="All" class="alert alert-danger"></div>
-                                <div class="row">
-                                    <input asp-for="@Model.Id" hidden class="hidden" />
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">نام مشخصه</label>
-                                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="نام مشخصه را وارد کنید" asp-for="@Model.Name">
-                                </div>
-                                <div class="form-group">
-                                    <label> توضیح مقدار</label>
-                                    <textarea asp-for="Description">
-
-                                        </textarea>
-                                </div>>
-                                <!-- /.card-body -->
-                            </div>
-                            <!-- /.card -->
-                            <button href="#" type="submit" class="btn btn-primary">ویرایش</button>
-                        </div>
-                    </form>
+                  
                 }
             </div>
         </div>
     </div>
 </section>
 @section CssRefrence{
+    <link rel="stylesheet" href="AdminLTE/plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="AdminLTE/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
     <!-- Or for RTL support -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.rtl.min.css" />
+    <link rel="stylesheet" href="AdminLTE/plugins/fontawesome-free/css/all.min.css">
+   
+    <!-- iCheck for checkboxes and radio inputs -->
+    <link rel="stylesheet" href="AdminLTE/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+
 }
 @section RefrenceScripts{
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <!-- dropzonejs -->
 }
 @section InlineScripts{
     <script>
-        $('#multiple-select-field').select2({
-            theme: "bootstrap-5",
-            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
-            placeholder: $(this).data('placeholder'),
-            closeOnSelect: false,
-        });
+        $.ajax(
+            {
+                url: '@Url.Action("CategoryDropDown","Product")',
+                type: 'GET',
+                data: {
+                    category_Id: $("#headcategory").val(),
+                },
+                success: function (data) {
+                    console.log(data);
+                    $('#category').empty();
+                    $('#category').append('<option value="0"> دسته بندی</option>');
+                    for (const item of data["$values"]) {
+                        $('#category').append('<option value="' + item.value + '">' + item.text + '</ option>');
+                    };
+
+                }
+            });
+               console.log($('#subcategory').val());
+        console.log($("#category").val());
+        window.addEventListener('load', () => {
+            $.ajax(
+                {
+                    url: '@Url.Action("SubCategoryDropDown","Product")',
+                    type: 'GET',
+                    data: {
+                        category_Id: $("#category").val(),
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        $('#subcategory').empty();
+                        for (const item of data["$values"]) {
+                            $('#subcategory').append('<option value="' + item.value + '">' + item.text + '</ option>');
+                        };
+
+                    }
+                });
+        })
+
+        $("#headcategory").click(function () {
+            $.ajax(
+                {
+                    url: '@Url.Action("CategoryDropDown","Product")',
+                    type: 'GET',
+                    data: {
+                        category_Id: $("#headcategory").val(),
+                    },
+                    success: function (data) {
+                     
+                        $('#category').empty();
+                           $('#category').append('<option value="0"> دسته بندی</option>');
+                        for (const item of data["$values"]) {
+                            $('#category').append('<option value="' + item.value + '">' + item.text + '</ option>');
+                        };
+                    }
+                });
+        })
+        $("#category").change(function () {
+            $.ajax(
+                {
+                    url: '@Url.Action("SubCategoryDropDown","Product")',
+                    type: 'GET',
+                    data: {
+                        category_Id: $("#category").val(),
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        $('#subcategory').empty();
+                        $('#subcategory').append('<option value="0">زیر دسته بندی</option>');
+                        for (const item of data["$values"]) {
+                            $('#subcategory').append('<option value="' + item.value + '">' + item.text + '</ option>');
+                        };
+                        $(document).ready(function () {
+                            $('.js-example-basic-multiple').select2({
+                                   placeholder: "Select a state",
+                                   allowClear: true,
+                                  theme: 'bootstrap4',
+                                  dire:'rtl',
+                            });
+                        });
+                    }
+                });
+        })
+
     </script>
 }

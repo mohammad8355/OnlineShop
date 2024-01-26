@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using BusinessEntity;
+using System.ComponentModel.DataAnnotations;
 
 namespace PresentationLayer.Models.ViewModels
 {
@@ -12,10 +13,9 @@ namespace PresentationLayer.Models.ViewModels
         [Required]
         [MaxLength(500)]
         public string Description { get; set; }
-        [Required]
-        [MaxLength(100)]
-        public string IdentifierName { get; set; }
-        [Required]
-        public int headCategory_Id { get; set; }
+
+        public int? ParentId { get; set; }
+
+
     }
 }

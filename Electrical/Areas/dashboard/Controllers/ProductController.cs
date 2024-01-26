@@ -7,28 +7,26 @@ using PresentationLayer.uploadfile;
 using PresentationLayer.Models.ViewModels;
 using System.Drawing;
 using BusinessLogicLayer.ProductPhotoService;
+using BusinessLogicLayer.CategoryToProductService;
+using Microsoft.Build.Framework;
 
 namespace PresentationLayer.Areas.dashboard.Controllers
 {
     [Area("dashboard")]
     public class ProductController : Controller
     {
-
-        private readonly HeadCategoryLogic headCategoryLogic;
         private readonly ProductLogic productLogic;
         private readonly CategoryLogic categoryLogic;
-        private readonly SubCategoryLogic subcategoryLogic;
         private readonly UploadFile fileManager;
         private readonly ProductPhotoLogic productPhotoLogic;
-        public ProductController(CategoryLogic categoryLogic,HeadCategoryLogic headCategoryLogic, ProductLogic productLogic, SubCategoryLogic SubCategoryLogic, UploadFile fileManager, ProductPhotoLogic productPhotoLogic)
+        private readonly CategoryToProductLogic categoryToProductLogic;
+        public ProductController(CategoryToProductLogic categoryToProductLogic, CategoryLogic categoryLogic, ProductLogic productLogic, UploadFile fileManager, ProductPhotoLogic productPhotoLogic)
         {
             this.productLogic = productLogic;
-            this.headCategoryLogic = headCategoryLogic;
-            subcategoryLogic = SubCategoryLogic;
             this.fileManager = fileManager;
             this.productPhotoLogic = productPhotoLogic;
             this.categoryLogic = categoryLogic;
-
+            this.categoryToProductLogic = categoryToProductLogic;
         }
         //list of product
         public IActionResult Index()
@@ -45,11 +43,7 @@ namespace PresentationLayer.Areas.dashboard.Controllers
         //add product  view 
         [HttpGet]
         public IActionResult AddProduct()
-        { 
-            var headcategories = (List<HeadCategory>)headCategoryLogic.HeadCategoryList();
-            #region create select list of categories
-            ViewBag.categories = new SelectList(headcategories, "Id", "Name");
-            #endregion
+        {
             return View();
         }
         //get model and add product
@@ -57,9 +51,7 @@ namespace PresentationLayer.Areas.dashboard.Controllers
         public async Task<IActionResult> AddProduct(AddEditProductViewModel model)
         {
             if (ModelState.IsValid)
-            {
-                var subCategory = subcategoryLogic.SubCategoryDetail(model.SubCategory_Id);
-                //in future this formats list would be dynamic
+            {                //in future this formats list would be dynamic
                 #region regular image formats list 
                 var formats = new List<string>()
             {
@@ -93,17 +85,29 @@ namespace PresentationLayer.Areas.dashboard.Controllers
                     height = model.height,
                     Weight = model.Weight,
                     length = model.length,
-                    SubCategory_Id = model.SubCategory_Id,
-                    subCategory = subCategory,
                 };
                 #endregion
                 var resault = await productLogic.AddProduct(ProductModel);
                 if (resault)
                 {
+                    var product = productLogic.ProductList().Where(p => p.Name == model.Name).First();
+                    foreach (var cat in model.SelectList)
+                    {
+                        var categoryToProduct = new CategoryToProduct()
+                        {
+                            Category_Id = cat,
+                            Product_Id = product.Id,
+                        };
+                        var addResult = await categoryToProductLogic.AddCategoryToProduct(categoryToProduct);
+                        if (!addResult)
+                            Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine($"can not add relation between category with id {cat} with product {product.Name} with Id {product.Id}");
+                        Console.ForegroundColor = ConsoleColor.White;
+                    }
+
                     #region set requried parameters such as limitsize and destination of files
                     var limitsize = 0;
-                    var category = categoryLogic.CategoryDetail(subCategory.category_Id);
-                    var destination = "Image\\Product\\" + category.Parent + "\\" + subCategory.Parent + "\\" + subCategory.IdentifierName + "\\" + model.Name;
+                    var destination = "Image\\Product\\" + model.Name;
                     #endregion
 
                     #region upload image files 
@@ -113,14 +117,13 @@ namespace PresentationLayer.Areas.dashboard.Controllers
                         var ImageName = Guid.NewGuid().ToString();
                         //upload image on server;
 
-                        var UploadFileResault = await fileManager.fileManager(ImageName, destination, limitsize, "", file);
+                        var UploadFileResault = await fileManager.Upload(ImageName, destination, limitsize, "", file);
                         //if upload successfull 
                         if ((bool)UploadFileResault.First() == true)
                         {
                             //convert bytes to kilobytes
                             var ImageSize = file.Length / 1024;
                             #region bind productphoto model 
-                            var product = productLogic.ProductList().Where(p => p.Name == model.Name && p.SubCategory_Id == model.SubCategory_Id).First();
                             ProductPhoto productPhoto = new ProductPhoto()
                             {
                                 Name = ImageName + UploadFileResault.Last().ToString(),
@@ -130,7 +133,7 @@ namespace PresentationLayer.Areas.dashboard.Controllers
                             };
                             #endregion
                             //add photo to productphoto model
-                           var result =  await productPhotoLogic.AddProductPhoto(productPhoto);
+                            var result = await productPhotoLogic.AddProductPhoto(productPhoto);
                             if (!result)
                             {
                                 ModelState.AddModelError("", "افزودن ابا مشکل مواجه شد");
@@ -154,41 +157,7 @@ namespace PresentationLayer.Areas.dashboard.Controllers
                     return View(model);
                 }
             }
-            var headcategories = (List<HeadCategory>)headCategoryLogic.HeadCategoryList();
-            #region create select list of categories
-            ViewBag.categories = new SelectList(headcategories, "Id", "Name");
-            #endregion
             return View(model);
-
-        }
-        [HttpGet("Product/SubCategoryDropDown/Id")]
-        public JsonResult SubCategoryDropDown(int category_Id)
-        {
-            if(category_Id != 0)
-            {
-                #region make list of categories and subcategories for create select list
-                var category = categoryLogic.CategoryDetail(category_Id);
-                var subcategories = subcategoryLogic.SubCategoryList().Where(s => s.category_Id == category.Id).ToList();
-                #endregion
-                return Json(new SelectList(subcategories, "Id", "Name"));
-            }
-            return Json(new SelectList(new List<SubCategory>(), "Id", "Name"));
-        }
-        [HttpGet("Product/CategoryDropDown/Id")]
-        public JsonResult CategoryDropDown(int category_Id)
-        {
-            #region make list of categories and subcategories for create select list
-            if(category_Id != 0)
-            {
-                var headcategory = headCategoryLogic.HeadCategoryDetail(category_Id);
-                var categories = categoryLogic.CategoryList().Where(s => s.headCategory_Id == headcategory.Id).ToList();
-                return Json(new SelectList(categories, "Id", "Name"));
-            }
-            else
-            {
-                return Json(new SelectList(new List<Category>(), "Id", "Name"));
-            }
-            #endregion
 
         }
         [HttpGet]
@@ -205,7 +174,10 @@ namespace PresentationLayer.Areas.dashboard.Controllers
         public async Task<IActionResult> ProductEdit(int Id)
         {
             var ProductModel = await productLogic.ProductDetail(Id);
+            var categorytoproduct = categoryToProductLogic.KeyToSubCategoryList().Where(cp => cp.Product_Id == ProductModel.Id).Select(c => c.Category_Id).ToList();
+
             #region bind add edit view model 
+
             var model = new AddEditProductViewModel()
             {
                 Name = ProductModel.Name,
@@ -216,16 +188,10 @@ namespace PresentationLayer.Areas.dashboard.Controllers
                 height = ProductModel.height,
                 Weight = ProductModel.Weight,
                 length = ProductModel.length,
-                SubCategory_Id = ProductModel.SubCategory_Id,
-
+                SelectList = categorytoproduct,
             };
             #endregion
-            #region create select list of categories
-            var headCategories = (List<HeadCategory>)headCategoryLogic.HeadCategoryList();
-            var categories = categoryLogic.CategoryDetail(ProductModel.subCategory.category_Id);
-            ViewBag.categories = new SelectList(headCategories, "Id", "Name",categories.headCategory_Id);
-            #endregion
-            return View(model);
+            return View("AddProduct", model);
         }
 
         [HttpPost]
@@ -250,10 +216,33 @@ namespace PresentationLayer.Areas.dashboard.Controllers
             ProductModel.height = model.height;
             ProductModel.Weight = model.Weight;
             ProductModel.length = model.length;
-            ProductModel.SubCategory_Id = model.SubCategory_Id;
             var resault = await productLogic.UpdateProduct(ProductModel);
             if (resault)
             {
+
+                var categorytoproductlist = categoryToProductLogic.KeyToSubCategoryList().Where(cp => cp.Product_Id == model.Id).ToList();
+                foreach (var catToPro in categorytoproductlist)
+                {
+                    var deleteResult = await categoryToProductLogic.DeleteCategoryToProduct(catToPro.Category_Id, catToPro.Product_Id);
+                    if (!deleteResult)
+                     Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"can not delete relation between category with id {catToPro} with product {model.Name} with Id {model.Id}");
+                   Console.ForegroundColor = ConsoleColor.White;
+                }
+                foreach (var cat in model.SelectList)
+                {
+                    var categoryToProduct = new CategoryToProduct()
+                    {
+                        Category_Id = cat,
+                        Product_Id = model.Id,
+                    };
+                    var addResult = await categoryToProductLogic.AddCategoryToProduct(categoryToProduct);
+                    if (!addResult)
+                     Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"can not add relation between category with id {cat} with product {model.Name} with Id {model.Id}");
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+
                 if (model.File != null)
                 {
                     #region check format of image files
@@ -268,9 +257,7 @@ namespace PresentationLayer.Areas.dashboard.Controllers
                     }
                     #endregion
                     var limitsize = 0;
-                    var subcategory = subcategoryLogic.SubCategoryDetail(model.SubCategory_Id);
-                    var category = categoryLogic.CategoryDetail(subcategory.category_Id);
-                    var destination = "Image\\Product\\" + category.Parent + "\\" + subcategory.Parent + "\\" + subcategory.IdentifierName + "\\" + model.Name;
+                    var destination = "Image\\Product\\" + model.Name;
                     #region delete last files 
                     foreach (var pp in productPhotoLogic.ProductPhotoList().Where(pp => pp.Product_Id == model.Id).ToList())
                     {
@@ -287,14 +274,14 @@ namespace PresentationLayer.Areas.dashboard.Controllers
                             if (!isDelete)
                             {
                                 ModelState.AddModelError("", "خطایی رخ داده است");
-                                return View(model);
+                                return View("AddProduct", model);
                             }
                             #endregion
                         }
                         else
                         {
                             ModelState.AddModelError("", isSuccess.Last().ToString());
-                            return View(model);
+                            return View("AddProduct", model);
                         }
                         #endregion
                     }
@@ -306,7 +293,7 @@ namespace PresentationLayer.Areas.dashboard.Controllers
                         //make uniqe name
                         var ImageName = Guid.NewGuid().ToString();
                         //upload image on server;
-                        var UploadFileResault = await fileManager.fileManager(ImageName, destination, limitsize, "", file);
+                        var UploadFileResault = await fileManager.Upload(ImageName, destination, limitsize, "", file);
                         //if upload successfull 
                         if ((bool)UploadFileResault.First() == true)
                         {
@@ -328,7 +315,7 @@ namespace PresentationLayer.Areas.dashboard.Controllers
                         else
                         {
                             ModelState.AddModelError("", UploadFileResault.Last().ToString());
-                            return View(model);
+                            return View("AddProduct", model);
                         }
 
                     }
@@ -340,7 +327,7 @@ namespace PresentationLayer.Areas.dashboard.Controllers
             else
             {
                 ModelState.AddModelError("", "عملیات ویرایش با شکست مواجه شد");
-                return View(model);
+                return View("AddProduct", model);
             }
         }
         [HttpGet("Product/DeleteProduct/Id")]
@@ -348,10 +335,16 @@ namespace PresentationLayer.Areas.dashboard.Controllers
         {
             #region delete product
             int PId = int.Parse(Id);
-            var product = productLogic.ProductDetail(PId);
+            var product =  await productLogic.ProductDetail(PId);
+            var photos = productPhotoLogic.ProductPhotoList().Where(p => p.Product_Id == product.Id).ToList();
+            foreach (var photo in photos)
+            {
+                var destination = "Image\\Product\\" + product.Name + "\\" + photo.Name;
+                await fileManager.DeleteFile(destination);
+            }
             var resualt = await productLogic.DeleteProduct(PId);
             #endregion
-            return Json(new { name = product.Result.Name, Resualt = resualt });
+            return Json(new { name = product.Name, Resualt = resualt });
         }
         public IActionResult AddOptions()
         {

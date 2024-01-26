@@ -1,5 +1,4 @@
-﻿using BusinessEntity;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace PresentationLayer.Models.ViewModels
 {
@@ -22,8 +21,8 @@ namespace PresentationLayer.Models.ViewModels
         public int height { get; set; }
         public int length { get; set; }
         [Required]
-        public int SubCategory_Id { get; set; }
-        [Required]
         public IEnumerable<IFormFile> File { get; set; }
+        [Required]
+        public List<int> SelectList { get; set; }
     }
 }

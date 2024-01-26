@@ -13,5 +13,7 @@ namespace PresentationLayer.Models.ViewModels
         [Required]
         [MaxLength(100)]
         public string Description { get; set; }
+        [Required]
+        public List<int> subCategories { get; set; }
     }
 }

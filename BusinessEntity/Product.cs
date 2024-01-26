@@ -33,10 +33,9 @@ namespace BusinessEntity
         public int length { get; set; }
 
         //navigation property
-        public SubCategory subCategory { get; set; }
-        public int SubCategory_Id { get; set; }
         public ICollection<KeyToProduct>  keyToProducts { get; set; }
         public ICollection<DiscountToProduct> discountToProducts { get; set; }
+        public ICollection<CategoryToProduct> CategoryToProducts { get; set; }
         public ICollection<ProductPhoto>  ProductPhotos { get; set; }
     }
 

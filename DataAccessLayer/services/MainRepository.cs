@@ -30,7 +30,7 @@ namespace DataAccessLayer.services
             context.Update(entity);
             context.SaveChanges();
         }
-        private async Task DeleteItem(TEntity entity)
+        public async Task DeleteItem(TEntity entity)
         {
             context.Remove(entity);
            await context.SaveChangesAsync();
@@ -54,10 +54,10 @@ namespace DataAccessLayer.services
             if (where != null)
             {
                 query = query.Where(where);
-                if (includes != null)
-                {
-                    query = includes.Aggregate(query, (current, include) => current.Include(include));
-                }
+            }
+            if (includes != null)
+            {
+                query = includes.Aggregate(query, (current, include) => current.Include(include));
             }
             return await query.ToListAsync();
         }
