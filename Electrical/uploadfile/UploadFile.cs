@@ -79,5 +79,20 @@ namespace PresentationLayer.uploadfile
             }
             return false;
         }
+        public void ChangeDirFile(string OldPath, string NewPath)
+        {
+            var completeOldPath = Path.Combine(hostingEnvironment.WebRootPath, OldPath);
+            var completeNewPath = Path.Combine(hostingEnvironment.WebRootPath, NewPath);
+            if(!Directory.Exists(completeNewPath) && Directory.Exists(completeOldPath))
+             Directory.Move(completeOldPath, completeNewPath);
+        } 
+        public void DeleteDire(string path)
+        {
+            var completepath = Path.Combine(hostingEnvironment.WebRootPath, path);
+            if (Directory.Exists(completepath))
+            {
+                Directory.Delete(completepath);
+            }
+        }
     }
 }
