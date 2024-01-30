@@ -114,7 +114,20 @@
         $(".headlist").click(function () {
             $(this).next(".list").slideToggle();
         });
+        $('a.headlist input[type="checkbox"]').change(function () {
+            console.log("enter foreach");
 
+            var $checkbox = $(this);
+            var $childCheckboxes = $checkbox.parent().siblings('ul').find('input[type="checkbox"]');
+
+            if ($checkbox.prop('checked')) {
+                // Check child checkboxes
+                $childCheckboxes.prop('checked', true);
+            } else {
+                // Uncheck child checkboxes when the parent is unchecked
+                $childCheckboxes.prop('checked', false);
+            }
+        });
 
     </script>
 
@@ -123,19 +136,26 @@
 
     @if (Model != null)
     {
-        <script>
-            var SelectList = @Model.subCategories.ToArray();
-            console.log(SelectList);
-            console.log(@Model.subCategories.ToArray());
-            $('input[type="checkbox"]').each(function () {
-                $(SelectList).each((selectint), function () {
-                    var checkboxValue = $(this).val();
+        @if(Model.subCategories != null)
+        {
+            <script>
+                var selectedIds = @Json.Serialize(Model.subCategories.ToArray());
 
-                    if (checkboxValue == selectint) {
-                        $(this).prop('checked', true);
+                $('input[type="checkbox"]').each(function () {
+                    var checkboxValue = $(this).val();
+                    console.log(selectedIds);
+
+                    // Check the checkbox if its value is in the list of selectedIds
+                    for (var i = 0; i < selectedIds.length; i++) {
+                        if (selectedIds[i] == checkboxValue) {
+                            console.log(0o00);
+                            $(this).prop('checked', true);
+                        }
                     }
                 });
-            });
-        </script>
+            </script>
+
+        }
+ 
     }
 }

@@ -44,7 +44,7 @@ namespace BusinessLogicLayer.CategoryToProductService
             var model = CategoryToProductRepository.Get(s => s.Category_Id == Category_Id && s.Product_Id == Product_Id).Result.FirstOrDefault();
             return model;
         }
-        public ICollection<CategoryToProduct> KeyToSubCategoryList()
+        public ICollection<CategoryToProduct> CategoryToProductList()
         {
 
 

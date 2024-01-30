@@ -56,8 +56,8 @@ namespace BusinessLogicLayer.ProductService
         }
         public async Task<bool> DeleteProduct(int Id)
         {
-            if(categoryToProductLogic.KeyToSubCategoryList().Where(cp => cp.Product_Id == Id).Any())
-            foreach (var catpro in categoryToProductLogic.KeyToSubCategoryList().Where(cp => cp.Product_Id == Id).ToList())
+            if(categoryToProductLogic.CategoryToProductList().Where(cp => cp.Product_Id == Id).Any())
+            foreach (var catpro in categoryToProductLogic.CategoryToProductList().Where(cp => cp.Product_Id == Id).ToList())
             {
                 await categoryToProductLogic.DeleteCategoryToProduct(catpro.Category_Id, catpro.Product_Id);
             };

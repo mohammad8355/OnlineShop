@@ -129,10 +129,7 @@ namespace PresentationLayer.Areas.dashboard.Controllers
             }
             return View("AddTechnicalSpecification",model);
         }
-        public IActionResult AddValuesToOption()
-        {
-            return View();
-        }
+
         [HttpGet("TechnicalSpecification/DropDown/adjkey_Id")]
         public IActionResult DropDown(int adjkey_Id)
         {
@@ -166,6 +163,8 @@ namespace PresentationLayer.Areas.dashboard.Controllers
         [HttpPost]
         public async Task<IActionResult> AddValues(AddAdjValuesViewModel model)
         {
+            var Adjkeis = adjKeyLogic.AdjKeyList();
+            ViewBag.AdjKeys = new SelectList(Adjkeis, "Id", "Name");
             if (ModelState.IsValid)
             {
                 var adjvalue = new AdjValue();
@@ -174,12 +173,11 @@ namespace PresentationLayer.Areas.dashboard.Controllers
                 var result = await adjValueLogic.AddAdjValue(adjvalue);
                 if (result)
                 {
-                    var Adjkeis = adjKeyLogic.AdjKeyList();
-                    ViewBag.AdjKeys = new SelectList(Adjkeis, "Id", "Name");
                     ViewBag.success = "عملیات افزودن مقدار با موفقیت انجام شد !";
-                    return View();
+                    RedirectToAction("AddValues");
                 }
                 ModelState.AddModelError("", "عملیات افزودن مقدار با شکست مواجه شد !");
+
                 return View(model);
             }
             return View(model);

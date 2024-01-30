@@ -9,6 +9,11 @@ using System.Drawing;
 using BusinessLogicLayer.ProductPhotoService;
 using BusinessLogicLayer.CategoryToProductService;
 using Microsoft.Build.Framework;
+using BusinessLogicLayer.AdjKeyService;
+using BusinessLogicLayer.KeyToProductService;
+using BusinessLogicLayer.ValueToProductService;
+using System.Text.Json;
+using BusinessLogicLayer.AdjValueService;
 
 namespace PresentationLayer.Areas.dashboard.Controllers
 {
@@ -20,13 +25,21 @@ namespace PresentationLayer.Areas.dashboard.Controllers
         private readonly UploadFile fileManager;
         private readonly ProductPhotoLogic productPhotoLogic;
         private readonly CategoryToProductLogic categoryToProductLogic;
-        public ProductController(CategoryToProductLogic categoryToProductLogic, CategoryLogic categoryLogic, ProductLogic productLogic, UploadFile fileManager, ProductPhotoLogic productPhotoLogic)
+        private readonly AdjKeyLogic adjKeyLogic;
+        private readonly AdjValueLogic adjvaluelogic;
+        private readonly ValueToProductLogic valueToProductLogic;
+        private readonly KeyToProductLogic keyToProductLogic;
+        public ProductController(AdjValueLogic adjvaluelogic,ValueToProductLogic valueToProductLogic, KeyToProductLogic keyToProductLogic,AdjKeyLogic adjKeyLogic,CategoryToProductLogic categoryToProductLogic, CategoryLogic categoryLogic, ProductLogic productLogic, UploadFile fileManager, ProductPhotoLogic productPhotoLogic)
         {
             this.productLogic = productLogic;
             this.fileManager = fileManager;
             this.productPhotoLogic = productPhotoLogic;
             this.categoryLogic = categoryLogic;
             this.categoryToProductLogic = categoryToProductLogic;
+            this.adjKeyLogic = adjKeyLogic;
+            this.keyToProductLogic = keyToProductLogic;
+            this.valueToProductLogic = valueToProductLogic;
+            this.adjvaluelogic = adjvaluelogic;
         }
         //list of product
         public IActionResult Index()
@@ -167,6 +180,9 @@ namespace PresentationLayer.Areas.dashboard.Controllers
             {
                 product = await productLogic.ProductDetail(Id),
                 categories = categoryLogic.CategoryList(),
+                keyToProducts = keyToProductLogic.KeyToProductList().Where(kp => kp.Product_Id == Id).ToList(),
+                valueToProducts = valueToProductLogic.ValueToProductList().Where(vp => vp.Product_Id == Id).ToList(),
+
             };
             return View(model);
         }
@@ -174,7 +190,7 @@ namespace PresentationLayer.Areas.dashboard.Controllers
         public async Task<IActionResult> ProductEdit(int Id)
         {
             var ProductModel = await productLogic.ProductDetail(Id);
-            var categorytoproduct = categoryToProductLogic.KeyToSubCategoryList().Where(cp => cp.Product_Id == ProductModel.Id).Select(c => c.Category_Id).ToList();
+            var categorytoproduct = categoryToProductLogic.CategoryToProductList().Where(cp => cp.Product_Id == ProductModel.Id).Select(c => c.Category_Id).ToList();
 
             #region bind add edit view model 
 
@@ -208,6 +224,7 @@ namespace PresentationLayer.Areas.dashboard.Controllers
             };
             #endregion
             var ProductModel = await productLogic.ProductDetail(model.Id);
+            var oldName = ProductModel.Name;
             ProductModel.Name = model.Name;
             ProductModel.Price = model.Price;
             ProductModel.QuantityInStock = model.QuantityInStock;
@@ -220,7 +237,11 @@ namespace PresentationLayer.Areas.dashboard.Controllers
             if (resault)
             {
 
-                var categorytoproductlist = categoryToProductLogic.KeyToSubCategoryList().Where(cp => cp.Product_Id == model.Id).ToList();
+                var newpath = "Image\\Product\\" + model.Name + "\\";
+                var oldpath = "Image\\Product\\" + oldName + "\\";
+                    fileManager.ChangeDirFile(oldpath, newpath);
+                   //fileManager.DeleteDire("Image\\Product\\" + oldName);
+                var categorytoproductlist = categoryToProductLogic.CategoryToProductList().Where(cp => cp.Product_Id == model.Id).ToList();
                 foreach (var catToPro in categorytoproductlist)
                 {
                     var deleteResult = await categoryToProductLogic.DeleteCategoryToProduct(catToPro.Category_Id, catToPro.Product_Id);
@@ -336,19 +357,70 @@ namespace PresentationLayer.Areas.dashboard.Controllers
             #region delete product
             int PId = int.Parse(Id);
             var product =  await productLogic.ProductDetail(PId);
-            var photos = productPhotoLogic.ProductPhotoList().Where(p => p.Product_Id == product.Id).ToList();
-            foreach (var photo in photos)
+            foreach (var photo in product.ProductPhotos)
             {
                 var destination = "Image\\Product\\" + product.Name + "\\" + photo.Name;
                 await fileManager.DeleteFile(destination);
             }
+            fileManager.DeleteDire("Image\\Product\\" + product.Name);
             var resualt = await productLogic.DeleteProduct(PId);
             #endregion
             return Json(new { name = product.Name, Resualt = resualt });
         }
+        [HttpGet("Product/DeleteKeyValue/Id")]
+        public async Task<IActionResult> DeleteKeyValue(string key_Id,string product_Id)
+        {
+            #region delete product
+            int keyId = int.Parse(key_Id);
+            int productId = int.Parse(product_Id);
+            var Result = await  keyToProductLogic.DeleteKeyToProduct(keyId, productId);
+            var values = valueToProductLogic.ValueToProductList().Where(v => v.Product_Id == productId && v.Value.adjkey_Id == keyId).ToList();
+            foreach(var value in values)
+            {
+                  Result = await valueToProductLogic.DeleteValueToProduct(value.Value_Id,value.Product_Id);
+            }
+            return Json(new { result = Result, name = " " });
+            #endregion
+        }
+        [HttpGet]
         public IActionResult AddOptions()
         {
-            return View();
+            ViewBag.keys = new SelectList(adjKeyLogic.AdjKeyList(),"Id","Name");
+            ViewBag.Products = new SelectList(productLogic.ProductList(), "Id", "Name");
+            var model = new AddKeyValueToProduct();
+            return View(model);
+        }
+ 
+
+        [HttpPost] 
+        public async Task<IActionResult> AddOptions(AddKeyValueToProduct model)
+        {
+            if (ModelState.IsValid)
+            {
+                foreach(var product in model.ProductIds)
+                {
+                    var keytoproduct = new KeyToProduct()
+                    {
+                        Key_Id = model.KeyId,
+                        Product_Id = product,
+                    };
+                   await keyToProductLogic.AddKeyToProduct(keytoproduct);
+                    foreach(var value in model.ValueIds)
+                    {
+                        var valuetoproduct = new ValueToProduct()
+                        {
+                            Value_Id = value,
+                            Product_Id = product,
+                        };
+                       await valueToProductLogic.AddValueToProduct(valuetoproduct);
+                    }  
+                }
+                ViewBag.Success = "عملیات افزودن کلید و مقدار به محصولات با موفقیت انجام شد";
+                return View();
+            }
+            return View(model);
+
         }
     }
+
 }

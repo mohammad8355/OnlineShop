@@ -37,6 +37,7 @@ namespace BusinessEntity
         public ICollection<DiscountToProduct> discountToProducts { get; set; }
         public ICollection<CategoryToProduct> CategoryToProducts { get; set; }
         public ICollection<ProductPhoto>  ProductPhotos { get; set; }
+        public IEnumerable<ValueToProduct> valueToProducts { get; set; }
     }
 
 }

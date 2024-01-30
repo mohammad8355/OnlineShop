@@ -22,6 +22,8 @@ using Utility.ReturnMultipleData;
 using BusinessLogicLayer.ProductPhotoService;
 using BusinessLogicLayer.KeyToSubCategoryService;
 using BusinessLogicLayer.CategoryToProductService;
+using BusinessLogicLayer.ValueToProductService;
+using BusinessLogicLayer.KeyToProductService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -78,6 +80,8 @@ builder.Services.AddScoped<MainRepository<BlogSection>>();
 builder.Services.AddScoped<MainRepository<ProductPhoto>>();
 builder.Services.AddScoped<MainRepository<Category>>();
 builder.Services.AddScoped<MainRepository<CategoryToProduct>>();
+builder.Services.AddScoped<MainRepository<ValueToProduct>>();
+builder.Services.AddScoped<MainRepository<KeyToProduct>>();
 #endregion
 #region businessLogic layer service
 builder.Services.AddScoped<AdjKeyLogic>();
@@ -89,6 +93,8 @@ builder.Services.AddScoped<ProductPhotoLogic>();
 builder.Services.AddScoped<CategoryLogic>();
 builder.Services.AddScoped<KeyToSubCategoryLogic>();
 builder.Services.AddScoped<CategoryToProductLogic>();
+builder.Services.AddScoped<ValueToProductLogic>();
+builder.Services.AddScoped<KeyToProductLogic>();
 #endregion
 builder.Services.AddScoped<ReturnMultipleData<UploadFile>>();
 builder.Services.AddScoped<UploadFile>();

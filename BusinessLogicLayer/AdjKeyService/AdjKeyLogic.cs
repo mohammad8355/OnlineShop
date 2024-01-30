@@ -96,10 +96,10 @@ namespace BusinessLogicLayer.AdjKeyService
                 model.adjValues = AdjValues;
                 return model;
         }
-        public ICollection<AdjKey> AdjKeyList()
+        public List<AdjKey> AdjKeyList()
         {
 
-            ICollection<AdjKey> keys = new List<AdjKey>();
+            List<AdjKey> keys = new List<AdjKey>();
             foreach(var item in AdjKeyRepository.Get().Result.ToList())
             {
                 var keyToProduct = KeyToProductRepository.Get(kp => kp.Key_Id == item.Id,v => v.product).Result.ToList();

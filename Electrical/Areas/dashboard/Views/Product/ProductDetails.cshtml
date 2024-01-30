@@ -108,7 +108,7 @@
                         </div>
                         <div class="col-12 col-sm-6 p-3">
                             <a asp-action="ProductEdit" asp-controller="Product" asp-area="dashboard" asp-route-Id="@Model.product.Id" asp class="btn btn-primary">ویرایش</a>
-                            <button type="button" class="btn btn-danger"><i value="@Model.product.Id" class="fa-solid fa-trash-can"></i></button>
+                            <button type="button" class="btn btn-danger productDel"><i value="@Model.product.Id" class="fa-solid fa-trash-can"></i></button>
                         </div>
                     </div>
                 </div>
@@ -133,46 +133,25 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach(var keyValue in Model.keyToProducts)
+                                    {
                                     <tr>
-                                        <td>پاور</td>
-                                        <td>1200wh</td>
+                                        <td>@keyValue.adjKey.Name</td>
+                                        <td>
+                                            <p>
+                                            @foreach(var value in Model.valueToProducts.Where(v => v.Value.adjkey_Id == keyValue.Key_Id).ToList())
+                                                {
+                                                        @Html.Raw("/") @value.Value.Value @Html.Raw("/")
+                                                }
+                                                </p>
+                                            </td>
                                         <td>
                                             <div class="btn-group">
-                                                <button type="button" class="btn btn-info"><i class="fa-solid fa-pen"></i></button>
-                                                <button type="button" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
+                                                <button type="button" class="btn btn-danger keyvalueDel" data-key-Id="@keyValue.Key_Id" data-product-Id="@Model.product.Id" ><i class="fa-solid fa-trash-can"></i></button>
                                             </div>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td>مقدار روشنایی</td>
-                                        <td>1200ghz</td>
-                                        <td>
-                                            <div class="btn-group">
-                                                <button type="button" class="btn btn-info"><i class="fa-solid fa-pen"></i></button>
-                                                <button type="button" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>ترکیب رنگ</td>
-                                        <td>1200</td>
-                                        <td>
-                                            <div class="btn-group">
-                                                <button type="button" class="btn btn-info"><i class="fa-solid fa-pen"></i></button>
-                                                <button type="button" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>کیفیت تصویر</td>
-                                        <td>1000 gh</td>
-                                        <td>
-                                            <div class="btn-group">
-                                                <button type="button" class="btn btn-info"><i class="fa-solid fa-pen"></i></button>
-                                                <button type="button" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    }
                                 </tbody>
                             </table>
                         </div>
@@ -369,7 +348,7 @@
             chart.draw();
         });
 
-        var btnDelete = document.querySelector(".fa-trash-can");
+        var btnDelete = document.querySelector(".productDel");
         var confrimDelete = false;
 
         btnDelete.addEventListener("click", function () {
@@ -401,13 +380,41 @@
                 console.log(item.value);
                 console.log($(item).attr('value'));
             }
+        })
+
+        $(".keyvalueDel").on('click', function () {
+            if (window.confirm("آیا از حذف این مشخصه اطمینان دارید ؟")) {
+
+                $.ajax(
+                    {
+                        url: '@Url.Action("DeleteKeyValue","Product")',
+                        async: true,
+                        data: { key_Id: $(this).attr('data-key-Id'), product_Id: $(this).attr('data-product-Id') },
+                        type: 'Get',
+                        success: function (result) {
+                            console.log(result);
+                            if (result.result) {
+                                alert("  مشخصه  حذف " + result.name + " با موفقیت انجام شد  ");
+                                location.reload();
+                            }
+                            else {
+                                alert("  مشخصه حذف " + result.name + " با شکست مواجه شد  ");
+                            }
+                            console.log("ajax");
+                        },
+                        error: function () {
+                            alert("delete fail");
+                        }
+
+                    }
+                );
+            }
 
 
 
 
 
         })
-
 
     </script>
     }

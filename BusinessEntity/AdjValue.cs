@@ -19,6 +19,7 @@ namespace BusinessEntity
         //navigation property 
         public AdjKey adjKey { get; set; }
         public int adjkey_Id { get; set; }
+        public IEnumerable<ValueToProduct> valueToProducts { get; set; }
     }
 
 }

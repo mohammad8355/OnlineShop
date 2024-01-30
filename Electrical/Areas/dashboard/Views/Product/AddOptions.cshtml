@@ -1,59 +1,31 @@
-﻿<div class="container">
+﻿@model AddKeyValueToProduct
+<div class="container">
     <div class="row">
         <div class="card card-warning">
             <div class="card-header">
                 <h3 class="card-title col-6">مشخصات فنی</h3>
             </div>
-            <form>
+            <form method="post" asp-action="AddOptions" asp-controller="Product">
                 <div class="card-body row">
                     <!-- select -->
-                    <div class="form-group col-sm-6">
-                        <label>سر دسته بندی</label>
-                        <select class="form-control">
-                            <option>تجهیزات کامپیوتر</option>
-                            <option>تجهیزات موبایل</option>
-                            <option>کیس اسمبل شده</option>
-                            <option>تجهیزات جانبی</option>
-                        </select>
-                    </div>
-                    <div class="form-group col-sm-6">
-                        <label>زیر دسته بندی</label>
-                        <select class="form-control">
-                            <option>مانیتور</option>
-                            <option>رم</option>
-                            <option>مادربرد</option>
-                            <option>پاور</option>
-                        </select>
-                    </div>
+                    @if (ViewBag.success != null)
+                    {
+                        <div class="alert alert-success">ViewBag.success</div>
+                    }
                     <div class="form-group col-12">
                         <div class="form-group col-sm-12">
-                            <label>Multiple</label>
-                            <select class="select2" multiple="multiple" data-placeholder="Select a State" style="width:100%">
-                                <option>مانیتور x33 </option>
-                                <option> proمانیتور</option>
-                                <option>HQultraمانیتور</option>
-                                <option>2023مانیتور</option>
-                                <option>مانیتورAZH</option>
-                                <option>مانیتور super</option>
-                                <option>مانیتورProx4</option>
+                            <label>محصولات</label>
+                            <select class="select2 multiplelist" multiple="multiple" data-placeholder="Select a State" style="width:100%" id="productlist" asp-for="ProductIds" asp-items="ViewBag.Products">
                             </select>
                         </div>
-                        <div class="form-group col-sm-6">
+                        <div class="form-group col-sm-12">
                             <label>مشخصات کلید ها</label>
-                            <select class="form-control">
-                                <option>وزن</option>
-                                <option>رم</option>
-                                <option>مادربرد</option>
-                                <option>پاور</option>
+                            <select class="form-control" asp-items="ViewBag.keys" id="adjkey" asp-for="KeyId">
                             </select>
                         </div>
-                        <div class="form-group col-sm-6">
+                        <div class="form-group col-sm-12">
                             <label>مقدار ها</label>
-                            <select class="form-control">
-                                <option>128</option>
-                                <option>64</option>
-                                <option>32</option>
-                                <option>16</option>
+                            <select class="form-control multiplelist" id="adjvalue" multiple="multiple" asp-for="ValueIds">
                             </select>
                         </div>
                         <button type="submit" class="btn btn-primary">افزودن</button>
@@ -67,16 +39,56 @@
 
 @section RefrenceScripts{
     <script src="AdminLTE/plugins/select2/js/select2.full.min.js"></script>
-
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 }
 @section InlineScripts{
     <script>
-        //Initialize Select2 Elements
-        $('.select2').select2()
 
+    </script>
+
+    <script>
         //Initialize Select2 Elements
-        $('.select2bs4').select2({
-            theme: 'bootstrap4'
-        })
+        $(document).ready(function () {
+            $('.multiplelist').select2();
+
+            var adjkeySelect = document.getElementById("adjkey");
+            adjkeySelect.addEventListener("change", function () {
+                var value = adjkeySelect.value;
+                $.ajax(
+                    {
+                        url: '@Url.Action("DropDown","TechnicalSpecification")',
+                        type: 'GET',
+                        data: { adjkey_Id: value },
+                        success: function (data) {
+                            console.log(data);
+                            $('#adjvalue').empty();
+                            $('#adjvalue').append('<option value="0" >مقدار مورد نظر را انتخاب کنید</ option>');
+                            console.log(data);
+                            for (const item of data["$values"]) {
+                                $('#adjvalue').append('<option value="' + item.value + '">' + item.text + '</ option>');
+                            };
+                        },
+                    });
+            })
+            $('a.headlist input[type="checkbox"]').change(function () {
+                console.log("enter foreach");
+
+                var $checkbox = $(this);
+                var $childCheckboxes = $checkbox.parent().siblings('ul').find('input[type="checkbox"]');
+
+                if ($checkbox.prop('checked')) {
+                    // Check child checkboxes
+                    $childCheckboxes.prop('checked', true);
+                } else {
+                    // Uncheck child checkboxes when the parent is unchecked
+                    $childCheckboxes.prop('checked', false);
+                }
+            });
+            $(".headlist").next(".list").slideUp();
+            $(".headlist").click(function () {
+                $(this).next(".list").slideToggle();
+            });
+        });
     </script>
 }
