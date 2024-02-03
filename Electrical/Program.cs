@@ -24,6 +24,8 @@ using BusinessLogicLayer.KeyToSubCategoryService;
 using BusinessLogicLayer.CategoryToProductService;
 using BusinessLogicLayer.ValueToProductService;
 using BusinessLogicLayer.KeyToProductService;
+using Utility.DiscountCodeGenerator;
+using BusinessLogicLayer.DiscountToProductService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -95,9 +97,11 @@ builder.Services.AddScoped<KeyToSubCategoryLogic>();
 builder.Services.AddScoped<CategoryToProductLogic>();
 builder.Services.AddScoped<ValueToProductLogic>();
 builder.Services.AddScoped<KeyToProductLogic>();
+builder.Services.AddScoped<DiscountToProductLogic>();
 #endregion
 builder.Services.AddScoped<ReturnMultipleData<UploadFile>>();
 builder.Services.AddScoped<UploadFile>();
+builder.Services.AddScoped<CodeGenerator>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

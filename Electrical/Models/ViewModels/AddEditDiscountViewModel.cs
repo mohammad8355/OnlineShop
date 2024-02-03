@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using BusinessEntity;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace BusinessEntity
+namespace PresentationLayer.Models.ViewModels
 {
-    public class Discount
+    public class AddEditDiscountViewModel
     {
         [Key]
         public int Id { get; set; }
@@ -27,9 +24,9 @@ namespace BusinessEntity
         public bool Active { get; set; }
         [MinLength(7)]
         [MaxLength(10)]
+        [AllowNull]
         public string DiscountCode { get; set; }
-
-        //navigation property
-        public ICollection<DiscountToProduct> discountToProducts { get; set; }
+        public List<int> discountToProducts { get; set; }
+        public SelectList selectLists { get; set; }
     }
 }

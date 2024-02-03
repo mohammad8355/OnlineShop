@@ -1,4 +1,7 @@
-﻿<div class="container">
+﻿@using BusinessEntity;
+@model List<Discount>;
+
+<div class="container">
     <div class="row">
         <div class="info-box col-sm-6 col-lg-3">
             <span class="info-box-icon bg-info">
@@ -34,8 +37,10 @@
                             <th>نام تخفیف</th>
                             <th>مقدار تخفبف</th>
                             <th>مدت زمان</th>
+                            <th>زمان تولید</th>
                             <th>مبنای زمان</th>
                             <th>تعداد استفاده</th>
+                            <th>کد تخفیف</th>
                             <th>فعال</th>
                             <th>
                                 کنترل
@@ -43,19 +48,21 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @for (int i = 0; i < 52; i++)
+                        @foreach (var discount in Model)
                         {
                             <tr>
-                                <th>تخفیف پاییزه</th>
-                                <td>30%</td>
-                                <td>15</td>
-                                <td>Day</td>
-                                <td>100</td>
-                                <td>true</td>
+                                <th>@discount.Name</th>
+                                <td>@discount.Value</td>
+                                <td>@discount.Duration</td>
+                                <td>@discount.CreateDate</td>
+                                <td>@discount.DateBase</td>
+                                <td>0</td>
+                                <td>@discount.DiscountCode</td>
+                                <td>@discount.Active</td>
                                 <td>
                                     <div class="btn-group">
-                                        <button type="button" class="btn btn-info"><i class="fa-solid fa-pen"></i></button>
-                                        <button type="button" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
+                                        <a asp-action="EditDiscount" asp-controller="Discount" asp-route-Id="@discount.Id" class="btn btn-info"><i class="fa-solid fa-pen"></i></a>
+                                        <button type="button" data-delete="@discount.Id" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
                                     </div>
                                 </td>
                             </tr>
@@ -66,8 +73,10 @@
                             <th>نام تخفیف</th>
                             <th>مقدار تخفبف</th>
                             <th>مدت زمان</th>
+                            <th>زمان تولید</th>
                             <th>مبنای زمان</th>
                             <th>تعداد استفاده</th>
+                            <th>کد تخفیف</th>
                             <th>فعال</th>
                             <th>
                                 کنترل
@@ -106,7 +115,7 @@
     <script>
         $(function () {
             $("#example1").DataTable({
-                "responsive": true, "lengthChange":true, "autoWidth": false,
+                "responsive": true, "lengthChange": true, "autoWidth": false,
                 "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
             }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
             $('#example2').DataTable({
@@ -119,12 +128,32 @@
                 "responsive": true,
             });
         });
-                var btnDelete = document.querySelectorAll(".fa-trash-can");
-                btnDelete.forEach((item) => {
-                    item.addEventListener("click", function () {
-                        let confrimDelete = window.confirm("آیا از حذف این تخفیف اطمینان دارید ؟");
-                    })
-                });
+        var btnDelete = document.querySelectorAll(".btn-danger");
+        btnDelete.forEach((item) => {
+            item.addEventListener("click", function () {
+                if (window.confirm("آیا از حذف این تخفیف اطمینان دارید ؟")) {
+                    $.ajax({
+                        url: '@Url.Action("DeleteDiscount","Discount")',
+                        type: 'GET',
+                        data: { Id: $(this).attr("data-delete") },
+                        async: true,
+                        success: function (data) {
+                            if (data.result) {
+                                alert("  با موفقیت انجام شد  "  + data.name + " حذف  ");
+                                location.reload();
+                            }
+                            else {
+                                alert("با شکست انجام شد" + data.name + "حذف ");
+                            }
+                        },
+                        error: function () {
+                            alert("خطا در شبکه!");
+                        },
+                    });
+                }
+            })
+        });
+
 
     </script>
     }

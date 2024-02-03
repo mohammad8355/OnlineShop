@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Utility.DiscountCodeGenerator;
 
 namespace BusinessLogicLayer.DiscountService
 {
@@ -13,15 +14,23 @@ namespace BusinessLogicLayer.DiscountService
     {
         private readonly MainRepository<Discount> DiscountRepository;
         private readonly MainRepository<DiscountToProduct> DiscountToProductRepository;
-        public DiscountLogic(MainRepository<Discount> DiscountRepository, MainRepository<DiscountToProduct> DiscountToProductRepository)
+        private readonly CodeGenerator codeGenerator;
+        public DiscountLogic(CodeGenerator codeGenerator,MainRepository<Discount> DiscountRepository, MainRepository<DiscountToProduct> DiscountToProductRepository)
         {
             this.DiscountRepository = DiscountRepository;
             this.DiscountToProductRepository = DiscountToProductRepository;
+            this.codeGenerator = codeGenerator;
         }
         public async Task<bool> AddDiscount(Discount model)
         {
-            if (string.IsNullOrEmpty(model.Name) || string.IsNullOrEmpty(model.DateBase) || model.Value != 0 || string.IsNullOrEmpty(model.DiscountCode))
+            if (!string.IsNullOrEmpty(model.Name) || !string.IsNullOrEmpty(model.DateBase) || model.Value != 0)
             {
+                if(model.DiscountCode == null)
+                {
+                    var code = codeGenerator.GenerateDiscountCode(7);
+                    model.DiscountCode = code;
+                    Console.WriteLine(code);
+                }
                 await DiscountRepository.AddItem(model);
                 return true;
             }

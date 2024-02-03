@@ -5,19 +5,17 @@
             <!-- left column -->
             <div class="col-12">
                 <!-- general form elements -->
-                    <form class="form" asp-action="AddDiscount" asp-controller="Discount">
-                        @if (ViewBag.success != null)
-                        {
-                            <div class="alert alert-success">@ViewBag.success</div>
-                        }
+
+                    <form class="form" asp-action="EditDiscount" asp-controller="Discount">
                         <div class="card card-primary">
                             <div class="card-header">
-                                <h3 class="card-title">افزودن تخفیف</h3>
+                                <h3 class="card-title">ویرایش تخفیف</h3>
                             </div>
                             <!-- /.card-header -->
                             <!-- form start -->
                             <div class="card-body">
                                 <div class="form-group">
+                                    <input asp-for="Id" hidden class="hidden" />
                                     <label for="exampleInputEmail1">نام تخفیف</label>
                                     <input type="text" class="form-control" id="exampleInputEmail1" asp-for="Name" placeholder="نام تخفیف را وارد کنید">
                                 </div>
@@ -53,10 +51,9 @@
                                 <!-- /.card-body -->
                             </div>
                             <!-- /.card -->
-                            <button type="submit" class="btn btn-primary">افزودن</button>
+                            <button type="submit" class="btn btn-primary">ویرایش</button>
                         </div>
                     </form>
-                
             </div>
         </div>
     </div>
@@ -67,9 +64,9 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 }
 @section InlineScripts
-{
+    {
     <script>
-        $(document).ready(function(){
+        $(document).ready(function () {
             $(".multiple-select").select2();
         })
     </script>
