@@ -23,7 +23,7 @@ namespace BusinessLogicLayer.DiscountService
         }
         public async Task<bool> AddDiscount(Discount model)
         {
-            if (!string.IsNullOrEmpty(model.Name) || !string.IsNullOrEmpty(model.DateBase) || model.Value != 0)
+            if (!string.IsNullOrEmpty(model.Name) && !string.IsNullOrEmpty(model.DateBase) && model.Value != 0)
             {
                 if(model.DiscountCode == null)
                 {

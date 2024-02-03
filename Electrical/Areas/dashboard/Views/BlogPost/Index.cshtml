@@ -1,4 +1,6 @@
-﻿<div class="container">
+﻿@using BusinessEntity;
+@model List<BlogPost>
+<div class="container">
     <div class="row">
         <div class="card col-12">
             <div class="card-header">
@@ -12,45 +14,41 @@
                             <th>عنوان</th>
                             <th>زمان مطالعه</th>
                             <th>عکس</th>
+                            <th>نویسنده</th>
+                            <th>تاریخ انتشار</th>
+                            <th>تاریخ بروزرسانی</th>
+                            <th>خلاصه متن</th>
+                            <th>تگ ها</th>
                             <th>
                                 کنترل
                             </th>
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach (var blog in Model)
+                        {
                             <tr>
-                                <th>کدام زبان برنامه نویسی بهتر است</th>
-                                <td>2'</td>
-                                <td><img src="/AdminLTE/dist/img/photo4.jpg"  width="200px"/></td>
+                                <th>@blog.Title</th>
+                                <td>@blog.ReadingTime</td>
+                                <td><img src="@blog.CoverLink" width="200px" /></td>
+                                <td>@blog.Author</td>
+                                <td>@blog.PublishDate</td>
+                                <td>@blog.LastUpdates</td>
+                                <td>
+                                    @if (blog.Content.Length > 30)
+                                    {
+                                        @blog.Content.Substring(0,30)  <p>...</p>
+                                    }
+                                </td>
+                                <td>No tags</td>
                                 <td>
                                     <div class="btn-group">
-                                        <button type="button" class="btn btn-info"><i class="fa-solid fa-pen"></i></button>
-                                        <button type="button" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
+                                        <a type="button" asp-action="EditBlogPost" asp-controller="BlogPost" asp-route-Id="@blog.Id" class="btn btn-info"><i class="fa-solid fa-pen"></i></a>
+                                        <button type="button" data-delete="@blog.Id" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
                                     </div>
                                 </td>
                             </tr>
-                        <tr>
-                            <th>کدام زبان برنامه نویسی بهتر است</th>
-                            <td>2'</td>
-                            <td><img src="/AdminLTE/dist/img/photo4.jpg" width="200px" /></td>
-                            <td>
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-info"><i class="fa-solid fa-pen"></i></button>
-                                    <button type="button" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>کدام زبان برنامه نویسی بهتر است</th>
-                            <td>2'</td>
-                            <td><img src="/AdminLTE/dist/img/photo4.jpg" width="200px" /></td>
-                            <td>
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-info"><i class="fa-solid fa-pen"></i></button>
-                                    <button type="button" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
-                                </div>
-                            </td>
-                        </tr>
+                        };
 
                     </tbody>
                     <tfoot>
@@ -58,6 +56,11 @@
                             <th>عنوان</th>
                             <th>زمان مطالعه</th>
                             <th>عکس</th>
+                            <th>نویسنده</th>
+                            <th>تاریخ انتشار</th>
+                            <th>تاریخ بروزرسانی</th>
+                            <th>خلاصه متن</th>
+                            <th>تگ ها</th>
                             <th>
                                 کنترل
                             </th>
@@ -108,10 +111,30 @@
                 "responsive": true,
             });
         });
-        var btnDelete = document.querySelectorAll(".fa-trash-can");
+        var btnDelete = document.querySelectorAll(".btn-danger");
         btnDelete.forEach((item) => {
             item.addEventListener("click", function () {
-                let confrimDelete = window.confirm("آیا از حذف این بلاگ اطمینان دارید ؟");
+                if (window.confirm("آیا از حذف این پست اطمینان دارید ؟")) {
+                    console.log($(this).attr("data-delete"));
+                    $.ajax({
+                        url: '@Url.Action("DeleteBlogpost","BlogPost")',
+                        type: 'GET',
+                        data: { Id: $(this).attr("data-delete") },
+                        async: true,
+                        success: function (data) {
+                            if (data.result) {
+                                alert("  با موفقیت انجام شد  " + data.name + " حذف  ");
+                                location.reload();
+                            }
+                            else {
+                                alert("با شکست انجام شد" + data.name + "حذف ");
+                            }
+                        },
+                        error: function () {
+                            alert("خطا در شبکه!");
+                        },
+                    });
+                }
             })
         });
 

@@ -25,7 +25,6 @@ namespace DataAccessLayer
         
             base.OnModelCreating(builder);
             builder.Entity<AdjValue>().Property(p => p.Value).IsRequired(true);
-            builder.Entity<BlogSection>().Property(p => p.photo).IsRequired(false);
             builder.Entity<General>().Property(p => p.label).IsRequired(false);
             builder.Entity<General>().Property(p => p.Link).IsRequired(false);
             builder.Entity<General>().Property(p => p.Description).IsRequired(false);
@@ -38,7 +37,6 @@ namespace DataAccessLayer
             builder.Entity<KeyToSubCategory>().HasOne(c => c.adjKey).WithMany(b => b.keyToSubCategories).HasForeignKey(v => v.key_Id);
             builder.Entity<KeyToSubCategory>().HasOne(c => c.subCategory).WithMany(b => b.keyToSubCategories).HasForeignKey(v => v.SubCategory_Id);
             builder.Entity<Category>().HasMany(c => c.ChildCategories).WithOne(c => c.ParentCategory).HasForeignKey(m => m.ParentId).OnDelete(DeleteBehavior.NoAction);
-            builder.Entity<Weblog>().HasMany(c => c.blogSections).WithOne(s => s.Weblog).HasForeignKey(w => w.Weblog_Id);
             builder.Entity<Order>().HasMany(c => c.orderDetails).WithOne(s => s.order).HasForeignKey(f => f.order_Id);
             builder.Entity<DiscountToProduct>().HasKey(k => new { k.Discount_Id, k.Product_Id });
             builder.Entity<DiscountToProduct>().HasOne(c => c.discount).WithMany(b => b.discountToProducts).HasForeignKey(v => v.Discount_Id);
@@ -54,8 +52,7 @@ namespace DataAccessLayer
         DbSet<AdjKey> adjKeys { get; set; }
         DbSet<AdjValue> adjValues { get; set; }
         DbSet<Category> Categories { get; set; }
-        DbSet<Weblog> weblogs { get; set; }
-        DbSet<BlogSection> blogSections { get; set; }
+        DbSet<BlogPost> blogPost { get; set; }
         DbSet<Discount> discounts { get; set; }
         DbSet<KeyToProduct> keyToProducts { get; set; }
         DbSet<KeyToSubCategory> keyToSubCategories { get; set; }

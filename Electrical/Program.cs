@@ -26,6 +26,8 @@ using BusinessLogicLayer.ValueToProductService;
 using BusinessLogicLayer.KeyToProductService;
 using Utility.DiscountCodeGenerator;
 using BusinessLogicLayer.DiscountToProductService;
+using BusinessLogicLayer.ContactService;
+using BusinessLogicLayer.BlogPostService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -77,13 +79,13 @@ builder.Services.AddScoped<MainRepository<Discount>>();
 builder.Services.AddScoped<MainRepository<Order>>();
 builder.Services.AddScoped<MainRepository<OrderDetails>>();
 builder.Services.AddScoped<MainRepository<General>>();
-builder.Services.AddScoped<MainRepository<Weblog>>();
-builder.Services.AddScoped<MainRepository<BlogSection>>();
+builder.Services.AddScoped<MainRepository<BlogPost>>();
 builder.Services.AddScoped<MainRepository<ProductPhoto>>();
 builder.Services.AddScoped<MainRepository<Category>>();
 builder.Services.AddScoped<MainRepository<CategoryToProduct>>();
 builder.Services.AddScoped<MainRepository<ValueToProduct>>();
 builder.Services.AddScoped<MainRepository<KeyToProduct>>();
+builder.Services.AddScoped<MainRepository<Contact>>();
 #endregion
 #region businessLogic layer service
 builder.Services.AddScoped<AdjKeyLogic>();
@@ -98,6 +100,8 @@ builder.Services.AddScoped<CategoryToProductLogic>();
 builder.Services.AddScoped<ValueToProductLogic>();
 builder.Services.AddScoped<KeyToProductLogic>();
 builder.Services.AddScoped<DiscountToProductLogic>();
+builder.Services.AddScoped<ContactsLogic>();
+builder.Services.AddScoped<BlogPostLogic>();
 #endregion
 builder.Services.AddScoped<ReturnMultipleData<UploadFile>>();
 builder.Services.AddScoped<UploadFile>();

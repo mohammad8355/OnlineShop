@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BusinessEntity
 {
-    public class Weblog
+    public class BlogPost
     {
         [Key]
         public int Id { get; set; }
@@ -16,14 +16,19 @@ namespace BusinessEntity
         [MaxLength(100)]
         public string Title { get; set; }
         [Required]
-        public DateTime DateTime { get; set; }
+        public DateTime PublishDate { get; set; }
+        [Required]
+        public DateTime LastUpdates { get; set; }
         [Required]
         public  int ReadingTime { get; set; }
         [Required]
         [MaxLength(300)]
         public  string CoverLink { get; set; }
+        [Required]
+        [MaxLength(50)]
+        public string Author { get; set; }
+        [Required, MaxLength(2000)]
+        public string Content { get; set; }
 
-        //navigation property
-        public ICollection<BlogSection> blogSections { get; set; }
     }
 }

@@ -1,0 +1,45 @@
+﻿@model AddEditBlogPostViewModel
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="card card-primary col-sm-10">
+                <div class="card-header">
+                    <h3>ویرایش وبلاگ</h3>
+                </div>
+                <div class="card-body">
+                    <form method="post" asp-action="EditBlogPost" asp-controller="BlogPost">
+                        <input asp-for="Id" hidden class="hidden" />
+                        <div class="form-group">
+                            <label>عنوان</label>
+                            <input asp-for="Title" type="text" placeholder="عنوان وبلاگ را وارد کنید" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label>زمان مطالعه</label>
+                            <input asp-for="ReadingTime" type="number" placeholder="زمان مطالعه وبلاگ را وارد کنید" class="form-control" />
+                        </div>
+
+                        <div class="form-group">
+                            <label>عکس</label>
+                            <input asp-for="CoverLink" class="form-control" placeholder="لینک عکس را قرار دهید">
+
+                        </div>
+                        <div class="form-group">
+                            <label>نویسنده</label>
+                            <input asp-for="Author" class="form-control" placeholder="نام نویسنده را وارد کنید">
+                        </div>
+                        <div class="form-group">
+                            <label>متن</label>
+                            <textarea asp-for="Content" class="form-control" placeholder="متن  را قرار دهید">
+
+                            </textarea>
+                        </div>
+                        <button class="btn btn-success" type="submit">ثبت</button>
+                    </form>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+</section>
