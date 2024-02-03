@@ -1,4 +1,6 @@
-﻿<section class="content">
+﻿@using BusinessEntity;
+@model List<Contact>
+<section class="content">
     <div class="container-fluid">
         <div class="row">
             <div class="card">
@@ -17,50 +19,21 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach(var contact in Model)
+                            {
                                 <tr>
-                                    <td>تلفن</td>
-                                    <td>091234678</td>
-                                    <td>false</td>
+                                    <td>@contact.Name</td>
+                                    <td>@contact.Content</td>
+                                    <td>@contact.IsSocialMedia</td>
                                     <td>
                                         <div class="btn-group">
-                                            <button type="button" class="btn btn-info"><i class="fa-solid fa-pen"></i></button>
-                                            <button type="button" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
+                                            <a asp-action="EditContact" asp-controller="Contact" asp-area="dashboard" asp-route-Id="@contact.Id" class="btn btn-info"><i class="fa-solid fa-pen"></i></a>
+                                            <button type="button" class="btn btn-danger" data-delete="@contact.Id"><i class="fa-solid fa-trash-can"></i></button>
                                         </div>
                                     </td>
                                 </tr>
-                            <tr>
-                                <td>ایمیل</td>
-                                <td>shopemail@gmail.com</td>
-                                <td>false</td>
-                                <td>
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-info"><i class="fa-solid fa-pen"></i></button>
-                                        <button type="button" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>تلگرام</td>
-                                <td>shopmedia</td>
-                                <td>true</td>
-                                <td>
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-info"><i class="fa-solid fa-pen"></i></button>
-                                        <button type="button" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>ایتا</td>
-                                <td>091234678</td>
-                                <td>true</td>
-                                <td>
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-info"><i class="fa-solid fa-pen"></i></button>
-                                        <button type="button" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
+
+                            }
                           
                         </tbody>
                         <tfoot>
@@ -115,10 +88,30 @@
                 "responsive": true,
             });
         });
-        var btnDelete = document.querySelectorAll(".fa-trash-can");
+        var btnDelete = document.querySelectorAll(".btn-danger");
         btnDelete.forEach((item) => {
             item.addEventListener("click", function () {
-                let confrimDelete = window.confirm("آیا از حذف این راه ارتباطی اطمینان دارید ؟");
+                if (window.confirm("آیا از حذف این راه ارتباطی اطمینان دارید ؟")) {
+                    console.log($(this).attr("data-delete"));
+                    $.ajax({
+                        url: '@Url.Action("DeleteContact","Contact")',
+                        type: 'GET',
+                        data: { Id: $(this).attr("data-delete") },
+                        async: true,
+                        success: function (data) {
+                            if (data.result) {
+                                alert("  با موفقیت انجام شد  " + data.name + " حذف  ");
+                                location.reload();
+                            }
+                            else {
+                                alert("با شکست انجام شد" + data.name + "حذف ");
+                            }
+                        },
+                        error: function () {
+                            alert("خطا در شبکه!");
+                        },
+                    });
+                }
             })
         });
 

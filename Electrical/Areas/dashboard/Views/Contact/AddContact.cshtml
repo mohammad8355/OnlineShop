@@ -1,0 +1,71 @@
+﻿@using BusinessEntity;
+@model Contact
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="card card-primary col-sm-10">
+                @if (Model == null)
+                {
+                    <div class="card-header">
+                        <h3>افزودن راه ارتباطی</h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" asp-action="AddContact" asp-controller="Contact">
+                            @if (ViewBag.success != null)
+                            {
+                                <div class="alert alert-success">@ViewBag.success</div>
+                            }
+                            <div class="form-group">
+                                <label>عنوان </label>
+                                <input asp-for="Name" type="text" placeholder="عنوان راه ارتباطی را وارد کنید" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label>محتوا</label>
+                                <input asp-for="Content" type="text" placeholder="محتوای راه ارتباطی را وارد کنید" class="form-control" />
+                            </div>
+                            @*                        <label>آیکون</label>
+                        <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="customFile">
+                        <label class="custom-file-label" for="customFile"></label>
+                        </div>*@
+                            <div class="form-group">
+                                <label>فضای مجازی</label>
+                                <input type="checkbox" asp-for="IsSocialMedia" class="form-control" />
+                            </div>
+                            <button class="btn btn-success" type="submit">ثبت</button>
+                        </form>
+                    </div>
+                }
+                else
+                {
+                    <div class="card-header">
+                        <h3>ویرایش راه ارتباطی</h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" asp-action="EditContact" asp-controller="Contact">
+                            <input asp-for="Id" hidden class="hidden">
+                            <div class="form-group">
+                                <label>عنوان </label>
+                                <input asp-for="Name" type="text" placeholder="عنوان راه ارتباطی را وارد کنید" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label>محتوا</label>
+                                <input asp-for="Content" type="text" placeholder="محتوای راه ارتباطی را وارد کنید" class="form-control" />
+                            </div>
+                            @*                        <label>آیکون</label>
+                        <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="customFile">
+                        <label class="custom-file-label" for="customFile"></label>
+                        </div>*@
+                            <div class="form-group">
+                                <label>فضای مجازی</label>
+                                <input type="checkbox" asp-for="IsSocialMedia" class="form-control" />
+                            </div>
+                            <button class="btn btn-success" type="submit">ثبت</button>
+                        </form>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>
