@@ -1,28 +1,58 @@
-﻿
+﻿@using Microsoft.AspNetCore.Identity;
+@model IdentityRole
 <section class="content">
     <div class="container-fluid">
         <div class="row">
             <!-- left column -->
             <div class="col-12">
-                <!-- general form elements -->
-                <form class="form">
-                    <div class="card card-primary">
-                        <div class="card-header">
-                            <h3 class="card-title">افزودن نقش</h3>
-                        </div>
-                        <!-- /.card-header -->
-                        <!-- form start -->
-                        <div class="card-body">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">نام نقش</label>
-                                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="نام نقش را وارد کنید">
+                @if(Model == null)
+                {
+                    <form class="form" asp-action="AddRole" asp-controller="User" method="Post">
+                        <div class="card card-primary">
+                            <div class="card-header">
+                                <h3 class="card-title">افزودن نقش</h3>
                             </div>
-                            <!-- /.card-body -->
+                            <!-- /.card-header -->
+                            <!-- form start -->
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">نام نقش</label>
+                                    <input asp-for="Name" class="form-control" id="exampleInputEmail1" placeholder="نام نقش را وارد کنید">
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                            <button type="submit" class="btn btn-primary">افزودن</button>
                         </div>
-                        <!-- /.card -->
-                        <a href="#" type="submit" class="btn btn-primary">افزودن</a>
-                    </div>
-                </form>
+                    </form>
+                }
+                else
+                {
+                    <form class="form" asp-action="EditRole" asp-controller="User" method="Post">
+                        <div class="card card-primary">
+                            <div class="card-header">
+                                <h3 class="card-title">افزودن نقش</h3>
+                            </div>
+                            <!-- /.card-header -->
+                            <!-- form start -->
+                            <div class="card-body">
+                                @if (ViewBag.success != null)
+                                {
+                                    <div class="alert alert-success">@ViewBag.success</div>
+                                }
+                                <input asp-for="Id" hidden class="hidden" >
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">نام نقش</label>
+                                    <input asp-for="Name" class="form-control" id="exampleInputEmail1" placeholder="نام نقش را وارد کنید">
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                            <button type="submit" class="btn btn-primary">ویرایش</button>
+                        </div>
+                    </form>
+                }
+                <!-- general form elements -->
             </div>
         </div>
     </div>

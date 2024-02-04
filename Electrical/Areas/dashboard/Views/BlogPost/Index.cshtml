@@ -11,6 +11,9 @@
                 <table id="example1" class="table table-bordered table-striped">
                     <thead>
                         <tr>
+                            <th>
+                                کنترل
+                            </th>
                             <th>عنوان</th>
                             <th>زمان مطالعه</th>
                             <th>عکس</th>
@@ -19,15 +22,18 @@
                             <th>تاریخ بروزرسانی</th>
                             <th>خلاصه متن</th>
                             <th>تگ ها</th>
-                            <th>
-                                کنترل
-                            </th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var blog in Model)
                         {
                             <tr>
+                                <td>
+                                    <div class="btn-group">
+                                        <a type="button" asp-action="EditBlogPost" asp-controller="BlogPost" asp-route-Id="@blog.Id" class="btn btn-info"><i class="fa-solid fa-pen"></i></a>
+                                        <button type="button" data-delete="@blog.Id" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
+                                    </div>
+                                </td>
                                 <th>@blog.Title</th>
                                 <td>@blog.ReadingTime</td>
                                 <td><img src="@blog.CoverLink" width="200px" /></td>
@@ -41,18 +47,15 @@
                                     }
                                 </td>
                                 <td>No tags</td>
-                                <td>
-                                    <div class="btn-group">
-                                        <a type="button" asp-action="EditBlogPost" asp-controller="BlogPost" asp-route-Id="@blog.Id" class="btn btn-info"><i class="fa-solid fa-pen"></i></a>
-                                        <button type="button" data-delete="@blog.Id" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
-                                    </div>
-                                </td>
                             </tr>
                         };
 
                     </tbody>
                     <tfoot>
                         <tr>
+                            <th>
+                                کنترل
+                            </th>
                             <th>عنوان</th>
                             <th>زمان مطالعه</th>
                             <th>عکس</th>
@@ -61,9 +64,6 @@
                             <th>تاریخ بروزرسانی</th>
                             <th>خلاصه متن</th>
                             <th>تگ ها</th>
-                            <th>
-                                کنترل
-                            </th>
                         </tr>
                     </tfoot>
                 </table>
@@ -114,10 +114,11 @@
         var btnDelete = document.querySelectorAll(".btn-danger");
         btnDelete.forEach((item) => {
             item.addEventListener("click", function () {
-                if (window.confirm("آیا از حذف این پست اطمینان دارید ؟")) {
+                console.log("ok");
+                if (window.confirm("آیا از حذف این راه ارتباطی اطمینان دارید ؟")) {
                     console.log($(this).attr("data-delete"));
                     $.ajax({
-                        url: '@Url.Action("DeleteBlogpost","BlogPost")',
+                        url: '@Url.Action("DeleteBlogPost","BlogPost")',
                         type: 'GET',
                         data: { Id: $(this).attr("data-delete") },
                         async: true,

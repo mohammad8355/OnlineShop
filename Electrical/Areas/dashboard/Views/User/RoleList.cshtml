@@ -1,4 +1,6 @@
-﻿<div class="container">
+﻿@using Microsoft.AspNetCore.Identity;
+@model List<IdentityRole>
+<div class="container">
     <div class="row">
         <table class="table">
             <thead>
@@ -9,46 +11,19 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>SuperAdmin</td>
-                    <td><h4><span class="badge bg-primary">کامل</span></h4></td>
-                    <td>
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-info"><i class="fa-solid fa-pen"></i></button>
-                            <button type="button" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
-                        </div>
-                    </td>
-                </tr>
-                      <tr>
-                    <td>Admin</td>
-                    <td><h4><span class="badge bg-warning">محدود</span></h4></td>
-                    <td>
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-info"><i class="fa-solid fa-pen"></i></button>
-                            <button type="button" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Writer</td>
-                    <td><h4><span class="badge bg-danger">محصور</span></h4></td>
-                    <td>
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-info"><i class="fa-solid fa-pen"></i></button>
-                            <button type="button" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>user</td>
-                    <td><h4><span class="badge bg-secondary">کاربر</span></h4></td>
-                    <td>
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-info"><i class="fa-solid fa-pen"></i></button>
-                            <button type="button" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
-                        </div>
-                    </td>
-                </tr>
+                @foreach(var role in Model)
+                {
+                    <tr>
+                        <td>@role.Name</td>
+                        <td><h4><span class="badge bg-primary">کامل</span></h4></td>
+                        <td>
+                            <div class="btn-group">
+                                <a asp-action="EditRole" asp-controller="User" asp-route-Id="@role.Id" class="btn btn-info"><i class="fa-solid fa-pen"></i></a>
+                                <button type="button" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                }
             </tbody>
         </table>
     </div>

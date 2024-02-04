@@ -1,4 +1,6 @@
-﻿<div class="container">
+﻿@using Microsoft.AspNetCore.Identity;
+@model List<IdentityUser>
+<div class="container">
     <div class="row">
         <div class="info-box col-sm-6 col-lg-3">
             <span class="info-box-icon bg-info">
@@ -6,7 +8,7 @@
             </span>
             <div class="info-box-content">
                 <span class="info-box-text">تعداد کاربران</span>
-                <span class="info-box-number">348</span>
+                <span class="info-box-number">@Model.Count()</span>
             </div>
 
         </div>
@@ -24,7 +26,8 @@
                             <th>نام کاربر</th>
                             <th>ایمیل</th>
                             <th>شماره موبایل</th>
-                            <th>رمز عبور</th>
+                            <th>تاییدیه ایمیل</th>
+                            <th>تاییدیه موبایل</th>
                             <th>مقام</th>
                             <th>فعال</th>
                             <th>
@@ -33,18 +36,19 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @for (int i = 0; i < 52; i++)
+                        @foreach(var user in Model)
                         {
                             <tr>
-                                <th>محمد مهدی</th>
-                                <td>almasi@gmail.com</td>
-                                <td>09123456</td>
-                                <td>1234Abcd</td>
-                                <td>user</td>
-                                <td>true</td>
+                                <th>@user.UserName</th>
+                                <td>@user.Email</td>
+                                <td>@user.PhoneNumber</td>
+                                <td>@user.EmailConfirmed</td>
+                                <td>@user.PhoneNumberConfirmed</td>
+                                <td>no data</td>
+                                <td>@user.LockoutEnabled</td>
                                 <td>
                                     <div class="btn-group">
-                                        <button type="button" class="btn btn-info"><i class="fa-solid fa-pen"></i></button>
+                                        <button type="button" asp-action="EditUser" asp-controller="User" asp-route-Id="@user.Id" class="btn btn-info"><i class="fa-solid fa-pen"></i></button>
                                         <button type="button" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
                                     </div>
                                 </td>
@@ -56,7 +60,8 @@
                             <th>نام کاربر</th>
                             <th>ایمیل</th>
                             <th>شماره موبایل</th>
-                            <th>رمز عبور</th>
+                            <th>تاییدیه ایمیل</th>
+                            <th>تاییدیه موبایل</th>
                             <th>مقام</th>
                             <th>فعال</th>
                             <th>

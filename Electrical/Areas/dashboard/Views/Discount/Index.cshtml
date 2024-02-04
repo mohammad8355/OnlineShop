@@ -34,6 +34,9 @@
                 <table id="example1" class="table table-bordered table-striped">
                     <thead>
                         <tr>
+                            <th>
+                                کنترل
+                            </th>
                             <th>نام تخفیف</th>
                             <th>مقدار تخفبف</th>
                             <th>مدت زمان</th>
@@ -42,15 +45,18 @@
                             <th>تعداد استفاده</th>
                             <th>کد تخفیف</th>
                             <th>فعال</th>
-                            <th>
-                                کنترل
-                            </th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var discount in Model)
                         {
                             <tr>
+                                <td>
+                                    <div class="btn-group">
+                                        <a asp-action="EditDiscount" asp-controller="Discount" asp-route-Id="@discount.Id" class="btn btn-info"><i class="fa-solid fa-pen"></i></a>
+                                        <button type="button" data-delete="@discount.Id" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
+                                    </div>
+                                </td>
                                 <th>@discount.Name</th>
                                 <td>@discount.Value</td>
                                 <td>@discount.Duration</td>
@@ -59,17 +65,14 @@
                                 <td>0</td>
                                 <td>@discount.DiscountCode</td>
                                 <td>@discount.Active</td>
-                                <td>
-                                    <div class="btn-group">
-                                        <a asp-action="EditDiscount" asp-controller="Discount" asp-route-Id="@discount.Id" class="btn btn-info"><i class="fa-solid fa-pen"></i></a>
-                                        <button type="button" data-delete="@discount.Id" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
-                                    </div>
-                                </td>
                             </tr>
                         }
                     </tbody>
                     <tfoot>
                         <tr>
+                            <th>
+                                کنترل
+                            </th>
                             <th>نام تخفیف</th>
                             <th>مقدار تخفبف</th>
                             <th>مدت زمان</th>
@@ -78,9 +81,6 @@
                             <th>تعداد استفاده</th>
                             <th>کد تخفیف</th>
                             <th>فعال</th>
-                            <th>
-                                کنترل
-                            </th>
                         </tr>
                     </tfoot>
                 </table>
