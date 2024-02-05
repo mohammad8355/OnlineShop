@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 
 namespace PresentationLayer.Models.ViewModels
 {
@@ -9,7 +10,10 @@ namespace PresentationLayer.Models.ViewModels
         public IEnumerable<string> Role { get; set; }
         public SelectList RoleList { get; set; }
         public bool RememberMe { get; set; }
+        [DataType(DataType.Password)]
         public string password { get; set; }
+        [Compare("password")]
+        [DataType(DataType.Password)]
         public string  ConfrimPassword { get; set; }
     }
 }

@@ -14,10 +14,9 @@
                             <!-- /.card-header -->
                             <!-- form start -->
                             <div class="card-body">
-                            @if (ValidationSummary.All != null)
-                            {
+ 
                                 <div class="alert alert-danger" asp-validation-summary="All"></div>
-                            }
+                
                                 <input asp-for="User.Id" hidden class="hidden">
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">نام کاربر</label>
@@ -41,7 +40,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>مقام کاربر</label>
-                                    <select class="form-control" multiple asp-for="Role" asp-items="Model.RoleList">
+                                    <select class="form-control" multiple asp-for="@Model.Role" asp-items="@Model.RoleList">
                                         <option>لطفا یک نقش انتخاب کنید</option>
                                     </select>
                                 </div>
@@ -52,7 +51,7 @@
                                 <!-- /.card-body -->
                             </div>
                             <!-- /.card -->
-                            <a href="#" type="submit" class="btn btn-primary">ویرایش</a>
+                            <button type="submit" class="btn btn-primary">ویرایش</button>
                         </div>
                     </form>
             </div>

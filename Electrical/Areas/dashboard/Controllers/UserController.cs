@@ -20,9 +20,20 @@ namespace PresentationLayer.Areas.dashboard.Controllers
             this.roleManager = roleManager;
 
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var model = userManager.Users.ToList();
+            var users = userManager.Users.ToList();
+            var model = new List<UserListViewModel>();
+            foreach (var user in users)
+            {
+                var role = await userManager.GetRolesAsync(user);
+                var modelItem = new UserListViewModel()
+                {
+                    User = user,
+                    Roles = role.ToList(),
+                };
+                model.Add(modelItem);
+            }
             return View(model);
         }
         [HttpGet]
@@ -30,7 +41,7 @@ namespace PresentationLayer.Areas.dashboard.Controllers
         {
             var model = new AddUserViewModel()
             {
-                RoleList = new SelectList(roleManager.Roles.ToList(), "Id", "Name"),
+                RoleList = new SelectList(roleManager.Roles.ToList(), "Name", "Name"),
                 Role = new List<string>(),
             };
             return View(model);
@@ -38,6 +49,8 @@ namespace PresentationLayer.Areas.dashboard.Controllers
         [HttpPost]
         public async Task<IActionResult> AddUser(AddUserViewModel model)
         {
+            model.RoleList = new SelectList(roleManager.Roles.ToList(), "Name", "Name");
+            ModelState.Remove("RoleList");
             if (ModelState.IsValid)
             {
                 var result = await userManager.CreateAsync(model.User, model.password);
@@ -51,7 +64,12 @@ namespace PresentationLayer.Areas.dashboard.Controllers
                     if (result.Succeeded)
                     {
                         ViewBag.success = "کاربر با موفقیت افزوده شد";
-                        return View();
+                        var newmodel = new AddUserViewModel()
+                        {
+                            RoleList = new SelectList(roleManager.Roles.ToList(), "Name", "Name"),
+                            Role = new List<string>(),
+                        };
+                        return View(newmodel);
                     }
                     foreach (var error in result.Errors)
                     {
@@ -77,42 +95,39 @@ namespace PresentationLayer.Areas.dashboard.Controllers
             {
                 RoleList = new SelectList(roleManager.Roles.ToList(), "Name", "Name"),
                 Role = roles.ToList(),
+                User = User,
             };
-            return View(User);
+            return View(model);
         }
         [HttpPost]
         public async Task<IActionResult> EditUser(EditUserViewModel model)
         {
+            //model.RoleList = new SelectList(roleManager.Roles.ToList(), "Name", "Name");
+            ModelState.Remove("RoleList");
             if (ModelState.IsValid)
             {
                 var user = await userManager.FindByIdAsync(model.User.Id);
-                if (user != null)
+                user.UserName = model.User.UserName;
+                user.Email = model.User.Email;
+                user.EmailConfirmed = model.User.EmailConfirmed;
+                user.PhoneNumber = model.User.PhoneNumber;
+                user.PhoneNumberConfirmed = model.User.PhoneNumberConfirmed;
+                user.LockoutEnabled = model.User.LockoutEnabled;
+                var result = await userManager.UpdateAsync(user);
+                if (result.Succeeded)
                 {
-                    user.UserName = model.User.UserName;
-                    user.Email = model.User.Email;
-                    user.EmailConfirmed = model.User.EmailConfirmed;
-                    user.PhoneNumber = model.User.PhoneNumber;
-                    user.PhoneNumberConfirmed = model.User.PhoneNumberConfirmed;
-                    user.LockoutEnabled = model.User.LockoutEnabled;
-                    var result = await userManager.UpdateAsync(user);
-                    if (result.Succeeded)
+                    var roles = await userManager.GetRolesAsync(model.User);
+                    await userManager.RemoveFromRolesAsync(user, roles);
+                    foreach (var roleName in model.Role)
                     {
-                        var roles = await userManager.GetRolesAsync(model.User);
-                        await userManager.RemoveFromRolesAsync(model.User, roles);
-                        foreach (var roleName in model.Role)
-                        {
-                            result = await userManager.AddToRoleAsync(model.User, roleName);
-                        }
-                        return RedirectToAction("Index");
+                        result = await userManager.AddToRoleAsync(user, roleName);
                     }
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError("", error.Description);
-                        return View(model);
-                    }
-
+                    return RedirectToAction("Index");
                 }
-                ModelState.AddModelError("", "کاربری وجود ندارد");
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
                 return View(model);
             }
             return View(model);
@@ -155,25 +170,58 @@ namespace PresentationLayer.Areas.dashboard.Controllers
         public async Task<IActionResult> EditRole(string Id)
         {
             var role = await roleManager.FindByIdAsync(Id);
-            return View("AddRole",role);
+            return View("AddRole", role);
         }
         [HttpPost]
         public async Task<IActionResult> EditRole(IdentityRole model)
         {
             if (ModelState.IsValid)
             {
-                var result = await roleManager.UpdateAsync(model);
+                var role = await roleManager.FindByIdAsync(model.Id);
+                if (role != null)
+                {
+                    role.Name = model.Name;
+                    var result = await roleManager.UpdateAsync(role);
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("RoleList");
+                    }
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                        return View("AddRole", model);
+                    }
+
+                }
+                ModelState.AddModelError("", "خطا");
+                return View(model);
+            };
+            return View("AddRole", model);
+        }
+        [HttpGet]
+        public async Task<IActionResult> DeleteUser(string Id)
+        {
+            var user = await userManager.FindByIdAsync(Id);
+            return View(user);
+        }
+        [HttpPost]
+        public async Task<IActionResult> DeleteUser(IdentityUser model)
+        {
+            var id = model.Id;
+            var user = await userManager.FindByIdAsync(id);
+            if(user !=  null)
+            {
+                var result = await userManager.DeleteAsync(user);
                 if (result.Succeeded)
                 {
                     return RedirectToAction("Index");
                 }
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError("", error.Description);
-                    return View("AddRole", model);
-                }
-            };
-            return View("AddRole", model);
+                return View(model);
+            }
+            else
+            {
+                return View(model);
+            }
         }
         public IActionResult UserDetails()
         {
