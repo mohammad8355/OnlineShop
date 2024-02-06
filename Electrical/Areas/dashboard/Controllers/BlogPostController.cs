@@ -1,6 +1,9 @@
 ﻿using BusinessEntity;
 using BusinessLogicLayer.BlogPostService;
+using BusinessLogicLayer.TagService;
+using BusinessLogicLayer.TagToBlogPostService;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using PresentationLayer.Models.ViewModels;
 
 namespace PresentationLayer.Areas.dashboard.Controllers
@@ -9,8 +12,12 @@ namespace PresentationLayer.Areas.dashboard.Controllers
     public class BlogPostController : Controller
     {
         private readonly BlogPostLogic blogPostLogic;
-        public BlogPostController(BlogPostLogic blogPostLogic)
+        private readonly TagToBlogPostLogic tagToBlogPostLogic;
+        private readonly TagLogic tagLogic;
+        public BlogPostController(BlogPostLogic blogPostLogic, TagToBlogPostLogic tagToBlogPostLogic, TagLogic tagLogic)
         {
+            this.tagToBlogPostLogic = tagToBlogPostLogic;
+            this.tagLogic = tagLogic;
             this.blogPostLogic = blogPostLogic;
         }
         public IActionResult Index()
@@ -21,6 +28,8 @@ namespace PresentationLayer.Areas.dashboard.Controllers
         [HttpGet]
         public IActionResult AddBlogPost()
         {
+            var tags = tagLogic.TagList();
+            ViewBag.tags = new SelectList(tags,"TagName","TagName");
             return View();
         }
         [HttpPost]
@@ -41,6 +50,25 @@ namespace PresentationLayer.Areas.dashboard.Controllers
                 var result = await blogPostLogic.AddBlogPost(blogpost);
                 if (result)
                 {
+                    var blogPost = blogPostLogic.blogPostList().Where(bp => bp.Title == model.Title && bp.Content == model.Content).FirstOrDefault();
+                    foreach(var tag in model.Tags)
+                    {
+                        var tagmodel = new Tag()
+                        {
+                            TagName = tag,
+                        };
+                       await tagLogic.AddTag(tagmodel);
+                    };
+                    foreach(var tag in model.Tags)
+                    {
+                        var tagModel = tagLogic.TagDetail(tag);
+                        var tagtoblogpostModel = new TagToBlogPost()
+                        {
+                            Tag_Id = tagModel.Id,
+                            BlogPost_Id = blogPost.Id,
+                        };
+                       await tagToBlogPostLogic.AddTagToBlogPost(tagtoblogpostModel);
+                    }
                     ViewBag.success = "افزودن پست بلاگ";
                     return View();
                 }
@@ -53,6 +81,7 @@ namespace PresentationLayer.Areas.dashboard.Controllers
         public IActionResult EditBlogPost(int Id)
         {
             var blogpost = blogPostLogic.BlogPostDetail(Id);
+            var tags = tagToBlogPostLogic.TagToBlogPostList().Where(tb => tb.BlogPost_Id == Id).Select(t => t.Tag).ToList();
             var model = new AddEditBlogPostViewModel()
             {
                 Title = blogpost.Title,
@@ -60,11 +89,14 @@ namespace PresentationLayer.Areas.dashboard.Controllers
                 CoverLink = blogpost.CoverLink,
                 Author = blogpost.Author,
                 ReadingTime = blogpost.ReadingTime,
+                Tags = tags.Select(t => t.TagName).ToList(),
             };
+            var taglist = tagLogic.TagList();
+            ViewBag.tags = new SelectList(taglist, "TagName", "TagName");
             return View(model);
         }
         [HttpPost]
-        public IActionResult EditBlogPost(AddEditBlogPostViewModel model)
+        public async Task<IActionResult> EditBlogPost(AddEditBlogPostViewModel model)
         {
             var blogpost = blogPostLogic.BlogPostDetail(model.Id);
             blogpost.Title = model.Title;
@@ -79,6 +111,29 @@ namespace PresentationLayer.Areas.dashboard.Controllers
                 var result = blogPostLogic.EditBlogPost(blogpost);
                 if (result)
                 {
+                    var tags = tagToBlogPostLogic.TagToBlogPostList().Where(tb => tb.BlogPost_Id == model.Id).Select(t => t.Tag).ToList();
+                    foreach (var tag in tags)
+                    {
+                        await tagToBlogPostLogic.DeleteTagToBlogPost(model.Id, tag.Id);
+                    }
+                    foreach (var tag in model.Tags)
+                    {
+                        var tagmodel = new Tag()
+                        {
+                            TagName = tag,
+                        };
+                        await tagLogic.AddTag(tagmodel);
+                    };
+                    foreach (var tag in model.Tags)
+                    {
+                        var tagModel = tagLogic.TagDetail(tag);
+                        var tagtoblogpostModel = new TagToBlogPost()
+                        {
+                            Tag_Id = tagModel.Id,
+                            BlogPost_Id = model.Id,
+                        };
+                        await tagToBlogPostLogic.AddTagToBlogPost(tagtoblogpostModel);
+                    }
                     return RedirectToAction("Index");
                 }
                 ModelState.AddModelError("", "لطفا تمامی فیلد ها را پر کتید");

@@ -54,8 +54,7 @@
                                 <td>@user.User.LockoutEnabled</td>
                                 <td>
                                     <div class="btn-group">
-                                        <a asp-action="EditUser" asp-controller="User" asp-route-Id="@user.User.Id" class="btn btn-info"><i class="fa-solid fa-pen"></i></a>
-                                        <a asp-action="DeleteUser" asp-controller="User" asp-route-Id="@user.User.Id" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></a>
+                                      <a asp-action="UserDetails" asp-controller="User" asp-route-Id="@user.User.Id" class="btn btn-primary" >جزییات</a>
                                     </div>
                                 </td>
                             </tr>

@@ -2,16 +2,17 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using PresentationLayer.Models;
 using System.Text;
 
 namespace PresentationLayer.Areas.Identity.Pages.Account
 {
     public class PhoneNumberConfrimModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public PhoneNumberConfrimModel(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+        public PhoneNumberConfrimModel(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;

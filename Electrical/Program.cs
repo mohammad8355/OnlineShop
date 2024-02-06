@@ -28,6 +28,9 @@ using Utility.DiscountCodeGenerator;
 using BusinessLogicLayer.DiscountToProductService;
 using BusinessLogicLayer.ContactService;
 using BusinessLogicLayer.BlogPostService;
+using PresentationLayer.Models;
+using BusinessLogicLayer.TagService;
+using BusinessLogicLayer.TagToBlogPostService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,7 +47,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.EnableSensitiveDataLogging(true);
 });
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddRoles<IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
+builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true).AddRoles<IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
 #endregion
 #region SendEmail
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSetting"));
@@ -86,6 +89,8 @@ builder.Services.AddScoped<MainRepository<CategoryToProduct>>();
 builder.Services.AddScoped<MainRepository<ValueToProduct>>();
 builder.Services.AddScoped<MainRepository<KeyToProduct>>();
 builder.Services.AddScoped<MainRepository<Contact>>();
+builder.Services.AddScoped<MainRepository<Tag>>();
+builder.Services.AddScoped<MainRepository<TagToBlogPost>>();
 #endregion
 #region businessLogic layer service
 builder.Services.AddScoped<AdjKeyLogic>();
@@ -102,6 +107,8 @@ builder.Services.AddScoped<KeyToProductLogic>();
 builder.Services.AddScoped<DiscountToProductLogic>();
 builder.Services.AddScoped<ContactsLogic>();
 builder.Services.AddScoped<BlogPostLogic>();
+builder.Services.AddScoped<TagLogic>();
+builder.Services.AddScoped<TagToBlogPostLogic>();
 #endregion
 builder.Services.AddScoped<ReturnMultipleData<UploadFile>>();
 builder.Services.AddScoped<UploadFile>();

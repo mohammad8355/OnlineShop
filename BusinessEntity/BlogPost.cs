@@ -30,5 +30,7 @@ namespace BusinessEntity
         [Required, MaxLength(2000)]
         public string Content { get; set; }
 
+        //navigation 
+        public List<TagToBlogPost> TagToBlogPosts { get; set; }
     }
 }

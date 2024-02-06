@@ -1,15 +1,15 @@
 ﻿using BusinessEntity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using PresentationLayer.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace DataAccessLayer
 {
-    public class AppDbContext :IdentityDbContext
+    public class AppDbContext :IdentityDbContext<ApplicationUser>
     {
         public AppDbContext() { }
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) {}
@@ -47,6 +47,10 @@ namespace DataAccessLayer
             builder.Entity<CategoryToProduct>().HasOne(c => c.Product).WithMany(p => p.CategoryToProducts).HasForeignKey(l => l.Product_Id).OnDelete(DeleteBehavior.Restrict);
             builder.Entity<ValueToProduct>().HasOne(vp => vp.Product).WithMany(vp => vp.valueToProducts).HasForeignKey(vp => vp.Product_Id);
             builder.Entity<ValueToProduct>().HasOne(vp => vp.Value).WithMany(vp => vp.valueToProducts).HasForeignKey(vp => vp.Value_Id);
+            builder.Entity<ApplicationUser>().Property(au => au.FullName).IsRequired(false);
+            builder.Entity<TagToBlogPost>().HasKey(tb => new { tb.Tag_Id, tb.BlogPost_Id });
+            builder.Entity<TagToBlogPost>().HasOne(tb => tb.Tag).WithMany(t => t.tagToBlogPosts).HasForeignKey(tb => tb.Tag_Id);
+            builder.Entity<TagToBlogPost>().HasOne(tb => tb.BlogPost).WithMany(t => t.TagToBlogPosts).HasForeignKey(tb => tb.BlogPost_Id);
         }
         DbSet<Product> products { get; set; }
         DbSet<AdjKey> adjKeys { get; set; }
@@ -63,5 +67,7 @@ namespace DataAccessLayer
         DbSet<Contact> contacts { get; set; }
         DbSet<General> generals { get; set; }
         DbSet<ProductPhoto> productPhotos { get; set; }
+        DbSet<Tag> tags { get; set; }
+        DbSet<TagToBlogPost> TagToBlogPosts { get; set; }
     }
 }

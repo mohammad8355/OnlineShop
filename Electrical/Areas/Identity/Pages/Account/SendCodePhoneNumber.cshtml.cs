@@ -2,15 +2,15 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using PresentationLayer.MessageSender.TotpPhoneVarification;
-
+using PresentationLayer.Models;
 namespace PresentationLayer.Areas.Identity.Pages.Account
 {
     public class SendCodePhoneNumberModel : PageModel
     {
-        private UserManager<IdentityUser> userManager;
-        private SignInManager<IdentityUser> signInManager;
+        private UserManager<ApplicationUser> userManager;
+        private SignInManager<ApplicationUser> signInManager;
         private IPhoneProvider phoneProvider;
-        public SendCodePhoneNumberModel(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager,IPhoneProvider phoneProvider)
+        public SendCodePhoneNumberModel(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager,IPhoneProvider phoneProvider)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;

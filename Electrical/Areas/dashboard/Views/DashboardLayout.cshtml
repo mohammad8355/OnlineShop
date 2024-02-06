@@ -297,7 +297,7 @@
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a asp-area="dashboard" asp-controller="Discount" asp-action="Index" class="nav-link">
+                            <a asp-area="dashboard" asp-controller="User" asp-action="Index" class="nav-link">
                                 <i class="fa-solid fa-user"></i>
                                 <p>
                                     مدیریت  کاربران
@@ -385,9 +385,32 @@
                                 </li>
                             </ul>
                         </li>
+                                                <li class="nav-item">
+                            <a asp-area="dashboard" asp-controller="Tag" asp-action="Index" class="nav-link">
+                                <i class="fa-solid fa-hashtag"></i>
+                                <p>
+                                    مدیریت تگ
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a asp-area="dashboard" asp-controller="Tag" asp-action="Index" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>لیست تگ ها</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-area="dashboard" asp-controller="Tag" asp-action="AddTag" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>افزودن  تگ</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                         <li class="nav-item">
-                            <a asp-area="dashboard" asp-controller="Blog" asp-action="Index" class="nav-link">
-                                <i class="fa-solid fa-user"></i>
+                            <a asp-area="dashboard" asp-controller="BlogPost" asp-action="Index" class="nav-link">
+                                <i class="fa-solid fa-pen"></i>
                                 <p>
                                     وبلاگ
                                     <i class="fas fa-angle-left right"></i>

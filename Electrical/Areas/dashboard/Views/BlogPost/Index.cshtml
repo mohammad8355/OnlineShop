@@ -46,7 +46,14 @@
                                         @blog.Content.Substring(0,30)  <p>...</p>
                                     }
                                 </td>
-                                <td>No tags</td>
+                                <td>
+                                    <ul>
+                                        @foreach(var tagtoblog in blog.TagToBlogPosts)
+                                        {
+                                            <li>@tagtoblog.Tag.TagName</li>
+                                        }
+                                    </ul>
+                                </td>
                             </tr>
                         };
 

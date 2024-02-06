@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using PresentationLayer.Models;
 using PresentationLayer.Models.ViewModels;
 using Utility.ReturnMultipleData;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -10,10 +11,10 @@ namespace PresentationLayer.Areas.dashboard.Controllers
     [Area("Dashboard")]
     public class UserController : Controller
     {
-        private readonly UserManager<IdentityUser> userManager;
-        private readonly SignInManager<IdentityUser> signInManager;
+        private readonly UserManager<ApplicationUser> userManager;
+        private readonly SignInManager<ApplicationUser> signInManager;
         private readonly RoleManager<IdentityRole> roleManager;
-        public UserController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, RoleManager<IdentityRole> roleManager)
+        public UserController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
@@ -53,13 +54,24 @@ namespace PresentationLayer.Areas.dashboard.Controllers
             ModelState.Remove("RoleList");
             if (ModelState.IsValid)
             {
-                var result = await userManager.CreateAsync(model.User, model.password);
+                var user = new ApplicationUser()
+                {
+                    UserName = model.UserName,
+                    FullName = model.FullName,
+                    Email = model.Email,
+                    EmailConfirmed = model.ComfrimEmail,
+                    PhoneNumber = model.PhoneNumber,
+                    PhoneNumberConfirmed = model.ConfrimPhoneNumber,
+                    IsEnable = model.IsEnable,
+                    brithDate =  model.birthDate,
+                };
+                var result = await userManager.CreateAsync(user, model.password);
                 if (result.Succeeded)
                 {
                     foreach (var roleName in model.Role)
                     {
 
-                        result = await userManager.AddToRoleAsync(model.User, roleName);
+                        result = await userManager.AddToRoleAsync(user, roleName);
                     }
                     if (result.Succeeded)
                     {
@@ -87,6 +99,7 @@ namespace PresentationLayer.Areas.dashboard.Controllers
             return View(model);
         }
         [HttpGet]
+
         public async Task<IActionResult> EditUser(string Id)
         {
             var User = await userManager.FindByIdAsync(Id);
@@ -95,28 +108,39 @@ namespace PresentationLayer.Areas.dashboard.Controllers
             {
                 RoleList = new SelectList(roleManager.Roles.ToList(), "Name", "Name"),
                 Role = roles.ToList(),
-                User = User,
+                UserName = User.UserName,
+                FullName = User.FullName,
+                birthDate = User.brithDate,
+                Email = User.Email,
+                ComfrimEmail = User.EmailConfirmed,
+                PhoneNumber = User.PhoneNumber,
+                ConfrimPhoneNumber = User.PhoneNumberConfirmed,
+                IsEnable = User.IsEnable,
+
             };
             return View(model);
         }
         [HttpPost]
+
         public async Task<IActionResult> EditUser(EditUserViewModel model)
         {
             //model.RoleList = new SelectList(roleManager.Roles.ToList(), "Name", "Name");
             ModelState.Remove("RoleList");
             if (ModelState.IsValid)
             {
-                var user = await userManager.FindByIdAsync(model.User.Id);
-                user.UserName = model.User.UserName;
-                user.Email = model.User.Email;
-                user.EmailConfirmed = model.User.EmailConfirmed;
-                user.PhoneNumber = model.User.PhoneNumber;
-                user.PhoneNumberConfirmed = model.User.PhoneNumberConfirmed;
-                user.LockoutEnabled = model.User.LockoutEnabled;
+                var user = await userManager.FindByIdAsync(model.Id);
+                user.UserName = model.UserName;
+                user.Email = model.Email;
+                user.EmailConfirmed = model.ComfrimEmail;
+                user.PhoneNumber = model.PhoneNumber;
+                user.PhoneNumberConfirmed = model.ConfrimPhoneNumber;
+                user.IsEnable = model.IsEnable;
+                user.FullName = model.FullName;
+                user.brithDate = model.birthDate;
                 var result = await userManager.UpdateAsync(user);
                 if (result.Succeeded)
                 {
-                    var roles = await userManager.GetRolesAsync(model.User);
+                    var roles = await userManager.GetRolesAsync(user);
                     await userManager.RemoveFromRolesAsync(user, roles);
                     foreach (var roleName in model.Role)
                     {
@@ -199,13 +223,15 @@ namespace PresentationLayer.Areas.dashboard.Controllers
             return View("AddRole", model);
         }
         [HttpGet]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteUser(string Id)
         {
             var user = await userManager.FindByIdAsync(Id);
             return View(user);
         }
         [HttpPost]
-        public async Task<IActionResult> DeleteUser(IdentityUser model)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteUser(ApplicationUser model)
         {
             var id = model.Id;
             var user = await userManager.FindByIdAsync(id);
@@ -223,10 +249,45 @@ namespace PresentationLayer.Areas.dashboard.Controllers
                 return View(model);
             }
         }
-        public IActionResult UserDetails()
+        public async Task<IActionResult> UserDetails(string Id)
         {
-            return View();
+            var user = await userManager.FindByIdAsync(Id);
+            var roles = await userManager.GetRolesAsync(user);
+            var model = new UserDetailsViewModel()
+            {
+                User = user,
+                Roles = roles.ToList(),
+            };
+            return View(model);
         }
-
+        [HttpGet]
+        public async Task<IActionResult> DeleteRole(string Id)
+        {
+            var role = await roleManager.FindByIdAsync(Id);
+            if(role != null)
+            {
+                var result = await roleManager.DeleteAsync(role);
+                return Json(new { name = role.Name, result = result });
+            }
+            return RedirectToAction("RoleList");
+        }
+        public async Task<IActionResult> ActiveUser(string Id)
+        {
+            var user = await userManager.FindByIdAsync(Id);
+            if(user != null)
+            if (user.IsEnable)
+            {
+                user.IsEnable = false;
+               var result = await userManager.UpdateAsync(user);
+                return Json(new { res = result });
+            }
+            else
+            {
+                user.IsEnable = true;
+                var result = await userManager.UpdateAsync(user);
+                return Json(new { res = result });
+            }
+            return Json(new { res = false });
+        }
     }
 }

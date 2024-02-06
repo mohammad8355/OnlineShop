@@ -18,5 +18,7 @@ namespace PresentationLayer.Models.ViewModels
         public string Author { get; set; }
         [Required, MaxLength(2000)]
         public string Content { get; set; }
+        [Required]
+        public List<string> Tags { get; set; }
     }
 }
