@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using DataAccessLayer.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using PresentationLayer.Models;
 using PresentationLayer.Models.ViewModels;
 using Utility.ReturnMultipleData;
 using static System.Runtime.InteropServices.JavaScript.JSType;

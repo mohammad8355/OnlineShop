@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using PresentationLayer.Models;
+using DataAccessLayer.Models;
 
 namespace Electrical.Areas.Identity.Pages.Account
 {

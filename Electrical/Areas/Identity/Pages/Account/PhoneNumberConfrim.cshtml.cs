@@ -1,8 +1,8 @@
+using DataAccessLayer.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-using PresentationLayer.Models;
 using System.Text;
 
 namespace PresentationLayer.Areas.Identity.Pages.Account

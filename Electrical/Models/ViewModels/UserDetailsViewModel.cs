@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using DataAccessLayer.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace PresentationLayer.Models.ViewModels
 {

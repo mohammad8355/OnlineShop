@@ -17,7 +17,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
 using System.ComponentModel;
-using PresentationLayer.Models;
+using DataAccessLayer.Models;
 
 namespace Electrical.Areas.Identity.Pages.Account
 {

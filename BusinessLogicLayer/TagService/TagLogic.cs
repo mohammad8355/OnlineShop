@@ -1,4 +1,4 @@
-﻿using BusinessEntity;
+﻿using DataAccessLayer.Models;
 using BusinessLogicLayer.TagToBlogPostService;
 using DataAccessLayer.services;
 using System;

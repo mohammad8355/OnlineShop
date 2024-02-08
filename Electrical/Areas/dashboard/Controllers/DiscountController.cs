@@ -1,4 +1,4 @@
-﻿using BusinessEntity;
+﻿using DataAccessLayer.Models;
 using Microsoft.AspNetCore.Mvc;
 using BusinessLogicLayer.DiscountService;
 using PresentationLayer.Models.ViewModels;

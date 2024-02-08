@@ -1,9 +1,8 @@
-﻿using BusinessEntity;
+﻿using DataAccessLayer.Models;
 using BusinessLogicLayer.CategoryService;
 using BusinessLogicLayer.ProductService;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using PresentationLayer.uploadfile;
 using PresentationLayer.Models.ViewModels;
 using System.Drawing;
 using BusinessLogicLayer.ProductPhotoService;
@@ -14,6 +13,7 @@ using BusinessLogicLayer.KeyToProductService;
 using BusinessLogicLayer.ValueToProductService;
 using System.Text.Json;
 using BusinessLogicLayer.AdjValueService;
+using Infrustructure.uploadfile;
 
 namespace PresentationLayer.Areas.dashboard.Controllers
 {

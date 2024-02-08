@@ -5,10 +5,10 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
+using DataAccessLayer.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using PresentationLayer.Models;
 
 namespace Electrical.Areas.Identity.Pages.Account.Manage
 {

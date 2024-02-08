@@ -1,8 +1,8 @@
+using DataAccessLayer.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using PresentationLayer.MessageSender.TotpPhoneVarification;
-using PresentationLayer.Models;
 namespace PresentationLayer.Areas.Identity.Pages.Account
 {
     public class SendCodePhoneNumberModel : PageModel

@@ -1,4 +1,4 @@
-﻿using BusinessEntity;
+﻿using DataAccessLayer.Models;
 using Microsoft.Build.Framework;
 
 namespace PresentationLayer.Models.ViewModels

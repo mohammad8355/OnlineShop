@@ -1,4 +1,4 @@
-using BusinessEntity;
+using DataAccessLayer.Models;
 using BusinessLogicLayer.AdjKeyService;
 using BusinessLogicLayer.AdjValueService;
 using BusinessLogicLayer.CategoryService;
@@ -17,7 +17,6 @@ using PresentationLayer.MessageSender.TotpPhoneVarification;
 using System.Security.Policy;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json;
-using PresentationLayer.uploadfile;
 using Utility.ReturnMultipleData;
 using BusinessLogicLayer.ProductPhotoService;
 using BusinessLogicLayer.KeyToSubCategoryService;
@@ -28,9 +27,9 @@ using Utility.DiscountCodeGenerator;
 using BusinessLogicLayer.DiscountToProductService;
 using BusinessLogicLayer.ContactService;
 using BusinessLogicLayer.BlogPostService;
-using PresentationLayer.Models;
 using BusinessLogicLayer.TagService;
 using BusinessLogicLayer.TagToBlogPostService;
+using Infrustructure.uploadfile;
 
 var builder = WebApplication.CreateBuilder(args);
 

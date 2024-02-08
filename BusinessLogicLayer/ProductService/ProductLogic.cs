@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using BusinessEntity;
+using DataAccessLayer.Models;
 using BusinessLogicLayer.CategoryToProductService;
 using BusinessLogicLayer.ProductPhotoService;
 

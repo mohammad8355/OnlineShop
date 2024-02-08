@@ -1,4 +1,4 @@
-﻿using BusinessEntity;
+﻿using DataAccessLayer.Models;
 using BusinessLogicLayer.AdjKeyService;
 using BusinessLogicLayer.AdjValueService;
 using BusinessLogicLayer.CategoryService;

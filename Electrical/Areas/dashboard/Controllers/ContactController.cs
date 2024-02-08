@@ -1,4 +1,4 @@
-﻿using BusinessEntity;
+﻿using DataAccessLayer.Models;
 using BusinessLogicLayer.ContactService;
 using Microsoft.AspNetCore.Mvc;
 
