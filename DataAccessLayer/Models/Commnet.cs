@@ -18,15 +18,14 @@ namespace DataAccessLayer.Models
         public string Description { get; set; }
         [Required]
         public DateTime LastUpdate { get; set; }
-
+        public bool IsHide { get; set; }
         //navigation property
-        [MaxLength(128)]
         public string User_Id { get; set; }
         public ApplicationUser User { get; set; }
-        public int Ticket_Id { get; set; }
+        public int? Ticket_Id { get; set; }
         public Ticket Ticket { get; set; }
         //reply comment
-        public int Reply_Id { get; set; }
+        public int? Reply_Id { get; set; }
         public Commnet reply { get; set; }
 
     }

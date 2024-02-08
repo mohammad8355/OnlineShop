@@ -50,11 +50,42 @@ namespace DataAccessLayer
             builder.Entity<TagToBlogPost>().HasKey(tb => new { tb.Tag_Id, tb.BlogPost_Id });
             builder.Entity<TagToBlogPost>().HasOne(tb => tb.Tag).WithMany(t => t.tagToBlogPosts).HasForeignKey(tb => tb.Tag_Id);
             builder.Entity<TagToBlogPost>().HasOne(tb => tb.BlogPost).WithMany(t => t.TagToBlogPosts).HasForeignKey(tb => tb.BlogPost_Id);
-            builder.Entity<Ticket>().HasMany(c => c.commnets).WithOne(c => c.Ticket).HasForeignKey(c => c.Ticket_Id);
+            builder.Entity<Ticket>().HasMany(c => c.commnets).WithOne(c => c.Ticket).HasForeignKey(c => c.Ticket_Id).OnDelete(DeleteBehavior.NoAction);
             builder.Entity<ApplicationUser>().HasMany(t => t.Tickets).WithOne(ap => ap.User).HasForeignKey(p => p.User_Id);
             builder.Entity<ApplicationUser>().HasMany(t => t.Commnets).WithOne(ap => ap.User).HasForeignKey(p => p.User_Id);
-            builder.Entity<Commnet>().HasOne(c => c.reply).WithOne().HasForeignKey<Commnet>(c => c.Reply_Id).HasPrincipalKey<Commnet>(c => c.Id);
+            builder.Entity<Commnet>().HasOne(c => c.reply).WithOne().HasForeignKey<Commnet>(c => c.Reply_Id).HasPrincipalKey<Commnet>(c => c.Id).OnDelete(DeleteBehavior.NoAction);
             builder.Entity<Commnet>().Property(c => c.Title).IsRequired(false);
+            builder.Entity<Commnet>().Property(c => c.Ticket_Id).IsRequired(false);
+            builder.Entity<Commnet>().Property(c => c.Reply_Id).IsRequired(false);
+            #region Seed Data
+            builder.Entity<Commnet>().HasData(new Commnet()
+            {
+                Id = 1,
+                Title = "shop supporting",
+                Description = "shop supporting was very verrrrrrrrrrrrrrry gooooooooooooooooooooooood happy",
+                LastUpdate = DateTime.Now,     
+                User_Id = "217440e4-9164-443b-aa76-ab6d847aaace",
+            }) ;
+            builder.Entity<Commnet>().HasData(new Commnet()
+            {
+                Id = 2,
+                Title = "shop supporting",
+                Description = "shop supporting was very verrrrrrrrrrrrry    baaaaaaaaaaaaaaaaaad sad",
+                LastUpdate = DateTime.Now,
+           
+                User_Id = "c74e93b8-9649-4c91-b459-4e9e16f2db74",
+            });
+            builder.Entity<Commnet>().HasData(new Commnet()
+            {
+                Id = 3,
+                Description = "no comment ",
+                LastUpdate = DateTime.Now,
+                User_Id = "217440e4-9164-443b-aa76-ab6d847aaace",
+            });
+            #endregion
+
+
+
         }
         DbSet<Product> products { get; set; }
         DbSet<AdjKey> adjKeys { get; set; }

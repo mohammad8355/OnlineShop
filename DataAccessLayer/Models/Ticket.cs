@@ -24,7 +24,6 @@ namespace DataAccessLayer.Models
         public DateTime LastUpdate { get; set; }
 
         //navigation property
-        [MaxLength(128)]
         public string User_Id { get; set; }
         public ApplicationUser User { get; set; }
         public List<Commnet> commnets { get; set; }
