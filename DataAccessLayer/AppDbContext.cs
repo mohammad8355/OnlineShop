@@ -1,7 +1,6 @@
-﻿using BusinessEntity;
+﻿using DataAccessLayer.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using PresentationLayer.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,6 +50,11 @@ namespace DataAccessLayer
             builder.Entity<TagToBlogPost>().HasKey(tb => new { tb.Tag_Id, tb.BlogPost_Id });
             builder.Entity<TagToBlogPost>().HasOne(tb => tb.Tag).WithMany(t => t.tagToBlogPosts).HasForeignKey(tb => tb.Tag_Id);
             builder.Entity<TagToBlogPost>().HasOne(tb => tb.BlogPost).WithMany(t => t.TagToBlogPosts).HasForeignKey(tb => tb.BlogPost_Id);
+            builder.Entity<Ticket>().HasMany(c => c.commnets).WithOne(c => c.Ticket).HasForeignKey(c => c.Ticket_Id);
+            builder.Entity<ApplicationUser>().HasMany(t => t.Tickets).WithOne(ap => ap.User).HasForeignKey(p => p.User_Id);
+            builder.Entity<ApplicationUser>().HasMany(t => t.Commnets).WithOne(ap => ap.User).HasForeignKey(p => p.User_Id);
+            builder.Entity<Commnet>().HasOne(c => c.reply).WithOne().HasForeignKey<Commnet>(c => c.Reply_Id).HasPrincipalKey<Commnet>(c => c.Id);
+            builder.Entity<Commnet>().Property(c => c.Title).IsRequired(false);
         }
         DbSet<Product> products { get; set; }
         DbSet<AdjKey> adjKeys { get; set; }
@@ -66,6 +70,8 @@ namespace DataAccessLayer
         DbSet<OrderDetails> orderDetails { get; set; }
         DbSet<Contact> contacts { get; set; }
         DbSet<General> generals { get; set; }
+        DbSet<Ticket> tickets { get; set; }
+        DbSet<Commnet> commnets { get; set; }
         DbSet<ProductPhoto> productPhotos { get; set; }
         DbSet<Tag> tags { get; set; }
         DbSet<TagToBlogPost> TagToBlogPosts { get; set; }

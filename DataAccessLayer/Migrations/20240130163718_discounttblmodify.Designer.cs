@@ -25,7 +25,7 @@ namespace DataAccessLayer.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("BusinessEntity.AdjKey", b =>
+            modelBuilder.Entity("DataAccessLayer.Models.AdjKey", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -48,7 +48,7 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("adjKeys");
                 });
 
-            modelBuilder.Entity("BusinessEntity.AdjValue", b =>
+            modelBuilder.Entity("DataAccessLayer.Models.AdjValue", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -71,7 +71,7 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("adjValues");
                 });
 
-            modelBuilder.Entity("BusinessEntity.BlogSection", b =>
+            modelBuilder.Entity("DataAccessLayer.Models.BlogSection", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -103,7 +103,7 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("blogSections");
                 });
 
-            modelBuilder.Entity("BusinessEntity.Category", b =>
+            modelBuilder.Entity("DataAccessLayer.Models.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -131,7 +131,7 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("BusinessEntity.CategoryToProduct", b =>
+            modelBuilder.Entity("DataAccessLayer.Models.CategoryToProduct", b =>
                 {
                     b.Property<int>("Product_Id")
                         .HasColumnType("int");
@@ -146,7 +146,7 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("categoryToProducts");
                 });
 
-            modelBuilder.Entity("BusinessEntity.Contact", b =>
+            modelBuilder.Entity("DataAccessLayer.Models.Contact", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -172,7 +172,7 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("contacts");
                 });
 
-            modelBuilder.Entity("BusinessEntity.Discount", b =>
+            modelBuilder.Entity("DataAccessLayer.Models.Discount", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -211,7 +211,7 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("discounts");
                 });
 
-            modelBuilder.Entity("BusinessEntity.DiscountToProduct", b =>
+            modelBuilder.Entity("DataAccessLayer.Models.DiscountToProduct", b =>
                 {
                     b.Property<int>("Discount_Id")
                         .HasColumnType("int");
@@ -226,7 +226,7 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("DiscountToProduct");
                 });
 
-            modelBuilder.Entity("BusinessEntity.General", b =>
+            modelBuilder.Entity("DataAccessLayer.Models.General", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -256,7 +256,7 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("generals");
                 });
 
-            modelBuilder.Entity("BusinessEntity.KeyToProduct", b =>
+            modelBuilder.Entity("DataAccessLayer.Models.KeyToProduct", b =>
                 {
                     b.Property<int>("Key_Id")
                         .HasColumnType("int");
@@ -271,7 +271,7 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("keyToProducts");
                 });
 
-            modelBuilder.Entity("BusinessEntity.KeyToSubCategory", b =>
+            modelBuilder.Entity("DataAccessLayer.Models.KeyToSubCategory", b =>
                 {
                     b.Property<int>("key_Id")
                         .HasColumnType("int");
@@ -286,7 +286,7 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("keyToSubCategories");
                 });
 
-            modelBuilder.Entity("BusinessEntity.Order", b =>
+            modelBuilder.Entity("DataAccessLayer.Models.Order", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -311,7 +311,7 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("orders");
                 });
 
-            modelBuilder.Entity("BusinessEntity.OrderDetails", b =>
+            modelBuilder.Entity("DataAccessLayer.Models.OrderDetails", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -340,7 +340,7 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("orderDetails");
                 });
 
-            modelBuilder.Entity("BusinessEntity.Product", b =>
+            modelBuilder.Entity("DataAccessLayer.Models.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -381,7 +381,7 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("products");
                 });
 
-            modelBuilder.Entity("BusinessEntity.ProductPhoto", b =>
+            modelBuilder.Entity("DataAccessLayer.Models.ProductPhoto", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -410,7 +410,7 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("productPhotos");
                 });
 
-            modelBuilder.Entity("BusinessEntity.ValueToProduct", b =>
+            modelBuilder.Entity("DataAccessLayer.Models.ValueToProduct", b =>
                 {
                     b.Property<int>("Value_Id")
                         .HasColumnType("int");
@@ -425,7 +425,7 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("valueToProducts");
                 });
 
-            modelBuilder.Entity("BusinessEntity.Weblog", b =>
+            modelBuilder.Entity("DataAccessLayer.Models.Weblog", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -656,9 +656,9 @@ namespace DataAccessLayer.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("BusinessEntity.AdjValue", b =>
+            modelBuilder.Entity("DataAccessLayer.Models.AdjValue", b =>
                 {
-                    b.HasOne("BusinessEntity.AdjKey", "adjKey")
+                    b.HasOne("DataAccessLayer.Models.AdjKey", "adjKey")
                         .WithMany("adjValues")
                         .HasForeignKey("adjkey_Id")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -667,9 +667,9 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("adjKey");
                 });
 
-            modelBuilder.Entity("BusinessEntity.BlogSection", b =>
+            modelBuilder.Entity("DataAccessLayer.Models.BlogSection", b =>
                 {
-                    b.HasOne("BusinessEntity.Weblog", "Weblog")
+                    b.HasOne("DataAccessLayer.Models.Weblog", "Weblog")
                         .WithMany("blogSections")
                         .HasForeignKey("Weblog_Id")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -678,9 +678,9 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("Weblog");
                 });
 
-            modelBuilder.Entity("BusinessEntity.Category", b =>
+            modelBuilder.Entity("DataAccessLayer.Models.Category", b =>
                 {
-                    b.HasOne("BusinessEntity.Category", "ParentCategory")
+                    b.HasOne("DataAccessLayer.Models.Category", "ParentCategory")
                         .WithMany("ChildCategories")
                         .HasForeignKey("ParentId")
                         .OnDelete(DeleteBehavior.NoAction);
@@ -688,15 +688,15 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("ParentCategory");
                 });
 
-            modelBuilder.Entity("BusinessEntity.CategoryToProduct", b =>
+            modelBuilder.Entity("DataAccessLayer.Models.CategoryToProduct", b =>
                 {
-                    b.HasOne("BusinessEntity.Category", "Category")
+                    b.HasOne("DataAccessLayer.Models.Category", "Category")
                         .WithMany("CategoryToProducts")
                         .HasForeignKey("Category_Id")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("BusinessEntity.Product", "Product")
+                    b.HasOne("DataAccessLayer.Models.Product", "Product")
                         .WithMany("CategoryToProducts")
                         .HasForeignKey("Product_Id")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -707,15 +707,15 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("BusinessEntity.DiscountToProduct", b =>
+            modelBuilder.Entity("DataAccessLayer.Models.DiscountToProduct", b =>
                 {
-                    b.HasOne("BusinessEntity.Discount", "discount")
+                    b.HasOne("DataAccessLayer.Models.Discount", "discount")
                         .WithMany("discountToProducts")
                         .HasForeignKey("Discount_Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BusinessEntity.Product", "product")
+                    b.HasOne("DataAccessLayer.Models.Product", "product")
                         .WithMany("discountToProducts")
                         .HasForeignKey("Product_Id")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -726,15 +726,15 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("product");
                 });
 
-            modelBuilder.Entity("BusinessEntity.KeyToProduct", b =>
+            modelBuilder.Entity("DataAccessLayer.Models.KeyToProduct", b =>
                 {
-                    b.HasOne("BusinessEntity.AdjKey", "adjKey")
+                    b.HasOne("DataAccessLayer.Models.AdjKey", "adjKey")
                         .WithMany("KeyToProducts")
                         .HasForeignKey("Key_Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BusinessEntity.Product", "product")
+                    b.HasOne("DataAccessLayer.Models.Product", "product")
                         .WithMany("keyToProducts")
                         .HasForeignKey("Product_Id")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -745,15 +745,15 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("product");
                 });
 
-            modelBuilder.Entity("BusinessEntity.KeyToSubCategory", b =>
+            modelBuilder.Entity("DataAccessLayer.Models.KeyToSubCategory", b =>
                 {
-                    b.HasOne("BusinessEntity.Category", "subCategory")
+                    b.HasOne("DataAccessLayer.Models.Category", "subCategory")
                         .WithMany("keyToSubCategories")
                         .HasForeignKey("SubCategory_Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BusinessEntity.AdjKey", "adjKey")
+                    b.HasOne("DataAccessLayer.Models.AdjKey", "adjKey")
                         .WithMany("keyToSubCategories")
                         .HasForeignKey("key_Id")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -764,15 +764,15 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("subCategory");
                 });
 
-            modelBuilder.Entity("BusinessEntity.OrderDetails", b =>
+            modelBuilder.Entity("DataAccessLayer.Models.OrderDetails", b =>
                 {
-                    b.HasOne("BusinessEntity.Product", "Product")
+                    b.HasOne("DataAccessLayer.Models.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BusinessEntity.Order", "order")
+                    b.HasOne("DataAccessLayer.Models.Order", "order")
                         .WithMany("orderDetails")
                         .HasForeignKey("order_Id")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -783,9 +783,9 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("order");
                 });
 
-            modelBuilder.Entity("BusinessEntity.ProductPhoto", b =>
+            modelBuilder.Entity("DataAccessLayer.Models.ProductPhoto", b =>
                 {
-                    b.HasOne("BusinessEntity.Product", "product")
+                    b.HasOne("DataAccessLayer.Models.Product", "product")
                         .WithMany("ProductPhotos")
                         .HasForeignKey("Product_Id")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -794,15 +794,15 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("product");
                 });
 
-            modelBuilder.Entity("BusinessEntity.ValueToProduct", b =>
+            modelBuilder.Entity("DataAccessLayer.Models.ValueToProduct", b =>
                 {
-                    b.HasOne("BusinessEntity.Product", "Product")
+                    b.HasOne("DataAccessLayer.Models.Product", "Product")
                         .WithMany("valueToProducts")
                         .HasForeignKey("Product_Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BusinessEntity.AdjValue", "Value")
+                    b.HasOne("DataAccessLayer.Models.AdjValue", "Value")
                         .WithMany("valueToProducts")
                         .HasForeignKey("Value_Id")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -864,7 +864,7 @@ namespace DataAccessLayer.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("BusinessEntity.AdjKey", b =>
+            modelBuilder.Entity("DataAccessLayer.Models.AdjKey", b =>
                 {
                     b.Navigation("KeyToProducts");
 
@@ -873,12 +873,12 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("keyToSubCategories");
                 });
 
-            modelBuilder.Entity("BusinessEntity.AdjValue", b =>
+            modelBuilder.Entity("DataAccessLayer.Models.AdjValue", b =>
                 {
                     b.Navigation("valueToProducts");
                 });
 
-            modelBuilder.Entity("BusinessEntity.Category", b =>
+            modelBuilder.Entity("DataAccessLayer.Models.Category", b =>
                 {
                     b.Navigation("CategoryToProducts");
 
@@ -887,17 +887,17 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("keyToSubCategories");
                 });
 
-            modelBuilder.Entity("BusinessEntity.Discount", b =>
+            modelBuilder.Entity("DataAccessLayer.Models.Discount", b =>
                 {
                     b.Navigation("discountToProducts");
                 });
 
-            modelBuilder.Entity("BusinessEntity.Order", b =>
+            modelBuilder.Entity("DataAccessLayer.Models.Order", b =>
                 {
                     b.Navigation("orderDetails");
                 });
 
-            modelBuilder.Entity("BusinessEntity.Product", b =>
+            modelBuilder.Entity("DataAccessLayer.Models.Product", b =>
                 {
                     b.Navigation("CategoryToProducts");
 
@@ -910,7 +910,7 @@ namespace DataAccessLayer.Migrations
                     b.Navigation("valueToProducts");
                 });
 
-            modelBuilder.Entity("BusinessEntity.Weblog", b =>
+            modelBuilder.Entity("DataAccessLayer.Models.Weblog", b =>
                 {
                     b.Navigation("blogSections");
                 });
