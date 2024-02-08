@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.VisualBasic.FileIO;
 using Utility.ReturnMultipleData;
 
-namespace PresentationLayer.uploadfile
+namespace Infrustructure.uploadfile
 {
     public class UploadFile
     {
