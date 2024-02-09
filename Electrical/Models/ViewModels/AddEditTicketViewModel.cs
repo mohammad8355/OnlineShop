@@ -12,7 +12,7 @@ namespace PresentationLayer.Models.ViewModels
         [MaxLength(30)]
         public string Status { get; set; }
         public DateTime LastUpdate { get; set; }
-        public string User_Id { get; set; }
+        public string UserName { get; set; }
 
     }
 }

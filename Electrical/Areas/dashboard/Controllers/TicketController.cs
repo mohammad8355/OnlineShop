@@ -30,15 +30,14 @@ namespace PresentationLayer.Areas.dashboard.Controllers
         public async Task<IActionResult> AddTicket(AddEditTicketViewModel model)
         {
             model.LastUpdate = DateTime.Now;
-            var user = await userManager.FindByNameAsync(User.Identity.Name);
-            model.User_Id = user.Id;
             if (ModelState.IsValid)
             {
+                var user = await userManager.FindByNameAsync(model.UserName);
                 var ticket = new Ticket()
                 {
                     Title = model.Title,
                     Description = model.Description,
-                    User_Id = model.User_Id,
+                    User_Id = user.Id,
                     Status = model.Status,
                     LastUpdate = model.LastUpdate,
                 };
