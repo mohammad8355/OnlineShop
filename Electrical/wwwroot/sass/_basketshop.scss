@@ -1,0 +1,132 @@
+@import "_utility.scss";
+@import "_general.scss";
+section.basketShop {
+    width: 100%;
+    min-height: 100vh;
+
+    .title {
+        text-align: right;
+        color: $darkSecondary;
+        font-size: 1.2em;
+    }
+
+    .factor-detail {
+        padding: 1em;
+    }
+
+    .factor {
+        padding: 1em;
+
+        .box {
+            background-color: $white;
+            border-radius: .5em;
+            padding: 1em;
+
+            h4 {
+                @include flex(row,space-between);
+                font-size: 1em;
+                color: $Secondary;
+
+                span {
+                    color: $dark;
+                }
+
+                margin-bottom: 1em;
+            }
+        }
+
+        a.btn {
+            background-color: $darkPrimary;
+            color: $white;
+            margin-top: .5em;
+            transition: all .5s;
+        }
+
+        a.btn:hover {
+            background-color: $varydarkPrimary;
+            transition: all .5s;
+        }
+    }
+}
+.product-box{
+    position: relative;
+    background-color: $white;
+    @include flex(row,space-between,center);
+    flex-wrap: wrap
+    
+    ;
+    border-radius: .5em;
+    margin: .5em;
+    padding: 1em;
+    i.fa-trash{
+        position: absolute;
+        top: .5em;
+        left: .5em;
+        font-size: 1em;
+        color: $white;
+        background-color: $lightLegendary;
+        border-radius: 50%;
+        padding: .5em;
+    }
+    .product-img{
+        overflow: hidden;
+        img{
+            width: 100%;
+            object-fit: cover;
+        }
+    }
+    .product-detail{
+        h3{
+font-size:1.5em;
+        }
+        h4{
+            font-size: 1.3em;
+            font-weight: 400;
+            color: $Secondary;
+        }
+        .count{
+         margin: auto 0;
+            i{
+                font-size: 1.2em;
+                padding: .2em;
+                border-radius: .1em;
+                color: $white;
+            }
+            i.fa-plus{
+                background-color: $green;
+            }
+            i.fa-minus{
+                background-color: $Legendary;
+            
+            }
+            span{
+                padding: .5em;
+                font-weight: 600;
+                color: $dark;
+            }
+        }
+        .price{
+            @include flex(column,center,flex-end);
+            .priceUnit,.totalPrice{
+                font-size: 1.2em;
+                padding-left: 1.2em;
+                font-weight: 400;
+                color: $Secondary;
+                span{
+                    margin: 1em;
+                    font-weight:500;
+                    color: $dark;
+                }
+            }
+        }
+    }
+}
+@media screen and (max-width:768px){
+.product-box{
+    .product-img{
+        img{
+            width: 50%;
+        }
+    }
+}
+}

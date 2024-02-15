@@ -3,6 +3,7 @@ using DataAccessLayer.services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,9 +12,11 @@ namespace BusinessLogicLayer.TicketService
     public class TicketLogic
     {
         private readonly MainRepository<Ticket> TicketRepository;
-        public TicketLogic(MainRepository<Ticket> TicketRepository)
+        private readonly MainRepository<Commnet> commentRepository;
+        public TicketLogic(MainRepository<Ticket> TicketRepository, MainRepository<Commnet> commentRepository)
         {
             this.TicketRepository = TicketRepository;
+            this.commentRepository = commentRepository;
         }
         public async Task<bool> AddTicket(Ticket model)
         {
@@ -52,13 +55,37 @@ namespace BusinessLogicLayer.TicketService
         }
         public Ticket TicketDetail(int Id)
         {
-            var Ticket = TicketRepository.Get(c => c.Id == Id, c => c.commnets,h =>  h.User ).Result.FirstOrDefault();
-            return Ticket;
+            if(TicketRepository.Get(t => t.Id == Id).Result.Select(c => c.commnets).ToList().Any())
+            {
+
+                var Ticket = TicketRepository.Get(c => c.Id == Id, c => c.commnets, h => h.User).Result.FirstOrDefault();
+                Ticket.commnets = commentRepository.Get(c => c.Ticket_Id == Ticket.Id).Result.ToList();
+                return Ticket;
+            }
+            else
+            {
+                var Ticket = TicketRepository.Get(c => c.Id == Id, h => h.User).Result.FirstOrDefault();
+                return Ticket;
+            }
         }
         public List<Ticket> TicketList()
         {
-            var Ticket = TicketRepository.Get(null, c => c.commnets,g => g.User ).Result.ToList();
-            return Ticket;
+            var comment = new List<Commnet>();
+            if (TicketRepository.Get().Result.Select(c => c.commnets).ToList().Any())
+            {
+           var ticket = TicketRepository.Get(null,g => g.commnets, g => g.User).Result.ToList();
+                foreach(var tic in ticket)
+                {
+                    comment.AddRange(commentRepository.Get(c => c.Ticket_Id == tic.Id).Result.ToList());
+                    tic.commnets = comment;
+                }
+                return ticket;
+            }
+            else
+            {
+                var ticket = TicketRepository.Get(null, g => g.User).Result.ToList();
+                return ticket;
+            }
         }
     }
 }

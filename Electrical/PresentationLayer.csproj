@@ -4,7 +4,13 @@
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="compilerconfig.json" />
+    <Content Remove="sassconfig.json" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\BusinessLogicLayer\BusinessLogicLayer.csproj" />
@@ -18,7 +24,13 @@
     <Folder Include="Areas\dashboard\Models\" />
     <Folder Include="Areas\Identity\Data\" />
     <Folder Include="wwwroot\Image\Product\" />
+    <Folder Include="wwwroot\sass\" />
     <Folder Include="wwwroot\picture\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="compilerconfig.json" />
+    <None Include="sassconfig.json" />
   </ItemGroup>
 
   <ItemGroup>

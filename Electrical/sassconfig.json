@@ -1,0 +1,18 @@
+[
+  {
+    "outputFile": "wwwroot/css/main.css",
+    "inputFile": "wwwroot/sass/main.scss"
+  },
+  {
+    "outputFile": "wwwroot/sass/main.css",
+    "inputFile": "wwwroot/sass/main.scss"
+  },
+  {
+    "outputFile": "wwwroot/sass/menu.css",
+    "inputFile": "wwwroot/sass/menu.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/menu.css",
+    "inputFile": "wwwroot/sass/menu.scss"
+  }
+]

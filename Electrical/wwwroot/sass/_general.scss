@@ -1,0 +1,49 @@
+$varydarkPrimary:#00415A;
+$darkPrimary:#00719C;
+$Primary:#009BD6;
+$lightPrimary:#00B8FF;
+$darkLegendary:#820300;
+$Legendary:#B80000;
+$lightLegendary:#FD0C0C;
+$green:#0AC834;
+$dark:#2F2E2E;
+$verydarkSecondary:#4B4C4E;
+$darkSecondary:#6B6B6C;
+$Secondary:#919192;
+$lightSecondary:#BDBFC1;
+$verylightSecondary:#E6E7E9;
+$light:#F4F4F4;
+$white:#fff;
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Vazir";
+}
+body{
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    background-color: $light;
+}
+/* ===== Scrollbar CSS ===== */
+  /* Firefox */
+  * {
+    scrollbar-width: auto;
+    scrollbar-color: #bfbfbf #ffffff;
+  }
+
+  /* Chrome, Edge, and Safari */
+  *::-webkit-scrollbar {
+    width: 11px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: #ffffff;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: #bfbfbf;
+    border-radius: 10px;
+    border: 3px solid #ffffff;
+  }

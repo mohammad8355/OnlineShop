@@ -27,9 +27,12 @@
                             <tr>
                                 <td>
                                     <div class="btn-group">
-                                        <button type="button" data-close="@com.Id" class="btn btn-info closeBtn"><i class="fa-solid fa-eye"></i></button>
+                                        <a asp-action="EditTicket" asp-controller="Ticket" asp-route-Id="@com.Id" class="btn btn-info "><i class="fa-solid fa-pen"></i></a>
+                                        <a asp-action="AnswerTicket" asp-controller="Ticket" asp-route-Id="@com.Id" class="btn btn-secondary"><i class="fa-regular fa-comment"></i></a>
+                                        <a asp-action="TicketDetail" asp-controller="Ticket" asp-route-Id="@com.Id" class="btn btn-success"><i class="fa-regular fa-eye"></i></a>
+                                        <button data-close="@com.Id" class="btn btn-outline-danger closeBtn" title="close"><i class="fa-solid fa-close"></i></button>
                                         <button type="button" data-delete="@com.Id" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
-                                    </div>
+\                                    </div>
                                 </td>
                                 <td>
                                     @if (string.IsNullOrEmpty(com.Title))
@@ -54,7 +57,7 @@
                                     }
                                 </td>
                                 <td>
-                                        <span class="badge badge-info p-3">@com.Status</span>
+                                    <span class="badge badge-info p-3">@com.Status</span>
 
                                 </td>
                                 <td>
@@ -65,6 +68,7 @@
                                 <td>
                                     @com.LastUpdate
                                 </td>
+                               
                             </tr>
                         }
 
@@ -83,6 +87,7 @@
                     </tfoot>
                 </table>
             </div>
+      
             <!-- /.card-body -->
         </div>
 
@@ -108,6 +113,7 @@
     <script src="AdminLTE/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
     <script src="AdminLTE/plugins/datatables-buttons/js/buttons.print.min.js"></script>
     <script src="AdminLTE/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+  
     }
 @section InlineScripts {
     <script>
@@ -153,11 +159,11 @@
                 }
             })
         });
-        var HideBtn = document.querySelectorAll(".closeBtn");
-        HideBtn.forEach((item) => {
+        var CloseBtn = document.querySelectorAll(".closeBtn");
+        CloseBtn.forEach((item) => {
             item.addEventListener("click", function () {
                 console.log("ok");
-                if (window.confirm("آیا از بستن این کامنت اطمینان دارید ؟")) {
+                if (window.confirm("آیا از بستن/بازکردن این کامنت اطمینان دارید ؟")) {
                     $.ajax({
                         url: '@Url.Action("CloseTicket","Ticket")',
                         type: 'GET',
@@ -176,6 +182,12 @@
                 }
             })
         });
+        //var myModal = document.getElementById('modal')
+        ////var myInput = document.getElementById('myInput')
+
+        //myModal.addEventListener('shown.bs.modal', function () {
+        //    myInput.focus()
+        //})
 
     </script>
     }

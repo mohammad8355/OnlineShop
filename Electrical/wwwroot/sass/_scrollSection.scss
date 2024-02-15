@@ -1,0 +1,137 @@
+@import "general";
+@import 'utility';
+
+section.scrollcontainer {
+    position: relative;
+    width: 100%;
+    min-height: 40em;
+    @include flex();
+    .Product-container {
+        background-color: $varydarkPrimary;
+        box-shadow: 0 0 15px 10px $dark inset;
+    }
+
+}
+section.scrollcontainer.seggustion{
+    h2{
+        @include flex(row,space-between);
+        span{
+            a{
+                text-decoration: none;
+                color: $darkSecondary;
+            }
+            color: $dark;
+            font-size:.8em;
+        }
+
+    }
+    .Product-container{
+        background-color: transparent;
+        box-shadow: none;
+        .card-body{
+            .shopbtn{
+                i{
+                    color: $Primary;
+                    font-size: 1.5em;
+                    cursor: pointer;
+                }
+            }
+        }
+        .card-footer{
+            i.fa-star{
+                color: rgb(255, 208, 0);
+            }
+        }
+    }
+}
+.Product-container {
+    position: relative;
+    width: 90%;
+    height: 95%;
+    border-radius: 1.2em;
+    overflow: hidden;
+   h2{
+    text-align: center;
+    padding-top: .5em;
+   }
+    .product-wrapper {
+        min-width:100%;
+        height: 100%;
+        @include flex(row, flex-start, center);
+        overflow: auto;
+        scrollbar-width: none; /* Hide scrollbar in Firefox */
+        -ms-overflow-style: none; 
+        .product-card {
+            position: relative;
+            background-color: $white;
+            border-radius: 1em;
+            margin: 2em .5em 2em .5em;
+            @include flex();
+            flex-basis:30%;
+            row-gap: 1em;
+
+            overflow: hidden;
+
+            .off {
+                position: absolute;
+                top: 1em;
+                left: 1em;
+            }
+
+            .card-body {
+                @include flex();
+                row-gap: 1em;
+
+                .price {
+                    @include flex();
+
+                }
+                .btn {
+                    padding: .1em 1.5em .1em 1.5em;
+                    border-radius: 1em;
+                    background-color: $Primary;
+                }
+
+            }
+
+            .card-footer {
+                width: 100%;
+                padding: .5em;
+                @include flex(row, space-between, center);
+
+                span {
+                    display: block;
+                    font-size: .8em;
+                    color: $Secondary;
+
+                }
+                .rate{
+                    i{
+                        color: rgb(255, 196, 0);
+                    }
+                }
+            }
+        }
+    }
+    .product-wrapper::-webkit-scrollbar{
+        display: none;
+    }
+    .navigation{
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 100%;
+        z-index: 10;
+        @include flex(row,space-between,center);
+        button{
+            border: none;
+            background-color: transparent;
+            color: $light;
+            font-size: 2em;
+            padding: 1em;
+        }
+        .right-nav-scroll{
+            transform: rotate(180deg);
+        }
+    }
+}

@@ -1,0 +1,18 @@
+﻿[
+  {
+    "outputFile": "wwwroot/css/menu.css",
+    "inputFile": "wwwroot/sass/menu.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/main.css",
+    "inputFile": "wwwroot/sass/main.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/userPanel.css",
+    "inputFile": "wwwroot/sass/userPanel.scss"
+  },
+  {
+    "outputFile": "wwwroot/sass/_basketshop.css",
+    "inputFile": "wwwroot/sass/_basketshop.scss"
+  }
+]

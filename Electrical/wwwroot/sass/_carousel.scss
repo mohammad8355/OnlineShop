@@ -1,0 +1,50 @@
+@import "utility";
+@import "_general";
+.carousel-container{
+    position: relative;
+    width: 95%;
+    // height:30em;
+    margin-top: 1em;
+    // padding-bottom: 14.8%;
+    margin: 1% auto 0; /* Add 1% margin-top and center horizontally */
+    border-radius: 15px;
+    box-shadow: 0px 0px 10px $darkSecondary;
+    display: flex;
+overflow: hidden;
+.carousel-wrapper{
+    // min-width:100%;
+    list-style:none;
+    height:100%;
+   display: flex;
+   margin: 0;
+   transition: all 2s;
+    .carousel-slide{
+        min-width: 100%;
+        img{
+            width: 100%;
+            height: 100%;
+         object-fit: cover;
+         display:block;
+         aspect-ratio:7/2;
+        }
+    }
+}
+.navigation{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    @include flex(row,space-between,center);
+    button{
+        border: none;
+        background-color: transparent;
+        color: $light;
+        font-size: 2em;
+        padding: 1em;
+    }
+    .right-nav{
+        transform: rotate(180deg);
+    }
+}
+}

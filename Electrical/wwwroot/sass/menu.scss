@@ -1,0 +1,353 @@
+@import "_general.scss";
+@import "_utility.scss";
+
+header {
+    width: 100%;
+    background-color: #fff;
+    box-shadow: 0 0 5px rgba($color: #000000, $alpha: 0.5);
+    padding: .1em;
+    @include flex();
+
+    div.container {
+        padding: .5em 0 .5em 0;
+
+        div.logo {
+            img {
+                width: 80%;
+            }
+        }
+
+        div.search-box {
+            padding: .5em;
+
+            form {
+                width: 100%;
+                background-color: rgba($color: #000000, $alpha: 0.1);
+                border-radius: 2em;
+                padding: .1em .5em .1em .5em;
+                @include flex(_, space-between);
+
+                i {
+                    color: $Primary;
+                    font-size: 1.5em;
+                }
+
+                input {
+                    border: none;
+                    outline: none;
+                    background-color: rgba($color: #000000, $alpha: 0);
+                    padding: .5em .2em .5em .2em;
+                }
+            }
+        }
+
+        div.left-side {
+            .login-part {
+                width: 10em;
+                @include flex(row);
+
+                .login {
+                    width: 2em;
+                    height: 2em;
+                    background-color: $darkPrimary;
+                    border-radius: 50%;
+                    color: $light;
+                    margin: .5em;
+                    padding: .1em .3em .1em .3em;
+                    @include flex(row);
+                    column-gap: .3em;
+
+                    a {
+                        font-size: 1.2em;
+                        color: $light;
+                        padding: .5em;
+                    }
+                }
+
+                div {
+                    span {
+                        color: $dark;
+                    }
+
+                    .dropdownList {
+                        top: .5em;
+
+                        li {
+                            a {
+                                text-decoration: none;
+                                color: $dark;
+                                padding: .5em;
+                            }
+
+                            a:hover {
+                                color: $white;
+                            }
+
+                            button {
+                                width: 100%;
+                                border: none;
+                                outline: none;
+                                color: $dark;
+                                background-color: transparent;
+                            }
+
+                            button:hover {
+                                color: $white;
+                            }
+                        }
+                    }
+                }
+            }
+
+            div.shop {
+                margin: .5em;
+
+                i {
+                    font-size: 2em;
+                    color: $darkPrimary;
+                }
+            }
+        }
+    }
+
+    nav {
+        ul {
+            width: 100%;
+            height: 3em;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+
+            li {
+                display: inline-block;
+                padding: 1em;
+
+                a {
+                    text-decoration: none;
+                    color: $darkSecondary;
+                }
+
+                span {
+                    color: $lightPrimary;
+                    padding: .2em;
+                }
+            }
+        }
+    }
+}
+
+div.footer-menu {
+    display: none;
+}
+
+.dropdown {
+    position: relative;
+    // @include flex();
+    display: inline-block;
+
+    .dropdownList {
+        display: none;
+        position: absolute;
+        left: 0;
+        min-width: 160px;
+        height: auto;
+        background-color: $verylightSecondary;
+        border-radius: .4em;
+        padding: 0;
+        margin: 1em;
+        overflow: hidden;
+        z-index: 100;
+
+        li {
+
+            width: 100%;
+
+            a {
+                display: block;
+                width: 100%;
+                padding: .2em;
+            }
+        }
+
+        li:hover {
+            background-color: $Primary;
+
+            a {
+                color: $light;
+            }
+        }
+    }
+
+    .megamenu-container {
+        min-width: 600px;
+        display: none;
+        position: absolute;
+        // min-height:300px;
+        background-color: $verylightSecondary;
+        border-radius: .4em;
+        padding: 1em;
+        margin: 1em;
+        overflow: hidden;
+        z-index: 10;
+
+        li {
+            width: 100%;
+            height: 3.5em;
+            padding: 0;
+            border-radius: 0 2em 2em 0;
+            @include flex(row, flex-start);
+
+            ul.menu-wrapper {
+                display: none;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 80%;
+                height: 100%;
+                padding: 0;
+                background-color: $Primary;
+
+                li {
+                    text-align: center;
+                    height: 100%;
+                    @include flex(column, space-between, center);
+
+                    ul {
+                        li {
+                            padding: .5em 0 .5em 0;
+
+                            a {
+                                color: $verylightSecondary;
+                            }
+                        }
+
+                        li:hover {
+                            a {
+                                color: $light;
+                            }
+                        }
+                    }
+
+                    a {
+                        color: $dark;
+                        text-align: center;
+                    }
+
+                }
+            }
+
+            a {
+                text-align: center;
+                padding-right: .5em;
+                vertical-align: middle;
+            }
+        }
+
+        li.select {
+            ul.menu-wrapper {
+                @include flex(row, center, flex-start);
+            }
+        }
+
+        li:hover {
+            background-color: $Primary;
+
+            a {
+                color: $light;
+            }
+        }
+
+    }
+}
+
+.dropdown.active {
+    ul {
+
+        @include flex();
+    }
+
+    .megamenu-container {
+        @include flex();
+
+
+        ul {
+            @include flex(column, flex-end, flex-start);
+        }
+    }
+}
+
+@media screen and (max-width:767px) {
+    header {
+        div.logo {
+            @include flex(row, center, center);
+
+            img {
+                width: auto !important;
+                height: 3em;
+            }
+        }
+
+        div.left-side {
+            display: none !important;
+        }
+    }
+
+    nav.navbar.nav {
+
+        ul {
+            li {
+                span {
+                    color: $Primary;
+                }
+            }
+
+            li.special {
+                display: none;
+            }
+
+            li.dropdown {
+                ul {
+                    right: 0;
+                }
+            }
+        }
+    }
+
+    div.footer-menu {
+        position: fixed;
+        width: 100%;
+        bottom: 0;
+        background-color: $white;
+        box-shadow: 5px 0 10px $Secondary;
+        @include flex(row, center, center);
+        padding: 0;
+        overflow-x: auto;
+        z-index: 100;
+
+        ul {
+            min-width: 100%;
+            height: 4em;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            @include flex(row, space-around, center);
+
+            li {
+                min-width: calc(100% / 5);
+                @include flex(column, center, center);
+
+                span {
+                    i {
+                        color: $Primary;
+                    }
+                }
+
+                a {
+                    text-decoration: none;
+                    color: $Primary;
+                }
+            }
+        }
+    }
+
+}

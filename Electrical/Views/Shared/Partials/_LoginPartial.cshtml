@@ -6,22 +6,38 @@
 
 @if (User.Identity.IsAuthenticated)
 {
-    <li>
-        <a id="manage" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
-    </li>
-    <li>
-        <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button id="logout" type="submit">Logout</button>
-        </form>
-    </li>
+
+
+    <div class="btn-group login">
+        <a id="manage" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
+            <i class="fa-solid fa-user"></i>
+        </a>
+    </div>
+    <div class="dropdown">
+        <span> سلام @UserManager.GetUserName(User)!</span>
+        <ul class="dropdownList">
+            <li><a id="manage" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage" >پنل کاربری</a></li>
+            <li>
+                <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                    <button id="logout" type="submit">خروج</button>
+                </form>
+            </li>
+        </ul>
+    </div>
 }
 else
 {
-    <li>
-        <a  id="register" asp-area="Identity" asp-page="/Account/Register">ثبت نام</a>
-    </li>
-    <li>
-        <a  id="login" asp-area="Identity" asp-page="/Account/Login">ورود</a>
-    </li>
+    <div class="btn-group login">
+        <a asp-area="Identity" asp-page="/Account/Register">
+            <i class="fa-solid fa-user"></i>
+        </a>
+    </div>
+    <div class="dropdown">
+        <span>ورود | ثبت نام</span>
+        <ul class="dropdownList">
+            <li><a id="register" asp-area="Identity" asp-page="/Account/Register">ثبت نام</a></li>
+            <li><a id="login" asp-area="Identity" asp-page="/Account/Login">ورود</a></li>
+        </ul>
+    </div>
 }
 

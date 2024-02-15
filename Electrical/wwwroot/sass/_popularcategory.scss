@@ -1,0 +1,73 @@
+
+section.popular-category{
+
+    overflow: hidden;
+    .wrapper::-webkit-scrollbar {
+        display: none; /* Hide scrollbar in Chrome, Safari, and Opera */
+      }
+    h2{
+        display: block;
+        text-align: center;
+        padding: .5em;
+    }
+    .container{
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+        .wrapper{
+            overflow-x: auto;
+            white-space: nowrap;
+            scrollbar-width: none; /* Hide scrollbar in Firefox */
+            -ms-overflow-style: none; /* Hide scrollbar in IE and Edge */
+            padding: .5em 0 .5em 0;
+            display: flex;
+            transition: transform 0.5s ease;
+            .box{
+                width: 8em;
+                height: 8em;
+                margin-right: 10px;
+                border-radius: 50%;
+                border: 2px solid $Primary;
+                box-shadow: 0 0 10px $lightSecondary;
+                @include flex(row);
+
+                 p{
+                    font-size: 0;
+                    transition: all .5s;
+                 }
+                img{
+                    width: 50%;
+                    height: 50%;
+                    object-fit: cover;
+                    transition:  all .5s;
+                }
+                text-decoration: none;
+            }
+            .box:hover{
+                img{
+                    width: 40%;
+                    height: 40%;
+                    transition:  all .5s;
+                }
+                p{
+                    font-size:1em;
+                    transition:  all .5s;
+                }
+                cursor: pointer;
+            }
+        }
+        .navigation-btns {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1;
+          }
+          .prev-btn {
+            left: 10px;
+          }
+          .next-btn {
+            right: 10px;
+          }
+    }
+
+}

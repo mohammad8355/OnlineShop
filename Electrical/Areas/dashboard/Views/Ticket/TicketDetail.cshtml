@@ -1,0 +1,29 @@
+﻿@using DataAccessLayer.Models;
+@model Ticket;
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="card card-primary col-sm-10">
+                <div class="card-header">
+                    <h3> تیکت</h3>
+                </div>
+                <div class="card-body">
+                    <h3>@Model.Title</h3>
+                    <div>
+                        <p>@Model.Description</p>
+                    </div>
+                    <div class="container d-flex flex-column justify-content-center align-items-start p-2">
+                        @foreach(var com in Model.commnets)
+                        {
+                            <div class="card bg-secondary col-6">
+                                <span class="badge badge-dark">@com.User.UserName</span>
+                                <p>@com.Description</p>
+                                <span class="badge badge-info bg-info">@com.LastUpdate</span>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
