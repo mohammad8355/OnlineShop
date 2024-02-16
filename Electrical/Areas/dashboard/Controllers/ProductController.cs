@@ -29,7 +29,8 @@ namespace PresentationLayer.Areas.dashboard.Controllers
         private readonly AdjValueLogic adjvaluelogic;
         private readonly ValueToProductLogic valueToProductLogic;
         private readonly KeyToProductLogic keyToProductLogic;
-        public ProductController(AdjValueLogic adjvaluelogic,ValueToProductLogic valueToProductLogic, KeyToProductLogic keyToProductLogic,AdjKeyLogic adjKeyLogic,CategoryToProductLogic categoryToProductLogic, CategoryLogic categoryLogic, ProductLogic productLogic, UploadFile fileManager, ProductPhotoLogic productPhotoLogic)
+        private readonly IWebHostEnvironment webHostEnvironment;
+        public ProductController(IWebHostEnvironment webHostEnvironment,AdjValueLogic adjvaluelogic,ValueToProductLogic valueToProductLogic, KeyToProductLogic keyToProductLogic,AdjKeyLogic adjKeyLogic,CategoryToProductLogic categoryToProductLogic, CategoryLogic categoryLogic, ProductLogic productLogic, UploadFile fileManager, ProductPhotoLogic productPhotoLogic)
         {
             this.productLogic = productLogic;
             this.fileManager = fileManager;
@@ -40,6 +41,7 @@ namespace PresentationLayer.Areas.dashboard.Controllers
             this.keyToProductLogic = keyToProductLogic;
             this.valueToProductLogic = valueToProductLogic;
             this.adjvaluelogic = adjvaluelogic;
+            this.webHostEnvironment = webHostEnvironment;
         }
         //list of product
         public IActionResult Index()
@@ -101,6 +103,7 @@ namespace PresentationLayer.Areas.dashboard.Controllers
                 };
                 #endregion
                 var resault = await productLogic.AddProduct(ProductModel);
+                var webrootpath = webHostEnvironment.WebRootPath;
                 if (resault)
                 {
                     var product = productLogic.ProductList().Where(p => p.Name == model.Name).First();
@@ -120,7 +123,7 @@ namespace PresentationLayer.Areas.dashboard.Controllers
 
                     #region set requried parameters such as limitsize and destination of files
                     var limitsize = 0;
-                    var destination = "Image\\Product\\" + model.Name;
+                    var destination = Path.Combine(webrootpath,"Image\\Product\\" + model.Name);
                     #endregion
 
                     #region upload image files 
@@ -130,7 +133,7 @@ namespace PresentationLayer.Areas.dashboard.Controllers
                         var ImageName = Guid.NewGuid().ToString();
                         //upload image on server;
 
-                        var UploadFileResault = await fileManager.Upload(ImageName, destination, limitsize, "", file);
+                        var UploadFileResault = await fileManager.Upload(ImageName, destination, limitsize,null, file);
                         //if upload successfull 
                         if ((bool)UploadFileResault.First() == true)
                         {
@@ -236,10 +239,12 @@ namespace PresentationLayer.Areas.dashboard.Controllers
             var resault = await productLogic.UpdateProduct(ProductModel);
             if (resault)
             {
-
+                var webrootpath = webHostEnvironment.WebRootPath;
                 var newpath = "Image\\Product\\" + model.Name + "\\";
+                var completeNewpath = Path.Combine(webrootpath, newpath);
                 var oldpath = "Image\\Product\\" + oldName + "\\";
-                    fileManager.ChangeDirFile(oldpath, newpath);
+                var completeOldPath = Path.Combine(webrootpath, oldpath);
+                    fileManager.ChangeDirFile(completeOldPath, completeNewpath);
                    //fileManager.DeleteDire("Image\\Product\\" + oldName);
                 var categorytoproductlist = categoryToProductLogic.CategoryToProductList().Where(cp => cp.Product_Id == model.Id).ToList();
                 foreach (var catToPro in categorytoproductlist)
@@ -278,7 +283,7 @@ namespace PresentationLayer.Areas.dashboard.Controllers
                     }
                     #endregion
                     var limitsize = 0;
-                    var destination = "Image\\Product\\" + model.Name;
+                    var destination = Path.Combine(webrootpath,"Image\\Product\\" + model.Name);
                     #region delete last files 
                     foreach (var pp in productPhotoLogic.ProductPhotoList().Where(pp => pp.Product_Id == model.Id).ToList())
                     {
@@ -314,7 +319,7 @@ namespace PresentationLayer.Areas.dashboard.Controllers
                         //make uniqe name
                         var ImageName = Guid.NewGuid().ToString();
                         //upload image on server;
-                        var UploadFileResault = await fileManager.Upload(ImageName, destination, limitsize, "", file);
+                        var UploadFileResault = await fileManager.Upload(ImageName, destination, limitsize,null, file);
                         //if upload successfull 
                         if ((bool)UploadFileResault.First() == true)
                         {
@@ -356,13 +361,16 @@ namespace PresentationLayer.Areas.dashboard.Controllers
         {
             #region delete product
             int PId = int.Parse(Id);
+            var webrootpath = webHostEnvironment.WebRootPath;
             var product =  await productLogic.ProductDetail(PId);
             foreach (var photo in product.ProductPhotos)
             {
                 var destination = "Image\\Product\\" + product.Name + "\\" + photo.Name;
-                await fileManager.DeleteFile(destination);
+                var completeDestination = Path.Combine(webrootpath, destination);
+                await fileManager.DeleteFile(completeDestination);
             }
-            fileManager.DeleteDire("Image\\Product\\" + product.Name);
+            var dirPath = "Image\\Product\\" + product.Name;
+            fileManager.DeleteDire(Path.Combine(webrootpath,dirPath));
             var resualt = await productLogic.DeleteProduct(PId);
             #endregion
             return Json(new { name = product.Name, Resualt = resualt });

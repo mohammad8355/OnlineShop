@@ -41,10 +41,10 @@
                         <h5 class="modal-title" id="exampleModalLabel">تغییر عکس پروفایل</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form enctype="multipart/form-data" asp-action="changeProfileImage" asp-controller="UserPanel" asp-area="" method="post">
+                    <form enctype="multipart/form-data" id="ChangeProfile"  method="post" onsubmit="uploadFile(event)">
                         <div class="modal-body">
                             <div class="form-group">
-                                <input type="file" />
+                                <input type="file" id="file" />
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -80,6 +80,29 @@
             $("body").removeClass("active");
             // $("nav").removeClass("open");
         })
+        function uploadFile(event) {
+            event.preventDefault();
+            var formData = new FormData();
+            var fileInput = document.querySelector("#file").files[0];
+            console.log(fileInput);
+            formData.append('file',fileInput);
+
+            $.ajax({
+                url: '@Url.Action("changeProfileImage","UserPanel")',
+                type: 'POST',
+                data: formData,
+                async: false,
+                success: function (data) {
+                    alert(data.message)
+                },
+                error:function(){
+                    alert("fail");
+                },
+                cache: false,
+                contentType: false,
+                processData: false
+            });
+        };
     </script>
     @RenderSection("InlineScript",false)
     @RenderSection("Scripts",false)
