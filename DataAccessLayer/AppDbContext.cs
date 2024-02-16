@@ -53,6 +53,10 @@ namespace DataAccessLayer
             builder.Entity<Ticket>().HasMany(c => c.commnets).WithOne(c => c.Ticket).HasForeignKey(c => c.Ticket_Id).OnDelete(DeleteBehavior.NoAction);
             builder.Entity<ApplicationUser>().HasMany(t => t.Tickets).WithOne(ap => ap.User).HasForeignKey(p => p.User_Id);
             builder.Entity<ApplicationUser>().HasMany(t => t.Commnets).WithOne(ap => ap.User).HasForeignKey(p => p.User_Id);
+            builder.Entity<ApplicationUser>().Property(au => au.Address).IsRequired(false);
+            builder.Entity<ApplicationUser>().Property(au => au.PostalCode).IsRequired(false);
+            builder.Entity<ApplicationUser>().Property(au => au.ProfileImageName).IsRequired(false);
+            builder.Entity<ApplicationUser>().Property(au => au.city).IsRequired(false);
             builder.Entity<Commnet>().HasOne(c => c.reply).WithOne().HasForeignKey<Commnet>(c => c.Reply_Id).HasPrincipalKey<Commnet>(c => c.Id).OnDelete(DeleteBehavior.NoAction);
             builder.Entity<Commnet>().Property(c => c.Title).IsRequired(false);
             builder.Entity<Commnet>().Property(c => c.Ticket_Id).IsRequired(false);

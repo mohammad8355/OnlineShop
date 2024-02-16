@@ -2,12 +2,10 @@
 @using Microsoft.AspNetCore.Http.Features
 @model TwoFactorAuthenticationModel
 @{
-    ViewData["Title"] = "Two-factor authentication (2FA)";
     ViewData["ActivePage"] = ManageNavPages.TwoFactorAuthentication;
 }
 
 <partial name="_StatusMessage" for="StatusMessage" />
-<h3>@ViewData["Title"]</h3>
 @{
     var consentFeature = HttpContext.Features.Get<ITrackingConsentFeature>();
     @if (consentFeature?.CanTrack ?? true)
@@ -17,51 +15,51 @@
             if (Model.RecoveryCodesLeft == 0)
             {
                 <div class="alert alert-danger">
-                    <strong>You have no recovery codes left.</strong>
-                    <p>You must <a asp-page="./GenerateRecoveryCodes">generate a new set of recovery codes</a> before you can log in with a recovery code.</p>
+                    <strong>شما کد ریکاوری ندارید .</strong>
+                    <p>You must <a asp-page="./GenerateRecoveryCodes" class="m-2">یک کد تنظیم ریکاوری جدید تولید کن</a> قبل از اینکه بتوانید با کد ریکاوری وارد شوید</p>
                 </div>
             }
             else if (Model.RecoveryCodesLeft == 1)
             {
                 <div class="alert alert-danger">
                     <strong>You have 1 recovery code left.</strong>
-                    <p>You can <a asp-page="./GenerateRecoveryCodes">generate a new set of recovery codes</a>.</p>
+                    <p>You can <a asp-page="./GenerateRecoveryCodes" class="m-2">یک کد تنظیم ریکاوری جدید تولید کن </a>.</p>
                 </div>
             }
             else if (Model.RecoveryCodesLeft <= 3)
             {
                 <div class="alert alert-warning">
-                    <strong>You have @Model.RecoveryCodesLeft recovery codes left.</strong>
-                    <p>You should <a asp-page="./GenerateRecoveryCodes">generate a new set of recovery codes</a>.</p>
+                    <strong> شما دارید @Model.RecoveryCodesLeft recovery codes left.</strong>
+                    <p>شما باید  <a asp-page="./GenerateRecoveryCodes" class="m-2">یک کد تنظیم ریکاوری جدید تولید کن</a>.</p>
                 </div>
             }
 
             if (Model.IsMachineRemembered)
             {
                 <form method="post" style="display: inline-block">
-                    <button type="submit" class="btn btn-primary">Forget this browser</button>
+                    <button type="submit" class="btn btn-primary">این مرورگر رو فراموش کن</button>
                 </form>
             }
-            <a asp-page="./Disable2fa" class="btn btn-primary">Disable 2FA</a>
-            <a asp-page="./GenerateRecoveryCodes" class="btn btn-primary">Reset recovery codes</a>
+            <a asp-page="./Disable2fa" class="btn btn-primary m-2">غیر فعال کردن احراز هویت دو مرحله ای</a>
+            <a asp-page="./GenerateRecoveryCodes" class="btn btn-primary m-2"> کد ریکاوری جدید</a>
         }
 
         <h4>Authenticator app</h4>
         @if (!Model.HasAuthenticator)
         {
-            <a id="enable-authenticator" asp-page="./EnableAuthenticator" class="btn btn-primary">Add authenticator app</a>
+            <a id="enable-authenticator" asp-page="./EnableAuthenticator" class="btn btn-primary m-2">افزودن برنامه احراز هویت دو مرحله ای</a>
         }
         else
         {
-            <a id="enable-authenticator" asp-page="./EnableAuthenticator" class="btn btn-primary">Set up authenticator app</a>
-            <a id="reset-authenticator" asp-page="./ResetAuthenticator" class="btn btn-primary">Reset authenticator app</a>
+            <a id="enable-authenticator" asp-page="./EnableAuthenticator" class="btn btn-primary col-md-8 col-12 m-2">تنظیم برنامه احراز هویت دو مرحله ای</a>
+            <a id="reset-authenticator" asp-page="./ResetAuthenticator" class="btn btn-primary col-md-8 col-12 m-2">تنظیم دوباره برنامه احراز هویت دو مرحله ای</a>
         }
     }
     else
     {
         <div class="alert alert-danger">
-            <strong>Privacy and cookie policy have not been accepted.</strong>
-            <p>You must accept the policy before you can enable two factor authentication.</p>
+            <strong>کوکی و قوانین پذیرفته نشده است !</strong>
+            <p>شما باید قوانین را بپذیرید تا بتوانید از احراز هویت دو مرحله ای استفاده کنید</p>
         </div>
     }
 }

@@ -16,7 +16,7 @@
     <div class="dropdown">
         <span> سلام @UserManager.GetUserName(User)!</span>
         <ul class="dropdownList">
-            <li><a id="manage" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage" >پنل کاربری</a></li>
+            <li><a id="manage" asp-area="" asp-action="Index" asp-controller="UserPanel"  title="Manage" >پنل کاربری</a></li>
             <li>
                 <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
                     <button id="logout" type="submit">خروج</button>

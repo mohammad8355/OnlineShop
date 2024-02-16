@@ -1,24 +1,26 @@
 ﻿@page
 @model ResetAuthenticatorModel
 @{
-    ViewData["Title"] = "Reset authenticator key";
     ViewData["ActivePage"] = ManageNavPages.TwoFactorAuthentication;
 }
 
 <partial name="_StatusMessage" for="StatusMessage" />
-<h3>@ViewData["Title"]</h3>
 <div class="alert alert-warning" role="alert">
     <p>
         <span class="glyphicon glyphicon-warning-sign"></span>
-        <strong>If you reset your authenticator key your authenticator app will not work until you reconfigure it.</strong>
+        <strong>اگر شما کد احراز هویت خود را تغییر داده اید برنامه احراز هویت شما کار نخواهد کرد تا زمانیکه آن را دوباره تنظیم کنید</strong>
     </p>
     <p>
-        This process disables 2FA until you verify your authenticator app.
-        If you do not complete your authenticator app configuration you may lose access to your account.
+     این عملیات احراز هویت دو مرحله ای را غیر فعال می کند تا زمانیکه شما هویت خود را در برنامه احراز کنید
+     اگر شما هویت خود را در برنامه تنظیم و احراز نکنید دسترسی به اکانت خود را از دست خواهید داد
     </p>
 </div>
 <div>
-    <form id="reset-authenticator-form" method="post">
-        <button id="reset-authenticator-button" class="btn btn-danger" type="submit">Reset authenticator key</button>
+    <form id="reset-authenticator-form" method="post" class="col-md-8 col-12">
+        <button id="reset-authenticator-button" class="btn btn-block btn-danger" type="submit">تغییر کد </button>
     </form>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

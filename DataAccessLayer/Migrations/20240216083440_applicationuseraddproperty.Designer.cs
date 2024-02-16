@@ -4,6 +4,7 @@ using DataAccessLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240216083440_applicationuseraddproperty")]
+    partial class applicationuseraddproperty
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -123,10 +126,6 @@ namespace DataAccessLayer.Migrations
                     b.Property<string>("PostalCode")
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
-
-                    b.Property<string>("ProfileImageName")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
@@ -294,7 +293,7 @@ namespace DataAccessLayer.Migrations
                             Id = 1,
                             Description = "shop supporting was very verrrrrrrrrrrrrrry gooooooooooooooooooooooood happy",
                             IsHide = false,
-                            LastUpdate = new DateTime(2024, 2, 16, 15, 49, 11, 657, DateTimeKind.Local).AddTicks(5505),
+                            LastUpdate = new DateTime(2024, 2, 16, 12, 4, 40, 44, DateTimeKind.Local).AddTicks(9185),
                             Title = "shop supporting",
                             User_Id = "217440e4-9164-443b-aa76-ab6d847aaace"
                         },
@@ -303,7 +302,7 @@ namespace DataAccessLayer.Migrations
                             Id = 2,
                             Description = "shop supporting was very verrrrrrrrrrrrry    baaaaaaaaaaaaaaaaaad sad",
                             IsHide = false,
-                            LastUpdate = new DateTime(2024, 2, 16, 15, 49, 11, 657, DateTimeKind.Local).AddTicks(5677),
+                            LastUpdate = new DateTime(2024, 2, 16, 12, 4, 40, 44, DateTimeKind.Local).AddTicks(9280),
                             Title = "shop supporting",
                             User_Id = "c74e93b8-9649-4c91-b459-4e9e16f2db74"
                         },
@@ -312,7 +311,7 @@ namespace DataAccessLayer.Migrations
                             Id = 3,
                             Description = "no comment ",
                             IsHide = false,
-                            LastUpdate = new DateTime(2024, 2, 16, 15, 49, 11, 657, DateTimeKind.Local).AddTicks(5734),
+                            LastUpdate = new DateTime(2024, 2, 16, 12, 4, 40, 44, DateTimeKind.Local).AddTicks(9303),
                             User_Id = "217440e4-9164-443b-aa76-ab6d847aaace"
                         });
                 });

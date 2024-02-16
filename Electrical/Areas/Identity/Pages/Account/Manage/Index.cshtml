@@ -1,34 +1,55 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Profile";
     ViewData["ActivePage"] = ManageNavPages.Index;
 }
-
-<h3>@ViewData["Title"]</h3>
 <partial name="_StatusMessage" for="StatusMessage" />
-<div class="row">
-  @*  @if (ViewData["TwoStepAuth"].ToString() == "Y")
+@*  @if (ViewData["TwoStepAuth"].ToString() == "Y")
     {
         <div class="alert alert-warning">please enable your 2fa authentication</div>
     }*@
-  
-    <div class="col-md-6">
-        <form id="profile-form" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Username" class="form-control" placeholder="Please choose your username."  />
-                <label asp-for="Input.Username" class="form-label"></label>
-            </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.PhoneNumber" class="form-control" placeholder="Please enter your phone number."/>
-                <label asp-for="Input.PhoneNumber" class="form-label"></label>
-                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
-            </div>
-            <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
-        </form>
+
+
+<form id="profile-form" method="post" class="col-md-8 col-12">
+    <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+    <div class="form-group">
+        <label asp-for="Input.Username" class="col-12 pe-3"></label>
+        <input asp-for="Input.Username"  placeholder="لطفا نام کاربری خود را وارد کنید" />
+        <span asp-validation-for="Input.Username" class="text-danger" ></span>
     </div>
-</div>
+    <div class="form-group">
+                <label asp-for="Input.PhoneNumber" class="col-12 pe-3"></label>
+        <input asp-for="Input.PhoneNumber"  placeholder="شماره موبایل خود را وارد کنید" />>
+        <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+                <label asp-for="Input.FullName" class="col-12 pe-3"></label>
+        <input asp-for="Input.FullName" placeholder="نام و نام خانوداگی  خود را وارد کنید" />
+        <span asp-validation-for="Input.FullName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Input.birthDate" class="col-12 pe-3"></label>
+        <input asp-for="Input.birthDate" />
+        <span asp-validation-for="Input.birthDate" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Input.Address" class="col-12 pe-3"></label>
+        <textarea asp-for="Input.Address"  placeholder="آدرس خود را وارد کنید" >
+        </textarea>
+        <span asp-validation-for="Input.Address" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Input.PostalCode" class="col-12 pe-3"></label>
+        <input asp-for="Input.PostalCode" placeholder="کد پستی خود را وارد کنید" />
+        <span asp-validation-for="Input.PostalCode" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Input.city" class="col-12 pe-3"></label>
+        <input asp-for="Input.city"  placeholder="نام شهر خود را وارد کنید" />
+        <span asp-validation-for="Input.city" class="text-danger"></span>
+    </div>
+    <button id="update-profile-button" type="submit" class="btn btn-block btn-success">ثبت</button>
+</form>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
