@@ -13,41 +13,51 @@ namespace Infrustructure.uploadfile
     public class UploadFile
     {
         private readonly ReturnMultipleData<UploadFile> returnMultipleData;
-        private readonly IWebHostEnvironment hostingEnvironment;
-        public UploadFile(IWebHostEnvironment HostingEnvironment, ReturnMultipleData<UploadFile> ReturnMultipleData)
+        public UploadFile( ReturnMultipleData<UploadFile> ReturnMultipleData)
         {
-            hostingEnvironment = HostingEnvironment;
             returnMultipleData = ReturnMultipleData;
         }
-        public async Task<List<object>> Upload(string name,string destination,int? limitSize,string? format,IFormFile file)
+        public async Task<List<object>> Upload(string name,string destination,int? limitSize,List<string>? formats,IFormFile file)
         {
+            var havelegalFormat = true;
             if(file != null)
             {
                 if(file.Length > limitSize && limitSize != 0)
                 {
                     return await returnMultipleData.Return(false,$"حجم فایل آپلود شده بیش از حد مجاز بوده است حجم فایل باید حداقل{limitSize}باشد ") ;
                 }
-                else if(Path.GetExtension(file.FileName) != format && !string.IsNullOrEmpty(format))
+                else if(formats != null)
                 {
-                    return await returnMultipleData.Return(false, $"فرمت فایل آپلود شده غیر مجاز است و باید فرمت فایل {format}باشد"); 
-                }
-                else
-                {
-                    var extention = Path.GetExtension(file.FileName);
-                    var uploads = Path.Combine(hostingEnvironment.WebRootPath, destination);
-                    var newFileName = name + extention;
-                    if (!Directory.Exists(uploads))
+                    foreach (var format in formats)
                     {
-                        Directory.CreateDirectory(uploads);
+                        if (Path.GetExtension(file.FileName) == format)
+                        {
+                            havelegalFormat = true;
+                            break;
+                        }
+                        else
+                        {
+                            havelegalFormat = false;
+                        }
                     }
-                    var filepath = Path.Combine(uploads, newFileName);
+                    if (!havelegalFormat)
+                    {
+                        return await returnMultipleData.Return(false,"فایل فرمت مجاز را ندارد") ;
+                    }
+                }
+                    var extention = Path.GetExtension(file.FileName);
+                    var newFileName = name + extention;
+                    if (!Directory.Exists(destination))
+                    {
+                        Directory.CreateDirectory(destination);
+                    }
+                    var filepath = Path.Combine(destination, newFileName);
                     var newfileStream = new FileStream(filepath, FileMode.Create);
                     file.CopyTo(newfileStream);
                     newfileStream.Close();
 
 
                     return await returnMultipleData.Return(true,extention);
-                }
             }
             else
             {
@@ -56,7 +66,7 @@ namespace Infrustructure.uploadfile
         }
         public async Task<List<object>> DeleteFile(string path)
         {
-            var completePath = Path.Combine(hostingEnvironment.WebRootPath, path);
+            var completePath = Path.Combine(path);
             FileInfo file = new FileInfo(completePath);
             if (file.Exists)
             {
@@ -82,14 +92,14 @@ namespace Infrustructure.uploadfile
         }
         public void ChangeDirFile(string OldPath, string NewPath)
         {
-            var completeOldPath = Path.Combine(hostingEnvironment.WebRootPath, OldPath);
-            var completeNewPath = Path.Combine(hostingEnvironment.WebRootPath, NewPath);
+            var completeOldPath = Path.Combine(OldPath);
+            var completeNewPath = Path.Combine(NewPath);
             if(!Directory.Exists(completeNewPath) && Directory.Exists(completeOldPath))
              Directory.Move(completeOldPath, completeNewPath);
         } 
         public void DeleteDire(string path)
         {
-            var completepath = Path.Combine(hostingEnvironment.WebRootPath, path);
+            var completepath = Path.Combine(path);
             if (Directory.Exists(completepath))
             {
                 Directory.Delete(completepath);
