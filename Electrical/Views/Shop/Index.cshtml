@@ -1,0 +1,80 @@
+﻿@model BasketShopViewModel
+
+@if (Model != null)
+{
+    <section class="basketShop">
+        <div class="container-lg container-fluid d-flex flex-wrap">
+            <div class="factor-detail col-lg-8 col-12">
+                <h3 class="title">محتویات سبد خرید</h3>
+                @foreach (var orderDetail in Model.Order.orderDetails)
+                {
+                    <div class="product-box col-12">
+                        <a href="#" id="DeleteOrder" data-Id="@orderDetail.Id" data-orderId="@Model.Order.Id" ><i class="fa-solid fa-trash"></i></a>
+                        <div class="product-img col-lg-2 col-md-4 col-12">
+                            <img src="~/Image/Chat gpt.jpg" alt="">
+                        </div>
+                        <div class="product-detail col-lg-10 col-md-8 col-12">
+                            <div class="row">
+                                <h3>@orderDetail.Product.Name</h3>
+                                <h4>Ckfjow08853-skf-990</h4>
+                            </div>
+                            <div class="row">
+                                <div class="count col-md-6 col-12">
+                                    <span>تعداد:</span><a href="#"><i class="fa-solid fa-plus"></i></a>
+                                    <span>@orderDetail.count</span><a href="#"><i class="fa-solid fa-minus"></i></a>
+                                </div>
+                                <div class="price col-md-6 col-12">
+                                    <h4 class="priceUnit">قیمت واحد:<span>@orderDetail.Product.Price تومان</span></h4>
+                                    <h4 class="totalPrice">قیمت کل:<span>@orderDetail.TotalPrice تومان</span></h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                <div class="factor col-lg-4 col-12">
+                    <h3 class="title">خلاصه فاکتور</h3>
+                    <div class="box">
+                        <h4>مجموع تعداد محصول:<span>@Model.Order.TotalCount</span></h4>
+                        <h4>مجموع سبد خرید:<span>@Model.Order.TotalPrice تومان</span></h4>
+                        <h4>مجموع تخفیف :<span>0 تومان</span></h4>
+                        <hr>
+                        <h4>قیمت کل :<span>@Model.Order.TotalPrice تومان</span></h4>
+                    </div>
+                    <a href="complementionShop.html" class="btn btn-block col-12">ادامه فرایند خرید</a>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+
+
+
+
+}
+else
+{
+    <div class="container-lg container-fluid">
+        <div class="alert alert-warning" role="alert">
+            <p>سبد خرید شما خالی است !</p>
+        </div>
+    </div>
+}
+@section InlineScript{
+    <script>
+        $("#DeleteOrder").click(function(){
+            $.ajax({
+                url: '@Url.Action("DeleteOrderDetail","Shop")',
+                type:'GET',
+                async:false,
+                data:{Id : $(this).attr("data-Id"),orderId : $(this).attr("data-orderId")},
+                success:function(data){
+                    autoCloseAlert(".container-lg", 2500, 3000, data.message, data.header, data.type);
+                },
+                error:function(){
+                    autoCloseAlert(".factor-detail", 2500, 3000, "خطا در شبکه", "خطا", "هشدار","warning");
+                }
+            })
+        })
+    </script>
+}

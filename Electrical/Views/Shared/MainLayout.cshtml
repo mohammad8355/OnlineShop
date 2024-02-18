@@ -31,7 +31,7 @@
                     <partial name="Partials/_LoginPartial.cshtml" />
                 </div>
                 <div class="shop">
-                    <a href="#"><i class="fa-solid fa-bag-shopping"></i></a>
+                    <a asp-action="Index" asp-controller="Shop"><i class="fa-solid fa-bag-shopping"></i></a>
                 </div>
             </div>
         </div>
@@ -297,6 +297,7 @@
             integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
             crossorigin="anonymous"></script>
     <script src="../js/jquery-2.1.1.js"></script>
+    <script src="~/js/function.js"></script>
     @RenderSection("ScriptRefrence",false)
     <script>
         var dropdownLi = document.querySelectorAll(".dropdown");

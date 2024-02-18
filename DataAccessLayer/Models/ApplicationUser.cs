@@ -20,5 +20,6 @@ namespace DataAccessLayer.Models
         public string ProfileImageName { get; set; }
         public List<Ticket> Tickets { get; set; }
         public List<Commnet> Commnets { get; set; }
+        public List<Order> Order { get; set; }
     }
 }

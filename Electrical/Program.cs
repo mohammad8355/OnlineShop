@@ -32,6 +32,8 @@ using BusinessLogicLayer.TagToBlogPostService;
 using Infrustructure.uploadfile;
 using BusinessLogicLayer.CommentService;
 using BusinessLogicLayer.TicketService;
+using BusinessLogicLayer.OrderDetailsService;
+using BusinessLogicLayer.OrderService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -114,6 +116,8 @@ builder.Services.AddScoped<TagLogic>();
 builder.Services.AddScoped<TagToBlogPostLogic>();
 builder.Services.AddScoped<CommentLogic>();
 builder.Services.AddScoped<TicketLogic>();
+builder.Services.AddScoped<OrderLogic>();
+builder.Services.AddScoped<OrderDetailsLogic>();
 #endregion
 builder.Services.AddScoped<ReturnMultipleData<UploadFile>>();
 builder.Services.AddScoped<UploadFile>();

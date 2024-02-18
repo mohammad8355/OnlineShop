@@ -41,6 +41,7 @@ namespace DataAccessLayer
             builder.Entity<DiscountToProduct>().HasOne(c => c.discount).WithMany(b => b.discountToProducts).HasForeignKey(v => v.Discount_Id);
             builder.Entity<DiscountToProduct>().HasOne(c => c.product).WithMany(b => b.discountToProducts).HasForeignKey(v => v.Product_Id);
             builder.Entity<Product>().HasMany(p => p.ProductPhotos).WithOne(p => p.product).HasForeignKey(p => p.Product_Id);
+            builder.Entity<Product>().HasMany(p => p.OrderDetails).WithOne(c => c.Product).HasForeignKey(od => od.Product_Id);
             builder.Entity<CategoryToProduct>().HasKey(o => new { o.Product_Id, o.Category_Id });
             builder.Entity<CategoryToProduct>().HasOne(c => c.Category).WithMany(p => p.CategoryToProducts).HasForeignKey(l => l.Category_Id).OnDelete(DeleteBehavior.Restrict);
             builder.Entity<CategoryToProduct>().HasOne(c => c.Product).WithMany(p => p.CategoryToProducts).HasForeignKey(l => l.Product_Id).OnDelete(DeleteBehavior.Restrict);
@@ -56,6 +57,7 @@ namespace DataAccessLayer
             builder.Entity<ApplicationUser>().Property(au => au.Address).IsRequired(false);
             builder.Entity<ApplicationUser>().Property(au => au.PostalCode).IsRequired(false);
             builder.Entity<ApplicationUser>().Property(au => au.ProfileImageName).IsRequired(false);
+            builder.Entity<ApplicationUser>().HasMany(au => au.Order).WithOne(o => o.User).HasForeignKey(o => o.User_Id);
             builder.Entity<ApplicationUser>().Property(au => au.city).IsRequired(false);
             builder.Entity<Commnet>().HasOne(c => c.reply).WithOne().HasForeignKey<Commnet>(c => c.Reply_Id).HasPrincipalKey<Commnet>(c => c.Id).OnDelete(DeleteBehavior.NoAction);
             builder.Entity<Commnet>().Property(c => c.Title).IsRequired(false);

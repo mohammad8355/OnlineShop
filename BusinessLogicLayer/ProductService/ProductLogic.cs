@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using DataAccessLayer.Models;
 using BusinessLogicLayer.CategoryToProductService;
 using BusinessLogicLayer.ProductPhotoService;
+using BusinessLogicLayer.AdjValueService;
 
 namespace BusinessLogicLayer.ProductService
 {
@@ -19,7 +20,8 @@ namespace BusinessLogicLayer.ProductService
         private readonly MainRepository<DiscountToProduct> DiscountToProductRepository;
         private readonly MainRepository<ProductPhoto> productphotoRepository;
         private readonly CategoryToProductLogic categoryToProductLogic;
-        public ProductLogic(CategoryToProductLogic categoryToProductLogic,MainRepository<Product> ProductRepository, MainRepository<Category> SubRepository, MainRepository<KeyToProduct> KeyToProductRepository, MainRepository<DiscountToProduct> discountToProductRepository, MainRepository<ProductPhoto> productphotoRepository)
+        private readonly MainRepository<AdjValue> adjValueLogic;
+        public ProductLogic(MainRepository<AdjValue> adjValueLogic, CategoryToProductLogic categoryToProductLogic,MainRepository<Product> ProductRepository, MainRepository<Category> SubRepository, MainRepository<KeyToProduct> KeyToProductRepository, MainRepository<DiscountToProduct> discountToProductRepository, MainRepository<ProductPhoto> productphotoRepository)
         {
             this.ProductRepository = ProductRepository;
             SubCategoryRepository = SubRepository;
@@ -27,6 +29,7 @@ namespace BusinessLogicLayer.ProductService
             DiscountToProductRepository = discountToProductRepository;
             this.productphotoRepository = productphotoRepository;
             this.categoryToProductLogic = categoryToProductLogic;
+            this.adjValueLogic = adjValueLogic;
 
         }
 
@@ -81,9 +84,15 @@ namespace BusinessLogicLayer.ProductService
             if(ProductRepository.Get(p => p.Id == Id).Result.Any())
             {
                 var model = ProductRepository.Get(p => p.Id == Id).Result.FirstOrDefault();
-                model.keyToProducts = KeyToProductRepository.Get(k => k.Product_Id == model.Id).Result.ToList();
+                model.keyToProducts = KeyToProductRepository.Get(k => k.Product_Id == model.Id,v => v.adjKey).Result.ToList();
+                foreach (var key in model.keyToProducts)
+                {
+                    var values = adjValueLogic.Get(v => v.adjkey_Id == key.Key_Id).Result.ToList();
+                    key.adjKey.adjValues = values;
+                }
                 model.discountToProducts = DiscountToProductRepository.Get(d => d.Product_Id == model.Id).Result.ToList();
                 model.ProductPhotos = productphotoRepository.Get(p => p.Product_Id == model.Id).Result.ToList();
+                model.CategoryToProducts = categoryToProductLogic.CategoryToProductList().Where(cp => cp.Product_Id == model.Id).ToList();
                 return model;
             }
             else
@@ -96,9 +105,15 @@ namespace BusinessLogicLayer.ProductService
             ICollection<Product> products = new List<Product>();
             foreach(var item in ProductRepository.Get().Result.ToList())
             {
-                item.keyToProducts = KeyToProductRepository.Get(k => k.Product_Id == item.Id).Result.ToList();
-                item.discountToProducts = DiscountToProductRepository.Get(d => d.Product_Id == item.Id).Result.ToList();
+                item.keyToProducts = KeyToProductRepository.Get(k => k.Product_Id == item.Id,k => k.adjKey).Result.ToList();
+                foreach(var key in item.keyToProducts)
+                {
+                    var values = adjValueLogic.Get(v => v.adjkey_Id == key.Key_Id).Result.ToList();
+                    key.adjKey.adjValues = values;
+                }
+                item.discountToProducts = DiscountToProductRepository.Get(d => d.Product_Id == item.Id,v => v.discount).Result.ToList();
                 item.ProductPhotos = productphotoRepository.Get(p => p.Product_Id == item.Id).Result.ToList();
+                item.CategoryToProducts = categoryToProductLogic.CategoryToProductList().Where(cp => cp.Product_Id == item.Id).ToList();
                 products.Add(item);
             }
             return products;

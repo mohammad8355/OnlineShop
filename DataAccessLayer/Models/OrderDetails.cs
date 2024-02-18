@@ -12,7 +12,6 @@ namespace DataAccessLayer.Models
     {
         [Key]
         public int Id { get; set; }
-        public Product Product { get; set; }
         [Required]
         public int count { get; set; }
         [Required]
@@ -21,6 +20,8 @@ namespace DataAccessLayer.Models
         //navigation property
         public Order order { get; set; }
         public int order_Id { get; set; }
+        public Product Product { get; set; }
+        public int Product_Id { get; set; }
 
     }
 

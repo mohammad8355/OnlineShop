@@ -4,6 +4,7 @@ using DataAccessLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240217065945_initialRelationsBetwenOrderProductOrderDetail")]
+    partial class initialRelationsBetwenOrderProductOrderDetail
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -110,6 +113,9 @@ namespace DataAccessLayer.Migrations
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
+
+                    b.Property<int?>("Order_Id")
+                        .HasColumnType("int");
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
@@ -294,7 +300,7 @@ namespace DataAccessLayer.Migrations
                             Id = 1,
                             Description = "shop supporting was very verrrrrrrrrrrrrrry gooooooooooooooooooooooood happy",
                             IsHide = false,
-                            LastUpdate = new DateTime(2024, 2, 17, 15, 13, 32, 631, DateTimeKind.Local).AddTicks(1269),
+                            LastUpdate = new DateTime(2024, 2, 17, 10, 29, 45, 442, DateTimeKind.Local).AddTicks(1254),
                             Title = "shop supporting",
                             User_Id = "217440e4-9164-443b-aa76-ab6d847aaace"
                         },
@@ -303,7 +309,7 @@ namespace DataAccessLayer.Migrations
                             Id = 2,
                             Description = "shop supporting was very verrrrrrrrrrrrry    baaaaaaaaaaaaaaaaaad sad",
                             IsHide = false,
-                            LastUpdate = new DateTime(2024, 2, 17, 15, 13, 32, 631, DateTimeKind.Local).AddTicks(1363),
+                            LastUpdate = new DateTime(2024, 2, 17, 10, 29, 45, 442, DateTimeKind.Local).AddTicks(1358),
                             Title = "shop supporting",
                             User_Id = "c74e93b8-9649-4c91-b459-4e9e16f2db74"
                         },
@@ -312,7 +318,7 @@ namespace DataAccessLayer.Migrations
                             Id = 3,
                             Description = "no comment ",
                             IsHide = false,
-                            LastUpdate = new DateTime(2024, 2, 17, 15, 13, 32, 631, DateTimeKind.Local).AddTicks(1387),
+                            LastUpdate = new DateTime(2024, 2, 17, 10, 29, 45, 442, DateTimeKind.Local).AddTicks(1385),
                             User_Id = "217440e4-9164-443b-aa76-ab6d847aaace"
                         });
                 });
@@ -484,7 +490,8 @@ namespace DataAccessLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("User_Id");
+                    b.HasIndex("User_Id")
+                        .IsUnique();
 
                     b.ToTable("orders");
                 });
@@ -935,8 +942,8 @@ namespace DataAccessLayer.Migrations
             modelBuilder.Entity("DataAccessLayer.Models.Order", b =>
                 {
                     b.HasOne("DataAccessLayer.Models.ApplicationUser", "User")
-                        .WithMany("Order")
-                        .HasForeignKey("User_Id")
+                        .WithOne("Order")
+                        .HasForeignKey("DataAccessLayer.Models.Order", "User_Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1091,7 +1098,8 @@ namespace DataAccessLayer.Migrations
                 {
                     b.Navigation("Commnets");
 
-                    b.Navigation("Order");
+                    b.Navigation("Order")
+                        .IsRequired();
 
                     b.Navigation("Tickets");
                 });

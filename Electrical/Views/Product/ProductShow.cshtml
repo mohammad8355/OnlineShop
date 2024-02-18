@@ -1,0 +1,286 @@
+﻿@model ProductShowViewModel
+<section class="Product-container">
+    <nav aria-label="breadcrumb" class="p-3">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+
+            </li>
+            <li class="breadcrumb-item">
+                <a href="#">صفحه-اصلی</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="#"> قطعات-کامپیوتر</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="#"> قطعات-اصلی-خارج-کیس</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="#">مانیتور-صفحه-نمایش</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="#">مانیتور-صفحه-نمایش</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+                مانیتور گیمینگ 27 اینچ سامسونگ LS27CG5
+            </li>
+        </ol>
+    </nav>
+    <div class="container-lg container-fluid">
+        <div class="product-info d-flex flex-wrap">
+            <div class="product-images col-lg-6 col-12">
+                <div class="tools">
+                    <a href="#"><i class="fa-regular fa-heart"></i></a>
+                    <a href="#"><i class="fa-regular fa-bookmark"></i></a>
+                    <a href="#"><i class="fa-solid fa-share-nodes"></i></a>
+                </div>
+                <div class="col-10">
+                    <img class="selectedImage"
+                         src="~/Image/Product/@(Model.product.Name)/@(Model.product.ProductPhotos.FirstOrDefault().Name)"
+                         alt="@(Model.product.Name)">
+                </div>
+                <hr>
+                <div class="image-wrapper col-12 " dir="ltr">
+                    @foreach (var img in Model.product.ProductPhotos)
+                    {
+                        <img src="~/Image/Product/@(Model.product.Name)/@img.Name" alt="@(Model.product.Name)">
+                    }
+                </div>
+            </div>
+
+            <div class="content col-lg-6 col-12 d-flex flex-wrap">
+
+                <div class="col-12 d-flex flex-wrap">
+                    <div class="header col-12">
+                        <h2>@Model.product.Name</h2>
+                        <p> Samsung Odyssey G5 G51C LS27CG510EMXUE 27Inch 1ms 165Hz QHD Gaming Monitor</p>
+                        <ul>
+                            <li>کدکالا:Lion-Product-564060</li>
+                            <li>برند: SamSung</li>
+                            <li>
+                                @foreach (var cp in Model.product.CategoryToProducts)
+                                {
+                                    <span>@cp.Category.Name /</span>
+                                }
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="keyattr col-12 col-md-6">
+                    <h5>ویژگی های کلیدی</h5>
+                    <ul>
+                        <li><span>عرض</span>@Model.product.Width</li>
+                        <li><span>طول</span>@Model.product.length</li>
+                        <li><span>وزن</span>@Model.product.Weight</li>
+                        <li><span>ارتفاع</span> @Model.product.height</li>
+                        <li><span>نسبت تصویر نمایشگر</span>16:9</li>
+                        <li><span>زمان پاسخ دهی</span> 1 میلی‌ثانیه</li>
+                        <li><span>نرخ بروزرسانی</span>165 هرتز</li>
+                    </ul>
+                </div>
+                <div class="shop-box col-md-6 col-12">
+                    <div class="container">
+                        <h5 class="text-right">تعداد:</h5>
+                        <div class="inline">
+                            <div class="shop col-6">
+                                <i class="fa-solid fa-plus"></i>
+                                <span id="countProduct" value="0">0</span>
+                                <i class="fa-solid fa-minus"></i>
+                            </div>
+                            <!--this is for whem we have an off-->
+                            @*     <div class="offprice">
+                            <span class="col-6 price">@Model.product.Price تومان </span>
+                            <span class="off">10,0000 تومان</span>
+                            <h6 class="text-secondary">0 تخفیف</h6>
+                            </div>*@
+                            <!--this is for whem we have an off-->
+                            <!--this is for whem we dont have an off-->
+                            <div class="originalPrice">
+                                <span class="col-6 price">@Model.product.Price تومان </span>
+                            </div>
+                            <!--this is for whem we dont have an off-->
+                        </div>
+                        <button type="button" id="shop" class="btn btn-success">خرید</button>
+                    </div>
+                </div>
+                <div class="description col-12">
+                    <h5>درباره محصول</h5>
+                    <p class="text-wrap">
+                        @Model.product.Description
+                    </p>
+                </div>
+            </div>
+
+        </div>
+        <hr>
+        <div class="product-detail d-flex flex-column flex-wrap">
+            <nav>
+                <ul class="tab">
+                    <li class="tab-item active" data-id="tab1">نکات فنی</li>
+                    <li class="tab-item" data-id="tab2">نظرات</li>
+                </ul>
+            </nav>
+            <div class="tab-container active" data-id="tab1">
+                <table class="table col-12">
+                    <thead>
+                    <td>
+                        مشخصه فنی
+                    </td>
+                    <td>
+                        مقدار مشخصه
+                    </td>
+                    </thead>
+                    <tbody>
+                        @foreach (var kv in Model.product.keyToProducts)
+                        {
+                            <tr>
+                                <td>@kv.adjKey.Name</td>
+                                <td>
+                                    @foreach (var value in kv.adjKey.adjValues)
+                                    {
+                                        <span>@value.Value  /</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-container" data-id="tab2">
+                <div class="alert alert-warning">
+                    شما اولین نفری باشین که نظر می دهید <i class="fas fa-plus"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="related-product Product-container d-flex flex-column mt-2" dir="ltr">
+        <h3 class="text-end mt-2">محصولات مشابه</h3>
+        <div class="product-wrapper flex-nowrap">
+            @for (int i = 0; i < 10; i++)
+            {
+                <div class="product-card" style="min-width: 15rem;">
+                    <div class="cover">
+                        <img src="../image/download (1).jfif" alt="tv">
+                    </div>
+                    <div class="card-body">
+                        <div class="product-name">
+                            تلوزیون LG مدل Qlead 2024
+                        </div>
+                        <div class="price">
+                            <span class="off-price">15,000,000تومان</span>
+                        </div>
+                        <div class="card-footer">
+                            <a href="#" class="shopbtn"><i class="fa-solid fa-cart-shopping"></i></a>
+                            <div class="rate">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-regular fa-star"></i>
+                                <i class="fa-regular fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+@section InLineCss{
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.css" />
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.css" />
+}
+@section ScriptRefrence{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+}
+@section InlineScript{
+    <script>
+        $(document).ready(function () {
+            $('.image-wrapper').slick({
+                slidesToShow: 3,
+                slidesToScroll: 1,
+            })
+        })
+        //tab item scripts
+        $(".tab-item").click(function () {
+            if ($(".tab-item").hasClass("active")) {
+                $(".tab-item").removeClass("active");
+            }
+            $(this).toggleClass("active");
+            var id = $(".tab-item.active").attr("data-id");
+            $(".tab-container").removeClass("active");
+            $(".tab-container[data-id='" + id + "']").addClass("active");
+        })
+        //tab item scripts
+        //related product
+        $(document).ready(function () {
+            $(".product-wrapper").slick({
+                slidesToShow: 5,
+                slidesToScroll: 1,
+                autoplay: true,
+                autoplaySpeed: 2000,
+                responsive: [
+                    {
+                        breakpoint: 992,
+                        settings: {
+                            slidesToShow: 4
+                        }
+                    },
+                    {
+                        breakpoint: 767,
+                        settings: {
+                            slidesToShow: 3
+                        }
+                    },
+                    {
+                        breakpoint: 500,
+                        settings: {
+                            slidesToShow: 2
+                        }
+                    },
+                ]
+            })
+        })
+        //start shop product code
+
+        // ---> counter the product
+        var counter = document.querySelector("#countProduct");
+        var intValue = 0;
+        var stringvalue = "";
+        $(".fa-plus").click(function () {
+            stringvalue = counter.innerHTML;
+            intValue = parseInt(stringvalue);
+            intValue += 1;
+            counter.innerHTML = intValue.toString();
+        })
+        $(".fa-minus").click(function () {
+            stringvalue = counter.innerHTML;
+            intValue = parseInt(stringvalue);
+            if (intValue != 0) {
+                intValue -= 1;
+            }
+            counter.innerHTML = intValue.toString();
+        })
+        // ---> counter the product
+        // --> ajax to server
+        var productId = @Model.product.Id;
+        $("#shop").click(function () {
+            console.log(intValue);
+            $.ajax({
+                url: '@Url.Action("AddToCart","shop")',
+                type: 'GET',
+                async: false,
+                data: { product_Id: productId, count: intValue },
+                success: function (data) {
+                    alert(data.message);
+                },
+                error: function () {
+                    alert("خطا در برقراری ارتباط");
+                },
+            })
+        })
+                      // --> ajax to server
+                //end shop product code
+    </script>
+
+}

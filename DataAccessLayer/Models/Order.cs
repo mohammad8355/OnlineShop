@@ -22,6 +22,8 @@ namespace DataAccessLayer.Models
 
         //navigation property
         public ICollection<OrderDetails> orderDetails { get; set; }
+        public ApplicationUser User { get; set; }
+        public string User_Id { get; set; }
 
     }
 }
