@@ -53,7 +53,7 @@ namespace BusinessLogicLayer.OrderDetailsService
         }
         public OrderDetails OrderDetailsDetail(int Id)
         {
-            var OrderDetails = OrderDetailsRepository.Get(o => o.Id == Id).Result.FirstOrDefault();
+            var OrderDetails = OrderDetailsRepository.Get(o => o.Id == Id,o => o.order,p => p.Product).Result.FirstOrDefault();
             return OrderDetails;
         }
         public List<OrderDetails> OrderDetailsList()

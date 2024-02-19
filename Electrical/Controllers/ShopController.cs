@@ -133,5 +133,39 @@ namespace PresentationLayer.Controllers
                 return Json(new { message = "خطا ", header = "هشدار خطا", type = "warning" });
             }
         }
+        [HttpGet]
+        public IActionResult AddCountOrderDetails(int Id)
+        {
+            var orderDetail = orderDetailsLogic.OrderDetailsDetail(Id);
+            if(orderDetail != null)
+            {
+                var price = orderDetail.Product.Price;
+                orderDetail.count += 1;
+                orderDetail.TotalPrice += price;
+                orderDetail.order.TotalCount += 1;
+                orderDetail.order.TotalPrice += price;
+                var result = orderDetailsLogic.EditOrderDetails(orderDetail);
+                return Json(new {res = result , price = price });
+            }
+            return Json(new { res = false });
+                
+        }
+        [HttpGet]
+        public IActionResult MinusCountOrderDetails(int Id)
+        {
+            var orderDetail = orderDetailsLogic.OrderDetailsDetail(Id);
+            if (orderDetail != null)
+            {
+                var price = orderDetail.Product.Price;
+                orderDetail.count -= 1;
+                orderDetail.TotalPrice -= price;
+                orderDetail.order.TotalCount -= 1;
+                orderDetail.order.TotalPrice -= price;
+                var result = orderDetailsLogic.EditOrderDetails(orderDetail);
+                return Json(new { res = result, price = price });
+            }
+            return Json(new { res = false });
+
+        }
     }
 }

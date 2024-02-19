@@ -9,3 +9,22 @@
     });
  },timeout);
 }
+function intCounter(Identifier, Count, isMinus = false) {
+    $(document).ready(function () {
+        var element = document.querySelector(Identifier);
+        var stringvalue = element.innerHTML;
+        var intValue = parseInt(stringvalue);
+        if (isMinus) {
+            intValue -= Count;
+        }
+        else {
+            intValue += Count;
+        }
+        element.innerHTML = intValue.toString();
+
+    });
+}
+function reverseContent(Identifier, NewContent) {
+    var element = document.querySelector(Identifier);
+    element.innerHTML = NewContent.toString();
+}

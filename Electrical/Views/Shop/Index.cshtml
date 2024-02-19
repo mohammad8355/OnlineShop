@@ -20,12 +20,12 @@
                             </div>
                             <div class="row">
                                 <div class="count col-md-6 col-12">
-                                    <span>تعداد:</span><a href="#"><i class="fa-solid fa-plus"></i></a>
-                                    <span>@orderDetail.count</span><a href="#"><i class="fa-solid fa-minus"></i></a>
+                                    <span>تعداد:</span><a data-Id="@orderDetail.Id" class="plusbtn" ><i class="fa-solid fa-plus"></i></a>
+                                    <span class="countProduct">@orderDetail.count</span><a data-Id="@orderDetail.Id" class="minusbtn"><i class="fa-solid fa-minus"></i></a>
                                 </div>
                                 <div class="price col-md-6 col-12">
                                     <h4 class="priceUnit">قیمت واحد:<span>@orderDetail.Product.Price تومان</span></h4>
-                                    <h4 class="totalPrice">قیمت کل:<span>@orderDetail.TotalPrice تومان</span></h4>
+                                    <h4 class="totalPrice">قیمت کل:<span><span class="totalOrderPrice">@orderDetail.TotalPrice</span> تومان</span></h4>
                                 </div>
                             </div>
                         </div>
@@ -34,11 +34,11 @@
                 <div class="factor col-lg-4 col-12">
                     <h3 class="title">خلاصه فاکتور</h3>
                     <div class="box">
-                        <h4>مجموع تعداد محصول:<span>@Model.Order.TotalCount</span></h4>
-                        <h4>مجموع سبد خرید:<span>@Model.Order.TotalPrice تومان</span></h4>
+                        <h4>مجموع تعداد محصول:<span class="totalCount">@Model.Order.TotalCount</span></h4>
+                        <h4>مجموع سبد خرید:<span><span id="TotalPrice" >@Model.Order.TotalPrice</span> تومان</span></h4>
                         <h4>مجموع تخفیف :<span>0 تومان</span></h4>
                         <hr>
-                        <h4>قیمت کل :<span>@Model.Order.TotalPrice تومان</span></h4>
+                        <h4>قیمت کل :<span><span id="finalyprice">@Model.Order.TotalPrice</span> تومان</span></h4>
                     </div>
                     <a href="complementionShop.html" class="btn btn-block col-12">ادامه فرایند خرید</a>
                 </div>
@@ -60,6 +60,9 @@ else
         </div>
     </div>
 }
+@section ScriptRefrence{
+    <script src="~/js/function.js"></script>
+}
 @section InlineScript{
     <script>
         $("#DeleteOrder").click(function(){
@@ -73,6 +76,55 @@ else
                 },
                 error:function(){
                     autoCloseAlert(".factor-detail", 2500, 3000, "خطا در شبکه", "خطا", "هشدار","warning");
+                }
+            })
+        })
+        $(".plusbtn").click(function(){
+            $.ajax({
+                url: '@Url.Action("AddCountOrderDetails","Shop")',
+                type:'GET',
+                async:false,
+                data:{ Id : $(this).attr("data-Id")},
+                success:function(data){
+                    if(data.res){
+                        //change count of order in the view
+                        intCounter(".countProduct", 1, false);
+                           //change count of order in the view
+                        //change Total count in the view
+                        intCounter(".totalCount",1,false);
+                        //change Total count in the view
+                        intCounter(".totalOrderPrice",data.price,false);
+
+                        intCounter("#TotalPrice", data.price, false);
+                        intCounter("#finalyprice", data.price, false);
+                    }
+                },
+                error:function(){
+                    alert("unknown error !!!");
+                }
+            })
+        })
+        $(".minusbtn").click(function () {
+            $.ajax({
+                url: '@Url.Action("MinusCountOrderDetails","Shop")',
+                type: 'GET',
+                async: false,
+                data: { Id: $(this).attr("data-Id") },
+                success: function (data) {
+                    if (data.res) {
+                        //change count of order in the view
+                        intCounter(".countProduct", 1, true);
+                        //change count of order in the view
+                        //change Total count in the view
+                        intCounter(".totalCount", 1, true);
+                        //change Total count in the view
+                        intCounter(".totalOrderPrice", data.price, true);
+                        intCounter("#TotalPrice",data.price,true);
+                        intCounter("#finalyprice", data.price, true);
+                    }
+                },
+                error: function () {
+                    alert("unknown error !!!");
                 }
             })
         })
