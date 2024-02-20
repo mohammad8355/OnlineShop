@@ -42,6 +42,8 @@ namespace DataAccessLayer
             builder.Entity<DiscountToProduct>().HasOne(c => c.product).WithMany(b => b.discountToProducts).HasForeignKey(v => v.Product_Id);
             builder.Entity<Product>().HasMany(p => p.ProductPhotos).WithOne(p => p.product).HasForeignKey(p => p.Product_Id);
             builder.Entity<Product>().HasMany(p => p.OrderDetails).WithOne(c => c.Product).HasForeignKey(od => od.Product_Id);
+            builder.Entity<Product>().HasOne(p => p.brand).WithMany(b => b.products).HasForeignKey(bp => bp.Brand_Id);
+            builder.Entity<Product>().HasMany(c => c.commnets).WithOne(c => c.Product).HasForeignKey(c => c.Product_Id).OnDelete(DeleteBehavior.NoAction);
             builder.Entity<CategoryToProduct>().HasKey(o => new { o.Product_Id, o.Category_Id });
             builder.Entity<CategoryToProduct>().HasOne(c => c.Category).WithMany(p => p.CategoryToProducts).HasForeignKey(l => l.Category_Id).OnDelete(DeleteBehavior.Restrict);
             builder.Entity<CategoryToProduct>().HasOne(c => c.Product).WithMany(p => p.CategoryToProducts).HasForeignKey(l => l.Product_Id).OnDelete(DeleteBehavior.Restrict);
@@ -62,6 +64,7 @@ namespace DataAccessLayer
             builder.Entity<Commnet>().HasOne(c => c.reply).WithOne().HasForeignKey<Commnet>(c => c.Reply_Id).HasPrincipalKey<Commnet>(c => c.Id).OnDelete(DeleteBehavior.NoAction);
             builder.Entity<Commnet>().Property(c => c.Title).IsRequired(false);
             builder.Entity<Commnet>().Property(c => c.Ticket_Id).IsRequired(false);
+            builder.Entity<Commnet>().Property(c => c.Product_Id).IsRequired(false);
             builder.Entity<Commnet>().Property(c => c.Reply_Id).IsRequired(false);
             #region Seed Data
             builder.Entity<Commnet>().HasData(new Commnet()
@@ -108,6 +111,7 @@ namespace DataAccessLayer
         DbSet<Contact> contacts { get; set; }
         DbSet<General> generals { get; set; }
         DbSet<Ticket> tickets { get; set; }
+        DbSet<Brand> brands { get; set; }
         DbSet<Commnet> commnets { get; set; }
         DbSet<ProductPhoto> productPhotos { get; set; }
         DbSet<Tag> tags { get; set; }

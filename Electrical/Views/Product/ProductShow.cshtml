@@ -1,29 +1,6 @@
 ﻿@model ProductShowViewModel
 <section class="Product-container">
     <nav aria-label="breadcrumb" class="p-3">
-      @*  <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-
-            </li>
-            <li class="breadcrumb-item">
-                <a href="#">صفحه-اصلی</a>
-            </li>
-            <li class="breadcrumb-item">
-                <a href="#"> قطعات-کامپیوتر</a>
-            </li>
-            <li class="breadcrumb-item">
-                <a href="#"> قطعات-اصلی-خارج-کیس</a>
-            </li>
-            <li class="breadcrumb-item">
-                <a href="#">مانیتور-صفحه-نمایش</a>
-            </li>
-            <li class="breadcrumb-item">
-                <a href="#">مانیتور-صفحه-نمایش</a>
-            </li>
-            <li class="breadcrumb-item active" aria-current="page">
-                مانیتور گیمینگ 27 اینچ سامسونگ LS27CG5
-            </li>
-        </ol>*@
         @await Component.InvokeAsync("CategoryBreadCrump",Model.product.CategoryToProducts.First().Category_Id)
     </nav>
     <div class="container-lg container-fluid">

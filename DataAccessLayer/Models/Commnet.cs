@@ -27,6 +27,8 @@ namespace DataAccessLayer.Models
         //reply comment
         public int? Reply_Id { get; set; }
         public Commnet reply { get; set; }
+        public Product Product { get; set; }
+        public int? Product_Id { get; set; }
 
     }
 }

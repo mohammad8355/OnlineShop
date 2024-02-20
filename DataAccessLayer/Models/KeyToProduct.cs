@@ -14,6 +14,7 @@ namespace DataAccessLayer.Models
         public int Key_Id { get; set; }
         [Key]
         public int Product_Id { get; set; }
+        public bool IsSpecial { get; set; }
 
         //navigation property
         public AdjKey adjKey { get; set; }

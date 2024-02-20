@@ -31,6 +31,9 @@ namespace DataAccessLayer.Models
         public int height { get; set; }
         [AllowNull]
         public int length { get; set; }
+        public float Discount { get; set; }
+        [MaxLength(20)]
+        public string ProductCode { get; set; }
 
         //navigation property
         public ICollection<KeyToProduct>  keyToProducts { get; set; }
@@ -39,6 +42,9 @@ namespace DataAccessLayer.Models
         public ICollection<ProductPhoto>  ProductPhotos { get; set; }
         public IEnumerable<ValueToProduct> valueToProducts { get; set; }
         public List<OrderDetails> OrderDetails { get; set; }
+        public List<Commnet> commnets { get; set; }
+        public Brand brand { get; set; }
+        public int Brand_Id { get; set; }
     }
 
 }
