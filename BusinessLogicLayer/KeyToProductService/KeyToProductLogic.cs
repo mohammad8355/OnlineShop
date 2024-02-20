@@ -32,14 +32,6 @@ namespace BusinessLogicLayer.KeyToProductService
                 return true;
             }
         }
-        //public async Task<bool> DeleteKeyToProductFromKey(int Id)
-        //{
-        //    if (KeyToProductRepository.Get(s => s.key_Id == Id).Result.Any())
-        //    {
-        //        await KeyToProductRepository.DeleteItem(Id); return true;
-        //    }
-        //    return false;
-        //}
         public async Task<bool> DeleteKeyToProduct(int key_Id, int Product_Id)
         {
             if (KeyToProductRepository.Get(s => s.Key_Id == key_Id && s.Product_Id == Product_Id).Result.Any())
@@ -59,6 +51,25 @@ namespace BusinessLogicLayer.KeyToProductService
 
 
             return KeyToProductRepository.Get(null, ks => ks.product, ks => ks.adjKey).Result.ToList();
+        }
+        public async Task<KeyToProduct> ReturnSpecialKey(int key_Id,int Product_Id)
+        {
+            var keyToProduct = await KeyToProductRepository.Get(kp => kp.Key_Id == key_Id && kp.Product_Id == Product_Id && kp.IsSpecial == true, ks => ks.adjKey);
+            return keyToProduct.FirstOrDefault();
+        }
+        public async Task<List<KeyToProduct>> ReturnSpecialKeyList(int Product_Id)
+        {
+            var keyToProduct = await KeyToProductRepository.Get(kp => kp.Product_Id == Product_Id && kp.IsSpecial == true, ks => ks.adjKey);
+            return keyToProduct.ToList();
+        }
+        public bool EditKeyToProduct(KeyToProduct model)
+        {
+            if(model != null && model.Key_Id != 0 && model.Product_Id != 0)
+            {
+                KeyToProductRepository.EditItem(model);
+                return true;
+            }
+            return false;
         }
     }
 

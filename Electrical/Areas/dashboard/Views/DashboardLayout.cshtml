@@ -239,6 +239,29 @@
                             </ul>
                         </li>
                         <li class="nav-item">
+                            <a asp-area="dashboard" asp-controller="Brand" asp-action="Index" class="nav-link">
+                                <i class="fa-solid fa-cart-shopping"></i>
+                                <p>
+                                    مدیریت برند ها
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a asp-area="dashboard" asp-controller="Brand" asp-action="Index" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>لیست برند ها</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-area="dashboard" asp-controller="Brand" asp-action="AddBrand" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>افزودن برند</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
                             <a asp-area="dashboard" asp-controller="TechnicalSpecification" asp-action="Index" class="nav-link">
                                 <i class="fa-solid fa-sliders"></i>
                                 <p>

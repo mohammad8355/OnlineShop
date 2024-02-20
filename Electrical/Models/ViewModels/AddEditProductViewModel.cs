@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using DataAccessLayer.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace PresentationLayer.Models.ViewModels
 {
@@ -24,5 +25,7 @@ namespace PresentationLayer.Models.ViewModels
         public IEnumerable<IFormFile> File { get; set; }
         [Required]
         public List<int> SelectList { get; set; }
+        public List<Brand> brands { get; set; }
+        public int Brand_Id { get; set; }
     }
 }

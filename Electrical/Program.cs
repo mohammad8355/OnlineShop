@@ -34,6 +34,8 @@ using BusinessLogicLayer.CommentService;
 using BusinessLogicLayer.TicketService;
 using BusinessLogicLayer.OrderDetailsService;
 using BusinessLogicLayer.OrderService;
+using BusinessLogicLayer.BrandService;
+using Utility.ProductCodeGenerator;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -94,6 +96,7 @@ builder.Services.AddScoped<MainRepository<KeyToProduct>>();
 builder.Services.AddScoped<MainRepository<Contact>>();
 builder.Services.AddScoped<MainRepository<Tag>>();
 builder.Services.AddScoped<MainRepository<TagToBlogPost>>();
+builder.Services.AddScoped<MainRepository<Brand>>();
 builder.Services.AddScoped<MainRepository<Commnet>>();
 builder.Services.AddScoped<MainRepository<Ticket>>();
 #endregion
@@ -117,10 +120,12 @@ builder.Services.AddScoped<TagToBlogPostLogic>();
 builder.Services.AddScoped<CommentLogic>();
 builder.Services.AddScoped<TicketLogic>();
 builder.Services.AddScoped<OrderLogic>();
+builder.Services.AddScoped<BrandLogic>();
 builder.Services.AddScoped<OrderDetailsLogic>();
 #endregion
 builder.Services.AddScoped<ReturnMultipleData<UploadFile>>();
 builder.Services.AddScoped<UploadFile>();
+builder.Services.AddScoped<ProductCodeGenerator>();
 builder.Services.AddScoped<CodeGenerator>();
 var app = builder.Build();
 

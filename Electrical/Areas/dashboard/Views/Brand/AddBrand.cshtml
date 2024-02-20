@@ -1,0 +1,70 @@
+﻿@model BrandViewModel;
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-12">
+                <!-- general form elements -->
+
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">اطلاعات اولیه</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <div class="card-body">
+                        @if (Model == null)
+                        {
+                            <form asp-action="AddBrand" method="post" class="form" enctype="multipart/form-data">
+                                <div asp-validation-summary="All" class="alert alert-danger"></div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">نام برند</label>
+                                    <input class="form-control" asp-for="Name" id="exampleInputPassword1" placeholder="نام برند را وارد کنید">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">عکس</label>
+                                    <input class="form-control" asp-for="file" id="exampleInputPassword1" required>
+                                </div>
+
+                                <!-- /.card-body -->
+                                <button type="submit" class="btn btn-primary">افزودن</button>
+
+                            </form>
+                        }
+                        else
+                        {
+                            <form asp-action="EditBrand" method="post" class="form" enctype="multipart/form-data">
+                                <div asp-validation-summary="All" class="alert alert-danger"></div>
+                                <input asp-for="Id" hidden class="hidden">
+                                <input asp-for="rate" hidden class="hidden">
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">نام برند</label>
+                                    <input class="form-control" asp-for="Name" id="exampleInputPassword1" placeholder="نام برند را وارد کنید">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">عکس</label>
+                                    <input class="form-control" asp-for="file" id="exampleInputPassword1"  required>
+                                </div>
+
+                                <!-- /.card-body -->
+                                <button type="submit" class="btn btn-primary">ویرایش</button>
+
+                            </form>
+                        }
+
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+
+                </div>
+
+                <!--/.col (right) -->
+            </div>
+        </div>
+        <!-- /.row -->
+    </div><!-- /.container-fluid -->
+</section>
+@section  InlineScripts{
+
+
+}

@@ -66,6 +66,7 @@ namespace DataAccessLayer
             builder.Entity<Commnet>().Property(c => c.Ticket_Id).IsRequired(false);
             builder.Entity<Commnet>().Property(c => c.Product_Id).IsRequired(false);
             builder.Entity<Commnet>().Property(c => c.Reply_Id).IsRequired(false);
+            builder.Entity<Brand>().Property(b => b.ImageName).IsRequired(false);
             #region Seed Data
             builder.Entity<Commnet>().HasData(new Commnet()
             {

@@ -35,7 +35,7 @@ namespace BusinessLogicLayer.ProductService
 
         public async Task<bool> AddProduct(Product model)
         {
-            if(model == null || string.IsNullOrEmpty(model.Name) || string.IsNullOrEmpty(model.Description))
+            if(model == null || string.IsNullOrEmpty(model.Name) || string.IsNullOrEmpty(model.Description) || string.IsNullOrEmpty(model.ProductCode) )
             {
                 return false;
             }
@@ -47,7 +47,7 @@ namespace BusinessLogicLayer.ProductService
         }
         public async Task<bool> UpdateProduct(Product model)
         {
-            if (model == null || string.IsNullOrEmpty(model.Name) || string.IsNullOrEmpty(model.Description))
+            if (model == null || string.IsNullOrEmpty(model.Name) || string.IsNullOrEmpty(model.Description) || string.IsNullOrEmpty(model.ProductCode))
             {
                 return false;
             }
