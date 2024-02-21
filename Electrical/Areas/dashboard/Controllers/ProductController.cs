@@ -454,9 +454,11 @@ namespace PresentationLayer.Areas.dashboard.Controllers
         public async Task<IActionResult> ChooseSpecialKeys(int productId)
         {
             var keys = keyToProductLogic.KeyToProductList().Where(kp => kp.Product_Id == productId).ToList();
+            var choosekeys = await keyToProductLogic.ReturnSpecialKeyList(productId);
             var model = new ChooseSpecialKeysViewModel()
             {
                 keys = keys.Select(k => k.adjKey).ToList(),
+                chooseKeys = choosekeys.Select(k => k.Key_Id).ToList(),
             };
             return View(model);
         }
@@ -466,22 +468,32 @@ namespace PresentationLayer.Areas.dashboard.Controllers
 
             var keys = keyToProductLogic.KeyToProductList().Where(kp => kp.Product_Id == model.ProductId).ToList();
             model.keys = keys.Select(k => k.adjKey).ToList();
+            ModelState.Remove("keys");
             if (ModelState.IsValid)
             {
-                foreach (var key in model.keys)
+                foreach(var key in keys)
                 {
-                    var keytoproduct = new KeyToProduct()
+                    key.IsSpecial = false;
+                    var res = keyToProductLogic.EditKeyToProduct(key);
+                    if (!res)
                     {
-                        Product_Id = model.ProductId,
-                        Key_Id = key.Id,
-                        IsSpecial = true,
-                    };
+                        ModelState.AddModelError("", "خطا در انتخاب");
+                        return View(model);
+                    }
+                }
+                foreach (var key in model.chooseKeys)
+                {
+                    var keytoproduct = keyToProductLogic.KeyToProductDetail(key, model.ProductId);
+                    keytoproduct.IsSpecial = true;
                     var res = keyToProductLogic.EditKeyToProduct(keytoproduct);
                     if (!res)
                     {
-                        return View();
+                        ModelState.AddModelError("", "خطا در انتخاب");
+                        return View(model);
                     }
                 }
+                var newmodel = model.keys = keys.Select(k => k.adjKey).ToList();
+                return View(newmodel);
             }
             ModelState.AddModelError("", "خطا در سیستم");
             return View(model);

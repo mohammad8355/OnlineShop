@@ -6,7 +6,7 @@
     <div class="row">
         <div class="card card-warning">
             <div class="card-header">
-                <h3 class="card-title col-6">مشخصات فنی</h3>
+                <h3 class="card-title col-12">مشخصات فنی</h3>
             </div>
             <div class="card-body row">
                 <!-- select -->
@@ -16,9 +16,9 @@
                 {
                     <div class="alert alert-success">ViewBag.success</div>
                 }
-                <div class="form-group col-sm-12">
+                <div class="form-group col-12">
                     <label>ویژگی های کلیدی</label>
-                        <select asp-for="@Model.chooseKeys" asp-items="@ViewBag.adjkey">
+                <select asp-for="@Model.chooseKeys" asp-items="@ViewBag.adjkey" multiple class="select2 col-12">
 
                 </select>
                 </div>
@@ -37,11 +37,6 @@
         }
 @section InlineScripts{
     <script>
-
-    </script>
-
-    <script>
-        //Initialize Select2 Elements
-       
+        $(".select2").select2();
     </script>
         }
