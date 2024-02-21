@@ -3,52 +3,55 @@
 
 <section class="content">
     <div class="container-fluid">
-            <div class="col-12">
-                <!-- /.card -->
+        <div class="col-12">
+            <!-- /.card -->
 
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">لیست کل محصولات</h3>
-                    </div>
-                    <!-- /.card-header -->
-                    <div class="card-body">
-                        <table id="example1" class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th>نام برند</th>
-                                    <th>عکس</th>
-                                    <th>امتیاز </th>
-                                    <th>مشاهده</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var brand in Model)
-                                {
-                                    <tr>
-                                        <th>@brand.Name</th>
-                                        <th><img src="~/Image/Brand/@brand.Name/@brand.ImageName" width="200px" alt="@brand.Name" /></th>
-                                        <th>@brand.rate</th>
-                                        <th><a asp-action="BrandDetail" asp-controller="Brand" asp-area="dashboard" asp-route-Id="@brand.Id">مشاهده</a></th>
-                                    </tr>
-                                }
-                            </tbody>
-                            <tfoot>
-                                <tr>
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">لیست کل محصولات</h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <table id="example1" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
                                 <th>نام برند</th>
                                 <th>عکس</th>
                                 <th>امتیاز </th>
                                 <th>مشاهده</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var brand in Model)
+                            {
+                                <tr>
+                                    <th>@brand.Name</th>
+                                    <th><img src="~/Image/Brand/@brand.Name/@brand.ImageName" width="200px" alt="@brand.Name" /></th>
+                                    <th>@brand.rate</th>
+                                    <th>
+                                        <a asp-action="EditBrand" asp-controller="Brand" asp-area="dashboard" asp-route-Id="@brand.Id" class="btn btn-warning">ویرایش</a>
+                                        <a onclick="Delete(@brand.Id)" class="btn btn-danger">حذف</a>
+                                    </th>
                                 </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-                    <!-- /.card-body -->
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>نام برند</th>
+                                <th>عکس</th>
+                                <th>امتیاز </th>
+                                <th>مشاهده</th>
+                            </tr>
+                        </tfoot>
+                    </table>
                 </div>
-                <!-- /.card -->
+                <!-- /.card-body -->
             </div>
-            <!-- /.col -->
+            <!-- /.card -->
         </div>
-        <!-- /.row -->
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
     </div>
     <!-- /.container-fluid -->
 </section>
@@ -71,6 +74,7 @@
     <script src="AdminLTE/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
     <script src="AdminLTE/plugins/datatables-buttons/js/buttons.print.min.js"></script>
     <script src="AdminLTE/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+    <script src="~/js/function.js"></script>
     }
 @section InlineScripts {
     <script>
@@ -89,5 +93,31 @@
                 "responsive": true,
             });
         });
+        function Delete(Id){
+            if(confirm("آیا از حذف این برند اطمینان دارید ؟"))
+            {
+                $.ajax({
+                    url: '@Url.Action("DeleteBrand","Brand")',
+                    type: 'GET',
+                    async: false,
+                    data: { Id: Id },
+                    success: function (data) {
+                        if (data) {
+                            autoCloseAlert(".card", 2000, 1000, "حذف برند مورد نطر با موفقیت انجام شد", "حذف", "success");
+                            window.setTimeout(function(){
+                                location.reload();
+                            },3000);
+                        }
+                        else {
+                            autoCloseAlert(".card", 2000, 1000, "حذف برند مورد نطر با شکست مواجه شد", "حذف", "danger");
+                        }
+                    },
+                    error: function () {
+                        alert("fail");
+                    }
+                })
+            }
+           
+        }
     </script>
     }

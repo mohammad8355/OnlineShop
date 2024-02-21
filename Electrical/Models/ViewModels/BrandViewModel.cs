@@ -7,7 +7,6 @@ namespace PresentationLayer.Models.ViewModels
     {
         [Required]
         public int Id { get; set; }
-        [Required]
         [MaxLength(20)]
         public string Name { get; set; }
         public IFormFile file { get; set; }

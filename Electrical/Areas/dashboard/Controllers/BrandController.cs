@@ -31,6 +31,7 @@ namespace PresentationLayer.Areas.dashboard.Controllers
         [HttpPost]
         public async Task<IActionResult> AddBrand(BrandViewModel model)
         {
+            ModelState.Remove("file");
             if (ModelState.IsValid)
             {
                 var brand = new Brand()
@@ -41,18 +42,26 @@ namespace PresentationLayer.Areas.dashboard.Controllers
                 var result = await brandLogic.AddBrand(brand);
                 if (result)
                 {
-                    var destination = "Image/Brand/" + model.Name;
-                    var root = webHostEnvironment.WebRootPath;
-                    var completePath = Path.Combine(root, destination);
-                   var uploadRes = await FileManager.Upload(model.Name,completePath,0,null,model.file);
-                    if((bool)uploadRes.First())
+                    if(model.file != null)
                     {
-                        brand.ImageName = model.Name + uploadRes.Last().ToString();
-                        brandLogic.EditBrand(brand);
+                        var destination = "Image/Brand/" + model.Name;
+                        var root = webHostEnvironment.WebRootPath;
+                        var completePath = Path.Combine(root, destination);
+                        var uploadRes = await FileManager.Upload(model.Name, completePath, 0, null, model.file);
+                        if ((bool)uploadRes.First())
+                        {
+                            brand.ImageName = model.Name + uploadRes.Last().ToString();
+                            brandLogic.EditBrand(brand);
+                            ViewBag.success = "برند مورد نطر با موفقیت افزوده شد";
+                            return View();
+                        }
+                        ModelState.AddModelError("", "مشکل در افزودن فایل عکس");
+                    }
+                    else
+                    {
                         ViewBag.success = "برند مورد نطر با موفقیت افزوده شد";
                         return View();
                     }
-                    ModelState.AddModelError("", "مشکل در افزودن فایل عکس");
                 }
             }
             return View(model);
@@ -70,6 +79,7 @@ namespace PresentationLayer.Areas.dashboard.Controllers
         [HttpPost]
         public async Task<IActionResult> EditBrand(BrandViewModel model)
         {
+            ModelState.Remove("file");
             if (ModelState.IsValid)
             {
                 var brand = await brandLogic.BrandDetail(model.Id);
@@ -86,15 +96,15 @@ namespace PresentationLayer.Areas.dashboard.Controllers
                         var uploadRes = await FileManager.Upload(model.Name, completePath, 0, null, model.file);
                         if ((bool)uploadRes.First())
                         {
-                            ViewBag.success = "برند مورد نطر با موفقیت افزوده شد";
-                            return View();
+                            brand.ImageName = model.Name + uploadRes.Last().ToString();
+                            brandLogic.EditBrand(brand);
+                            return RedirectToAction("Index");
                         }
                         ModelState.AddModelError("", "مشکل در افزودن فایل عکس");
                     }
                     else
                     {
-                        ViewBag.success = "برند مورد نطر با موفقیت افزوده شد";
-                        return View();
+                        return RedirectToAction("Index");
                     }
                 }
             }
