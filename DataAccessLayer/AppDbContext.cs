@@ -67,6 +67,9 @@ namespace DataAccessLayer
             builder.Entity<Commnet>().Property(c => c.Product_Id).IsRequired(false);
             builder.Entity<Commnet>().Property(c => c.Reply_Id).IsRequired(false);
             builder.Entity<Brand>().Property(b => b.ImageName).IsRequired(false);
+            builder.Entity<FavoriteProduct>().HasKey(o => new { o.Product_Id, o.User_Id });
+            builder.Entity<FavoriteProduct>().HasOne(p => p.Product).WithMany(fp => fp.favoriteProducts).HasForeignKey(f => f.Product_Id);
+            builder.Entity<FavoriteProduct>().HasOne(p => p.User).WithMany(fp => fp.favoriteProducts).HasForeignKey(f => f.User_Id);
             #region Seed Data
             builder.Entity<Commnet>().HasData(new Commnet()
             {
@@ -106,6 +109,7 @@ namespace DataAccessLayer
         DbSet<KeyToProduct> keyToProducts { get; set; }
         DbSet<KeyToSubCategory> keyToSubCategories { get; set; }
         DbSet<CategoryToProduct> categoryToProducts { get; set; }
+        DbSet<FavoriteProduct> favoriteProducts { get; set; }
         DbSet<ValueToProduct> valueToProducts { get; set; }
         DbSet<Order> orders { get; set; }
         DbSet<OrderDetails> orderDetails { get; set; }

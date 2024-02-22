@@ -9,6 +9,7 @@ using DataAccessLayer.Models;
 using BusinessLogicLayer.CategoryToProductService;
 using BusinessLogicLayer.ProductPhotoService;
 using BusinessLogicLayer.AdjValueService;
+using BusinessLogicLayer.favoriteProductService;
 
 namespace BusinessLogicLayer.ProductService
 {
@@ -20,14 +21,18 @@ namespace BusinessLogicLayer.ProductService
         private readonly MainRepository<DiscountToProduct> DiscountToProductRepository;
         private readonly MainRepository<ProductPhoto> productphotoRepository;
         private readonly CategoryToProductLogic categoryToProductLogic;
+        private readonly MainRepository<ValueToProduct> ValueToProductRepository;
+        private readonly MainRepository<FavoriteProduct> favoriteProductRepository;
         private readonly MainRepository<AdjValue> adjValueLogic;
-        public ProductLogic(MainRepository<AdjValue> adjValueLogic, CategoryToProductLogic categoryToProductLogic,MainRepository<Product> ProductRepository, MainRepository<Category> SubRepository, MainRepository<KeyToProduct> KeyToProductRepository, MainRepository<DiscountToProduct> discountToProductRepository, MainRepository<ProductPhoto> productphotoRepository)
+        public ProductLogic(MainRepository<ValueToProduct> ValueToProductRepository,MainRepository<FavoriteProduct> favoriteProductRepository,MainRepository<AdjValue> adjValueLogic, CategoryToProductLogic categoryToProductLogic,MainRepository<Product> ProductRepository, MainRepository<Category> SubRepository, MainRepository<KeyToProduct> KeyToProductRepository, MainRepository<DiscountToProduct> discountToProductRepository, MainRepository<ProductPhoto> productphotoRepository)
         {
             this.ProductRepository = ProductRepository;
             SubCategoryRepository = SubRepository;
             this.KeyToProductRepository = KeyToProductRepository;
             DiscountToProductRepository = discountToProductRepository;
             this.productphotoRepository = productphotoRepository;
+            this.ValueToProductRepository = ValueToProductRepository;
+            this.favoriteProductRepository = favoriteProductRepository;
             this.categoryToProductLogic = categoryToProductLogic;
             this.adjValueLogic = adjValueLogic;
 
@@ -92,6 +97,8 @@ namespace BusinessLogicLayer.ProductService
                 }
                 model.discountToProducts = DiscountToProductRepository.Get(d => d.Product_Id == model.Id).Result.ToList();
                 model.ProductPhotos = productphotoRepository.Get(p => p.Product_Id == model.Id).Result.ToList();
+                model.valueToProducts = ValueToProductRepository.Get(v => v.Product_Id == Id).Result.ToList();
+                model.favoriteProducts = favoriteProductRepository.Get(f => f.Product_Id == Id).Result.ToList();
                 model.CategoryToProducts = categoryToProductLogic.CategoryToProductList().Where(cp => cp.Product_Id == model.Id).ToList();
                 return model;
             }

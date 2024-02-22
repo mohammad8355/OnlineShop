@@ -34,6 +34,8 @@ namespace DataAccessLayer.Models
         public float Discount { get; set; }
         [MaxLength(20)]
         public string ProductCode { get; set; }
+        public int Like { get; set; }
+        public float rate { get; set; }
 
         //navigation property
         public ICollection<KeyToProduct>  keyToProducts { get; set; }
@@ -41,6 +43,7 @@ namespace DataAccessLayer.Models
         public ICollection<CategoryToProduct> CategoryToProducts { get; set; }
         public ICollection<ProductPhoto>  ProductPhotos { get; set; }
         public IEnumerable<ValueToProduct> valueToProducts { get; set; }
+        public List<FavoriteProduct> favoriteProducts { get; set; }   
         public List<OrderDetails> OrderDetails { get; set; }
         public List<Commnet> commnets { get; set; }
         public Brand brand { get; set; }

@@ -7,7 +7,14 @@
         <div class="product-info d-flex flex-wrap">
             <div class="product-images col-lg-6 col-12">
                 <div class="tools">
-                    <a href="#"><i class="fa-regular fa-heart"></i></a>
+                    @if(Model.product.favoriteProducts.FirstOrDefault() != null)
+                    {
+                        <a onclick="like(@Model.product.Id)"><i class="fa-solid fa-heart like"></i></a>
+                    }
+                    else
+                    {
+                        <a onclick="like(@Model.product.Id)"><i class="fa-regular fa-heart like"></i></a>
+                    }
                     <a href="#"><i class="fa-regular fa-bookmark"></i></a>
                     <a href="#"><i class="fa-solid fa-share-nodes"></i></a>
                 </div>
@@ -32,7 +39,7 @@
                         <h2>@Model.product.Name</h2>
                         <p> Samsung Odyssey G5 G51C LS27CG510EMXUE 27Inch 1ms 165Hz QHD Gaming Monitor</p>
                         <ul>
-                            <li>کدکالا:Lion-Product-564060</li>
+                            <li>کدکالا:@Model.product.ProductCode</li>
                             <li>برند: SamSung</li>
                             <li>
                                 @foreach (var cp in Model.product.CategoryToProducts)
@@ -50,9 +57,15 @@
                         <li><span>طول</span>@Model.product.length</li>
                         <li><span>وزن</span>@Model.product.Weight</li>
                         <li><span>ارتفاع</span> @Model.product.height</li>
-                        <li><span>نسبت تصویر نمایشگر</span>16:9</li>
-                        <li><span>زمان پاسخ دهی</span> 1 میلی‌ثانیه</li>
-                        <li><span>نرخ بروزرسانی</span>165 هرتز</li>
+                        @foreach(var specKey in Model.specialkeys)
+                        {
+                            <li><span>@specKey.Name</span>
+                                @foreach (var value in Model.product.valueToProducts.Where(v => v.Value.adjkey_Id == specKey.Id).ToList())
+                                {
+                                    <span>@value.Value.Value /</span>
+                                }
+                            </li>
+                        }
                     </ul>
                 </div>
                 <div class="shop-box col-md-6 col-12">
@@ -113,9 +126,9 @@
                             <tr>
                                 <td>@kv.adjKey.Name</td>
                                 <td>
-                                    @foreach (var value in kv.adjKey.adjValues)
+                                    @foreach (var value in Model.product.valueToProducts.Where(v => v.Value.adjkey_Id == kv.adjKey.Id).ToList())
                                     {
-                                        <span>@value.Value  /</span>
+                                        <span>@value.Value.Value /</span>
                                     }
                                 </td>
                             </tr>
@@ -170,6 +183,7 @@
 }
 @section ScriptRefrence{
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+    <script src="~/js/function.js"> </script>
 }
 @section InlineScript{
     <script>
@@ -257,8 +271,40 @@
                 },
             })
         })
-                      // --> ajax to server
-                //end shop product code
+          
+        // --> ajax to server
+    //end shop product code
+    function like(Id){
+        $.ajax({
+            url: '@Url.Action("LikeProduct","Product")',
+            type:'GET',
+            async:false,
+            data:{ Id:parseInt(Id) },
+            success:function(data)
+            {
+                if(data.res){
+                        if (data.isliked) {
+                            autoCloseAlert(".container-fluid", 2000, 1000, "به علاقه مندی ها افزوده شد ", "علاقه مندی ها", "success");
+                            $(".fa-heart").removeClass("fa-regular");
+                            $(".fa-heart").addClass("fa-solid");
+                            console.log("add fav");
+                        }
+                        else{
+                            autoCloseAlert(".container-fluid", 2000, 1000, "از علاقه مندی ها حذف شد ", "علاقه مندی ها", "success");
+                            $(".fa-heart").addClass("fa-regular");
+                            $(".fa-heart").removeClass("fa-solid");
+                        }
+                }
+                else{
+                        autoCloseAlert(".container-fluid", 2000, 1000, "مدتی صبر کنید", "warning");
+                }
+            },
+            error:function()
+            {
+                alert("fail");
+            }
+        })
+    }
     </script>
 
 }

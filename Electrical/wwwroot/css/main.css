@@ -1246,6 +1246,9 @@ section.Product-container .container-lg .product-info .product-images .tools a i
   font-size: 1.2em;
   color: #6B6B6C;
 }
+section.Product-container .container-lg .product-info .product-images .tools a i.like {
+  color: #B80000 !important;
+}
 section.Product-container .container-lg .product-info .product-images .slick-prev,
 section.Product-container .container-lg .product-info .product-images .slick-next {
   position: absolute;
@@ -1488,4 +1491,36 @@ section.Product-container .container-lg .related-product .slick-next {
 section.Product-container .container-lg .related-product .product-wrapper {
   width: 100%;
   flex-wrap: nowrap;
+}
+
+* {
+  font-family: "Vazir";
+}
+
+section.complementionShop {
+  padding: 1em;
+}
+section.complementionShop .responsive-table {
+  width: 100%;
+  height: 100%;
+}
+section.complementionShop form {
+  background-color: #fff;
+  border-radius: 0.5em;
+  padding: 1em;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 0;
+}
+section.complementionShop form input, section.complementionShop form textarea {
+  width: 100%;
+  padding-block: 0.5em;
+  border-radius: 0.5em;
+  background-color: #BDBFC1;
+  color: #2F2E2E;
+  outline: none;
+  border: none;
 }

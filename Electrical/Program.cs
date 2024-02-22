@@ -36,6 +36,7 @@ using BusinessLogicLayer.OrderDetailsService;
 using BusinessLogicLayer.OrderService;
 using BusinessLogicLayer.BrandService;
 using Utility.ProductCodeGenerator;
+using BusinessLogicLayer.favoriteProductService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -99,6 +100,7 @@ builder.Services.AddScoped<MainRepository<TagToBlogPost>>();
 builder.Services.AddScoped<MainRepository<Brand>>();
 builder.Services.AddScoped<MainRepository<Commnet>>();
 builder.Services.AddScoped<MainRepository<Ticket>>();
+builder.Services.AddScoped<MainRepository<FavoriteProduct>>();
 #endregion
 #region businessLogic layer service
 builder.Services.AddScoped<AdjKeyLogic>();
@@ -119,6 +121,7 @@ builder.Services.AddScoped<TagLogic>();
 builder.Services.AddScoped<TagToBlogPostLogic>();
 builder.Services.AddScoped<CommentLogic>();
 builder.Services.AddScoped<TicketLogic>();
+builder.Services.AddScoped<favoriteProductLogic>();
 builder.Services.AddScoped<OrderLogic>();
 builder.Services.AddScoped<BrandLogic>();
 builder.Services.AddScoped<OrderDetailsLogic>();
