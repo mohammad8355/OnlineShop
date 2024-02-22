@@ -118,6 +118,8 @@ namespace BusinessLogicLayer.ProductService
                     var values = adjValueLogic.Get(v => v.adjkey_Id == key.Key_Id).Result.ToList();
                     key.adjKey.adjValues = values;
                 }
+                item.valueToProducts = ValueToProductRepository.Get(v => v.Product_Id == item.Id).Result.ToList();
+                item.favoriteProducts = favoriteProductRepository.Get(f => f.Product_Id == item.Id).Result.ToList();
                 item.discountToProducts = DiscountToProductRepository.Get(d => d.Product_Id == item.Id,v => v.discount).Result.ToList();
                 item.ProductPhotos = productphotoRepository.Get(p => p.Product_Id == item.Id).Result.ToList();
                 item.CategoryToProducts = categoryToProductLogic.CategoryToProductList().Where(cp => cp.Product_Id == item.Id).ToList();
@@ -125,6 +127,38 @@ namespace BusinessLogicLayer.ProductService
             }
             return products;
         }
-
+        public List<Product> RelatedProduct(List<int> categoryIds)
+        {
+            var relatedProduct = new List<Product>();
+            foreach(var cp in categoryIds)
+            {
+                relatedProduct.AddRange(categoryToProductLogic.CategoryToProductList().Where(c => c.Category_Id == cp).Select(c => c.Product).ToList());
+            }
+            return relatedProduct;
+        }
+        public async Task<IEnumerable<Product>> PopularProduct()
+        {
+            var ProductList = await ProductRepository.Get();
+            var Popularproduct = ProductList.OrderBy(p => p.Like);
+            return Popularproduct;
+        }
+        public async Task<IEnumerable<Product>> MostExpensiveProduct()
+        {
+            var productList = await ProductRepository.Get();
+            var MostExpensiveProduct = productList.OrderBy(p => p.Price);
+            return MostExpensiveProduct;
+        }
+        public async Task<IEnumerable<Product>> CheapestProduct()
+        {
+            var productList = await ProductRepository.Get();
+            var MostExpensiveProduct = productList.OrderByDescending(p => p.Price);
+            return MostExpensiveProduct;
+        }
+        public async Task<IEnumerable<Product>> BestSellingProduct()
+        {
+            var productList = await ProductRepository.Get();
+            var BestSellingProduct = productList.OrderBy(p => p.OrderDetails.Where(o => o.order.IsFinally == true).Count());
+            return BestSellingProduct;
+        }
     }
 }
