@@ -88,7 +88,7 @@ namespace BusinessLogicLayer.ProductService
         {
             if(ProductRepository.Get(p => p.Id == Id).Result.Any())
             {
-                var model = ProductRepository.Get(p => p.Id == Id).Result.FirstOrDefault();
+                var model = ProductRepository.Get(p => p.Id == Id,b => b.brand).Result.FirstOrDefault();
                 model.keyToProducts = KeyToProductRepository.Get(k => k.Product_Id == model.Id,v => v.adjKey).Result.ToList();
                 foreach (var key in model.keyToProducts)
                 {

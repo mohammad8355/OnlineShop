@@ -38,16 +38,25 @@
                     <div class="header col-12">
                         <h2>@Model.product.Name</h2>
                         <p> Samsung Odyssey G5 G51C LS27CG510EMXUE 27Inch 1ms 165Hz QHD Gaming Monitor</p>
-                        <ul>
-                            <li>کدکالا:@Model.product.ProductCode</li>
-                            <li>برند: SamSung</li>
-                            <li>
-                                @foreach (var cp in Model.product.CategoryToProducts)
-                                {
-                                    <span>@cp.Category.Name /</span>
-                                }
-                            </li>
-                        </ul>
+                        <div class="col-12 d-flex">
+                            <div class="col-lg-6 col-md-12">
+                                <ul>
+                                    <li>کدکالا:@Model.product.ProductCode</li>
+                                    <li>برند: @Model.product.brand.Name</li>
+                                    <li>
+                                        @foreach (var cp in Model.product.CategoryToProducts)
+                                        {
+                                            <span>@cp.Category.Name /</span>
+                                        }
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-6 col-12">
+                                <img width="100px" src="~/Image/Brand/@(Model.product.brand.Name)/@(Model.product.brand.ImageName)" />
+                                <h4>@Model.product.brand.Name</h4>
+                            </div>
+                        </div>
+                       
                     </div>
                 </div>
                 <div class="keyattr col-12 col-md-6">

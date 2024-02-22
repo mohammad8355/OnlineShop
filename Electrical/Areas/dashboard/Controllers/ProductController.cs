@@ -257,6 +257,7 @@ namespace PresentationLayer.Areas.dashboard.Controllers
             ProductModel.height = model.height;
             ProductModel.Weight = model.Weight;
             ProductModel.length = model.length;
+            ProductModel.Brand_Id = model.Brand_Id;
             var resault = await productLogic.UpdateProduct(ProductModel);
             if (resault)
             {
@@ -424,6 +425,8 @@ namespace PresentationLayer.Areas.dashboard.Controllers
         [HttpPost]
         public async Task<IActionResult> AddOptions(AddKeyValueToProduct model)
         {
+            ViewBag.keys = new SelectList(adjKeyLogic.AdjKeyList(), "Id", "Name");
+            ViewBag.Products = new SelectList(productLogic.ProductList(), "Id", "Name");
             if (ModelState.IsValid)
             {
                 foreach (var product in model.ProductIds)
@@ -492,8 +495,7 @@ namespace PresentationLayer.Areas.dashboard.Controllers
                         return View(model);
                     }
                 }
-                var newmodel = model.keys = keys.Select(k => k.adjKey).ToList();
-                return View(newmodel);
+                return RedirectToAction("ChooseSpecialKeys",model.ProductId);
             }
             ModelState.AddModelError("", "خطا در سیستم");
             return View(model);
