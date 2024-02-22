@@ -115,6 +115,7 @@ namespace PresentationLayer.Areas.dashboard.Controllers
                     height = model.height,
                     Weight = model.Weight,
                     Brand_Id = model.Brand_Id,
+                    Discount = model.Discount,
                     ProductCode = productCodeGenerator.CodeGenerator("SalehIT", true, 4, false, 3, true),
                     length = model.length,
                 };
@@ -225,6 +226,7 @@ namespace PresentationLayer.Areas.dashboard.Controllers
                 Weight = ProductModel.Weight,
                 length = ProductModel.length,
                 SelectList = categorytoproduct,
+                Discount = ProductModel.Discount,
                 brands = await brandLogic.BrandList(),
                 Brand_Id = ProductModel.Brand_Id,
         };
@@ -257,6 +259,7 @@ namespace PresentationLayer.Areas.dashboard.Controllers
             ProductModel.height = model.height;
             ProductModel.Weight = model.Weight;
             ProductModel.length = model.length;
+            ProductModel.Discount = model.Discount;
             ProductModel.Brand_Id = model.Brand_Id;
             var resault = await productLogic.UpdateProduct(ProductModel);
             if (resault)

@@ -19,15 +19,15 @@
                     <a href="#"><i class="fa-solid fa-share-nodes"></i></a>
                 </div>
                 <div class="col-10">
-                    <img class="selectedImage"
+                    <img class="selectedImage" id="MainImage"
                          src="~/Image/Product/@(Model.product.Name)/@(Model.product.ProductPhotos.FirstOrDefault().Name)"
                          alt="@(Model.product.Name)">
                 </div>
                 <hr>
-                <div class="image-wrapper col-12 " dir="ltr">
+                <div class="image-wrapper col-12" dir="ltr">
                     @foreach (var img in Model.product.ProductPhotos)
                     {
-                        <img src="~/Image/Product/@(Model.product.Name)/@img.Name" alt="@(Model.product.Name)">
+                        <img src="~/Image/Product/@(Model.product.Name)/@img.Name" alt="@(Model.product.Name)" class="image">
                     }
                 </div>
             </div>
@@ -86,18 +86,30 @@
                                 <span id="countProduct" value="0">0</span>
                                 <i class="fa-solid fa-minus"></i>
                             </div>
-                            <!--this is for whem we have an off-->
-                            @*     <div class="offprice">
-                            <span class="col-6 price">@Model.product.Price تومان </span>
-                            <span class="off">10,0000 تومان</span>
-                            <h6 class="text-secondary">0 تخفیف</h6>
-                            </div>*@
-                            <!--this is for whem we have an off-->
-                            <!--this is for whem we dont have an off-->
-                            <div class="originalPrice">
-                                <span class="col-6 price">@Model.product.Price تومان </span>
+                            @if(Model.product.Discount != 0)
+                            {
+                                <!--this is for whem we have an off-->
+                           <div class="offprice">
+                            <span class="col-6 price">@Model.product.Price.ToString("N0") تومان </span>
+                            <span class="off">
+                                        @{
+                                            var price = Model.product.Price;
+                                            var offprice = (Model.product.Price) * ((decimal)Model.product.Discount / 100);
+                                            var pricewithoff = price - offprice;
+                                        }
+                               @pricewithoff.ToString("N0") تومان</span>
+                            <h6 class="text-secondary">@Model.product.Discount % تخفیف</h6>
                             </div>
-                            <!--this is for whem we dont have an off-->
+                                <!--this is for whem we have an off-->
+                            }
+                            else
+                            {
+                                <!--this is for whem we dont have an off-->
+                                <div class="originalPrice">
+                                    <span class="col-6 price">@Model.product.Price تومان </span>
+                                </div>
+                                <!--this is for whem we dont have an off-->
+                            }
                         </div>
                         <button type="button" id="shop" class="btn btn-success">خرید</button>
                     </div>
@@ -314,6 +326,9 @@
             }
         })
     }
+    $(".image").click(function(){
+            $("#MainImage").attr("src", $(this).attr("src"));
+    });
     </script>
 
 }

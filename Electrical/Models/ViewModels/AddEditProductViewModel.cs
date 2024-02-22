@@ -27,5 +27,6 @@ namespace PresentationLayer.Models.ViewModels
         public List<int> SelectList { get; set; }
         public List<Brand> brands { get; set; }
         public int Brand_Id { get; set; }
+        public float Discount { get; set; }
     }
 }

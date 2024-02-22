@@ -101,6 +101,13 @@
                         <h3 class="my-3">@Model.product.Name</h3>
                         <h4>کد کالا : @Model.product.ProductCode</h4>
                         <h4>برند : @Model.product.brand.Name</h4>
+                        <h4 class="badge badge-danger dg-danger">
+                            @if(Model.product.Discount != 0)
+                            {
+                                @Model.product.Discount
+                            }
+                            %
+                        </h4>
                         @*             <p><span>@Model.product.subCategory.Name</span> > <span>@Model.product.subCategory.Name</span></p>*@
                        <nav dir="ltr" class="d-flex flex-column ">
                             @foreach (var cp in Model.product.CategoryToProducts)
