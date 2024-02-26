@@ -51,9 +51,9 @@ namespace BusinessLogicLayer.favoriteProductService
             var favs = await favoriteProductRepository.Get(f => f.User_Id == User_Id, f => f.Product, K => K.Product.ProductPhotos);
             return favs.ToList();
         }
-        public async Task<List<FavoriteProduct>> LikedProducts(int Product_Id)
+        public async Task<List<FavoriteProduct>> UsersLikedProduct(int Product_Id)
         {
-            var favs = await favoriteProductRepository.Get(f => f.Product_Id == Product_Id, f => f.Product, K => K.Product.ProductPhotos);
+            var favs = await favoriteProductRepository.Get(f => f.Product_Id == Product_Id, f => f.User,f => f.User.Commnets);
             return favs.ToList();
         }
     }
