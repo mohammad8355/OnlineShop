@@ -36,7 +36,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="product-name">
-                                    @product.Name
+                                    <a asp-action="ProductShow" asp-controller="Product" asp-route-Id="@product.Id">@product.Name</a>
                                 </div>
                                 <div class="price">
                                     @if (product.Discount > 0)
@@ -93,7 +93,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="product-name">
-                                    @product.Name
+                                    <a asp-action="ProductShow" asp-controller="Product" asp-route-Id="@product.Id">@product.Name</a>
                                 </div>
                                 <div class="price">
                                     @if (product.Discount > 0)
@@ -154,7 +154,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="product-name">
-                                    @product.Name
+                                    <a asp-action="ProductShow" asp-controller="Product" asp-route-Id="@product.Id">@product.Name</a>
                                 </div>
                                 <div class="price">
                                     @if (product.Discount > 0)

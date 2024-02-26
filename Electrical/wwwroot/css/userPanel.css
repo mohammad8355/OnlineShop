@@ -323,6 +323,9 @@ section .content .like-product .product-container .product-wrapper {
   gap: 0;
   width: 100%;
 }
+section .content .like-product .product-container .product-wrapper .slick-list, section .content .like-product .product-container .product-wrapper .slick-track {
+  width: 100% !important;
+}
 section .content .like-product .product-card {
   box-shadow: 0 0 10px rgba(47, 46, 46, 0.3);
 }

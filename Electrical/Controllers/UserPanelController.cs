@@ -1,4 +1,6 @@
-﻿using DataAccessLayer.Models;
+﻿using BusinessLogicLayer.favoriteProductService;
+using BusinessLogicLayer.ProductService;
+using DataAccessLayer.Models;
 using Infrustructure.uploadfile;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -12,18 +14,22 @@ namespace PresentationLayer.Controllers
         private readonly UserManager<ApplicationUser> _userManaManager;
         private readonly UploadFile fileManage;
         private readonly IWebHostEnvironment webHostEnvironment;
-        public UserPanelController(IWebHostEnvironment webHostEnvironment,UserManager<ApplicationUser> _userManaManager, UploadFile fileManage)
+        private readonly favoriteProductLogic favoriteProductLogic;
+        public UserPanelController(favoriteProductLogic favoriteProductLogic,IWebHostEnvironment webHostEnvironment,UserManager<ApplicationUser> _userManaManager, UploadFile fileManage)
         {
             this._userManaManager = _userManaManager;
             this.fileManage = fileManage;
             this.webHostEnvironment = webHostEnvironment;
+            this.favoriteProductLogic = favoriteProductLogic;
         }
         public async Task<IActionResult> Index()
         {
             var user = await  _userManaManager.FindByNameAsync(User.Identity.Name);
+            var products = await favoriteProductLogic.LikedProducts(user.Id);
             var model = new ConsoleUserViewModel()
             {
                 User = user,
+                LikedProducts = products.Select(p => p.Product).ToList(),
             };
             return View(model);
         }

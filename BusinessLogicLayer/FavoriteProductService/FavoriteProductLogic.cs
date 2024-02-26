@@ -46,5 +46,15 @@ namespace BusinessLogicLayer.favoriteProductService
             var fav = await favoriteProductRepository.Get(f => f.Product_Id == product_Id && f.User_Id == User_Id);
             return fav.FirstOrDefault();
         }
+        public async Task<List<FavoriteProduct>> LikedProducts(string User_Id)
+        {
+            var favs = await favoriteProductRepository.Get(f => f.User_Id == User_Id, f => f.Product, K => K.Product.ProductPhotos);
+            return favs.ToList();
+        }
+        public async Task<List<FavoriteProduct>> LikedProducts(int Product_Id)
+        {
+            var favs = await favoriteProductRepository.Get(f => f.Product_Id == Product_Id, f => f.Product, K => K.Product.ProductPhotos);
+            return favs.ToList();
+        }
     }
 }

@@ -382,35 +382,7 @@
 
             // --> ajax to server
             //end shop product
-            function like(Id) {
-                $.ajax({
-                    url: '@Url.Action("LikeProduct","Product")',
-                    type: 'GET',
-                    async: false,
-                    data: { Id: parseInt(Id) },
-                    success: function (data) {
-                        if (data.res) {
-                            if (data.isliked) {
-                                autoCloseAlert(".container-fluid", 2000, 1000, "به علاقه مندی ها افزوده شد ", "علاقه مندی ها", "success");
-                                $(".fa-heart").removeClass("fa-regular");
-                                $(".fa-heart").addClass("fa-solid");
-                                console.log("add fav");
-                            }
-                            else {
-                                autoCloseAlert(".container-fluid", 2000, 1000, "از علاقه مندی ها حذف شد ", "علاقه مندی ها", "success");
-                                $(".fa-heart").addClass("fa-regular");
-                                $(".fa-heart").removeClass("fa-solid");
-                            }
-                        }
-                        else {
-                            autoCloseAlert(".container-fluid", 2000, 1000, "مدتی صبر کنید", "warning");
-                        }
-                    },
-                    error: function () {
-                        alert("fail");
-                    }
-                })
-            }
+         
             //chnage main image
             $(".image").click(function () {
                 $("#MainImage").attr("src", $(this).attr("src"));
@@ -428,6 +400,38 @@
             })
             //zoom box
         })
+    </script>
+    <script>
+        function like(Id) {
+            console.log("click");
+            $.ajax({
+                url: '@Url.Action("LikeProduct","Product")',
+                type: 'GET',
+                async: false,
+                data: { Id: parseInt(Id) },
+                success: function (data) {
+                    if (data.res) {
+                        if (data.isliked) {
+                            autoCloseAlert(".container-fluid", 2000, 1000, "به علاقه مندی ها افزوده شد ", "علاقه مندی ها", "success");
+                            $(".fa-heart").removeClass("fa-regular");
+                            $(".fa-heart").addClass("fa-solid");
+                            console.log("add fav");
+                        }
+                        else {
+                            autoCloseAlert(".container-fluid", 2000, 1000, "از علاقه مندی ها حذف شد ", "علاقه مندی ها", "success");
+                            $(".fa-heart").addClass("fa-regular");
+                            $(".fa-heart").removeClass("fa-solid");
+                        }
+                    }
+                    else {
+                        autoCloseAlert(".container-fluid", 2000, 1000, "مدتی صبر کنید", "warning");
+                    }
+                },
+                error: function () {
+                    alert("fail");
+                }
+            })
+        }
     </script>
 
 }
