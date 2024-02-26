@@ -46,9 +46,7 @@ namespace BusinessLogicLayer.CategoryToProductService
         }
         public ICollection<CategoryToProduct> CategoryToProductList()
         {
-
-
-            return CategoryToProductRepository.Get(null, ks => ks.Category, ks => ks.Product).Result.ToList();
+            return CategoryToProductRepository.Get(null, ks => ks.Category, ks => ks.Product,f => f.Product.ProductPhotos).Result.ToList();
         }
     }
 }

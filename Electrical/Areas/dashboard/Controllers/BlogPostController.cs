@@ -85,7 +85,7 @@ namespace PresentationLayer.Areas.dashboard.Controllers
             var model = new AddEditBlogPostViewModel()
             {
                 Title = blogpost.Title,
-                Content = blogpost.Content,
+                Content = blogpost.Content.ToString(),
                 CoverLink = blogpost.CoverLink,
                 Author = blogpost.Author,
                 ReadingTime = blogpost.ReadingTime,

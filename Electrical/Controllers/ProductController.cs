@@ -34,10 +34,13 @@ namespace PresentationLayer.Controllers
         {
             var product = await productLogic.ProductDetail(Id);
             var keys = await keyToProductLogic.ReturnSpecialKeyList(Id);
+            var cats = product.CategoryToProducts.Select(c => c.Category_Id).ToList();
+            var relatedproduct = productLogic.RelatedProduct(cats);
             var model = new ProductShowViewModel()
             {
                 product = product,
                 specialkeys = keys.Select(k => k.adjKey).ToList(),
+                RelatedProduct = relatedproduct,
             };
             return View(model);
         }

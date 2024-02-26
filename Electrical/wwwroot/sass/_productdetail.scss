@@ -313,6 +313,9 @@ section.Product-container {
             .product-wrapper {
                 width: 100%;
                 flex-wrap: nowrap;
+                .slick-track{
+                    width:100%;
+                }
             }
         }
     }

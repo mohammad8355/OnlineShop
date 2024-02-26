@@ -7,6 +7,7 @@ namespace PresentationLayer.Models.ViewModels
         public int Id { get; set; }
         [Required]
         [MaxLength(100)]
+        //[RegularExpression(@"^[^\\/:?""<>|]*$", ErrorMessage = "نمی توانید از این کاراکتر ها در نام محصول استفاه کنید")]
         public string Title { get; set; }
         [Required]
         public int ReadingTime { get; set; }
@@ -16,7 +17,7 @@ namespace PresentationLayer.Models.ViewModels
         [Required]
         [MaxLength(50)]
         public string Author { get; set; }
-        [Required, MaxLength(2000)]
+        [Required]
         public string Content { get; set; }
         [Required]
         public List<string> Tags { get; set; }

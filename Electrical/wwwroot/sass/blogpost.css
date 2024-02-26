@@ -1,0 +1,311 @@
+﻿* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Vazir";
+}
+
+body {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background-color: #F4F4F4;
+}
+
+/* ===== Scrollbar CSS ===== */
+/* Firefox */
+* {
+  scrollbar-width: auto;
+  scrollbar-color: #bfbfbf #ffffff;
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 11px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #ffffff;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #bfbfbf;
+  border-radius: 10px;
+  border: 3px solid #ffffff;
+}
+
+@font-face {
+  font-family: "Lalezar";
+  src: url("../Fonts/Lalezar-Font/OTF/Lalezar-Regular.otf");
+  src: url("../Fonts/Lalezar-Font/TTF/Lalezar-Regular.ttf");
+}
+section {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 1em 0 1em 0;
+}
+section article {
+  height: 100%;
+  background-color: #fff;
+  border-radius: 0.5em;
+  padding: 0.5em;
+}
+section article .header h1 {
+  font-size: 2em;
+  font-family: "Lalezar";
+  color: #00719C;
+}
+section article .header .author {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: row;
+  gap: 0;
+}
+section article .header .author img {
+  border-radius: 50%;
+  margin: 0.1em;
+  width: 3em;
+}
+section article .header .author h5 {
+  color: #919192;
+  font-size: 1em;
+}
+section article .header .detail {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  gap: 0;
+  column-gap: 0.5em;
+  color: #919192;
+}
+section article .header .detail h5 {
+  font-size: 0.9em;
+}
+section article .body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 0;
+}
+section article .body img {
+  width: 100%;
+  margin: auto 0;
+  border-radius: 0.5em;
+}
+section article .body h2, section article .body h3, section article .body h4, section article .body h5, section article .body h6, section article .body h1 {
+  width: 100%;
+  text-align: right;
+}
+section article .body p {
+  text-wrap: balance;
+  text-align: right;
+  padding: 0.5em 1em 0.5em 1em;
+  line-height: 2em;
+}
+section article .tags {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-direction: row;
+  gap: 0;
+  flex-wrap: wrap;
+  column-gap: 0.5em;
+}
+section article .tags .tag {
+  padding: 0.5em;
+  background-color: #00719C;
+  color: #fff;
+  border-radius: 2em;
+}
+section aside {
+  position: relative;
+  min-height: 100%;
+}
+section nav {
+  overflow-y: auto;
+  position: absolute;
+  transition: all 0.5s;
+}
+section nav h3 {
+  font-size: 1.5em;
+  color: #6B6B6C;
+  font-family: "Lalezar";
+  font-weight: 300;
+  text-align: center;
+}
+section nav ul {
+  list-style: none;
+  width: 100%;
+  padding: 0;
+}
+section nav ul li {
+  background-color: #fff;
+  border-radius: 0.5em;
+  padding: 0.5em;
+  margin: 0.5em;
+}
+section nav ul li a {
+  text-decoration: none;
+  text-align: center;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-direction: row-reverse;
+  gap: 0;
+  column-gap: 0.5em;
+}
+section nav ul li a h3 {
+  font-size: 1em;
+  color: #2F2E2E;
+}
+section nav ul li a h6 {
+  font-size: 0.8em;
+  text-align: left;
+  color: #919192;
+}
+section nav ul li a img {
+  width: 6em;
+  border-radius: 0.5em;
+}
+section nav ul li:hover {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+section nav .popularTags {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 0;
+  background-color: #fff;
+  border-radius: 0.5em;
+  margin: 0.5em;
+}
+section nav .popularTags .tags {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  gap: 0;
+  flex-wrap: wrap;
+}
+section nav .popularTags .tags .tag {
+  background-color: #BDBFC1;
+  border-radius: 2em;
+  padding: 0.5em;
+  margin: 0.5em;
+}
+section nav .popularTags .tags .tag a {
+  color: #2F2E2E;
+  text-decoration: none;
+}
+section nav .popularTags .tags .tag a:hover {
+  color: #009BD6;
+}
+section .comments {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 0;
+}
+section .comments div.container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1em;
+}
+section .comments .comment-reply {
+  width: 100%;
+  border-radius: 1em;
+  color: #F4F4F4;
+  background-color: rgba(0, 155, 214, 0.8);
+  padding: 0.5em;
+}
+section .comments .comment-reply .reply {
+  background-color: #00719C;
+  padding: 0.5em;
+  border-radius: 0.5em;
+}
+section .comments .comment-reply .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  gap: 0;
+  column-gap: 0.5em;
+  padding: 0.5em;
+}
+section .comments .comment-reply .header .sender {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  gap: 0;
+}
+section .comments .comment-reply .header .sender img {
+  width: 5em;
+  border-radius: 50%;
+}
+section .comments .comment-reply .header .sender h5 {
+  font-size: 1em;
+}
+section .comments .comment-reply .header .replylink {
+  text-decoration: none;
+  color: #fff;
+}
+section .comments .comment {
+  width: 100%;
+  border-radius: 1em;
+  color: #2F2E2E;
+  background-color: rgba(244, 244, 244, 0.8);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  padding: 0.5em;
+}
+section .comments .comment .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  gap: 0;
+  column-gap: 0.5em;
+  padding: 0.5em;
+}
+section .comments .comment .header .sender {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  gap: 0;
+}
+section .comments .comment .header .sender img {
+  width: 5em;
+  border-radius: 50%;
+}
+section .comments .comment .header .sender h5 {
+  font-size: 1em;
+}
+section .comments .comment .header .replylink {
+  text-decoration: none;
+  color: #2F2E2E;
+}
+section .comments .sendComment form button {
+  background-color: #009BD6;
+  border: none;
+}
+section .comments .sendComment form button:hover {
+  background-color: #00719C;
+}
+
+@media screen and (max-width: 991px) {
+  section aside {
+    display: none;
+  }
+  section article .body img {
+    width: 100%;
+  }
+}

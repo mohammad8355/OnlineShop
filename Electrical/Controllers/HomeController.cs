@@ -1,5 +1,10 @@
-﻿using Electrical.Models;
+﻿using BusinessLogicLayer.BlogPostService;
+using BusinessLogicLayer.GeneralService;
+using BusinessLogicLayer.ProductService;
+using DataAccessLayer.Models;
+using Electrical.Models;
 using Microsoft.AspNetCore.Mvc;
+using PresentationLayer.Models.ViewModels;
 using System.Diagnostics;
 
 namespace PresentationLayer.Controllers
@@ -7,15 +12,36 @@ namespace PresentationLayer.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly ProductLogic productLogic;
+        private readonly GeneralLogic generalLogic;
+        private readonly BlogPostLogic blogPostLogic;
+        public HomeController(ILogger<HomeController> logger, ProductLogic productLogic, GeneralLogic generalLogic, BlogPostLogic blogPostLogic)
         {
             _logger = logger;
+            this.productLogic = productLogic;
+            this.blogPostLogic = blogPostLogic;
+            this.generalLogic = generalLogic;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var offProducts = await productLogic.OffProducts();
+            var PopularProduct = await productLogic.PopularProduct();
+            var newestProduct =  productLogic.NewsetProduct();
+            var posts = blogPostLogic.blogPostList();
+            var aboutus = await generalLogic.ReturnByLabel("aboutus");
+            var slider = generalLogic.GeneralList().Where(s => s.label == "slider").ToList();
+            var model = new HomePageViewModel()
+            {
+                HotDiscountProduct = offProducts.ToList(),
+                PopularProduct = PopularProduct.ToList(),
+                NewsetProduct = newestProduct.ToList(),
+                Posts = posts,
+                Sliders = slider,
+                Aboutus = aboutus.First(),
+
+            };
+            return View(model);
         }
 
         public IActionResult Privacy()

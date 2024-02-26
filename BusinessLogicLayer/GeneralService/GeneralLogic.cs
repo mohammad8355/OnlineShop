@@ -73,6 +73,16 @@ namespace BusinessLogicLayer.GeneralService
             }
             return Generals;
         }
+        public async Task<List<General>> ReturnByLabel(string label)
+        {
+            var ReturnByLabel = await GeneralRepository.Get(g => g.label == label);
+            return ReturnByLabel.ToList();
+        }
+        public async Task<General> ReturnByName(string name)
+        {
+            var ReturnByName = await GeneralRepository.Get(g => g. Name == name);
+            return ReturnByName.FirstOrDefault();
+        }
     }
 
 }

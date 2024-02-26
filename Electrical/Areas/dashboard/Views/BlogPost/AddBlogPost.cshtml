@@ -8,6 +8,7 @@
                 </div>
                 <div class="card-body">
                     <form method="post" asp-action="AddBlogPost" asp-controller="BlogPost">
+                        <div asp-validation-summary="All"></div>
                         @if(ViewBag.success != null)
                         {
                             <div class="alert alert-success">@ViewBag.success</div>
@@ -32,7 +33,7 @@
                         </div>
                         <div class="form-group">
                             <label >متن</label>
-                            <textarea asp-for="Content" class="form-control" placeholder="متن  را قرار دهید">
+                            <textarea asp-for="Content" class="form-control" id="content" placeholder="متن  را قرار دهید">
 
                             </textarea>
                         </div>
@@ -63,6 +64,12 @@
             $("#tags").select2({
                 tags: true,
             });
+
+            ClassicEditor
+                .create(document.querySelector('#content'))
+                .catch(error => {
+                    console.error(error);
+                });
         })
     </script>
 }

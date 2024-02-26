@@ -1,0 +1,245 @@
+﻿@model PostViewModel
+<section class="container-lg container-fluid">
+    <article class="col-lg-8 col-12">
+        <div class="header">
+            <h1>@Model.Post.Title</h1>
+            <div class="author">
+                <img src="../image//_cd41bf86-975a-4116-8ef1-c39f7b52cd4e.jpeg" alt="author">
+                <h5>@Model.Post.Author</h5>
+            </div>
+            <hr>
+            <div class="detail">
+                <div>
+                    <h5> <i class="fa-regular fa-calendar"></i> <span>تاریخ آخرین بروزرسانی:@Model.Post.LastUpdates.Date</span></h5>
+                    <h5> <i class="fa-regular fa-calendar"></i> <span>تاریخ انتشار:@Model.Post.PublishDate.Date</span></h5>
+                </div>
+                <div>
+                    <h5> <i class="fa-regular fa-clock"></i> <span>زمان تقریبی مطالعه: @Model.Post.ReadingTime </span></h5>
+                    <h5> <i class="fa-regular fa-eye"></i> <span>تعداد بازدید:22</span></h5>
+                </div>
+            </div>
+        </div>
+        <hr style="border-style:dashed;border-width:1px;">
+        <div class="body">
+          <p>
+              @Html.Raw(Model.Post.Content)
+          </p>
+        </div>
+        <div class="tags">
+            @foreach (var tag in Model.Post.TagToBlogPosts)
+            {
+                <span class="tag">#@tag.Tag.TagName </span>
+            }
+        </div>
+    </article>
+    <aside class="col-lg-4">
+        <nav class="sidebar">
+            <h3>مقالات برتر</h3>
+            <ul>
+                <li>
+                    <a href="#">
+                        <div>
+                            <h3>چگونه کیس اسمبل کنیم ؟</h3>
+                            <h6>1402/11/04</h6>
+                        </div>
+                        <img src="../image/laptop-jpg.jpg" alt="">
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <div>
+                            <h3>چگونه کیس اسمبل کنیم ؟</h3>
+                            <h6>1402/11/04</h6>
+                        </div>
+                        <img src="../image/laptop-jpg.jpg" alt="">
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <div>
+                            <h3>چگونه کیس اسمبل کنیم ؟</h3>
+                            <h6>1402/11/04</h6>
+                        </div>
+                        <img src="../image/laptop-jpg.jpg" alt="">
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <div>
+                            <h3>چگونه کیس اسمبل کنیم ؟</h3>
+                            <h6>1402/11/04</h6>
+                        </div>
+                        <img src="../image/laptop-jpg.jpg" alt="">
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <div>
+                            <h3>چگونه کیس اسمبل کنیم ؟</h3>
+                            <h6>1402/11/04</h6>
+                        </div>
+                        <img src="../image/laptop-jpg.jpg" alt="">
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <div>
+                            <h3>چگونه کیس اسمبل کنیم ؟</h3>
+                            <h6>1402/11/04</h6>
+                        </div>
+                        <img src="../image/laptop-jpg.jpg" alt="">
+                    </a>
+                </li>
+            </ul>
+            <!-- <div class="popularTags">
+                <h4>تگ های محبوب</h4>
+                <div class="tags">
+                    <span class="tag"><a href="#">کامپیوتر#</a></span>
+                    <span class="tag"> <a href="#">درایو#</a></span>
+                    <span class="tag"><a href="#">ویندوز#</a></span>
+                    <span class="tag"><a href="#">کامپیوتر#</a></span>
+                    <span class="tag"> <a href="#">درایو#</a></span>
+                    <span class="tag"><a href="#">ویندوز#</a></span>
+                    <span class="tag"><a href="#">کامپیوتر#</a></span>
+                    <span class="tag"> <a href="#">درایو#</a></span>
+                    <span class="tag"><a href="#">ویندوز#</a></span>
+                </div>
+            </div> -->
+        </nav>
+    </aside>
+    <div class="col-12 col-lg-8 comments">
+        <div class="d-flex flex-column p-2">
+            <h2>نظرات</h2>
+            <span class="p-2">
+                24 نظر درباره مقاله <span>
+                    <span class="text-primary">
+                        5 راه حل برای رفع مشکل پر شدن
+                        درایو C
+                    </span>
+                </span>
+            </span>
+        </div>
+        <div class="container">
+            <div class="sendComment">
+                <form class="form-control container">
+                    <h5>نظر خود را ارسال کنید</h5>
+                    <div class="form-group p-2">
+                        <label>متن پیام</label>
+                        <textarea class="form-control" placeholder="متن پیام خود را وارد کنید">
+
+                        </textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">ارسال نظر</button>
+                </form>
+            </div>
+            <div class="comment">
+                <div class="message">
+                    <div class="header">
+                        <div class="sender">
+                            <img src="../image/_cd41bf86-975a-4116-8ef1-c39f7b52cd4e.jpeg" alt="">
+                            <div class="d-flex flex-column">
+                                <h5>علیرضا فلانی</h5>
+                                <h6>8 آذر ماه 1402</h6>
+                            </div>
+                        </div>
+                        <a href="#" class="replylink"><span>پاسخ<i class="fa-solid fa-reply"></i></span></a>
+                    </div>
+                    <p>
+                        آیا راه حل دیگه ای هم داره ؟
+                    </p>
+                </div>
+            </div>
+            <div class="comment-reply">
+                <div class="reply">
+                    <p>آیا راه حل دیگه ای هم داره؟</p>
+                </div>
+                <div class="message">
+                    <div class="header">
+                        <div class="sender">
+                            <img src="../image/_cd41bf86-975a-4116-8ef1-c39f7b52cd4e.jpeg" alt="">
+                            <div class="d-flex flex-column">
+                                <h5>علیرضا فلانی</h5>
+                                <h6>8 آذر ماه 1402</h6>
+                            </div>
+                        </div>
+                        <a href="#" class="replylink"><span>پاسخ<i class="fa-solid fa-reply"></i></span></a>
+                    </div>
+                    <p>
+                        بله میتونید فایل های temp رو حذف کنید
+                    </p>
+                </div>
+            </div>
+            <div class="comment">
+                <div class="message">
+                    <div class="header">
+                        <div class="sender">
+                            <img src="../image/_cd41bf86-975a-4116-8ef1-c39f7b52cd4e.jpeg" alt="">
+                            <div class="d-flex flex-column">
+                                <h5>علیرضا فلانی</h5>
+                                <h6>8 آذر ماه 1402</h6>
+                            </div>
+                        </div>
+                        <a href="#" class="replylink"><span>پاسخ<i class="fa-solid fa-reply"></i></span></a>
+                    </div>
+                    <p>
+                        بله میتونید فایل های temp رو حذف کنید
+                    </p>
+                </div>
+            </div>
+            <div class="comment-reply">
+                <div class="reply">
+                    <p>آیا راه حل دیگه ای هم داره؟</p>
+                </div>
+                <div class="message">
+                    <div class="header">
+                        <div class="sender">
+                            <img src="../image/_cd41bf86-975a-4116-8ef1-c39f7b52cd4e.jpeg" alt="">
+                            <div class="d-flex flex-column">
+                                <h5>علیرضا فلانی</h5>
+                                <h6>8 آذر ماه 1402</h6>
+                            </div>
+                        </div>
+                        <a href="#" class="replylink"><span>پاسخ<i class="fa-solid fa-reply"></i></span></a>
+                    </div>
+                    <p>
+                        بله میتونید فایل های temp رو حذف کنید
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@section InlineCss{
+    <link rel="stylesheet" href="~/sass/blogpost.css" >
+}
+@section InlineScript{
+    <script>
+        $(window).on("scroll", function () {
+            var content = document.querySelector("article");
+            var sidebar = document.querySelector("nav.sidebar");
+            var aside = document.querySelector("aside");
+            if (sidebar && content) {
+                var sidebarRect = sidebar.getBoundingClientRect();
+                var contentRect = content.getBoundingClientRect();
+                var sideBarHeight = sidebar.clientHeight;
+                var contentHeight = content.clientHeight;
+                var windowHeight = window.innerHeight;
+                var scrollTop = window.scrollY;
+                console.log(sidebar.getBoundingClientRect().bottom)
+                if (sidebarRect.top < 0 && (sideBarHeight + Math.abs(contentRect.top)) < aside.clientHeight) {
+                    sidebar.style.top = Math.abs(contentRect.top) + "px";
+                }
+                else {
+                    if (contentRect.top < 0 && windowHeight <= sidebarRect.bottom) {
+                        sidebar.style.top = Math.abs(contentRect.top) + "px";
+                    }
+                }
+
+
+            }
+        })
+    </script>
+}
+@section ScriptRefrence{
+
+}

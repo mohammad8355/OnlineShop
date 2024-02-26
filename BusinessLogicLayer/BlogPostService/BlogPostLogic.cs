@@ -61,6 +61,20 @@ namespace BusinessLogicLayer.BlogPostService
         public BlogPost BlogPostDetail(int Id)
         {
             var blogpost = blogRepository.Get(bp => bp.Id == Id,b => b.TagToBlogPosts).Result.FirstOrDefault();
+            foreach(var bt in blogpost.TagToBlogPosts)
+            {
+                bt.Tag = tagLogic.TagDetail(bt.Tag_Id);
+            }
+            //include tags and comments in future;
+            return blogpost;
+        }
+        public BlogPost BlogPostDetail(string Title)
+        {
+            var blogpost = blogRepository.Get(bp => bp.Title == Title, b => b.TagToBlogPosts).Result.FirstOrDefault();
+            foreach (var bt in blogpost.TagToBlogPosts)
+            {
+                bt.Tag = tagLogic.TagDetail(bt.Tag_Id);
+            }
             //include tags and comments in future;
             return blogpost;
         }

@@ -166,37 +166,7 @@
             </div>
         </div>
     </div>
-    <div class="related-product Product-container d-flex flex-column mt-2" dir="ltr">
-        <h3 class="text-end mt-2">محصولات مشابه</h3>
-        <div class="product-wrapper flex-nowrap">
-            @for (int i = 0; i < 10; i++)
-            {
-                <div class="product-card" style="min-width: 15rem;">
-                    <div class="cover">
-                        <img src="../image/download (1).jfif" alt="tv">
-                    </div>
-                    <div class="card-body">
-                        <div class="product-name">
-                            تلوزیون LG مدل Qlead 2024
-                        </div>
-                        <div class="price">
-                            <span class="off-price">15,000,000تومان</span>
-                        </div>
-                        <div class="card-footer">
-                            <a href="#" class="shopbtn"><i class="fa-solid fa-cart-shopping"></i></a>
-                            <div class="rate">
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-regular fa-star"></i>
-                                <i class="fa-regular fa-star"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            }
-        </div>
-    </div>
+    @await Component.InvokeAsync("RelatedProduct",Model.RelatedProduct)
 </section>
 <section class="container-fluid fillscreen" style="display:none">
     <div class="ImageView d-flex flex-wrap">
@@ -371,36 +341,7 @@
                 $(".tab-container[data-id='" + id + "']").addClass("active");
             })
             //tab item scripts
-            //related product
-            $(document).ready(function () {
-                $(".product-wrapper").slick({
-                    slidesToShow: 5,
-                    slidesToScroll: 1,
-                    autoplay: true,
-                    autoplaySpeed: 2000,
-                    responsive: [
-                        {
-                            breakpoint: 992,
-                            settings: {
-                                slidesToShow: 4
-                            }
-                        },
-                        {
-                            breakpoint: 767,
-                            settings: {
-                                slidesToShow: 3
-                            }
-                        },
-                        {
-                            breakpoint: 500,
-                            settings: {
-                                slidesToShow: 2
-                            }
-                        },
-                    ]
-                })
-            })
-            //start shop product
+
 
             // ---> counter the product
             var counter = document.querySelector("#countProduct");

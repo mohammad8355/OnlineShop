@@ -27,7 +27,7 @@ namespace DataAccessLayer.Models
         [Required]
         [MaxLength(50)]
         public string Author { get; set; }
-        [Required, MaxLength(2000)]
+        [Required]
         public string Content { get; set; }
 
         //navigation 

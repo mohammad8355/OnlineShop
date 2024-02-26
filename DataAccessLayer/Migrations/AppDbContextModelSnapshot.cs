@@ -173,8 +173,7 @@ namespace DataAccessLayer.Migrations
 
                     b.Property<string>("Content")
                         .IsRequired()
-                        .HasMaxLength(2000)
-                        .HasColumnType("nvarchar(2000)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CoverLink")
                         .IsRequired()
@@ -324,7 +323,7 @@ namespace DataAccessLayer.Migrations
                             Id = 1,
                             Description = "shop supporting was very verrrrrrrrrrrrrrry gooooooooooooooooooooooood happy",
                             IsHide = false,
-                            LastUpdate = new DateTime(2024, 2, 21, 15, 52, 43, 510, DateTimeKind.Local).AddTicks(6669),
+                            LastUpdate = new DateTime(2024, 2, 26, 18, 32, 20, 475, DateTimeKind.Local).AddTicks(9683),
                             Title = "shop supporting",
                             User_Id = "217440e4-9164-443b-aa76-ab6d847aaace"
                         },
@@ -333,7 +332,7 @@ namespace DataAccessLayer.Migrations
                             Id = 2,
                             Description = "shop supporting was very verrrrrrrrrrrrry    baaaaaaaaaaaaaaaaaad sad",
                             IsHide = false,
-                            LastUpdate = new DateTime(2024, 2, 21, 15, 52, 43, 510, DateTimeKind.Local).AddTicks(6831),
+                            LastUpdate = new DateTime(2024, 2, 26, 18, 32, 20, 475, DateTimeKind.Local).AddTicks(9996),
                             Title = "shop supporting",
                             User_Id = "c74e93b8-9649-4c91-b459-4e9e16f2db74"
                         },
@@ -342,7 +341,7 @@ namespace DataAccessLayer.Migrations
                             Id = 3,
                             Description = "no comment ",
                             IsHide = false,
-                            LastUpdate = new DateTime(2024, 2, 21, 15, 52, 43, 510, DateTimeKind.Local).AddTicks(6864),
+                            LastUpdate = new DateTime(2024, 2, 26, 18, 32, 20, 476, DateTimeKind.Local).AddTicks(43),
                             User_Id = "217440e4-9164-443b-aa76-ab6d847aaace"
                         });
                 });
@@ -454,6 +453,10 @@ namespace DataAccessLayer.Migrations
                     b.Property<string>("Description")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("ImageName")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("Link")
                         .HasMaxLength(200)

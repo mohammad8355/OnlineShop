@@ -1707,6 +1707,10 @@ section.Product-container .container-lg .related-product .product-wrapper {
   flex-wrap: nowrap;
 }
 
+section.Product-container .container-lg .related-product .product-wrapper .slick-track {
+  width: 100%;
+}
+
 * {
   font-family: "Vazir";
 }

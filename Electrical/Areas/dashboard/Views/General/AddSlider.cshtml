@@ -1,24 +1,59 @@
-﻿<section class="content">
+﻿@model AddEditSliderViewModel
+<section class="content">
     <div class="container-fluid">
         <div class="row">
             <div class="card card-primary col-sm-10">
-                <div class="card-header">
-                    <h3>افزودن اسلایدر</h3>
-                </div>
-                <div class="card-body">
-                    <form enctype="multipart/form-data">
-                        <div class="form-group">
-                            <label>عنوان</label>
-                            <input type="text" placeholder="عنوان اسلاید را وارد کنید" class="form-control" />
-                        </div>
-                        <label>عکس</label>
-                        <div class="custom-file">
-                            <input type="file" class="custom-file-input" id="customFile">
-                            <label class="custom-file-label" for="customFile"></label>
-                        </div>
-                        <button class="btn btn-success" type="submit">ثبت</button>
-                    </form>
-                </div>
+                @if (Model == null)
+                {
+                    <div class="card-header">
+                        <h3>افزودن اسلایدر</h3>
+                    </div>
+                    <div class="card-body">
+                        <form enctype="multipart/form-data" asp-action="AddSlider" asp-controller="General" asp-area="dashboard">
+                            @if (ViewBag.success != null)
+                            {
+                                <div class="alert alert-success">@ViewBag.success</div>
+                            }
+                            <div asp-validation-summary="All"></div>
+                            <div class="form-group">
+                                <label>عنوان</label>
+                                <input asp-for="Name" placeholder="عنوان اسلاید را وارد کنید" class="form-control" />
+                            </div>
+                            <label>عکس</label>
+                            <div class="custom-file">
+                                <input class="custom-file-input" asp-for="File" id="customFile">
+                                <label class="custom-file-label" for="customFile"></label>
+                            </div>
+                            <button class="btn btn-success" type="submit">ثبت</button>
+                        </form>
+                    </div>
+                }
+                else
+                {
+                    <div class="card-header">
+                        <h3> ویرایش اسلایدر</h3>
+                    </div>
+                    <div class="card-body">
+                        <form enctype="multipart/form-data" asp-action="EditSlide" asp-controller="General" asp-area="dashboard">
+                            @if (ViewBag.success != null)
+                            {
+                                <div class="alert alert-success">@ViewBag.success</div>
+                            }
+                            <div asp-validation-summary="All"></div>
+                            <input asp-for="Id" hidden class="hidden" />
+                            <div class="form-group">
+                                <label>عنوان</label>
+                                <input asp-for="Name" placeholder="عنوان اسلاید را وارد کنید" class="form-control" />
+                            </div>
+                            <label>عکس</label>
+                            <div class="custom-file">
+                                <input class="custom-file-input" asp-for="File" id="customFile">
+                                <label class="custom-file-label" for="customFile"></label>
+                            </div>
+                            <button class="btn btn-success" type="submit">ثبت</button>
+                        </form>
+                    </div>
+                }
             </div>
         </div>
     </div>

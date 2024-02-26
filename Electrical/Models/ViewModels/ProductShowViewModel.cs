@@ -6,6 +6,7 @@ namespace PresentationLayer.Models.ViewModels
     {
         public Product product { get; set; }
         public List<AdjKey> specialkeys { get; set; }
+        public List<Product> RelatedProduct { get; set; }
 
     }
 }

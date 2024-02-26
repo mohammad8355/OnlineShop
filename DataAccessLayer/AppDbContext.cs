@@ -26,6 +26,7 @@ namespace DataAccessLayer
             builder.Entity<AdjValue>().Property(p => p.Value).IsRequired(true);
             builder.Entity<General>().Property(p => p.label).IsRequired(false);
             builder.Entity<General>().Property(p => p.Link).IsRequired(false);
+            builder.Entity<General>().Property(p => p.ImageName).IsRequired(false);
             builder.Entity<General>().Property(p => p.Description).IsRequired(false);
             builder.Entity<KeyToProduct>().HasKey(o => new {o.Key_Id , o.Product_Id});
             builder.Entity<KeyToSubCategory>().HasKey(o => new { o.key_Id, o.SubCategory_Id });

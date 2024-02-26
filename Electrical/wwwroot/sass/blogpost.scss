@@ -1,0 +1,260 @@
+@import "_general";
+@import "_utility";
+@font-face {
+    font-family:"Lalezar" ;
+    src: url("../Fonts/Lalezar-Font/OTF/Lalezar-Regular.otf");
+    src: url("../Fonts/Lalezar-Font/TTF/Lalezar-Regular.ttf");
+}
+section {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 1em 0 1em 0;
+
+    article {
+        height: 100%;
+        background-color: $white;
+        border-radius: .5em;
+        padding: .5em;
+
+        .header {
+            h1 {
+                font-size: 2em;
+                font-family: "Lalezar";
+                color: $darkPrimary;
+            }
+
+            .author {
+                @include flex(row, flex-start);
+
+                img {
+                    border-radius: 50%;
+                    margin: .1em;
+                    width: 3em;
+                }
+
+                h5 {
+                    color: $Secondary;
+                    font-size: 1em;
+                }
+            }
+
+            .detail {
+                @include flex(row,space-between,center);
+                column-gap: .5em;
+                color: $Secondary;
+                h5{
+                    font-size: .9em;
+                }
+
+
+            }
+
+        }
+
+        .body {
+            @include flex();
+
+            img {
+              width:100%;
+                margin: auto 0;
+                border-radius: .5em;
+            }
+
+            h2,h3,h4,h5,h6,h1 {
+                width: 100%;
+                text-align: right;
+            }
+
+            p {
+                text-wrap: balance;
+                text-align: right;
+                padding: .5em 1em .5em 1em;
+                line-height: 2em;
+            }
+
+        }
+
+        .tags {
+            width: 100%;
+            @include flex(row, flex-end);
+            flex-wrap: wrap;
+            column-gap: .5em;
+
+            .tag {
+                padding: .5em;
+                // background-color: rgba($color: $lightPrimary, $alpha: 0.3);
+                background-color: $darkPrimary;
+                color: $white;
+                border-radius: 2em;
+            }
+        }
+    }
+    aside{
+        position: relative;
+        min-height: 100%;
+    }
+    nav {
+        overflow-y:auto;
+        position: absolute;
+        transition: all .5s;
+        h3 {
+            font-size: 1.5em;
+            color: $darkSecondary;
+            font-family: "Lalezar";
+            font-weight: 300;
+            text-align: center;
+        }
+
+        ul {
+            list-style: none;
+            width: 100%;
+            padding: 0;
+            li {
+                background-color: $white;
+                border-radius: .5em;
+                padding: .5em;
+                margin: .5em;
+
+                a {
+                    text-decoration: none;
+                    text-align: center;
+                    @include flex(row-reverse,flex-end);
+                    column-gap: .5em;
+
+                    h3 {
+                        font-size: 1em;
+                        color:$dark;
+                    }
+                    h6{
+                        font-size:.8em;
+                        text-align: left;
+                        color: $Secondary;
+                    }
+                    img{
+                        width:6em;
+                        border-radius: .5em;
+                    }
+                }
+            }
+
+            li:hover {
+                box-shadow: 0 0 10px rgba($color: #000000, $alpha: 0.5);
+            }
+        }
+        .popularTags{
+            @include flex();
+            background-color: $white;
+            border-radius: .5em;
+            margin: .5em;
+            .tags{
+                @include flex(row);
+                flex-wrap: wrap;
+                .tag{
+                    background-color:$lightSecondary;
+                    border-radius: 2em;
+                    padding: .5em;
+                    margin: .5em;
+                    a{
+                        color: $dark;
+                        text-decoration: none;
+                    }
+                    a:hover{
+                        color: $Primary;
+                    }
+                }
+            }
+        }
+    }
+
+    .comments {
+        @include flex(column,flex-start,flex-start);
+        div.container{
+            display: flex;
+            flex-direction: column;
+            row-gap: 1em;
+        }
+        .comment-reply{
+            width: 100%;
+            border-radius: 1em;
+            color: $light;
+            background-color:rgba($color: $Primary, $alpha: 0.8);
+            padding: .5em;
+            .reply{
+                background-color: $darkPrimary;
+                padding: .5em;
+                border-radius:.5em;
+            }
+            .header{
+                @include flex(row,space-between);
+                column-gap:.5em;
+                padding: .5em;
+                .sender{
+                    @include flex(row);
+                    img{
+                        width: 5em;
+                        border-radius:50%;
+                    }
+                    h5{
+                        font-size: 1em;
+                    }
+                }
+                .replylink{
+                  text-decoration: none;
+                  color: $white;
+                }
+            }
+          
+        }
+        .comment{
+            width: 100%;
+            border-radius: 1em;
+            color: $dark;
+            background-color:rgba($color: $light, $alpha: 0.8);
+            box-shadow: 0 0 10px rgba($color: #000000, $alpha: 0.5);
+            padding: .5em;
+            .header{
+                @include flex(row,space-between);
+                column-gap:.5em;
+                padding: .5em;
+                .sender{
+                    @include flex(row);
+                    img{
+                        width: 5em;
+                        border-radius:50%;
+                    }
+                    h5{
+                        font-size: 1em;
+                    }
+                }
+                .replylink{
+                  text-decoration: none;
+                  color: $dark;
+                }
+            }
+        }
+        .sendComment{
+            form{
+                button{
+                    background-color: $Primary;
+                    border: none;
+                }
+                button:hover{
+                    background-color: $darkPrimary;
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width:991px) {
+    section aside {
+        display: none;
+    }
+    section article .body{
+        img{
+            width: 100%;
+        }
+    }
+}

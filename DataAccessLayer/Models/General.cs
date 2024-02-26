@@ -19,6 +19,8 @@ namespace DataAccessLayer.Models
         public string Link { get; set; }
         [MaxLength(100)]
         public string label { get; set; }
+        [MaxLength(200)]
+        public string ImageName { get; set; }
     }
 
 }

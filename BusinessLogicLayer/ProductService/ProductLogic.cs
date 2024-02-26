@@ -24,7 +24,7 @@ namespace BusinessLogicLayer.ProductService
         private readonly MainRepository<ValueToProduct> ValueToProductRepository;
         private readonly MainRepository<FavoriteProduct> favoriteProductRepository;
         private readonly MainRepository<AdjValue> adjValueLogic;
-        public ProductLogic(MainRepository<ValueToProduct> ValueToProductRepository,MainRepository<FavoriteProduct> favoriteProductRepository,MainRepository<AdjValue> adjValueLogic, CategoryToProductLogic categoryToProductLogic,MainRepository<Product> ProductRepository, MainRepository<Category> SubRepository, MainRepository<KeyToProduct> KeyToProductRepository, MainRepository<DiscountToProduct> discountToProductRepository, MainRepository<ProductPhoto> productphotoRepository)
+        public ProductLogic(MainRepository<ValueToProduct> ValueToProductRepository, MainRepository<FavoriteProduct> favoriteProductRepository, MainRepository<AdjValue> adjValueLogic, CategoryToProductLogic categoryToProductLogic, MainRepository<Product> ProductRepository, MainRepository<Category> SubRepository, MainRepository<KeyToProduct> KeyToProductRepository, MainRepository<DiscountToProduct> discountToProductRepository, MainRepository<ProductPhoto> productphotoRepository)
         {
             this.ProductRepository = ProductRepository;
             SubCategoryRepository = SubRepository;
@@ -40,13 +40,13 @@ namespace BusinessLogicLayer.ProductService
 
         public async Task<bool> AddProduct(Product model)
         {
-            if(model == null || string.IsNullOrEmpty(model.Name) || string.IsNullOrEmpty(model.Description) || string.IsNullOrEmpty(model.ProductCode) )
+            if (model == null || string.IsNullOrEmpty(model.Name) || string.IsNullOrEmpty(model.Description) || string.IsNullOrEmpty(model.ProductCode))
             {
                 return false;
             }
             else
             {
-               await ProductRepository.AddItem(model);
+                await ProductRepository.AddItem(model);
                 return true;
             }
         }
@@ -58,23 +58,23 @@ namespace BusinessLogicLayer.ProductService
             }
             else
             {
-                 ProductRepository.EditItem(model);
+                ProductRepository.EditItem(model);
                 return true;
             }
         }
         public async Task<bool> DeleteProduct(int Id)
         {
-            if(categoryToProductLogic.CategoryToProductList().Where(cp => cp.Product_Id == Id).Any())
-            foreach (var catpro in categoryToProductLogic.CategoryToProductList().Where(cp => cp.Product_Id == Id).ToList())
-            {
-                await categoryToProductLogic.DeleteCategoryToProduct(catpro.Category_Id, catpro.Product_Id);
-            };
+            if (categoryToProductLogic.CategoryToProductList().Where(cp => cp.Product_Id == Id).Any())
+                foreach (var catpro in categoryToProductLogic.CategoryToProductList().Where(cp => cp.Product_Id == Id).ToList())
+                {
+                    await categoryToProductLogic.DeleteCategoryToProduct(catpro.Category_Id, catpro.Product_Id);
+                };
 
             if (productphotoRepository.Get(pp => pp.Product_Id == Id).Result.Any())
                 foreach (var photo in productphotoRepository.Get(pp => pp.Product_Id == Id).Result.ToList())
-            {
-                await productphotoRepository.DeleteItem(photo.Id);
-            };
+                {
+                    await productphotoRepository.DeleteItem(photo.Id);
+                };
             if (await ProductRepository.DeleteItem(Id))
             {
                 return true;
@@ -86,10 +86,10 @@ namespace BusinessLogicLayer.ProductService
         }
         public async Task<Product> ProductDetail(int Id)
         {
-            if(ProductRepository.Get(p => p.Id == Id).Result.Any())
+            if (ProductRepository.Get(p => p.Id == Id).Result.Any())
             {
-                var model = ProductRepository.Get(p => p.Id == Id,b => b.brand).Result.FirstOrDefault();
-                model.keyToProducts = KeyToProductRepository.Get(k => k.Product_Id == model.Id,v => v.adjKey).Result.ToList();
+                var model = ProductRepository.Get(p => p.Id == Id, b => b.brand).Result.FirstOrDefault();
+                model.keyToProducts = KeyToProductRepository.Get(k => k.Product_Id == model.Id, v => v.adjKey).Result.ToList();
                 foreach (var key in model.keyToProducts)
                 {
                     var values = adjValueLogic.Get(v => v.adjkey_Id == key.Key_Id).Result.ToList();
@@ -110,17 +110,17 @@ namespace BusinessLogicLayer.ProductService
         public ICollection<Product> ProductList()
         {
             ICollection<Product> products = new List<Product>();
-            foreach(var item in ProductRepository.Get().Result.ToList())
+            foreach (var item in ProductRepository.Get().Result.ToList())
             {
-                item.keyToProducts = KeyToProductRepository.Get(k => k.Product_Id == item.Id,k => k.adjKey).Result.ToList();
-                foreach(var key in item.keyToProducts)
+                item.keyToProducts = KeyToProductRepository.Get(k => k.Product_Id == item.Id, k => k.adjKey).Result.ToList();
+                foreach (var key in item.keyToProducts)
                 {
                     var values = adjValueLogic.Get(v => v.adjkey_Id == key.Key_Id).Result.ToList();
                     key.adjKey.adjValues = values;
                 }
                 item.valueToProducts = ValueToProductRepository.Get(v => v.Product_Id == item.Id).Result.ToList();
                 item.favoriteProducts = favoriteProductRepository.Get(f => f.Product_Id == item.Id).Result.ToList();
-                item.discountToProducts = DiscountToProductRepository.Get(d => d.Product_Id == item.Id,v => v.discount).Result.ToList();
+                item.discountToProducts = DiscountToProductRepository.Get(d => d.Product_Id == item.Id, v => v.discount).Result.ToList();
                 item.ProductPhotos = productphotoRepository.Get(p => p.Product_Id == item.Id).Result.ToList();
                 item.CategoryToProducts = categoryToProductLogic.CategoryToProductList().Where(cp => cp.Product_Id == item.Id).ToList();
                 products.Add(item);
@@ -130,7 +130,7 @@ namespace BusinessLogicLayer.ProductService
         public List<Product> RelatedProduct(List<int> categoryIds)
         {
             var relatedProduct = new List<Product>();
-            foreach(var cp in categoryIds)
+            foreach (var cp in categoryIds)
             {
                 relatedProduct.AddRange(categoryToProductLogic.CategoryToProductList().Where(c => c.Category_Id == cp).Select(c => c.Product).ToList());
             }
@@ -138,27 +138,50 @@ namespace BusinessLogicLayer.ProductService
         }
         public async Task<IEnumerable<Product>> PopularProduct()
         {
-            var ProductList = await ProductRepository.Get();
-            var Popularproduct = ProductList.OrderBy(p => p.Like);
+            var productList = ProductList();
+            var Popularproduct = productList.OrderBy(p => p.Like);
             return Popularproduct;
         }
         public async Task<IEnumerable<Product>> MostExpensiveProduct()
         {
-            var productList = await ProductRepository.Get();
+            var productList = ProductList();
             var MostExpensiveProduct = productList.OrderBy(p => p.Price);
             return MostExpensiveProduct;
         }
         public async Task<IEnumerable<Product>> CheapestProduct()
         {
-            var productList = await ProductRepository.Get();
+            var productList = ProductList();
             var MostExpensiveProduct = productList.OrderByDescending(p => p.Price);
             return MostExpensiveProduct;
         }
         public async Task<IEnumerable<Product>> BestSellingProduct()
         {
-            var productList = await ProductRepository.Get();
+            var productList = ProductList();
             var BestSellingProduct = productList.OrderBy(p => p.OrderDetails.Where(o => o.order.IsFinally == true).Count());
             return BestSellingProduct;
         }
+        public async Task<IEnumerable<Product>> OffProducts()
+        {
+            var productList = ProductList();
+            var offProducts = productList.Where(p => p.Discount > 0).OrderBy(p => p.Discount);
+            return offProducts;
+        }
+        public async Task<IEnumerable<Product>> HotDiscountProduct(float redLine)
+        {
+            if (redLine > 0)
+            {
+                var productList = ProductList();
+                var HotDiscountProduct = productList.Where(p => p.Discount >= redLine).OrderBy(p => p.Discount);
+                return HotDiscountProduct;
+            }
+            return new List<Product>();
+        }
+        public IEnumerable<Product> NewsetProduct()
+        {
+            var productList = ProductList();
+            var newsetProduct = productList.OrderByDescending(p => p.Id);
+            return newsetProduct;
+        }
+
     }
 }

@@ -9,6 +9,7 @@ namespace PresentationLayer.Models.ViewModels
         public int Id { get; set; }
         [Required]
         [MaxLength(100)]
+        [RegularExpression(@"^[^\\/:?""<>|]*$",ErrorMessage ="نمی توانید از این کاراکتر ها در نام محصول استفاه کنید")]
         public string Name { get; set; }
         [Required]
         public decimal Price { get; set; }

@@ -355,12 +355,26 @@
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a asp-action="Aboutus" asp-area="Dashboard" asp-controller="General" class="nav-link">
+                            <a asp-action="Index" asp-area="Dashboard" asp-controller="General" class="nav-link">
                                 <i class="fa-solid fa-coins"></i>
                                 <p>
-                                    درباره ما
+                                    مدیریت کلی 
                                 </p>
                             </a>
+                              <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a asp-area="dashboard" asp-controller="General" asp-action="Index" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>لیست کل</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-area="dashboard" asp-controller="General" asp-action="Aboutus" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>درباره ما</p>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
                         <li class="nav-item">
                             <a asp-area="dashboard" asp-controller="Contact" asp-action="Index" class="nav-link">
@@ -574,6 +588,9 @@
     <script src="AdminLTE/plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap -->
     <script src="AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/CkEditor/build/ckeditor.js"></script>
+    <script src="~/CkEditor/build/translations/en-au.js"></script>
+    <script src="~/CkEditor/build/translations/en-gb.js" ></script>
     <script src="AdminLTE/dist/js/adminlte.js"></script>
     @RenderSection("RefrenceScripts",false)
     <!-- AdminLTE -->

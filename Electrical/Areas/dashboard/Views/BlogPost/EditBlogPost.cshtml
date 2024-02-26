@@ -29,7 +29,7 @@
                         </div>
                         <div class="form-group">
                             <label>متن</label>
-                            <textarea asp-for="Content" class="form-control" placeholder="متن  را قرار دهید">
+                            <textarea asp-for="Content" id="content" class="form-control" placeholder="متن  را قرار دهید">
 
                             </textarea>
                         </div>
@@ -58,5 +58,10 @@
         $("#tags").select2({
             tags:true,
         });
+        ClassicEditor
+            .create(document.querySelector('#content'))
+            .catch(error => {
+                console.error(error);
+            });
 </script>
 }

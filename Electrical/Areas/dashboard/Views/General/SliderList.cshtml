@@ -1,9 +1,11 @@
-﻿<section class="content">
+﻿@using DataAccessLayer.Models;
+@model List<General>
+<section class="content">
     <div class="container-fluid">
         <div class="row">
             <div class="card col-12">
                 <div class="card-header">
-                    <h3 class="card-title">راه های ارتباطی </h3>
+                    <h3 class="card-title">اسلاید ها</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -16,37 +18,19 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>تخفیف پاییزه</td>
-                                <td><img src="~/AdminLTE/dist/img/photo1.png" width="200px" /></td>
-                                <td>
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-info"><i class="fa-solid fa-pen"></i></button>
-                                        <button type="button" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>محصولات جدید</td>
-                                <td><img src="~/AdminLTE/dist/img/photo2.png" width="200px" /></td>
-                                <td>
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-info"><i class="fa-solid fa-pen"></i></button>
-                                        <button type="button" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>جشنواره</td>
-                                <td><img src="~/AdminLTE/dist/img/photo3.jpg" width="200px" /></td>
-                                <td>
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-info"><i class="fa-solid fa-pen"></i></button>
-                                        <button type="button" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
-
+                            @foreach(var slide in Model)
+                            {
+                                <tr>
+                                    <td>@slide.Name</td>
+                                    <td><img src="~/Image/slider/@(slide.ImageName)" width="200px" alt="@slide.Name" /></td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <a asp-action="EditSlide" asp-controller="General" asp-route-Id="@slide.Id" class="btn btn-info"><i class="fa-solid fa-pen"></i></a>
+                                            <a  class="btn btn-danger delete" data-Id="@slide.Id" ><i class="fa-solid fa-trash-can"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
                         </tbody>
                         <tfoot>
                             <tr>
@@ -99,10 +83,27 @@
                 "responsive": true,
             });
         });
-        var btnDelete = document.querySelectorAll(".fa-trash-can");
+        var btnDelete = document.querySelectorAll(".delete");
         btnDelete.forEach((item) => {
             item.addEventListener("click", function () {
-                let confrimDelete = window.confirm("آیا از حذف این اسلاید اطمینان دارید ؟");
+                console.log("click");
+                if (confirm("آیا از حذف این مورد اطمینان دارید ؟")) {
+                    $.ajax({
+                        url: '@Url.Action("DeleteGeneral","General")',
+                        type: 'GET',
+                        async:true,
+                        data: { Id: $(item).attr("data-Id") },
+                        success: function (data) {
+                            if (data) {
+                                alert("با موفقیت انجام شد");
+                                location.reload();
+                            }
+                            else {
+                                alert("خطا در سیستم ");
+                            }
+                        }
+                    })
+                }
             })
         });
 

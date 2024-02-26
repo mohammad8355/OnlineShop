@@ -14,5 +14,9 @@
   {
     "outputFile": "wwwroot/sass/_basketshop.css",
     "inputFile": "wwwroot/sass/_basketshop.scss"
+  },
+  {
+    "outputFile": "wwwroot/sass/blogpost.css",
+    "inputFile": "wwwroot/sass/blogpost.scss"
   }
 ]
