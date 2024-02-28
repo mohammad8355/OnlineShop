@@ -14,16 +14,29 @@ $lightSecondary:#BDBFC1;
 $verylightSecondary:#E6E7E9;
 $light:#F4F4F4;
 $white:#fff;
+@font-face {
+  font-family: "Vazir";
+  src: url("../Fonts/Vazir-Font/Vazir.ttf");
+  src: url("../Fonts/Vazir-Font/Vazir-Thin.ttf");
+  src: url("../Fonts/Vazir-Font/Vazir-Regular.ttf");
+  src: url("../Fonts/Vazir-Font/Vazir-Medium.ttf");
+  src: url("../Fonts/Vazir-Font/Vazir-Light.ttf");
+  src: url("../Fonts/Vazir-Font/Vazir-Bold.ttf");
+  src: url("../Fonts/Vazir-Font/Vazir-Black.ttf");
+}
 *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: "Vazir";
 }
-body{
+body,html{
+  overflow: auto;
+}
+body,html{
     position: relative;
     width: 100%;
-    min-height: 100vh;
+    min-height:100vh;
     background-color: $light;
 }
 /* ===== Scrollbar CSS ===== */

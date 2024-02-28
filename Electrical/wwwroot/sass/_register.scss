@@ -15,9 +15,9 @@
         .card-header {
             border: none;
             background-color: transparent;
-
+            @include flex(row);
             img {
-                width: 100%;
+                width:5em;
             }
         }
 

@@ -1,13 +1,14 @@
 ﻿@font-face {
   font-family: "Vazir";
-  src: url("../Fonts/Vazir-Font/Vazir.ttf");
-  src: url("../Fonts/Vazir-Font/Vazir-Thin.ttf");
-  src: url("../Fonts/Vazir-Font/Vazir-Regular.ttf");
-  src: url("../Fonts/Vazir-Font/Vazir-Medium.ttf");
-  src: url("../Fonts/Vazir-Font/Vazir-Light.ttf");
-  src: url("../Fonts/Vazir-Font/Vazir-Bold.ttf");
-  src: url("../Fonts/Vazir-Font/Vazir-Black.ttf");
+  src: url(Fonts/Vazir-Font/Vazir.ttf;
+  src: url(Fonts/Vazir-Font/Vazir-Thin.ttf;
+  src: url(Fonts/Vazir-Font/Vazir-Regular.ttf;
+  src: url(Fonts/Vazir-Font/Vazir-Medium.ttf;
+  src: url(Fonts/Vazir-Font/Vazir-Light.ttf;
+  src: url(Fonts/Vazir-Font/Vazir-Bold.ttf;
+  src: url(Fonts/Vazir-Font/Vazir-Black.ttf;
 }
+
 * {
   margin: 0;
   padding: 0;
@@ -52,43 +53,50 @@ header {
   width: 100%;
   background-color: #fff;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-  padding: 0.1em;
+  padding: .1em;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   gap: 0;
 }
+
 header div.container {
-  padding: 0.5em 0 0.5em 0;
+  padding: .5em 0 .5em 0;
 }
+
 header div.container div.logo img {
   width: 80%;
 }
+
 header div.container div.search-box {
-  padding: 0.5em;
+  padding: .5em;
 }
+
 header div.container div.search-box form {
   width: 100%;
   background-color: rgba(0, 0, 0, 0.1);
   border-radius: 2em;
-  padding: 0.1em 0.5em 0.1em 0.5em;
+  padding: .1em .5em .1em .5em;
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-direction: _;
   gap: 0;
 }
+
 header div.container div.search-box form i {
   color: #009BD6;
   font-size: 1.5em;
 }
+
 header div.container div.search-box form input {
   border: none;
   outline: none;
   background-color: rgba(0, 0, 0, 0);
-  padding: 0.5em 0.2em 0.5em 0.2em;
+  padding: .5em .2em .5em .2em;
 }
+
 header div.container div.left-side .login-part {
   width: 10em;
   display: flex;
@@ -97,40 +105,47 @@ header div.container div.left-side .login-part {
   flex-direction: row;
   gap: 0;
 }
+
 header div.container div.left-side .login-part .login {
   width: 2em;
   height: 2em;
   background-color: #00719C;
   border-radius: 50%;
   color: #F4F4F4;
-  margin: 0.5em;
-  padding: 0.1em 0.3em 0.1em 0.3em;
+  margin: .5em;
+  padding: .1em .3em .1em .3em;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: row;
   gap: 0;
-  column-gap: 0.3em;
+  column-gap: .3em;
 }
+
 header div.container div.left-side .login-part .login a {
   font-size: 1.2em;
   color: #F4F4F4;
-  padding: 0.5em;
+  padding: .5em;
 }
+
 header div.container div.left-side .login-part div span {
   color: #2F2E2E;
 }
+
 header div.container div.left-side .login-part div .dropdownList {
-  top: 0.5em;
+  top: .5em;
 }
+
 header div.container div.left-side .login-part div .dropdownList li a {
   text-decoration: none;
   color: #2F2E2E;
-  padding: 0.5em;
+  padding: .5em;
 }
+
 header div.container div.left-side .login-part div .dropdownList li a:hover {
   color: #fff;
 }
+
 header div.container div.left-side .login-part div .dropdownList li button {
   width: 100%;
   border: none;
@@ -138,16 +153,20 @@ header div.container div.left-side .login-part div .dropdownList li button {
   color: #2F2E2E;
   background-color: transparent;
 }
+
 header div.container div.left-side .login-part div .dropdownList li button:hover {
   color: #fff;
 }
+
 header div.container div.left-side div.shop {
-  margin: 0.5em;
+  margin: .5em;
 }
+
 header div.container div.left-side div.shop i {
   font-size: 2em;
   color: #00719C;
 }
+
 header nav ul {
   width: 100%;
   height: 3em;
@@ -155,17 +174,20 @@ header nav ul {
   padding: 0;
   margin: 0;
 }
+
 header nav ul li {
   display: inline-block;
   padding: 1em;
 }
+
 header nav ul li a {
   text-decoration: none;
   color: #6B6B6C;
 }
+
 header nav ul li span {
   color: #00B8FF;
-  padding: 0.2em;
+  padding: .2em;
 }
 
 div.footer-menu {
@@ -176,6 +198,7 @@ div.footer-menu {
   position: relative;
   display: inline-block;
 }
+
 .dropdown .dropdownList {
   display: none;
   position: absolute;
@@ -183,37 +206,43 @@ div.footer-menu {
   min-width: 160px;
   height: auto;
   background-color: #E6E7E9;
-  border-radius: 0.4em;
+  border-radius: .4em;
   padding: 0;
   margin: 1em;
   overflow: hidden;
   z-index: 100;
 }
+
 .dropdown .dropdownList li {
   width: 100%;
 }
+
 .dropdown .dropdownList li a {
   display: block;
   width: 100%;
-  padding: 0.2em;
+  padding: .2em;
 }
+
 .dropdown .dropdownList li:hover {
   background-color: #009BD6;
 }
+
 .dropdown .dropdownList li:hover a {
   color: #F4F4F4;
 }
+
 .dropdown .megamenu-container {
   min-width: 600px;
   display: none;
   position: absolute;
   background-color: #E6E7E9;
-  border-radius: 0.4em;
+  border-radius: .4em;
   padding: 1em;
   margin: 1em;
   overflow: hidden;
   z-index: 10;
 }
+
 .dropdown .megamenu-container li {
   width: 100%;
   height: 3.5em;
@@ -225,6 +254,7 @@ div.footer-menu {
   flex-direction: row;
   gap: 0;
 }
+
 .dropdown .megamenu-container li ul.menu-wrapper {
   display: none;
   position: absolute;
@@ -235,6 +265,7 @@ div.footer-menu {
   padding: 0;
   background-color: #009BD6;
 }
+
 .dropdown .megamenu-container li ul.menu-wrapper li {
   text-align: center;
   height: 100%;
@@ -244,24 +275,30 @@ div.footer-menu {
   flex-direction: column;
   gap: 0;
 }
+
 .dropdown .megamenu-container li ul.menu-wrapper li ul li {
-  padding: 0.5em 0 0.5em 0;
+  padding: .5em 0 .5em 0;
 }
+
 .dropdown .megamenu-container li ul.menu-wrapper li ul li a {
   color: #E6E7E9;
 }
+
 .dropdown .megamenu-container li ul.menu-wrapper li ul li:hover a {
   color: #F4F4F4;
 }
+
 .dropdown .megamenu-container li ul.menu-wrapper li a {
   color: #2F2E2E;
   text-align: center;
 }
+
 .dropdown .megamenu-container li a {
   text-align: center;
-  padding-right: 0.5em;
+  padding-right: .5em;
   vertical-align: middle;
 }
+
 .dropdown .megamenu-container li.select ul.menu-wrapper {
   display: flex;
   justify-content: center;
@@ -269,9 +306,11 @@ div.footer-menu {
   flex-direction: row;
   gap: 0;
 }
+
 .dropdown .megamenu-container li:hover {
   background-color: #009BD6;
 }
+
 .dropdown .megamenu-container li:hover a {
   color: #F4F4F4;
 }
@@ -283,6 +322,7 @@ div.footer-menu {
   flex-direction: column;
   gap: 0;
 }
+
 .dropdown.active .megamenu-container {
   display: flex;
   justify-content: center;
@@ -290,6 +330,7 @@ div.footer-menu {
   flex-direction: column;
   gap: 0;
 }
+
 .dropdown.active .megamenu-container ul {
   display: flex;
   justify-content: flex-end;
@@ -350,7 +391,7 @@ div.footer-menu {
     gap: 0;
   }
   div.footer-menu ul li {
-    min-width: 20%;
+    min-width: calc(100% / 5);
     display: flex;
     justify-content: center;
     align-items: center;

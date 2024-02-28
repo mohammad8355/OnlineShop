@@ -1,0 +1,32 @@
+@import "_general.scss";
+@import "_utility.scss";
+.ticket-info {
+    .ticket-info-item {
+        color: $darkPrimary;
+        font-weight: 400;
+    }
+}
+
+.comment-admin {
+    background-color: $verylightSecondary;
+}
+
+.comment-send {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10;
+}
+input,textarea{
+    background-color: $verylightSecondary;
+    border-radius: .5em;
+    padding: .5em 1em .5em 1em;
+    border: none;
+    outline: none;
+    color: $dark;
+
+}
+.ck-editor{
+    width:100% !important;
+}

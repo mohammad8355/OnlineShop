@@ -1,11 +1,26 @@
-﻿* {
+﻿@font-face {
+  font-family: "Vazir";
+  src: url(Fonts/Vazir-Font/Vazir.ttf;
+  src: url(Fonts/Vazir-Font/Vazir-Thin.ttf;
+  src: url(Fonts/Vazir-Font/Vazir-Regular.ttf;
+  src: url(Fonts/Vazir-Font/Vazir-Medium.ttf;
+  src: url(Fonts/Vazir-Font/Vazir-Light.ttf;
+  src: url(Fonts/Vazir-Font/Vazir-Bold.ttf;
+  src: url(Fonts/Vazir-Font/Vazir-Black.ttf;
+}
+
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: "Vazir";
 }
 
-body {
+body, html {
+  overflow: auto;
+}
+
+body, html {
   position: relative;
   width: 100%;
   min-height: 100vh;
@@ -91,6 +106,17 @@ body {
   transform: rotate(180deg);
 }
 
+@font-face {
+  font-family: "Vazir";
+  src: url(Fonts/Vazir-Font/Vazir.ttf;
+  src: url(Fonts/Vazir-Font/Vazir-Thin.ttf;
+  src: url(Fonts/Vazir-Font/Vazir-Regular.ttf;
+  src: url(Fonts/Vazir-Font/Vazir-Medium.ttf;
+  src: url(Fonts/Vazir-Font/Vazir-Light.ttf;
+  src: url(Fonts/Vazir-Font/Vazir-Bold.ttf;
+  src: url(Fonts/Vazir-Font/Vazir-Black.ttf;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -98,7 +124,11 @@ body {
   font-family: "Vazir";
 }
 
-body {
+body, html {
+  overflow: auto;
+}
+
+body, html {
   position: relative;
   width: 100%;
   min-height: 100vh;
@@ -485,6 +515,17 @@ div.footer-menu {
   }
 }
 
+@font-face {
+  font-family: "Vazir";
+  src: url(Fonts/Vazir-Font/Vazir.ttf;
+  src: url(Fonts/Vazir-Font/Vazir-Thin.ttf;
+  src: url(Fonts/Vazir-Font/Vazir-Regular.ttf;
+  src: url(Fonts/Vazir-Font/Vazir-Medium.ttf;
+  src: url(Fonts/Vazir-Font/Vazir-Light.ttf;
+  src: url(Fonts/Vazir-Font/Vazir-Bold.ttf;
+  src: url(Fonts/Vazir-Font/Vazir-Black.ttf;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -492,7 +533,11 @@ div.footer-menu {
   font-family: "Vazir";
 }
 
-body {
+body, html {
+  overflow: auto;
+}
+
+body, html {
   position: relative;
   width: 100%;
   min-height: 100vh;
@@ -690,6 +735,17 @@ section.scrollcontainer.seggustion .Product-container .card-footer i.fa-star {
   transform: rotate(180deg);
 }
 
+@font-face {
+  font-family: "Vazir";
+  src: url(Fonts/Vazir-Font/Vazir.ttf;
+  src: url(Fonts/Vazir-Font/Vazir-Thin.ttf;
+  src: url(Fonts/Vazir-Font/Vazir-Regular.ttf;
+  src: url(Fonts/Vazir-Font/Vazir-Medium.ttf;
+  src: url(Fonts/Vazir-Font/Vazir-Light.ttf;
+  src: url(Fonts/Vazir-Font/Vazir-Bold.ttf;
+  src: url(Fonts/Vazir-Font/Vazir-Black.ttf;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -697,7 +753,11 @@ section.scrollcontainer.seggustion .Product-container .card-footer i.fa-star {
   font-family: "Vazir";
 }
 
-body {
+body, html {
+  overflow: auto;
+}
+
+body, html {
   position: relative;
   width: 100%;
   min-height: 100vh;
@@ -746,10 +806,15 @@ body {
 .accountBox .card .card-header {
   border: none;
   background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  gap: 0;
 }
 
 .accountBox .card .card-header img {
-  width: 100%;
+  width: 5em;
 }
 
 .accountBox .card .card-body form {
@@ -809,6 +874,17 @@ section.banner img {
   box-shadow: 0 0 10px #4B4C4E;
 }
 
+@font-face {
+  font-family: "Vazir";
+  src: url(Fonts/Vazir-Font/Vazir.ttf;
+  src: url(Fonts/Vazir-Font/Vazir-Thin.ttf;
+  src: url(Fonts/Vazir-Font/Vazir-Regular.ttf;
+  src: url(Fonts/Vazir-Font/Vazir-Medium.ttf;
+  src: url(Fonts/Vazir-Font/Vazir-Light.ttf;
+  src: url(Fonts/Vazir-Font/Vazir-Bold.ttf;
+  src: url(Fonts/Vazir-Font/Vazir-Black.ttf;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -816,7 +892,11 @@ section.banner img {
   font-family: "Vazir";
 }
 
-body {
+body, html {
+  overflow: auto;
+}
+
+body, html {
   position: relative;
   width: 100%;
   min-height: 100vh;
@@ -1139,39 +1219,39 @@ section.scrollSection .slick-next {
   right: unset;
 }
 
-section.scrollComment .card {
-  border-radius: .5em;
+.card.comnent-card {
+  border-radius: .2em;
   margin: 1em !important;
 }
 
-section.scrollComment .card .header {
+.card.comnent-card .header {
   position: relative;
   width: 100%;
   padding: 1em;
 }
 
-section.scrollComment .card .header span {
+.card.comnent-card .header span {
   position: absolute;
   right: .5em;
 }
 
-section.scrollComment .card .card-title {
+.card.comnent-card .card-title {
   font-size: 1em 0 1em 0;
   text-align: right !important;
 }
 
-section.scrollComment .card p {
+.card.comnent-card p {
   width: 100%;
   text-align: right !important;
   font-size: .8em;
 }
 
-section.scrollComment .card .footer {
+.card.comnent-card .footer {
   position: relative;
   width: 100%;
 }
 
-section.scrollComment .card .footer span {
+.card.comnent-card .footer span {
   position: absolute;
   left: .5em;
   bottom: .5em;

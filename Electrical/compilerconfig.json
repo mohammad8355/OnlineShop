@@ -12,11 +12,19 @@
     "inputFile": "wwwroot/sass/userPanel.scss"
   },
   {
-    "outputFile": "wwwroot/sass/_basketshop.css",
+    "outputFile": "wwwroot/css/_basketshop.css",
     "inputFile": "wwwroot/sass/_basketshop.scss"
   },
   {
-    "outputFile": "wwwroot/sass/blogpost.css",
+    "outputFile": "wwwroot/css/blogpost.css",
     "inputFile": "wwwroot/sass/blogpost.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/_ticket.css",
+    "inputFile": "wwwroot/sass/_ticket.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/megaMenu.css",
+    "inputFile": "wwwroot/sass/megaMenu.scss"
   }
 ]

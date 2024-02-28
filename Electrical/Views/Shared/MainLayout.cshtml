@@ -8,10 +8,11 @@
           crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-          <link rel="stylesheet" href="~/css/main.css" />
-          <link rel="stylesheet" href="~/css/menu.css" />
+    <link rel="stylesheet" href="~/css/main.css" />
+    <link rel="stylesheet" href="~/css/menu.css" />
+    <link rel="stylesheet" href="~/css/megaMenu.css" />
     <link href="https://v1.fontapi.ir/css/Vazir" rel="stylesheet">
-          @RenderSection("InLineCss",false)
+    @RenderSection("InLineCss",false)
     <title>@ViewBag.Title</title>
 </head>
 <body>
@@ -38,157 +39,8 @@
         <nav class="nav navbar col-12">
             <ul class="col-12">
                 <li class="special"><a href="#">خانه</a></li>
-                <li class="special dropdown">
+                <li class="special" id="category">
                     <a href="#">دسته&zwnj;بندی&zwnj;</a>
-                    <div class="megamenu-container">
-                        <ul>
-                            <li class="category select">
-                                <a href="#">کامپیوتر</a>
-                                <ul class="menu-wrapper">
-                                    <li>
-                                        <a href="#">تجهیزات&zwnj;جانبی&zwnj;</a>
-                                        <ul>
-                                            <li>
-                                                <a href="#">مانتیور&zwnj;و&zwnj;صفحه&zwnj;نمایش</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">بلندگو&zwnj;و&zwnj;اسپیکر&zwnj;</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">موس&zwnj;و&zwnj;کیبورد&zwnj;</a>
-                                            </li>
-
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a href="#">قطعات&zwnj;داخلی&zwnj;</a>
-                                        <ul>
-                                            <li>
-                                                <a href="#">cpu</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">ram</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">power</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a href="#">قطعات&zwnj;خارجی&zwnj;</a>
-                                        <ul>
-                                            <li>
-                                                <a href="#">cpu</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">ram</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">power</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a href="#">لپتاپ</a>
-                                        <ul>
-                                            <li>
-                                                <a href="#">نوت بوک</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">مینی لپتاپ</a>
-                                            </li>
-
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a href="#">کیس&zwnj;اسمبل&zwnj;شده</a>
-                                        <ul>
-                                            <li>
-                                                <a href="#">کیس بازی</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">کیس اقتصادی</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">کیس جرفه ای</a>
-                                            </li>
-
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="category">
-                                <a href="#">موبایل</a>
-                                <ul class="menu-wrapper">
-                                    <li>
-                                        <a href="#">تجهیزات&zwnj;جانبی&zwnj;</a>
-                                        <ul>
-                                            <li>
-                                                <a href="#">قاب&zwnj;گوشی&zwnj;</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">هندزفری&zwnj;و&zwnj;هدفون&zwnj;</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">usb&zwnj;و&zwnj;شارژر&zwnj;</a>
-                                            </li>
-
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a href="#">قطعات&zwnj;داخلی&zwnj;</a>
-                                        <ul>
-                                            <li>
-                                                <a href="#">سی&zwnj;ال&zwnj;دی</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">دوربین&zwnj;و&zwnj;لنز&zwnj;</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">باتری</a>
-                                            </li>
-
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a href="#">موبایل</a>
-                                        <ul>
-                                            <li>
-                                                <a href="#">پرچم&zwnj;دار&zwnj;</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">متوسط</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">اقتصادی</a>
-                                            </li>
-
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="category">
-                                <a href="#">تجهیزات شبکه</a>
-                                <ul class="menu-wrapper">
-                                    <li>
-                                        <a href="#">روتر</a>
-                                        <ul>
-                                            <li>
-                                                <a href="#">مودم</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">مودم</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">مودم</a>
-                                            </li>
-
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
                 </li>
                 <li class="special"><a href="#">پشتیبانی</a></li>
                 <li><span><i class="fa-solid fa-newspaper"></i></span><a href="#">مجله</a></li>
@@ -203,6 +55,7 @@
 
             </ul>
         </nav>
+        @await Component.InvokeAsync("CategoryMegaMenu")
     </header>
     <div>
         @RenderBody()
@@ -210,7 +63,7 @@
     <div class="footer-menu">
         <ul>
             <li><span><i class="fa-solid fa-house"></i></span><a href="#">خانه</a></li>
-            <li><span><i class="fa-solid fa-layer-group"></i></span><a href="#">دسته&zwnj;بندی&zwnj;</a></li>
+            <li id="Category"><span><i class="fa-solid fa-layer-group"></i></span><a href="#">دسته&zwnj;بندی&zwnj;</a></li>
             <li><span><i class="fa-solid fa-bag-shopping"></i></span><a href="#">سبد خرید</a></li>
             <li><span><i class="fa-solid fa-headset"></i></span><a href="#">پشتیبانی</a></li>
             <li><span><i class="fa-solid fa-user"></i></span><a href="#">اکانت</a></li>
@@ -290,24 +143,90 @@
     </footer>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
             integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-   <script src="https://cdn.jsdelivr.net/npm/@@popperjs/core@@2.11.6/dist/umd/popper.min.js"
+    <script src="https://cdn.jsdelivr.net/npm/@@popperjs/core@@2.11.6/dist/umd/popper.min.js"
             integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
             crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@@5.2.3/dist/js/bootstrap.min.js"
             integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
             crossorigin="anonymous"></script>
-    <script src="../js/jquery-2.1.1.js"></script>
+    <script src="~/js/jquery-2.1.1.js"></script>
     <script src="~/js/function.js"></script>
     @RenderSection("ScriptRefrence",false)
+    <script>
+
+        function desktopMegaMenuScript() {
+            $(".category-list ul").slideDown();
+            $(window).mouseover(function (e) {
+                if (!$(e.target).closest("#megamenu").length) {
+                    $("#megamenu").fadeOut();
+                    console.log(Breakpointcheker(767, true));
+                }
+
+            })
+            $("#category").mouseover(function (e) {
+                e.stopPropagation();
+                $("#megamenu").fadeIn();
+            })
+            $("#megamenu").mouseover(function (e) {
+                e.stopPropagation();
+            })
+            $(".tab-Index").mouseover(function () {
+                if ($(".tab-Index").hasClass("active")) {
+                    $(".tab-Index").removeClass("active");
+                }
+                $(this).toggleClass("active");
+                var id = $(".tab-Index.active").attr("data-index");
+                $(".tab-container-Item").removeClass("active");
+                $(".tab-container-Item[data-index='" + id + "']").addClass("active");
+            })
+        }
+        function mobileMegamenuScript() {
+            $(".category-list ul").slideUp();
+            $("#Category").click(function (e) {
+                $("#megamenu").fadeToggle();
+            })
+            $(".tab-Index").click(function () {
+                if ($(".tab-Index").hasClass("active")) {
+                    $(".tab-Index").removeClass("active");
+                }
+                $(this).toggleClass("active");
+                var id = $(".tab-Index.active").attr("data-index");
+                $(".tab-container-Item").removeClass("active");
+                $(".tab-container-Item[data-index='" + id + "']").addClass("active");
+            })
+            $(".category-list h6").click(function () {
+                $(this).next("ul").slideToggle();
+            })
+        }
+        $("#megamenu").fadeOut(0);
+
+        if (Breakpointcheker(768,false)) {
+            desktopMegaMenuScript();
+        }
+
+        else {
+            mobileMegamenuScript();
+      
+        }
+
+
+        $(window).resize(function () {
+            if (Breakpointcheker(767, true)) {
+                mobileMegamenuScript();
+            }
+            else {
+                desktopMegaMenuScript();
+            }
+        })
+
+    </script>
     <script>
         var dropdownLi = document.querySelectorAll(".dropdown");
         dropdownLi.forEach((item) => {
             item.addEventListener("mouseover", function () {
-                // item.querySelector(".dropdownList").classList.toggle("active");
                 item.classList.add("active");
             })
             item.addEventListener("mouseout", function () {
-                // item.querySelector(".dropdownList").classList.toggle("active");
                 item.classList.remove("active");
                 var isSelect = false;
                 document.querySelectorAll(".category").forEach((item) => {
@@ -316,19 +235,6 @@
                     }
                 });
                 document.querySelectorAll(".category")[0].classList.add("select");
-            })
-        })
-        var megamenu = document.querySelector(".megamenu-container");
-        var megamenu_ItemCount = megamenu.querySelector("ul").childElementCount;
-        megamenu.querySelector("ul").style.height = (56 * megamenu_ItemCount) + "px";
-        // megamenu.querySelector("ul").style.width = (160 * (Max_menuwrapper_childCount + 1)) + "px";
-
-        document.querySelectorAll(".category").forEach((item) => {
-            item.addEventListener("mouseover", function () {
-                item.classList.add("select");
-            })
-            item.addEventListener("mouseout", function () {
-                item.classList.remove("select");
             })
         })
     </script>

@@ -82,3 +82,22 @@ function ZoomBoxImageView(Wrapper, prevBtn, nextBtn, slide) {
         }
     })
 }
+function Breakpointcheker(breakpointSize, max = true) {
+    const Viewport = window.innerWidth;
+    if (max) {
+        if (Viewport <= breakpointSize) {
+            return true;
+        }
+        else {
+            false;
+        }
+    }
+    else {
+        if (Viewport >= breakpointSize) {
+            return true;
+        }
+        else {
+            false;
+        }
+    }
+}

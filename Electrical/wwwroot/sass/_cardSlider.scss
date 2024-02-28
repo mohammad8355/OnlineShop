@@ -50,37 +50,38 @@ section.scrollSection{
       }
 }
 section.scrollComment{
-    .card{
-        border-radius: .5em;
-        margin:1em !important;
-        .header{
-            position: relative;
-            width: 100%;
-            padding: 1em;
-            span{
-                position: absolute;
-                right: .5em;
-            }
-        }
-     .card-title{
-        font-size:1em 0 1em 0;
-        text-align: right !important;
 
-     }
-     p{
-        width: 100%;
-        text-align: right !important;
-         font-size: .8em;
-     }
-     .footer{
-        position: relative;
-        width:100%;
-        span{
-            position: absolute;
-            left: .5em;
-            bottom:.5em;
-        }
-     }
-    }
 
+}
+.card.comnent-card{
+  border-radius: .2em;
+  margin:1em !important;
+  .header{
+      position: relative;
+      width: 100%;
+      padding: 1em;
+      span{
+          position: absolute;
+          right: .5em;
+      }
+  }
+.card-title{
+  font-size:1em 0 1em 0;
+  text-align: right !important;
+
+}
+p{
+  width: 100%;
+  text-align: right !important;
+   font-size: .8em;
+}
+.footer{
+  position: relative;
+  width:100%;
+  span{
+      position: absolute;
+      left: .5em;
+      bottom:.5em;
+  }
+}
 }

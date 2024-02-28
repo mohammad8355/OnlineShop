@@ -82,5 +82,14 @@ namespace BusinessLogicLayer.CategoryService
         {
             return CategoryRepository.Get(c => c.Id == Id,v => v.keyToSubCategories ,o => o.ChildCategories).Result.FirstOrDefault();
         }
+        public List<Category> CategoryParent()
+        {
+            return CategoryList().Where(c => c.ParentId == null
+            && c.ParentCategory == null).ToList();
+        }
+        public List<Category> CategoryChildren(int parent_Id)
+        {
+            return CategoryList().Where(c => c.ParentId == parent_Id).ToList();
+        }
     }
 }
