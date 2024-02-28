@@ -1,5 +1,6 @@
 ﻿using BusinessLogicLayer.CommentService;
 using DataAccessLayer.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using PresentationLayer.Models.ViewModels;
@@ -8,6 +9,7 @@ using System.Collections.Generic;
 namespace PresentationLayer.Areas.dashboard.Controllers
 {
     [Area("dashboard")]
+    [Authorize(Roles = "Admin")]
     public class CommentController : Controller
     {
         private readonly CommentLogic commentLogic;

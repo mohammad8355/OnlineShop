@@ -169,18 +169,5 @@
             $(".tab-container").removeClass("active");
             $(".tab-container[data-id='" + id + "']").addClass("active");
         })
-        function toggleMenu() {
-            $("nav").animate({ width: 'toggle' });
-        };
-        $(".toggle").click(function () {
-            $("body").addClass("active");
-            $("nav").addClass("open");
-            toggleMenu();
-        })
-        $("nav i").click(function () {
-            toggleMenu();
-            $("body").removeClass("active");
-            // $("nav").removeClass("open");
-        })
     </script>
 }

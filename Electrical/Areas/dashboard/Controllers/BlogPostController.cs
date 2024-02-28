@@ -5,10 +5,12 @@ using BusinessLogicLayer.TagToBlogPostService;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using PresentationLayer.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PresentationLayer.Areas.dashboard.Controllers
 {
     [Area("dashboard")]
+    [Authorize(Roles = "Admin,writer")]
     public class BlogPostController : Controller
     {
         private readonly BlogPostLogic blogPostLogic;

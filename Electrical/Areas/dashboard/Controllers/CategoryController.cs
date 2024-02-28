@@ -6,10 +6,13 @@ using DataAccessLayer.Models;
 using Microsoft.CodeAnalysis;
 using PresentationLayer.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace PresentationLayer.Areas.dashboard.Controllers
 {
     [Area("dashboard")]
+    [Authorize(Roles = "Admin")]
     public class CategoryController : Controller
     {
         private readonly CategoryLogic categoryLogic;

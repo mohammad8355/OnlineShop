@@ -1,0 +1,89 @@
+﻿@{
+    ViewData["ActiveLink"] = "ticketDetail";
+    Layout = "UserPanelLayout";
+}
+@using DataAccessLayer.Models;
+@model List<Ticket>
+<div class="ticket-info">
+    <div class="row">
+        <a asp-action="AddTicket" asp-controller="Ticket" class="btn btn-outline-primary col-lg-2 col-md-4 col-6">افزودن تیکت</a>
+    </div>
+    <div class="row bg-light p-2 shadow-sm m-1">
+        <div class="col-lg-3 col-md-6 d-flex flex-column align-items-center">
+            <span class="ticket-info-item"><i class="fa-solid fa-ticket"></i> <span>تعداد&zwnj;تیکت&zwnj;ها</span></span>
+            <span class="ticket-info-item text-secondary">@Model.Count()</span>
+        </div>
+        <div class="col-lg-3 col-md-6 d-flex flex-column align-items-center">
+            <span class="ticket-info-item"><i class="fa-solid fa-check"></i> <span>تیکت&zwnj;های&zwnj;پاسخ&zwnj;داده&zwnj;شده</span></span>
+            <span class="ticket-info-item text-secondary">
+                @Model.Where(t => t.Status == "responed").Count()
+            </span>
+        </div>
+        <div class="col-lg-3 col-md-6 d-flex flex-column align-items-center">
+            <span class="ticket-info-item"><i class="fa-regular fa-clock"></i> <span>تیکت&zwnj;های&zwnj;درانتظار&zwnj;پاسخ&zwnj;</span></span>
+            <span class="ticket-info-item text-secondary">
+                @Model.Where(t => t.Status == "open").Count()
+            </span>
+        </div>
+        <div class="col-lg-3 col-md-6 d-flex flex-column align-items-center">
+            <span class="ticket-info-item"><i class="fa-solid fa-close"></i> <span>تیکت&zwnj;های&zwnj;بسته</span></span>
+            <span class="ticket-info-item text-secondary">
+                @Model.Where(t => t.Status == "close").Count()
+            </span>
+        </div>
+    </div>
+    <div class="ticket-container">
+        @foreach (var ticket in Model)
+        {
+            <div class="ticket col-12 p-2 my-1  bg-light shadow-sm">
+                <div class=" text-secondary d-flex flex-row justify-content-between">
+                    <h6>@ticket.User.FullName</h6>
+                    <h6>@ticket.LastUpdate.Date</h6>
+                </div>
+                <div class="row">
+                    <h5 class="text-dark">@ticket.Title</h5>
+                    <p>
+                        @if (ticket.Description.Length > 230)
+                        {
+                            ticket.Description.Substring(0, 230); 
+                        }
+                        ...
+                    </p>
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                    @switch (ticket.Status)
+                    {
+                        case "open":
+                            {
+                                <span class="badge bg-warning">درانتظار پاسخ</span>
+                                break;
+                            };
+                        case "responed":
+                            {
+                                <span class="badge bg-success">پاسخ داده شده</span>
+                                @if (ticket.commnets != null)
+                                {
+                                    <span class="badge bg-dark">پاسخ @ticket.commnets.Count()</span>
+                                }
+                                break;
+                            };
+                        case "close":
+                            {
+                                <span class="badge bg-danger">بسته</span>
+                                @if(ticket.commnets != null)
+                                {
+                                    <span class="badge bg-dark">پاسخ @ticket.commnets.Count()</span>
+                                }
+                                break;
+                            }
+                    }
+                    <span class="badge bg-warning">درانتظار پاسخ</span>
+                    <a class="btn btn-primary p-1" asp-action="TicketDetail" asp-controller="Ticket" asp-route-Id="@ticket.Id">جزییات</a>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+@section InlineCss{
+    <link rel="stylesheet" href="~/css/ticket.css" />
+}

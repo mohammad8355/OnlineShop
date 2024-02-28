@@ -57,9 +57,20 @@ namespace BusinessLogicLayer.CommentService
         }
         public List<Commnet> CommentList()
         {
-            var comment = CommentRepository.Get(null, c => c.User ).Result.ToList();
+            var comment = CommentRepository.Get(null, c => c.User,c => c.Product).Result.ToList();
             return comment;
         }
-
+        public List<Commnet> CommentsOfProduct(int Product_Id)
+        {
+            var comments = CommentList();
+            var commentsOfProduct = comments.Where(c => c.Product_Id == Product_Id).ToList();
+            return commentsOfProduct;
+        }
+        public List<Commnet> CommentsOfUser(string User_Id)
+        {
+            var comments = CommentList();
+            var commentsOfUser = comments.Where(c => c.User_Id == User_Id).ToList();
+            return commentsOfUser;
+        }
     }
 }

@@ -5,10 +5,12 @@ using PresentationLayer.Models.ViewModels;
 using BusinessLogicLayer.DiscountToProductService;
 using BusinessLogicLayer.ProductService;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PresentationLayer.Areas.dashboard.Controllers
 {
     [Area("Dashboard")]
+    [Authorize(Roles = "Admin")]
     public class DiscountController : Controller
     {
         private readonly DiscountLogic discountLogic;

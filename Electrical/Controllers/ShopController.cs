@@ -70,7 +70,11 @@ namespace PresentationLayer.Controllers
                 var result = orderLogic.EditOrder(Order);
                 if (result)
                 {
-                    return Json(new { message = "به سبد خرید اضافه شد" });
+                    product.QuantityInStock -= count;
+                    if(await productLogic.UpdateProduct(product))
+                    {
+                        return Json(new { message = "به سبد خرید اضافه شد" });
+                    }
                 }
                 return Json(new { message = "خطا" });
             }
@@ -96,7 +100,11 @@ namespace PresentationLayer.Controllers
                     var resultOrderDetail = orderDetailsLogic.EditOrderDetails(orderDetail);
                     if (resultOrderDetail)
                     {
-                        return Json(new { message = "به سبد خرید اضافه شد" });
+                        product.QuantityInStock -= count;
+                        if (await productLogic.UpdateProduct(product))
+                        {
+                            return Json(new { message = "به سبد خرید اضافه شد" });
+                        }
                     }
                 }
                 return Json(new { message = "خطا" });
@@ -113,10 +121,15 @@ namespace PresentationLayer.Controllers
                 var orderDetail = order.orderDetails.Where(o => o.Id == Id).FirstOrDefault();
                 if (orderDetail != null)
                 {
+                    var product = await productLogic.ProductDetail(orderDetail.Product_Id);
                     var result = await orderDetailsLogic.DeleteOrderDetails(Id);
                     if (result)
                     {
-                        return Json(new {message = "سفارش با موفقیت حذف شد", header = "موفقیت" , type = "success" });
+                        product.QuantityInStock += orderDetail.count;
+                        if(await productLogic.UpdateProduct(product))
+                        {
+                            return Json(new { message = "سفارش با موفقیت حذف شد", header = "موفقیت", type = "success" });
+                        }
                     }
                 }
                 return Json(new { message = "خطا ", header = "هشدار خطا" , type = "warning" });
@@ -125,9 +138,15 @@ namespace PresentationLayer.Controllers
             {
                 if (await orderDetailsLogic.DeleteOrderDetails(Id))
                 {
+                    var orderDetail = order.orderDetails.Where(o => o.Id == Id).FirstOrDefault();
+                    var product = await productLogic.ProductDetail(orderDetail.Product_Id);
                     if (await orderLogic.DeleteOrder(orderId))
                     {
-                        return Json(new { message = "سفارش با موفقیت حذف شد", header = "موفقیت" ,type = "success"});
+                        product.QuantityInStock += orderDetail.count;
+                        if (await productLogic.UpdateProduct(product))
+                        {
+                            return Json(new { message = "سفارش با موفقیت حذف شد", header = "موفقیت", type = "success" });
+                        }
                     }
                 }
                 return Json(new { message = "خطا ", header = "هشدار خطا", type = "warning" });
@@ -139,13 +158,17 @@ namespace PresentationLayer.Controllers
             var orderDetail = orderDetailsLogic.OrderDetailsDetail(Id);
             if(orderDetail != null)
             {
-                var price = orderDetail.Product.Price;
-                orderDetail.count += 1;
-                orderDetail.TotalPrice += price;
-                orderDetail.order.TotalCount += 1;
-                orderDetail.order.TotalPrice += price;
-                var result = orderDetailsLogic.EditOrderDetails(orderDetail);
-                return Json(new {res = result , price = price });
+                if(orderDetail.count < orderDetail.Product.QuantityInStock)
+                {
+                    var price = orderDetail.Product.Price;
+                    orderDetail.count += 1;
+                    orderDetail.TotalPrice += price;
+                    orderDetail.order.TotalCount += 1;
+                    orderDetail.order.TotalPrice += price;
+                    orderDetail.Product.QuantityInStock -= 1;   
+                    var result = orderDetailsLogic.EditOrderDetails(orderDetail);
+                    return Json(new { res = result, price = price });
+                }
             }
             return Json(new { res = false });
                 
@@ -156,13 +179,17 @@ namespace PresentationLayer.Controllers
             var orderDetail = orderDetailsLogic.OrderDetailsDetail(Id);
             if (orderDetail != null)
             {
-                var price = orderDetail.Product.Price;
-                orderDetail.count -= 1;
-                orderDetail.TotalPrice -= price;
-                orderDetail.order.TotalCount -= 1;
-                orderDetail.order.TotalPrice -= price;
-                var result = orderDetailsLogic.EditOrderDetails(orderDetail);
-                return Json(new { res = result, price = price });
+                if(orderDetail.count > 0)
+                {
+                    var price = orderDetail.Product.Price;
+                    orderDetail.count -= 1;
+                    orderDetail.TotalPrice -= price;
+                    orderDetail.order.TotalCount -= 1;
+                    orderDetail.order.TotalPrice -= price;
+                    orderDetail.Product.QuantityInStock += 1;
+                    var result = orderDetailsLogic.EditOrderDetails(orderDetail);
+                    return Json(new { res = result, price = price });
+                }
             }
             return Json(new { res = false });
 

@@ -2,11 +2,11 @@
 @{
     ViewData["Title"] = "صفحه اصلی";
 }
-@if(Model.Sliders != null)
+@if (Model.Sliders != null)
 {
     <section class="carousel-container">
         <div class="carousel-wrapper">
-            @foreach(var slide in Model.Sliders)
+            @foreach (var slide in Model.Sliders)
             {
                 <div class="carousel-slide 1" id="last-clone">
                     <img src="~/Image/slider/@(slide.ImageName)" alt="@slide.Name">
@@ -80,7 +80,7 @@
 <section class="seggustion scrollcontainer">
     <div class="Product-container">
         <h2 class="text-light"><span>جدیدترین محصولات</span><span><a href="#">مشاهده بیشتر</a></span></h2>
-        <div class="product-wrapper">
+        <div class="product-wrapper slider" dir="ltr">
             @if (Model != null)
             {
                 @if (Model.NewsetProduct.Count() > 0)
@@ -115,10 +115,10 @@
                                     <a href="#" class="shopbtn"><i class="fa-solid fa-cart-shopping"></i></a>
                                     <div class="d-flex flex-row-reverse">
                                         <i class="fa-solid fa-star"></i><span>4.5</span>
-                               @*         <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-regular fa-star"></i>
-                                        <i class="fa-regular fa-star"></i>*@
+                                        @*         <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>*@
                                     </div>
                                 </div>
                             </div>
@@ -145,7 +145,7 @@
         <section class="seggustion scrollcontainer">
             <div class="Product-container">
                 <h2 class="text-light"><span>محبوب ترین محصولات</span><span><a href="#">مشاهده بیشتر</a></span></h2>
-                <div class="product-wrapper">
+                <div class="product-wrapper slider" dir="ltr">
                     @foreach (var product in Model.PopularProduct)
                     {
                         <div class="product-card" style="min-width: 15rem;">
@@ -241,9 +241,9 @@
         <img src="../image/Capture.PNG" alt="laptop">
     </div>
 </section>
-@if(Model != null)
+@if (Model != null)
 {
-    @if(Model.Posts.Count() > 0)
+    @if (Model.Posts.Count() > 0)
     {
         <section class="scrollBlog scrollSection d-flex flex-column align-items-center" dir="ltr">
             <h2 class="col-10 text-dark d-flex flex-row-reverse justify-content-between">
@@ -261,7 +261,7 @@
                                 <img src="@post.CoverLink" class="card-img-top rounded-3" alt="c#">
                             </div>
                             <div class="card-body">
-                                <h5 class="card-title text-wrap" ><a asp-action="Post"  asp-route-Title="@post.Title" asp-controller="Blog" >@post.Title</a></h5>
+                                <h5 class="card-title text-wrap"><a asp-action="Post" asp-route-Title="@post.Title" asp-controller="Blog">@post.Title</a></h5>
                                 <span class="badge bg-info">@post.LastUpdates.Date</span>
                             </div>
                         </div>
@@ -277,8 +277,8 @@
 <section class="scrollComment scrollSection d-flex flex-column align-items-center" dir="ltr">
     <h3 class="text-center">نظرات</h3>
     <div class="container container-fluid p-2">
-        <div class="card-slider">
-            <div class="card rounded-4" style="width: 18rem;">
+        <div class="card-slider slider">
+            <div class="card  comnent-card " style="width: 18rem;">
                 <div class="header">
                     <span class="badge bg-primary">موس لاجیتکM90</span>
                 </div>
@@ -290,7 +290,7 @@
                     <span class="badge bg-secondary">1401/03/28</span>
                 </div>
             </div>
-            <div class="card rounded-4" style="width: 18rem;">
+            <div class="card comnent-card " style="width: 18rem;">
                 <div class="header">
                     <span class="badge bg-primary">موس لاجیتکM90</span>
                 </div>
@@ -302,7 +302,7 @@
                     <span class="badge bg-secondary">1401/03/28</span>
                 </div>
             </div>
-            <div class="card rounded-4" style="width: 18rem;">
+            <div class="card comnent-card " style="width: 18rem;">
                 <div class="header">
                     <span class="badge bg-primary">موس لاجیتکM90</span>
                 </div>
@@ -314,7 +314,7 @@
                     <span class="badge bg-secondary">1401/03/28</span>
                 </div>
             </div>
-            <div class="card rounded-4" style="width: 18rem;">
+            <div class="card comnent-card" style="width: 18rem;">
                 <div class="header">
                     <span class="badge bg-primary">موس لاجیتکM90</span>
                 </div>
@@ -326,13 +326,18 @@
                     <span class="badge bg-secondary">1401/03/28</span>
                 </div>
             </div>
-            <div class="card rounded-4" style="width: 18rem;">
+            <div class="card comnent-card" style="width: 18rem;">
                 <div class="header">
-                    <span class="badge bg-primary">موس لاجیتکM90</span>
+                    <span class="badge bg-primary">مانتیور سیاه سامسونگ</span>
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">سارا احمدی</h5>
-                    <p class="text-wrap">موس خیلی خوبی بود اما یه سری مشکلات داشت</p>
+                    <p class="text-wrap">
+                        موس خیلی خوبی بود اما یه سری مشکلات داشت
+                        موس خیلی خوبی بود اما یه سری مشکلات داشت
+                        موس خیلی خوبی بود اما یه سری مشکلات داشت
+                        موس خیلی خوبی بود اما یه سری مشکلات داشت
+                    </p>
                 </div>
                 <div class="footer">
                     <span class="badge bg-secondary">1401/03/28</span>
@@ -379,7 +384,7 @@
     <script>
 
         $(document).ready(function () {
-            $('.card-slider').slick({
+            $('.slider').slick({
                 slidesToShow: 4,
                 slidesToScroll: 1,
                 autoplay: true,
@@ -405,15 +410,11 @@
                     },
                 ]
             });
-        //    $('.carousel-wrapper').slick({
-        //         slidesToShow: 1,
-        //        slidesToScroll: 1,
-        //        autoplay: true,
-        //        autoplaySpeed: 2000,
-        //    })
-        //});
-                                                                        //    $(document).ready(function(){
-                                                                        //     createCircularCardSlider('.container-circle-card','.box','.prev-btn','.next-btn',2000);
-                                                                        //    })
+        });
+
+              
+                                                                                //    $(document).ready(function(){
+                                                                                //     createCircularCardSlider('.container-circle-card','.box','.prev-btn','.next-btn',2000);
+                                                                                //    })
     </script>
     }

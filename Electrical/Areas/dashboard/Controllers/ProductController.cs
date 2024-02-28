@@ -18,10 +18,12 @@ using Utility.ReturnMultipleData;
 using Utility.ProductCodeGenerator;
 using BusinessLogicLayer.BrandService;
 using Microsoft.CodeAnalysis;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PresentationLayer.Areas.dashboard.Controllers
 {
     [Area("dashboard")]
+    [Authorize(Roles = "Admin")]
     public class ProductController : Controller
     {
         private readonly ProductLogic productLogic;

@@ -59,7 +59,7 @@ namespace BusinessLogicLayer.TicketService
             {
 
                 var Ticket = TicketRepository.Get(c => c.Id == Id, c => c.commnets, h => h.User).Result.FirstOrDefault();
-                Ticket.commnets = commentRepository.Get(c => c.Ticket_Id == Ticket.Id).Result.ToList();
+                Ticket.commnets = commentRepository.Get(c => c.Ticket_Id == Ticket.Id,u => u.User).Result.ToList();
                 return Ticket;
             }
             else
@@ -76,7 +76,7 @@ namespace BusinessLogicLayer.TicketService
            var ticket = TicketRepository.Get(null,g => g.commnets, g => g.User).Result.ToList();
                 foreach(var tic in ticket)
                 {
-                    comment.AddRange(commentRepository.Get(c => c.Ticket_Id == tic.Id).Result.ToList());
+                    comment.AddRange(commentRepository.Get(c => c.Ticket_Id == tic.Id,u => u.User).Result.ToList());
                     tic.commnets = comment;
                 }
                 return ticket;
@@ -86,6 +86,11 @@ namespace BusinessLogicLayer.TicketService
                 var ticket = TicketRepository.Get(null, g => g.User).Result.ToList();
                 return ticket;
             }
+        }
+        public List<Ticket> TicketListOfUser(string User_Id)
+        {
+            var tickets = TicketList().Where(t => t.User_Id == User_Id).ToList();
+            return tickets;
         }
     }
 }

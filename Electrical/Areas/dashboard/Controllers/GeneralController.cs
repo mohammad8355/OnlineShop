@@ -1,6 +1,7 @@
 ﻿using BusinessLogicLayer.GeneralService;
 using DataAccessLayer.Models;
 using Infrustructure.uploadfile;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PresentationLayer.Models.ViewModels;
 using System.Diagnostics;
@@ -8,6 +9,7 @@ using System.Diagnostics;
 namespace PresentationLayer.Areas.dashboard.Controllers
 {
     [Area("Dashboard")]
+    [Authorize(Roles = "Admin")]
     public class GeneralController : Controller
     {
         private readonly GeneralLogic generalLogic;

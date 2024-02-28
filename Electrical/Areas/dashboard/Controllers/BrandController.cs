@@ -1,12 +1,15 @@
 ﻿using BusinessLogicLayer.BrandService;
 using DataAccessLayer.Models;
 using Infrustructure.uploadfile;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PresentationLayer.Models.ViewModels;
+using System.Data;
 
 namespace PresentationLayer.Areas.dashboard.Controllers
 {
     [Area("dashboard")]
+    [Authorize(Roles = "Admin")]
     public class BrandController : Controller
     {
         private readonly BrandLogic brandLogic;

@@ -16,6 +16,16 @@
     <div class="dropdown">
         <span> سلام @UserManager.GetUserName(User)!</span>
         <ul class="dropdownList">
+            @{
+            
+                var user = await UserManager.FindByNameAsync(User.Identity.Name);
+                var role = await UserManager.GetRolesAsync(user);
+                @if (User.IsInRole("Admin") || User.IsInRole("admin"))
+                {
+                    <li><a id="manage" asp-area="dashboard" asp-action="Index" asp-controller="Dashboard" title="Manage">پنل مدیریت</a></li>
+
+                }
+            }
             <li><a id="manage" asp-area="" asp-action="Index" asp-controller="UserPanel"  title="Manage" >پنل کاربری</a></li>
             <li>
                 <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">

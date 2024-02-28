@@ -3,40 +3,64 @@
 @{
     ViewData["Title"] = "Register";
 }
-
-<div class="row">
+<section class="container accountBox">
+    <div class="card col-4">
+        <div class="card-header">
+            <img src="~/Image/static/salehItLogo.png" title="SalehIT" width="100px">
+        </div>
+        <div class="card-body">
+            <h4>ثبت نام </h4>
+            <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                <div class="firstSide col-12">
+                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                <div class="form-group">
+                    <input asp-for="Input.Name" class="form-control" autocomplete="username" aria-required="true" placeholder="نام کاربری" />
+                 @*   <label asp-for="Input.Name"></label>*@
+                    <span asp-validation-for="Input.Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                   @* <label asp-for="Input.Email">Email</label>*@
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input asp-for="Input.PhoneNumber" class="form-control" autocomplete="username" aria-required="true" placeholder="09123456789" />
+@*                    <label asp-for="Input.PhoneNumber">شماره موبایل</label>*@
+                    <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                </div>
+                    <div class="form-group">
+                        <button type="button" id="continueBtn" class="btn btn-primary col-12">ادامه</button>
+                    </div>
+                    <div class="form-group">
+                        <a class="btn btn-danger col-12">ثبت نام با گوگل</a>
+                    </div>
+                    <span>قبلا عضو شده اید؟<a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl">اکنون وارد شوید</a></span>
+                </div>
+                <div class="secondSide col-12">
+                <div class="form-group">
+                    <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
+              @*      <label asp-for="Input.Password">Password</label>*@
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
+                 @*   <label asp-for="Input.ConfirmPassword">Confirm Password</label>*@
+                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                </div>
+                    <div class="form-group">
+                        <button type="button" id="backBtn" class="btn btn-primary col-12">برگشت</button>
+                    </div>
+                    <div class="form-group">
+                        <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">ثبت نام</button>
+                    </div>
+                    <span>قبلا عضو شده اید؟<a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl" >اکنون وارد شوید</a></span>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+@*<div class="row">
     <div class="col-md-4">
-        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h2>Create a new account.</h2>
-            <hr />
-            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Name" class="form-control" autocomplete="username" aria-required="true" placeholder="نام کاربری" />
-                <label asp-for="Input.Name"></label>
-                <span asp-validation-for="Input.Name" class="text-danger"></span>
-            </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-                <label asp-for="Input.Email">Email</label>
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
-            </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.PhoneNumber" class="form-control" autocomplete="username" aria-required="true" placeholder="09123456789" />
-                <label asp-for="Input.PhoneNumber">شماره موبایل</label>
-                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
-            </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                <label asp-for="Input.Password">Password</label>
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
-            </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                <label asp-for="Input.ConfirmPassword">Confirm Password</label>
-                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-            </div>
-            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
-        </form>
     </div>
     <div class="col-md-6 col-md-offset-2">
         <section>
@@ -47,8 +71,10 @@
                 {
                     <div>
                         <p>
-                            There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">article
-                            about setting up this ASP.NET application to support logging in via external services</a>.
+                            There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">
+                                article
+                                about setting up this ASP.NET application to support logging in via external services
+                            </a>.
                         </p>
                     </div>
                 }
@@ -68,4 +94,21 @@
             }
         </section>
     </div>
-</div>
+</div>*@
+@section InlineScript{
+    <script>
+        var size = $("#registerForm").width();
+        $("#continueBtn").on("click", function () {
+            console.log("click");
+            console.log(size);
+            $(".firstSide").css("transform", "translate( " + (size + 28) + "px,0)");
+            $(".secondSide").css("transform", "translate(" + (size + 30) + "px,0)");
+        })
+        $("#backBtn").on("click", function () {
+            console.log("click");
+            console.log(size + 30);
+            $(".firstSide").css("transform", "translate( 0px,0)");
+            $(".secondSide").css("transform", "translate(0px,0)");
+        })
+    </script>
+}

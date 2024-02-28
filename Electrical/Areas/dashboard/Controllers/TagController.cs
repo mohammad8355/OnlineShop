@@ -3,10 +3,12 @@ using BusinessLogicLayer.TagService;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using PresentationLayer.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PresentationLayer.Areas.dashboard.Controllers
 {
     [Area("dashboard")]
+    [Authorize(Roles = "Admin")]
     public class TagController : Controller
     {
         private readonly TagLogic tagLogic;

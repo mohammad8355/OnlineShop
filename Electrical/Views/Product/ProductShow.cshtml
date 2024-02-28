@@ -160,9 +160,66 @@
                 </table>
             </div>
             <div class="tab-container" data-id="tab2">
-                <div class="alert alert-warning">
-                    شما اولین نفری باشین که نظر می دهید <i class="fas fa-plus"></i>
-                </div>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <form method="post" class="form-control" id="comment">
+                        <div class="form-group mb-3">
+                            <label>نظر خود را بنویسید</label>
+                            <textarea placeholder="نظر خود را بنویسید" class="form-control" required id="description">
+
+                                            </textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">ارسال</button>
+                    </form>
+                }
+                else
+                {
+                    <form class="form-control">
+                        <div class="form-floating mb-3">
+                            <label>نظر خود را بنویسید</label>
+                            <textarea placeholder="نظر خود را بنویسید" class="form-control">
+
+                                                </textarea>
+                        </div>
+                        <a asp-area="Identity" asp-page="/Account/Register" type="submit" class="btn btn-primary">ارسال</a>
+                    </form>
+                }
+                @if (Model.product.commnets != null)
+                    @if (Model.product.commnets.Count() > 0)
+                    {
+                        <div class="card-slider" dir="ltr">
+                            @foreach (var comment in Model.product.commnets)
+                            {
+                                var classname = "";
+                                @if (User.Identity.Name == comment.User.UserName)
+                                {
+                                    classname = "bg-info";
+                                }
+                                <div class="card rounded-4 m-2 @classname" style="width: 18rem">
+                                    <div class="header">
+                                        <span class="badge bg-primary text-wrap m-1">@comment.Product.Name</span>
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">
+                                            @if (string.IsNullOrEmpty(comment.User.FullName))
+                                            {
+                                                <span>@comment.User.UserName</span>
+                                            }
+                                            else
+                                            {
+                                                <span>@comment.User.FullName</span>
+                                            }
+                                        </h5>
+                                        <p class="text-wrap">@comment.Description</p>
+                                    </div>
+                                    <div class="footer">
+                                        <span class="badge bg-secondary">@comment.LastUpdate</span>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+
             </div>
         </div>
     </div>
@@ -198,7 +255,7 @@
           href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.css" />
     <link rel="stylesheet" type="text/css"
           href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.css" />
-          <!--inline zoombox css-->
+    <!--inline zoombox css-->
     <style>
         .fillscreen {
             position: fixed;
@@ -350,8 +407,13 @@
             $(".fa-plus").click(function () {
                 stringvalue = counter.innerHTML;
                 intValue = parseInt(stringvalue);
-                intValue += 1;
-                counter.innerHTML = intValue.toString();
+                if (intValue < @Model.product.QuantityInStock) {
+                    intValue += 1;
+                    counter.innerHTML = intValue.toString();
+                }
+                else{
+                    alert("تعداد سفارش بیش از حد مجاز است ");
+                }
             })
             $(".fa-minus").click(function () {
                 stringvalue = counter.innerHTML;
@@ -382,7 +444,7 @@
 
             // --> ajax to server
             //end shop product
-         
+
             //chnage main image
             $(".image").click(function () {
                 $("#MainImage").attr("src", $(this).attr("src"));
@@ -399,6 +461,49 @@
                 $("body").css("overflow-y", "auto");
             })
             //zoom box
+        })
+        if ($('.card-slider').children().length > 4) {
+            $('.card-slider').slick({
+                slidesToShow: 4,
+                slidesToScroll: 1,
+                autoplay: true,
+                autoplaySpeed: 2000,
+                responsive: [
+                    {
+                        breakpoint: 992,
+                        settings: {
+                            slidesToShow: 3
+                        }
+                    },
+                    {
+                        breakpoint: 767,
+                        settings: {
+                            slidesToShow: 2
+                        }
+                    },
+                    {
+                        breakpoint: 500,
+                        settings: {
+                            slidesToShow: 1
+                        }
+                    },
+                ]
+            });
+        }
+        $("#comment").submit(function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: '@Url.Action("AddComment","Comment")',
+                type: 'GET',
+                data: { description: $("#description").val(), product_Id: @Model.product.Id },
+                success: function (data) {
+                    alert(data.message);
+                    location.reload();
+                },
+                error: function () {
+                    alert("خطایی رخ داده بعدا دوباره تلاش کنید");
+                }
+            })
         })
     </script>
     <script>

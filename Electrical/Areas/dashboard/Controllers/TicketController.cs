@@ -1,6 +1,7 @@
 ﻿using BusinessLogicLayer.CommentService;
 using BusinessLogicLayer.TicketService;
 using DataAccessLayer.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using PresentationLayer.Models.ViewModels;
@@ -8,6 +9,7 @@ using PresentationLayer.Models.ViewModels;
 namespace PresentationLayer.Areas.dashboard.Controllers
 {
     [Area("dashboard")]
+    [Authorize(Roles = "Admin")]
     public class TicketController : Controller
     {
         private readonly TicketLogic ticketLogic;

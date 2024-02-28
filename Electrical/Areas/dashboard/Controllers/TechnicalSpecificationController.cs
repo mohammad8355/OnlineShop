@@ -7,11 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using PresentationLayer.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PresentationLayer.Areas.dashboard.Controllers
 {
     [Area("dashboard")]
-
+    [Authorize(Roles = "Admin")]
     public class TechnicalSpecificationController : Controller
     {
         private readonly AdjKeyLogic adjKeyLogic;

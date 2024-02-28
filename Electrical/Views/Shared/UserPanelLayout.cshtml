@@ -27,6 +27,8 @@
                 <li class="@((ViewData["ActiveLink"].ToString() == "console") ? "active" : "")"><a href="#">سفارشات</a></li>
                 <li class="@((ViewData["ActiveLink"].ToString() == "console") ? "active" : "")"><a href="#">کیف پول</a></li>
                 <li class="@((ViewData["ActiveLink"].ToString() == "notification") ? "active" : "")"><a asp-area="" asp-action="notification" asp-controller="UserPanel">اعلانات</a></li>
+                <li class="@((ViewData["ActiveLink"].ToString() == "ticketDetail") ? "active" : "")"><a asp-area="" asp-action="Index" asp-controller="Ticket">پشتیبانی</a></li>
+
             </ul>
         </nav>
         <div class="content container-lg container-fluid col-lg-10 col-md-8 col-12">

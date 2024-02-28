@@ -37,6 +37,10 @@ using BusinessLogicLayer.OrderService;
 using BusinessLogicLayer.BrandService;
 using Utility.ProductCodeGenerator;
 using BusinessLogicLayer.favoriteProductService;
+using Microsoft.Extensions.Options;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using PresentationLayer.Areas.Identity.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -53,7 +57,15 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.EnableSensitiveDataLogging(true);
 });
 
-builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true).AddRoles<IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
+builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
+{
+
+    options.SignIn.RequireConfirmedAccount = true;
+    options.ClaimsIdentity.RoleClaimType = ClaimTypes.Role;
+    
+
+
+} ).AddRoles<IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
 #endregion
 #region SendEmail
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSetting"));
@@ -76,6 +88,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     options.LogoutPath = "/Account/Logout";
 });
 #endregion
+
 
 #region main repository service
 builder.Services.AddScoped<MainRepository<KeyToProduct>>();
@@ -101,6 +114,7 @@ builder.Services.AddScoped<MainRepository<Brand>>();
 builder.Services.AddScoped<MainRepository<Commnet>>();
 builder.Services.AddScoped<MainRepository<Ticket>>();
 builder.Services.AddScoped<MainRepository<FavoriteProduct>>();
+builder.Services.AddTransient<IClaimsTransformation,RoleClaimsTransformation>();
 #endregion
 #region businessLogic layer service
 builder.Services.AddScoped<AdjKeyLogic>();

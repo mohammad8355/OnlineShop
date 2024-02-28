@@ -1,10 +1,12 @@
 ﻿using DataAccessLayer.Models;
 using BusinessLogicLayer.ContactService;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PresentationLayer.Areas.dashboard.Controllers
 {
     [Area("Dashboard")]
+    [Authorize(Roles = "Admin")]
     public class ContactController : Controller
     {
         private readonly ContactsLogic contactsLogic;
