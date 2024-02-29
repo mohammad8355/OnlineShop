@@ -44,7 +44,7 @@ namespace PresentationLayer.Controllers
             }
         }
         [HttpGet]
-        public async Task<IActionResult> AddComment(string description,string title,int ticket_Id)
+        public async Task<IActionResult> AddCommentTicket(string description,string title,int ticket_Id)
         {
             var user = await userManager.FindByNameAsync(User.Identity.Name);
             if (!string.IsNullOrEmpty(description))

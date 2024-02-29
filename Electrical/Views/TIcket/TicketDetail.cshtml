@@ -41,7 +41,7 @@
             <span class="badge bg-primary">@nameRole</span>
             <h6>@comment.Title</h6>
             <p>
-                @comment.Description
+                @Html.Raw(comment.Description)
             </p>
 
         </div>
@@ -50,11 +50,11 @@
 
 <div class="comment-send bg-light p-2 col-12 shadow-lg">
     <div class="input-group" dir="ltr">
-        <input id="ticket-title" type="text" class="form-contro" required placeholder="عنوان کامنت" aria-label="Recipient's username" aria-describedby="button-addon2">
+        <input id="ticket-title" type="text" class="form-control" required placeholder="عنوان کامنت" aria-label="Recipient's username" aria-describedby="button-addon2">
         <a  class="input-group-text bg-primary" id="addon-wrapping"><i class="fa-solid fa-paper-plane text-light"></i></a>
     </div>
     <div class="input-group mt-1" id="ticket-message">
-        <textarea id="ticket-message" class="form-control" placeholder="متن کامنت" required></textarea>
+        <textarea id="content" class="form-control" placeholder="متن کامنت" required></textarea>
     </div>
 </div>
 @section InlineScript{
@@ -76,10 +76,11 @@
             })
         })
         $("#addon-wrapping").on("click", function () {
+            const description = editor.getData();
             $.ajax({
-                url: '@Url.Action("AddComment","Comment")',
+                url: '@Url.Action("AddCommentTicket","Comment")',
                 type: 'GET',
-                data: { description: $("#ticket-message").val(), title: $("#ticket-title").val(), ticket_Id: @Model.Id },
+                data: { description: description, title: $("#ticket-title").val(), ticket_Id: @Model.Id },
                 success: function (data) {
                     alert(data.message);
                     location.reload();
@@ -89,8 +90,11 @@
                 }
             })
         })
+        let editor;
         ClassicEditor
-            .create(document.querySelector('#ticket-message'))
+            .create(document.querySelector('#content')).then(newEditor => {
+                editor = newEditor;
+            })
             .catch(error => {
                 console.error(error);
             });
