@@ -12,8 +12,16 @@ header {
         padding: .5em 0 .5em 0;
 
         div.logo {
+            @include flex();
             img {
-                width: 80%;
+                width: 100px;
+            }
+
+            h4 {
+                font-family: "Montserrat",sans-serif;
+                font-weight: 700;
+                color: $varydarkPrimary;
+                text-align: center;
             }
         }
 

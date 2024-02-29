@@ -162,8 +162,21 @@ header {
 header div.container {
   padding: 0.5em 0 0.5em 0;
 }
+header div.container div.logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 0;
+}
 header div.container div.logo img {
-  width: 80%;
+  width: 100px;
+}
+header div.container div.logo h4 {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700;
+  color: #00415A;
+  text-align: center;
 }
 header div.container div.search-box {
   padding: 0.5em;
@@ -1156,16 +1169,14 @@ section.aboutus div.container div.cover {
   left: -0.5em;
   top: -0.5em;
   border-radius: 1em;
-  background-color: #B80000;
+  background-color: transparent;
   z-index: 10;
   animation: move 5s ease-in-out infinite;
   transition: all 0.5s;
-  overflow: hidden;
+  overflow: visible;
 }
 section.aboutus div.container div.cover img {
-  width: 5em;
   height: 5em;
-  object-fit: cover;
 }
 @keyframes move {
   0% {

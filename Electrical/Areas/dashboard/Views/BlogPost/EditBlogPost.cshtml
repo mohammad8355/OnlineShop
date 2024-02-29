@@ -8,6 +8,7 @@
                 </div>
                 <div class="card-body">
                     <form method="post" asp-action="EditBlogPost" asp-controller="BlogPost">
+                        <div class="text-danger" asp-validation-summary="All" ></div>
                         <input asp-for="Id" hidden class="hidden" />
                         <div class="form-group">
                             <label>عنوان</label>

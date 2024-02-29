@@ -1,11 +1,13 @@
 ﻿using BusinessLogicLayer.TicketService;
 using DataAccessLayer.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using PresentationLayer.Models.ViewModels;
 
 namespace PresentationLayer.Controllers
 {
+    [Authorize]
     public class TicketController : Controller
     {
         private readonly TicketLogic ticketLogic;

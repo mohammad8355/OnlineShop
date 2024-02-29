@@ -22,7 +22,7 @@
         </div>
     </div>
 </div>
-<div class="container d-flex flex-column align-items-flex-start">
+<div class="container d-flex flex-column align-items-flex-start comment-contaier">
     @foreach (var comment in Model.commnets)
     {
         var classname = "";
@@ -38,7 +38,10 @@
             nameRole = "ادمین";
         }
         <div class="rounded-2 border @classname p-2  mt-1">
-            <span class="badge bg-primary">@nameRole</span>
+            <div class="d-flex justify-content-between">
+                <span class="badge bg-primary">@nameRole</span>
+                <h6>@comment.LastUpdate</h6>
+                </div>
             <h6>@comment.Title</h6>
             <p>
                 @Html.Raw(comment.Description)

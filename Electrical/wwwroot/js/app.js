@@ -1,71 +1,83 @@
-// imageCount
-timeLeft = 5000;
-var images = document.querySelectorAll(".carousel-slide");
-var wrapperElement = document.querySelector(".carousel-wrapper");
-var carouselcontainer = document.querySelector(".carousel-container");
-var leftNav = document.querySelector(".left-nav");
-var direction = 1;
-var rightNav = document.querySelector(".right-nav");
-var translate = 100;
-var imageCounter = 0;
-var slider = function(timeLeft){
-    wrapperElement.style.transform = 'translateX(' + translate + '%)';
-    translate = 100;
-}
-wrapperElement.addEventListener("transitionend",function (){
-    if(direction == 1){
-        wrapperElement.appendChild(wrapperElement.firstElementChild);
-    }
-    else{
-        wrapperElement.prepend(wrapperElement.lastElementChild);
-        direction = 1;
-        console.log("prepend");
-    }
-    wrapperElement.style.transition = 'none';
-    wrapperElement.style.transform = 'translateX(0)';
-    setTimeout(function(){
-        wrapperElement.style.transition = 'all 2s';
-    })
-    translate = 100;
-})
-setInterval(slider,timeLeft);
-leftNav.addEventListener("click",function(){
-     carouselcontainer.style.justifyContent = 'flex-end';
-      translate = 100;
-     direction = 1;
-     slider();
+document.addEventListener("DOMContentLoaded", function() {
+  const carouselWrapper = document.querySelector('.carousel-wrapper');
+  const slides = document.querySelectorAll('.carousel-slide');
+  const totalSlides = slides.length;
+  const prevBtn = document.querySelector('.left-nav');
+  const nextBtn = document.querySelector('.right-nav');
+  const slideWidth = slides[0].clientWidth;
+  let currentIndex = 1;
+  let autoplayInterval;
+
+  // Clone first and last slides for infinite loop
+  const firstClone = slides[0].cloneNode(true);
+  const lastClone = slides[totalSlides - 1].cloneNode(true);
+
+  carouselWrapper.appendChild(firstClone);
+  carouselWrapper.insertBefore(lastClone, slides[0]);
+
+  carouselWrapper.style.transform = `translateX(-${slideWidth}px)`;
+
+  function slideNext() {
+      currentIndex++;
+
+      carouselWrapper.style.transition = 'transform 0.5s ease-in-out';
+      carouselWrapper.style.transform = `translateX(-${slideWidth * currentIndex}px)`;
+
+      if (currentIndex >= totalSlides + 1) {
+          setTimeout(() => {
+              carouselWrapper.style.transition = 'none';
+              carouselWrapper.style.transform = `translateX(-${slideWidth}px)`;
+              currentIndex = 1;
+          }, 500);
+      }
+  }
+
+  function slidePrev() {
+      currentIndex--;
+
+      carouselWrapper.style.transition = 'transform 0.5s ease-in-out';
+      carouselWrapper.style.transform = `translateX(-${slideWidth * currentIndex}px)`;
+
+      if (currentIndex <= 0) {
+          setTimeout(() => {
+              carouselWrapper.style.transition = 'none';
+              carouselWrapper.style.transform = `translateX(-${slideWidth * (totalSlides + 1)}px)`; // Move to the position after the last clone
+              currentIndex = totalSlides;
+          }, 500);
+      }
+  }
+
+  // Previous button click event
+  prevBtn.addEventListener('click', function() {
+      clearInterval(autoplayInterval);
+      slidePrev();
+      setTimeout(() => {
+          autoplayInterval = setInterval(slideNext, 3000);
+      }, 500);
+  });
+
+  // Next button click event
+  nextBtn.addEventListener('click', function() {
+      clearInterval(autoplayInterval);
+      slideNext();
+      setTimeout(() => {
+          autoplayInterval = setInterval(slideNext, 3000);
+      }, 500);
+  });
+
+  // Autoplay
+  autoplayInterval = setInterval(slideNext, 3000);
+
+  // Pause autoplay on hover
+  carouselWrapper.addEventListener('mouseenter', () => {
+      clearInterval(autoplayInterval);
+  });
+
+  // Resume autoplay on mouse leave
+  carouselWrapper.addEventListener('mouseleave', () => {
+      autoplayInterval = setInterval(slideNext, 3000);
+  });
 });
-rightNav.addEventListener("click",function(){
-     carouselcontainer.style.justifyContent = 'flex-start';
-     translate = -100;
-     direction = -1;
-    //  wrapperElement.prepend(wrapperElement.lastElementChild);
-     slider();
-});
-
-
-
-//scroll navigation 
-var rightNavScroll = document.querySelectorAll(".right-nav-scroll");
-var leftNavScroll = document.querySelectorAll(".left-nav-scroll");
-var ScrollAmount = 200;
-
-$(rightNavScroll).on("click", function () {
-    var container = this.parentNode.previousElementSibling;
-    console.log(container.scrollLeft)
-    var currentScrollLeft = $(container).scrollLeft();
-    $(container).animate({scrollLeft: currentScrollLeft + ScrollAmount},500);
-      
-});
-
-$(leftNavScroll).on("click", function () {
-    var container = this.parentNode.previousElementSibling;
-    var currentScrollLeft = $(container).scrollLeft();
-    $(container).animate({scrollLeft: currentScrollLeft - ScrollAmount},500);
-     
-});
-
-
 
 //end scroll navigation 
 function createCircularCardSlider(containerSelector, cardSelector, prevBtnSelector, nextBtnSelector, autoplayInterval) {

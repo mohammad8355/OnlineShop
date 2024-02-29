@@ -65,8 +65,23 @@ header div.container {
   padding: .5em 0 .5em 0;
 }
 
+header div.container div.logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 0;
+}
+
 header div.container div.logo img {
-  width: 80%;
+  width: 100px;
+}
+
+header div.container div.logo h4 {
+  font-family: "Montserrat",sans-serif;
+  font-weight: 700;
+  color: #00415A;
+  text-align: center;
 }
 
 header div.container div.search-box {

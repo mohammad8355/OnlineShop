@@ -10,12 +10,14 @@
                 <div class="cover">
                     @if(product.ProductPhotos != null)
                     {
+                            <a class="nav-link" asp-action="ProductShow" asp-controller="Product" asp-route-Id="@product.Id">
                         <img src="~/Image/Product/@(product.Name)/@(product.ProductPhotos.Last().Name)" alt="@product.Name" width="200px">
+                  </a>
                     }
                 </div>
                 <div class="card-body">
                     <div class="product-name">
-                        <a asp-action="ProductShow" asp-controller="Product" asp-route-Id="@product.Id">@product.Name</a>
+                        <a class="nav-link" asp-action="ProductShow" asp-controller="Product" asp-route-Id="@product.Id">@product.Name</a>
                     </div>
                     <div class="price">
                         @if (product.Discount > 0)

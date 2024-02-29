@@ -2,6 +2,7 @@
 using BusinessLogicLayer.OrderService;
 using BusinessLogicLayer.ProductService;
 using DataAccessLayer.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -13,6 +14,7 @@ using System.Runtime.CompilerServices;
 
 namespace PresentationLayer.Controllers
 {
+    [Authorize]
     public class ShopController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;

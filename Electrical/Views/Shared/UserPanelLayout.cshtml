@@ -24,11 +24,14 @@
                 <li><a asp-area="" asp-action="Index" asp-controller="Home">خانه</a></li>
                 <li class="@((ViewData["ActiveLink"].ToString() == "console") ? "active" : "")"><a asp-action="Index" asp-controller="UserPanel" asp-area="">پیشخوان</a></li>
                 <li class="@((ViewData["ActiveLink"].ToString() == "ManageAccount") ? "active" : "")"><a asp-area="Identity" asp-page="/Account/Manage/Index">حساب</a></li>
-                <li class="@((ViewData["ActiveLink"].ToString() == "console") ? "active" : "")"><a href="#">سفارشات</a></li>
-                <li class="@((ViewData["ActiveLink"].ToString() == "console") ? "active" : "")"><a href="#">کیف پول</a></li>
+                <li class="@((ViewData["ActiveLink"].ToString() == "order") ? "active" : "")"><a href="#">سفارشات</a></li>
+                <li class="@((ViewData["ActiveLink"].ToString() == "wallet") ? "active" : "")"><a href="#">کیف پول</a></li>
                 <li class="@((ViewData["ActiveLink"].ToString() == "notification") ? "active" : "")"><a asp-area="" asp-action="notification" asp-controller="UserPanel">اعلانات</a></li>
                 <li class="@((ViewData["ActiveLink"].ToString() == "ticketDetail") ? "active" : "")"><a asp-area="" asp-action="Index" asp-controller="Ticket">پشتیبانی</a></li>
-
+                @if(User.IsInRole("Admin") || User.IsInRole("admin"))
+                {
+                    <li><a id="manage" asp-area="dashboard" asp-action="Index" asp-controller="Dashboard" title="Manage">پنل مدیریت</a></li>
+                }
             </ul>
         </nav>
         <div class="content container-lg container-fluid col-lg-10 col-md-8 col-12">

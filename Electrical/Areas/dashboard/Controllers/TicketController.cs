@@ -95,7 +95,7 @@ namespace PresentationLayer.Areas.dashboard.Controllers
         public IActionResult CloseTicket(int Id)
         {
             var ticket = ticketLogic.TicketDetail(Id);
-            if(ticket.Status == "open")
+            if(ticket.Status == "open" || ticket.Status == "responed")
             {
                 ticket.Status = "close";
             }

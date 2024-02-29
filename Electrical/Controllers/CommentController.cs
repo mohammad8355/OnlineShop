@@ -1,10 +1,12 @@
 ﻿using BusinessLogicLayer.CommentService;
 using DataAccessLayer.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace PresentationLayer.Controllers
 {
+    [Authorize]
     public class CommentController : Controller
     {
         private readonly CommentLogic commentLogic;

@@ -4,7 +4,7 @@
 }
 @if (Model.Sliders != null)
 {
-    <section class="carousel-container">
+    <section class="carousel-container" dir="ltr">
         <div class="carousel-wrapper">
             @foreach (var slide in Model.Sliders)
             {
@@ -32,11 +32,13 @@
                         <div class="product-card" style="min-width: 15rem;">
                             <span class="off badge badge-danger bg-danger rounded-5">@product.Discount %</span>
                             <div class="cover">
-                                <img src="~/Image/Product/@(product.Name)/@(product.ProductPhotos.First().Name)" alt="@product.Name" width="200px">
+                                <a class="nav-link" asp-action="ProductShow" asp-controller="Product" asp-route-Id="@product.Id">
+                                 <img src="~/Image/Product/@(product.Name)/@(product.ProductPhotos.First().Name)" alt="@product.Name" width="200px">
+                                </a>
                             </div>
                             <div class="card-body">
                                 <div class="product-name">
-                                    <a asp-action="ProductShow" asp-controller="Product" asp-route-Id="@product.Id">@product.Name</a>
+                                    <a  class="nav-link" asp-action="ProductShow" asp-controller="Product" asp-route-Id="@product.Id">@product.Name</a>
                                 </div>
                                 <div class="price">
                                     @if (product.Discount > 0)
@@ -89,11 +91,13 @@
                     {
                         <div class="product-card" style="min-width: 15rem;">
                             <div class="cover">
-                                <img src="~/Image/Product/@(product.Name)/@(product.ProductPhotos.First().Name)" alt="@product.Name" width="200px">
+                                <a class="nav-link" asp-action="ProductShow" asp-controller="Product" asp-route-Id="@product.Id">
+                                    <img src="~/Image/Product/@(product.Name)/@(product.ProductPhotos.First().Name)" alt="@product.Name" width="200px">
+                                </a>
                             </div>
                             <div class="card-body">
                                 <div class="product-name">
-                                    <a asp-action="ProductShow" asp-controller="Product" asp-route-Id="@product.Id">@product.Name</a>
+                                    <a  class="nav-link" asp-action="ProductShow" asp-controller="Product" asp-route-Id="@product.Id">@product.Name</a>
                                 </div>
                                 <div class="price">
                                     @if (product.Discount > 0)
@@ -150,11 +154,13 @@
                     {
                         <div class="product-card" style="min-width: 15rem;">
                             <div class="cover">
-                                <img src="~/Image/Product/@(product.Name)/@(product.ProductPhotos.First().Name)" alt="@product.Name" width="200px">
+                                <a class="nav-link" asp-action="ProductShow" asp-controller="Product" asp-route-Id="@product.Id">
+                                    <img src="~/Image/Product/@(product.Name)/@(product.ProductPhotos.First().Name)" alt="@product.Name" width="200px">
+                                </a>
                             </div>
                             <div class="card-body">
                                 <div class="product-name">
-                                    <a asp-action="ProductShow" asp-controller="Product" asp-route-Id="@product.Id">@product.Name</a>
+                                    <a class="nav-link" asp-action="ProductShow" asp-controller="Product" asp-route-Id="@product.Id">@product.Name</a>
                                 </div>
                                 <div class="price">
                                     @if (product.Discount > 0)
@@ -258,10 +264,12 @@
                     {
                         <div class="card rounded-4" style="width: 18rem;">
                             <div class="card-header">
+                                <a class="nav-link" asp-action="Post" asp-route-Title="@post.Title" asp-controller="Blog">
                                 <img src="@post.CoverLink" class="card-img-top rounded-3" alt="c#">
+                                </a>
                             </div>
                             <div class="card-body">
-                                <h5 class="card-title text-wrap"><a asp-action="Post" asp-route-Title="@post.Title" asp-controller="Blog">@post.Title</a></h5>
+                                <h5 class="card-title text-wrap"><a class="nav-link" asp-action="Post" asp-route-Title="@post.Title" asp-controller="Blog">@post.Title</a></h5>
                                 <span class="badge bg-info">@post.LastUpdates.Date</span>
                             </div>
                         </div>

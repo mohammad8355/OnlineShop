@@ -7,13 +7,20 @@
         <div class="product-info d-flex flex-wrap">
             <div class="product-images col-lg-6 col-12">
                 <div class="tools">
-                    @if (Model.product.favoriteProducts.FirstOrDefault() != null)
+                    @if (User.Identity.IsAuthenticated)
                     {
-                        <a onclick="like(@Model.product.Id)"><i class="fa-solid fa-heart like"></i></a>
+                        @if (Model.product.favoriteProducts.FirstOrDefault() != null)
+                        {
+                            <a onclick="like(@Model.product.Id)"><i class="fa-solid fa-heart like"></i></a>
+                        }
+                        else
+                        {
+                            <a onclick="like(@Model.product.Id)"><i class="fa-regular fa-heart like"></i></a>
+                        }
                     }
                     else
                     {
-                        <a onclick="like(@Model.product.Id)"><i class="fa-regular fa-heart like"></i></a>
+                        <a onclick="alert('لطفا وارد وبسایت شوید')" asp-area="Identity" asp-page="/Account/Login"><i class="fa-regular fa-heart like"></i></a>
                     }
                     <a href="#"><i class="fa-regular fa-bookmark"></i></a>
                     <a href="#"><i class="fa-solid fa-share-nodes"></i></a>
@@ -113,7 +120,14 @@
                                 <!--this is for whem we dont have an off-->
                             }
                         </div>
-                        <button type="button" id="shop" class="btn btn-success">خرید</button>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <button type="button" id="shop" class="btn btn-success">خرید</button>
+                        }
+                        else
+                        {
+                            <button type="button" disabled id="shop" class="btn btn-success disabled">خرید</button>
+                        }
                     </div>
                 </div>
                 <div class="description col-12">
@@ -167,7 +181,7 @@
                             <label>نظر خود را بنویسید</label>
                             <textarea placeholder="نظر خود را بنویسید" class="form-control" required id="description">
 
-                                            </textarea>
+                                                </textarea>
                         </div>
                         <button type="submit" class="btn btn-primary">ارسال</button>
                     </form>
@@ -179,7 +193,7 @@
                             <label>نظر خود را بنویسید</label>
                             <textarea placeholder="نظر خود را بنویسید" class="form-control">
 
-                                                </textarea>
+                                                    </textarea>
                         </div>
                         <a asp-area="Identity" asp-page="/Account/Register" type="submit" class="btn btn-primary">ارسال</a>
                     </form>
@@ -411,7 +425,7 @@
                     intValue += 1;
                     counter.innerHTML = intValue.toString();
                 }
-                else{
+                else {
                     alert("تعداد سفارش بیش از حد مجاز است ");
                 }
             })

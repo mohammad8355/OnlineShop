@@ -3,6 +3,7 @@ using BusinessLogicLayer.KeyToProductService;
 using BusinessLogicLayer.ProductPhotoService;
 using BusinessLogicLayer.ProductService;
 using DataAccessLayer.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using PresentationLayer.Models.ViewModels;
@@ -45,6 +46,7 @@ namespace PresentationLayer.Controllers
             return View(model);
         }
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> LikeProduct(int Id)
         {
             var currentUser = await userManager.FindByNameAsync(User.Identity.Name);
@@ -92,6 +94,7 @@ namespace PresentationLayer.Controllers
                 }
             }
         }
+        [Authorize]
         public async Task<IActionResult> IsLike(int Id)
         {
             var currentUser = await userManager.FindByNameAsync(User.Identity.Name);

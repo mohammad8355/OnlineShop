@@ -2,6 +2,7 @@
 using BusinessLogicLayer.ProductService;
 using DataAccessLayer.Models;
 using Infrustructure.uploadfile;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Client;
@@ -9,6 +10,7 @@ using PresentationLayer.Models.ViewModels;
 
 namespace PresentationLayer.Controllers
 {
+    [Authorize]
     public class UserPanelController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManaManager;
