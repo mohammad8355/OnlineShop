@@ -26,36 +26,38 @@ namespace PresentationLayer.Controllers
         {
             return View();
         }
-        public async Task<IActionResult> AddTicket(string description,string title)
+        [HttpPost]
+        public async Task<IActionResult> AddTicket(AddEditTicketViewModel model)
         {
-            var message = "";
-            if (string.IsNullOrEmpty(description) || string.IsNullOrEmpty(title))
+            ModelState.Remove("Status");
+            ModelState.Remove("UserName");
+            if (!ModelState.IsValid)
             {
-                message = "لطفا فیلد ها را به درستی پر کنید ";
+                ModelState.AddModelError("", "لطفا فیلد ها را به درستی پر کنید ");
+                return View(model);
             }
             else
             {
                 var user = await userManager.FindByNameAsync(User.Identity.Name);
                 var ticket = new Ticket()
                 {
-                    Title = title,
+                    Title = model.Title,
                     Status = "open",
-                    Description = description.ToString(),
+                    Description = model.Description.ToString(),
                     LastUpdate = DateTime.Now,
                     User_Id = user.Id,
                 };
                 if (await ticketLogic.AddTicket(ticket))
                 {
-                    message = "تیکت شما با موفقیت ارسال شد,به روزدی توس پشتیبانی بررسی خواهد شد";
+                    ViewBag.success = "تیکت شما با موفقیت ارسال شد,به روزدی توس پشتیبانی بررسی خواهد شد";
+                    return View();
                 }
                 else
                 {
-                    message = "متاسفانه مشکلی رخ داده است ";
+                    ModelState.AddModelError("", "متاسفانه مشکلی رخ داده است ");
+                    return View(model);
                 }
             }
-              
-  
-            return Json(message);
         }
         public IActionResult TicketDetail(int Id)
         {
