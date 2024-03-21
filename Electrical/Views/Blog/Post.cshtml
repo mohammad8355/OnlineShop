@@ -134,15 +134,23 @@
         </div>
         <div class="container">
             <div class="sendComment">
-                <form class="form-control container">
+                <form id="comment" class="form-control container">
                     <h5>نظر خود را ارسال کنید</h5>
                     <div class="form-group p-2">
                         <label>متن پیام</label>
-                        <textarea class="form-control" placeholder="متن پیام خود را وارد کنید">
+                        <input hidden class="hidden" id="replyValue"  />
+                        <textarea id="description" class="form-control" placeholder="متن پیام خود را وارد کنید" required>
 
                         </textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary">ارسال نظر</button>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <button type="submit" class="btn btn-primary">ارسال نظر</button>
+                    }
+                    else
+                    {
+                        <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-primary">ارسال نظر</a>
+                    }
                 </form>
             </div>
             @if (Model.Post.Comments != null)
@@ -241,6 +249,21 @@
 
 
             }
+        })
+        $("#comment").submit(function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: '@Url.Action("AddCommentPost","Comment")',
+                type: 'GET',
+                data: { description: $("#description").val(), post_Id: @Model.Post.Id , reply_Id:$("#replyValue").val() },
+                success: function (data) {
+                    alert(data.message);
+                    location.reload();
+                },
+                error: function () {
+                    alert("خطایی رخ داده بعدا دوباره تلاش کنید");
+                }
+            })
         })
     </script>
 }
