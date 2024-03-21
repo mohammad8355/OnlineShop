@@ -3,12 +3,13 @@
     Layout = "UserPanelLayout";
 }
 @using DataAccessLayer.Models;
+@using Utility.PersianDate;
 @model Ticket;
 <div class="ticket-container">
     <div class="ticket col-12 p-2 my-1  bg-light shadow-sm">
         <div class=" text-secondary d-flex flex-row justify-content-between">
             <h6>@Model.User.FullName</h6>
-            <h6>@Model.LastUpdate.Date</h6>
+            <h6>@Model.LastUpdate.Date.ToPersianDate()</h6>
         </div>
         <div class="row">
             <h5 class="text-dark">@Model.Title</h5>
@@ -40,7 +41,7 @@
         <div class="rounded-2 border @classname p-2  mt-1">
             <div class="d-flex justify-content-between">
                 <span class="badge bg-primary">@nameRole</span>
-                <h6>@comment.LastUpdate</h6>
+                <h6>@comment.LastUpdate.ToPersianDate()</h6>
                 </div>
             <h6>@comment.Title</h6>
             <p>

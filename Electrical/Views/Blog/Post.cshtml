@@ -1,4 +1,5 @@
-﻿@model PostViewModel
+﻿@using Utility.PersianDate;
+@model PostViewModel
 <section class="container-lg container-fluid">
     <article class="col-lg-8 col-12">
         <div class="header">
@@ -10,8 +11,8 @@
             <hr>
             <div class="detail">
                 <div>
-                    <h5> <i class="fa-regular fa-calendar"></i> <span>تاریخ آخرین بروزرسانی:@Model.Post.LastUpdates.Date</span></h5>
-                    <h5> <i class="fa-regular fa-calendar"></i> <span>تاریخ انتشار:@Model.Post.PublishDate.Date</span></h5>
+                    <h5> <i class="fa-regular fa-calendar"></i> <span>تاریخ آخرین بروزرسانی:@Model.Post.LastUpdates.Date.ToPersianDate()</span></h5>
+                    <h5> <i class="fa-regular fa-calendar"></i> <span>تاریخ انتشار:@Model.Post.PublishDate.Date.ToPersianDate()</span></h5>
                 </div>
                 <div>
                     <h5> <i class="fa-regular fa-clock"></i> <span>زمان تقریبی مطالعه: @Model.Post.ReadingTime </span></h5>

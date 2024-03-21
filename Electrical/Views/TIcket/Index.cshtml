@@ -3,6 +3,8 @@
     Layout = "UserPanelLayout";
 }
 @using DataAccessLayer.Models;
+@using Utility.PersianDate;
+
 @model List<Ticket>
 <div class="ticket-info">
     <div class="row">
@@ -38,7 +40,7 @@
             <div class="ticket col-12 p-2 my-1  bg-light shadow-sm">
                 <div class=" text-secondary d-flex flex-row justify-content-between">
                     <h6>@ticket.User.FullName</h6>
-                    <h6>@ticket.LastUpdate.Date</h6>
+                    <h6>@ticket.LastUpdate.Date.ToPersianDate()</h6>
                 </div>
                 <div class="row">
                     <h5 class="text-dark">@ticket.Title</h5>
