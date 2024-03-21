@@ -43,9 +43,10 @@ namespace PresentationLayer.Controllers
             };
             return View(model);
         }
-        public IActionResult Aboutus()
+        public async Task<IActionResult> Aboutus()
         {
-            return View();
+            var aboutus = await generalLogic.ReturnByLabel("aboutus");
+            return View(aboutus);
         }
         public IActionResult Contactus()
         {
