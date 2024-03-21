@@ -1,0 +1,10 @@
+﻿section#commonquestion {
+    width: 100%;
+    min-height: 100vh;
+    @include flex();
+
+    .container-md {
+        border-radius: .5em;
+        box-shadow: 0 0 20x rgba($color: #000000, $alpha: 0.4);
+    }
+}

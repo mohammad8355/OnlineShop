@@ -24,7 +24,6 @@
     <Folder Include="Areas\dashboard\Models\" />
     <Folder Include="Areas\Identity\Data\" />
     <Folder Include="wwwroot\Image\Product\" />
-    <Folder Include="wwwroot\sass\" />
     <Folder Include="wwwroot\picture\" />
   </ItemGroup>
 

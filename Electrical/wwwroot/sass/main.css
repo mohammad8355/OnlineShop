@@ -1552,6 +1552,21 @@ section#contactus .container ul li a p {
   border-radius: .4em;
 }
 
+section#commonquestion {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 0;
+}
+
+section#commonquestion .container-md {
+  border-radius: .5em;
+  box-shadow: 0 0 20x rgba(0, 0, 0, 0.4);
+}
+
 section.Product-container {
   width: 100%;
   min-height: 100vh;

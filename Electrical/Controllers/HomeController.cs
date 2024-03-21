@@ -51,6 +51,10 @@ namespace PresentationLayer.Controllers
         {
             return View();
         }
+        public IActionResult CommonQuestion()
+        {
+            return View();
+        }
 
         public IActionResult Privacy()
         {
