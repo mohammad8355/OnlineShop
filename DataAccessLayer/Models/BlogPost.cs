@@ -32,5 +32,6 @@ namespace DataAccessLayer.Models
 
         //navigation 
         public List<TagToBlogPost> TagToBlogPosts { get; set; }
+        public List<Commnet> Comments { get; set; }
     }
 }

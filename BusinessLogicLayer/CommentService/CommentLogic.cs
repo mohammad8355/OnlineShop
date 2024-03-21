@@ -72,5 +72,11 @@ namespace BusinessLogicLayer.CommentService
             var commentsOfUser = comments.Where(c => c.User_Id == User_Id).ToList();
             return commentsOfUser;
         }
+        public List<Commnet> CommentsOfPost(int Post_Id)
+        {
+            var comments = CommentList();
+            var commentsOfPost = comments.Where(c => c.BlogPost_Id == Post_Id).ToList();
+            return commentsOfPost;
+        }
     }
 }

@@ -71,6 +71,7 @@ namespace DataAccessLayer
             builder.Entity<FavoriteProduct>().HasKey(o => new { o.Product_Id, o.User_Id });
             builder.Entity<FavoriteProduct>().HasOne(p => p.Product).WithMany(fp => fp.favoriteProducts).HasForeignKey(f => f.Product_Id);
             builder.Entity<FavoriteProduct>().HasOne(p => p.User).WithMany(fp => fp.favoriteProducts).HasForeignKey(f => f.User_Id);
+            builder.Entity<BlogPost>().HasMany(c => c.Comments).WithOne(c => c.Post).HasForeignKey(c => c.BlogPost_Id);
             #region Seed Data
             builder.Entity<Commnet>().HasData(new Commnet()
             {

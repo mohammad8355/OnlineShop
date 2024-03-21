@@ -22,9 +22,9 @@
         </div>
         <hr style="border-style:dashed;border-width:1px;">
         <div class="body">
-          <p>
-              @Html.Raw(Model.Post.Content)
-          </p>
+            <p>
+                @Html.Raw(Model.Post.Content)
+            </p>
         </div>
         <div class="tags">
             @foreach (var tag in Model.Post.TagToBlogPosts)
@@ -111,14 +111,26 @@
     <div class="col-12 col-lg-8 comments">
         <div class="d-flex flex-column p-2">
             <h2>نظرات</h2>
-            <span class="p-2">
-                24 نظر درباره مقاله <span>
-                    <span class="text-primary">
-                        5 راه حل برای رفع مشکل پر شدن
-                        درایو C
+            @if (Model.Post.Comments != null)
+            {
+                <span class="p-2">
+                    @Model.Post.Comments.Count() نظر درباره مقاله <span>
+                        <span class="text-primary">
+                            @Model.Post.Title
+                        </span>
                     </span>
                 </span>
-            </span>
+            }
+            else
+            {
+                <span class="p-2">
+                    0 نظر درباره مقاله <span>
+                        <span class="text-primary">
+                            @Model.Post.Title
+                        </span>
+                    </span>
+                </span>
+            }
         </div>
         <div class="container">
             <div class="sendComment">
@@ -133,85 +145,76 @@
                     <button type="submit" class="btn btn-primary">ارسال نظر</button>
                 </form>
             </div>
-            <div class="comment">
-                <div class="message">
-                    <div class="header">
-                        <div class="sender">
-                            <img src="../image/_cd41bf86-975a-4116-8ef1-c39f7b52cd4e.jpeg" alt="">
-                            <div class="d-flex flex-column">
-                                <h5>علیرضا فلانی</h5>
-                                <h6>8 آذر ماه 1402</h6>
+            @if (Model.Post.Comments != null)
+            {
+                @foreach (var comment in Model.Post.Comments)
+                {
+                    @if (comment.Reply_Id != null && comment.reply != null)
+                    {
+                        <div class="comment-reply">
+                            <div class="reply">
+                                <p>@comment.reply.Description</p>
+                            </div>
+                            <div class="message">
+                                <div class="header">
+                                    <div class="sender">
+                                        @if (string.IsNullOrEmpty(comment.User.ProfileImageName))
+                                        {
+                                            <img src="~/Image/Users/defaultUser/UserProfile.jpg" alt="@comment.User.UserName">
+                                        }
+                                        else
+                                        {
+                                            <img src="~/Image/Users/@comment.User.UserName/@comment.User.ProfileImageName" alt="@comment.User.UserName">
+                                        }
+                                        <div class="d-flex flex-column">
+                                            <h5>@comment.User.UserName</h5>
+                                            <h6>@comment.LastUpdate.Date.ToPersianDate()</h6>
+                                        </div>
+                                    </div>
+                                    <a href="#" class="replylink"><span>پاسخ<i class="fa-solid fa-reply"></i></span></a>
+                                </div>
+                                <p>
+                                    @comment.Description
+                                </p>
                             </div>
                         </div>
-                        <a href="#" class="replylink"><span>پاسخ<i class="fa-solid fa-reply"></i></span></a>
-                    </div>
-                    <p>
-                        آیا راه حل دیگه ای هم داره ؟
-                    </p>
-                </div>
-            </div>
-            <div class="comment-reply">
-                <div class="reply">
-                    <p>آیا راه حل دیگه ای هم داره؟</p>
-                </div>
-                <div class="message">
-                    <div class="header">
-                        <div class="sender">
-                            <img src="../image/_cd41bf86-975a-4116-8ef1-c39f7b52cd4e.jpeg" alt="">
-                            <div class="d-flex flex-column">
-                                <h5>علیرضا فلانی</h5>
-                                <h6>8 آذر ماه 1402</h6>
+                    }
+                    else
+                    {
+                        <div class="comment">
+                            <div class="message">
+                                <div class="header">
+                                    <div class="sender">
+                                        @if (string.IsNullOrEmpty(comment.User.ProfileImageName))
+                                        {
+                                            <img src="~/Image/Users/defaultUser/UserProfile.jpg" alt="@comment.User.UserName">
+                                        }
+                                        else
+                                        {
+                                            <img src="~/Image/Users/@comment.User.UserName/@comment.User.ProfileImageName" alt="@comment.User.UserName">
+                                        }
+                                        <div class="d-flex flex-column">
+                                            <h5>@comment.User.UserName</h5>
+                                            <h6>@comment.LastUpdate.Date.ToPersianDate()</h6>
+                                        </div>
+                                    </div>
+                                    <a href="#" class="replylink"><span>پاسخ<i class="fa-solid fa-reply"></i></span></a>
+                                </div>
+                                <p>
+                                    @comment.Description
+                                </p>
                             </div>
                         </div>
-                        <a href="#" class="replylink"><span>پاسخ<i class="fa-solid fa-reply"></i></span></a>
-                    </div>
-                    <p>
-                        بله میتونید فایل های temp رو حذف کنید
-                    </p>
-                </div>
-            </div>
-            <div class="comment">
-                <div class="message">
-                    <div class="header">
-                        <div class="sender">
-                            <img src="../image/_cd41bf86-975a-4116-8ef1-c39f7b52cd4e.jpeg" alt="">
-                            <div class="d-flex flex-column">
-                                <h5>علیرضا فلانی</h5>
-                                <h6>8 آذر ماه 1402</h6>
-                            </div>
-                        </div>
-                        <a href="#" class="replylink"><span>پاسخ<i class="fa-solid fa-reply"></i></span></a>
-                    </div>
-                    <p>
-                        بله میتونید فایل های temp رو حذف کنید
-                    </p>
-                </div>
-            </div>
-            <div class="comment-reply">
-                <div class="reply">
-                    <p>آیا راه حل دیگه ای هم داره؟</p>
-                </div>
-                <div class="message">
-                    <div class="header">
-                        <div class="sender">
-                            <img src="../image/_cd41bf86-975a-4116-8ef1-c39f7b52cd4e.jpeg" alt="">
-                            <div class="d-flex flex-column">
-                                <h5>علیرضا فلانی</h5>
-                                <h6>8 آذر ماه 1402</h6>
-                            </div>
-                        </div>
-                        <a href="#" class="replylink"><span>پاسخ<i class="fa-solid fa-reply"></i></span></a>
-                    </div>
-                    <p>
-                        بله میتونید فایل های temp رو حذف کنید
-                    </p>
-                </div>
-            </div>
+                    }
+
+                }
+            }
+
         </div>
     </div>
 </section>
 @section InlineCss{
-    <link rel="stylesheet" href="~/sass/blogpost.css" >
+    <link rel="stylesheet" href="~/sass/blogpost.css">
 }
 @section InlineScript{
     <script>

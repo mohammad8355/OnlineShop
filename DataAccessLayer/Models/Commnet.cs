@@ -29,6 +29,7 @@ namespace DataAccessLayer.Models
         public Commnet reply { get; set; }
         public Product Product { get; set; }
         public int? Product_Id { get; set; }
-
+        public BlogPost Post { get; set; }
+        public int? BlogPost_Id { get; set; }
     }
 }

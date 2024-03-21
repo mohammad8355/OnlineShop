@@ -7,17 +7,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BusinessLogicLayer.CommentService;
 
 namespace BusinessLogicLayer.BlogPostService
 {
     public class BlogPostLogic
     {
         private readonly MainRepository<BlogPost> blogRepository;
+        private readonly CommentLogic commentLogic;
         private readonly TagToBlogPostLogic tagToBlogPostLogic;
         private readonly TagLogic tagLogic;
-        public BlogPostLogic(MainRepository<BlogPost> blogRepository, TagToBlogPostLogic tagToBlogPostLogic, TagLogic tagLogic)
+        public BlogPostLogic(MainRepository<BlogPost> blogRepository, CommentLogic commentLogic, TagToBlogPostLogic tagToBlogPostLogic, TagLogic tagLogic)
         {
             this.blogRepository = blogRepository;
+            this.commentLogic = commentLogic;
             this.tagLogic = tagLogic;
             this.tagToBlogPostLogic = tagToBlogPostLogic;
         }
@@ -61,6 +64,7 @@ namespace BusinessLogicLayer.BlogPostService
         public BlogPost BlogPostDetail(int Id)
         {
             var blogpost = blogRepository.Get(bp => bp.Id == Id,b => b.TagToBlogPosts).Result.FirstOrDefault();
+            blogpost.Comments = commentLogic.CommentsOfPost(Id);
             foreach(var bt in blogpost.TagToBlogPosts)
             {
                 bt.Tag = tagLogic.TagDetail(bt.Tag_Id);
@@ -71,6 +75,7 @@ namespace BusinessLogicLayer.BlogPostService
         public BlogPost BlogPostDetail(string Title)
         {
             var blogpost = blogRepository.Get(bp => bp.Title == Title, b => b.TagToBlogPosts).Result.FirstOrDefault();
+            blogpost.Comments = commentLogic.CommentsOfPost(blogpost.Id);
             foreach (var bt in blogpost.TagToBlogPosts)
             {
                 bt.Tag = tagLogic.TagDetail(bt.Tag_Id);
@@ -83,6 +88,7 @@ namespace BusinessLogicLayer.BlogPostService
             var blogpostList = blogRepository.Get().Result.ToList();
              foreach(var blogpost in blogpostList)
             {
+                blogpost.Comments = commentLogic.CommentsOfPost(blogpost.Id);
                 blogpost.TagToBlogPosts = tagToBlogPostLogic.TagToBlogPostList().Where(t => t.BlogPost_Id == blogpost.Id).ToList();
             }  
             return blogpostList;
