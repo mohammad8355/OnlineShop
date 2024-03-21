@@ -1,4 +1,6 @@
-﻿<section id="contactus">
+﻿@using DataAccessLayer.Models
+@model List<Contact>
+<section id="contactus">
     <div class="container container-md">
         <div class="header col-12">
             <h1>با ما در تماس باشید !</h1>
@@ -11,27 +13,40 @@
             </div>
         </div>
         <article class="col-md-6 col-12">
-            <ul>
-                <li>
-                    <a href="#">
-                        <p>شماره تماس : 026-23467898</p>
-                        <i class="fa-solid fa-phone"></i>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <p>آدرس  : کرچ خیابان اول کوچه دوم </p>
-                        <i class="fa-solid fa-location-dot"></i>
-                    </a>
-                </li>
+            @{
+                var list = Model.Where(c => c.IsSocialMedia == false).ToList();
+            }
+            @if (list != null)
+            {
+                <ul>
+                    @foreach (var con in list)
+                    {
+                        <li>
+                            <a href="@con.Content">
+                                <p>@con.Name : @con.Content </p>
+                                <i class="fa-solid fa-phone"></i>
+                            </a>
+                        </li>
+                    }
 
             </ul>
+            }
             <h3 class="text-center">ما را در فضای مجازی دنبال کنید </h3>
-            <ul class="nav col-12 m-3 justify-content-center">
-                <li><a href="#"><i class="fa-brands fa-telegram"></i></a></li>
-                <li><a href="#"><img src="../image/bale-color.png" alt="" width="50"></a></li>
-                <li><a href="#"><i class="fa-brands fa-linkedin"></i></a></li>
-            </ul>
+            @{
+                var sociallist = Model.Where(c => c.IsSocialMedia == true).ToList();
+            }
+            @if(list != null)
+            {
+                <ul class="nav col-12 m-3 justify-content-center">
+                    @foreach (var con in sociallist)
+                    {
+                        <li><a href="@con.Content">
+                                <!--<i class="fa-brands fa-telegram"></i>-->
+                                @con.Name
+                            </a></li>
+                    }
+                </ul>
+            }
         </article>
     </div>
 </section>

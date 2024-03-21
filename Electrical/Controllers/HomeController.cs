@@ -1,4 +1,5 @@
 ﻿using BusinessLogicLayer.BlogPostService;
+using BusinessLogicLayer.ContactService;
 using BusinessLogicLayer.GeneralService;
 using BusinessLogicLayer.ProductService;
 using DataAccessLayer.Models;
@@ -14,12 +15,14 @@ namespace PresentationLayer.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly ProductLogic productLogic;
         private readonly GeneralLogic generalLogic;
+        private readonly ContactsLogic contactsLogic;
         private readonly BlogPostLogic blogPostLogic;
-        public HomeController(ILogger<HomeController> logger, ProductLogic productLogic, GeneralLogic generalLogic, BlogPostLogic blogPostLogic)
+        public HomeController(ILogger<HomeController> logger, ContactsLogic contactsLogic, ProductLogic productLogic, GeneralLogic generalLogic, BlogPostLogic blogPostLogic)
         {
             _logger = logger;
             this.productLogic = productLogic;
             this.blogPostLogic = blogPostLogic;
+            this.contactsLogic = contactsLogic;
             this.generalLogic = generalLogic;
         }
 
@@ -50,7 +53,8 @@ namespace PresentationLayer.Controllers
         }
         public IActionResult Contactus()
         {
-            return View();
+            var model = contactsLogic.ContactList();
+            return View(model);
         }
         public IActionResult CommonQuestion()
         {
