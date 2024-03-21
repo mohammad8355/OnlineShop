@@ -139,6 +139,7 @@
                     <div class="form-group p-2">
                         <label>متن پیام</label>
                         <input hidden class="hidden" id="replyValue"  />
+                        <div class="replycontent"></div>
                         <textarea id="description" class="form-control" placeholder="متن پیام خود را وارد کنید" required>
 
                         </textarea>
@@ -179,7 +180,7 @@
                                             <h6>@comment.LastUpdate.Date.ToPersianDate()</h6>
                                         </div>
                                     </div>
-                                    <a href="#" class="replylink"><span>پاسخ<i class="fa-solid fa-reply"></i></span></a>
+                                    <a href="#comment" class="replylink" data-replyId="@comment.Id" data-replyContent="@comment.Description"><span>پاسخ<i class="fa-solid fa-reply"></i></span></a>
                                 </div>
                                 <p>
                                     @comment.Description
@@ -206,7 +207,7 @@
                                             <h6>@comment.LastUpdate.Date.ToPersianDate()</h6>
                                         </div>
                                     </div>
-                                    <a href="#" class="replylink"><span>پاسخ<i class="fa-solid fa-reply"></i></span></a>
+                                    <a href="#comment" class="replylink" data-replyId="@comment.Id" data-replyContent="@comment.Description"><span>پاسخ<i class="fa-solid fa-reply"></i></span></a>
                                 </div>
                                 <p>
                                     @comment.Description
@@ -264,6 +265,11 @@
                     alert("خطایی رخ داده بعدا دوباره تلاش کنید");
                 }
             })
+        })
+        $(".replylink").click(function(){
+            $("#replyValue").val($(this).attr("data-replyId"));
+            $(".replycontent").html($(this).attr("data-replyContent"));
+            $(".replycontent").addClass("bg-secondary p-2 text-light m-1");
         })
     </script>
 }
