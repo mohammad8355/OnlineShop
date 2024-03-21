@@ -1353,6 +1353,44 @@ section.aboutus div.container div.cover img {
   }
 }
 
+section#aboutus {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 0;
+}
+
+section#aboutus .container {
+  background-color: #fff;
+  border-radius: .5em;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  padding: 1em;
+}
+
+section#aboutus .header {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 0;
+}
+
+section#aboutus .header img {
+  border-radius: .5em;
+}
+
+section#aboutus .header h1 {
+  font-family: "Lalezar";
+}
+
+section#aboutus article p {
+  line-height: 2em;
+}
+
 footer {
   position: relative;
   width: 100%;

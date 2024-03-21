@@ -82,3 +82,34 @@ section.aboutus {
         }
     }
 }
+section#aboutus {
+    width: 100%;
+    min-height: 100vh;
+    @include flex();
+
+    .container {
+        background-color: $white;
+        border-radius: .5em;
+        box-shadow: 0 0 10px rgba($color: #000000, $alpha: 0.3);
+        padding: 1em;
+    }
+
+    .header {
+        width: 100%;
+        @include flex();
+
+        img {
+            border-radius: .5em;
+        }
+
+        h1 {
+            font-family: "Lalezar";
+        }
+    }
+
+    article {
+        p {
+            line-height: 2em;
+        }
+    }
+}

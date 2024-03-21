@@ -43,6 +43,10 @@ namespace PresentationLayer.Controllers
             };
             return View(model);
         }
+        public IActionResult Aboutus()
+        {
+            return View();
+        }
 
         public IActionResult Privacy()
         {
