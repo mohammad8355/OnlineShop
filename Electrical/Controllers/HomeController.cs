@@ -47,6 +47,10 @@ namespace PresentationLayer.Controllers
         {
             return View();
         }
+        public IActionResult Contactus()
+        {
+            return View();
+        }
 
         public IActionResult Privacy()
         {
