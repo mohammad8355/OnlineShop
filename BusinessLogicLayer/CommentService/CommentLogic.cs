@@ -41,6 +41,20 @@ namespace BusinessLogicLayer.CommentService
         }
         public async Task<bool> DeleteComment(int Id)
         {
+            var isReplyExist = await CommentRepository.Get(c => c.Reply_Id == Id);
+            var target = await CommentRepository.Get(c => c.Id == Id);
+            if (target.Any())
+            {
+                if (isReplyExist.Any())
+                {
+                    var comments = isReplyExist.ToList();
+                    foreach (var comment in comments)
+                    {
+                        comment.Reply_Id = null;
+                        CommentRepository.EditItem(comment);
+                    }
+                }
+            }
             if(await CommentRepository.DeleteItem(Id))
             {
                 return true;

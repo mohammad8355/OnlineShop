@@ -130,5 +130,22 @@ namespace PresentationLayer.Controllers
                 return Json(new { message = "لطفا پیام خود را بنویسید" });
             }
         }
+        public async Task<IActionResult> DeleteComment(int Id)
+        {
+            var comment = commentLogic.CommentDetail(Id);
+            if (comment != null)
+            {
+                comment.IsHide = true;
+                var result = commentLogic.EditComment(comment);
+                if (result)
+                {
+                    return Json(new { message = "حذف با موفقیت انجام شد" });
+                }
+            }
+            else
+            {
+                return Json(new { message = "کامنتی یافت نشد" });
+            }
+        }
     }
 }

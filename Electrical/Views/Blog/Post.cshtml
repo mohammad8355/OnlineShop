@@ -157,7 +157,7 @@
             </div>
             @if (Model.Post.Comments != null)
             {
-                @foreach (var comment in Model.Post.Comments)
+                @foreach (var comment in Model.Post.Comments.Where(c => c.IsHide == false).ToList())
                 {
                     @if (comment.Reply_Id != null && comment.reply != null)
                     {
@@ -186,6 +186,7 @@
                                     @if (comment.User.UserName == User.Identity.Name)
                                     {
                                         <a href="#comment" class="editcomment text-light" data-Id="@comment.Id" data-description="@comment.Description">ویرایش</a>
+                                        <button type="button" class="nav-link" onclick="deleteHandler(@comment.Id)" >حذف</button>
                                     }
                                     </div>
                                 </div>
@@ -219,6 +220,7 @@
                                     @if (comment.User.UserName == User.Identity.Name)
                                     {
                                         <a href="#comment" class="editcomment text-dark" data-Id="@comment.Id" data-description="@comment.Description">ویرایش</a>
+                                            <button type="button" class="nav-link" onclick="deleteHandler(@comment.Id)">حذف</button>
                                     }
                                     </div>
                                 </div>
@@ -307,6 +309,20 @@
             $("#description").html($(this).attr("data-description"));
             console.log($(this).attr("data-description"));
         })
+        function deleteHandler(Id){
+            $.ajax({
+                url:'@Url.Action("DeleteComment","Comment")',
+                type:'GET',
+                data:{Id: Id },
+                success:function(data){
+                    alert(data.message);
+                    location.reload();
+                },
+                error:function(){
+                    alert("خطایی رخ داده بعدا دوباره تلاش کنید");
+                }
+            })
+        }
     </script>
 }
 @section ScriptRefrence{

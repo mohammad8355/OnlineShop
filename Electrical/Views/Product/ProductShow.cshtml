@@ -202,7 +202,7 @@
                     @if (Model.product.commnets.Count() > 0)
                     {
                         <div class="card-slider" dir="ltr">
-                            @foreach (var comment in Model.product.commnets)
+                            @foreach (var comment in Model.product.commnets.Where(c => c.IsHide == false).ToList())
                             {
                                 var classname = "";
                                 @if (User.Identity.Name == comment.User.UserName)
