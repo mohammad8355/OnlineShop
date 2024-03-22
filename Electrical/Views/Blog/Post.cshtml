@@ -138,11 +138,12 @@
                     <h5>نظر خود را ارسال کنید</h5>
                     <div class="form-group p-2">
                         <label>متن پیام</label>
-                        <input hidden class="hidden" id="replyValue"  />
-                        <div class="replycontent"></div>
+                        <input hidden class="hidden" id="replyValue" />
+                        <input hidden class="hidden" id="postId" />
+                        <div class="replycontent">
+                        </div>
                         <textarea id="description" class="form-control" placeholder="متن پیام خود را وارد کنید" required>
-
-                        </textarea>
+                         </textarea>
                     </div>
                     @if (User.Identity.IsAuthenticated)
                     {
@@ -180,7 +181,13 @@
                                             <h6>@comment.LastUpdate.Date.ToPersianDate()</h6>
                                         </div>
                                     </div>
+                                    <div class="flex-column d-flex">
                                     <a href="#comment" class="replylink" data-replyId="@comment.Id" data-replyContent="@comment.Description"><span>پاسخ<i class="fa-solid fa-reply"></i></span></a>
+                                    @if (comment.User.UserName == User.Identity.Name)
+                                    {
+                                        <a href="#comment" class="editcomment text-light" data-Id="@comment.Id" data-description="@comment.Description">ویرایش</a>
+                                    }
+                                    </div>
                                 </div>
                                 <p>
                                     @comment.Description
@@ -207,7 +214,13 @@
                                             <h6>@comment.LastUpdate.Date.ToPersianDate()</h6>
                                         </div>
                                     </div>
+                                       <div class="flex-column d-flex">
                                     <a href="#comment" class="replylink" data-replyId="@comment.Id" data-replyContent="@comment.Description"><span>پاسخ<i class="fa-solid fa-reply"></i></span></a>
+                                    @if (comment.User.UserName == User.Identity.Name)
+                                    {
+                                        <a href="#comment" class="editcomment text-dark" data-Id="@comment.Id" data-description="@comment.Description">ویرایش</a>
+                                    }
+                                    </div>
                                 </div>
                                 <p>
                                     @comment.Description
@@ -253,23 +266,46 @@
         })
         $("#comment").submit(function (e) {
             e.preventDefault();
-            $.ajax({
-                url: '@Url.Action("AddCommentPost","Comment")',
-                type: 'GET',
-                data: { description: $("#description").val(), post_Id: @Model.Post.Id , reply_Id:$("#replyValue").val() },
-                success: function (data) {
-                    alert(data.message);
-                    location.reload();
-                },
-                error: function () {
-                    alert("خطایی رخ داده بعدا دوباره تلاش کنید");
-                }
-            })
+            if ($("#postId").val() != null || $("#postId").val() != "") {
+                console.log("edit");
+                $.ajax({
+                    url: '@Url.Action("EditCommentPost","Comment")',
+                    type: 'GET',
+                    data: { description: $("#description").val(), post_Id: @Model.Post.Id , postId: $("#postId").val() },
+                    success: function (data) {
+                        alert(data.message);
+                        location.reload();
+                    },
+                    error: function () {
+                        alert("خطایی رخ داده بعدا دوباره تلاش کنید");
+                    }
+                })
+            } else {
+                console.log("add");
+                $.ajax({
+                    url: '@Url.Action("AddCommentPost","Comment")',
+                    type: 'GET',
+                    data: { description: $("#description").val(), post_Id: @Model.Post.Id , reply_Id: $("#replyValue").val() },
+                    success: function (data) {
+                        alert(data.message);
+                        location.reload();
+                    },
+                    error: function () {
+                        alert("خطایی رخ داده بعدا دوباره تلاش کنید");
+                    }
+                })
+            }
+
         })
-        $(".replylink").click(function(){
+        $(".replylink").click(function () {
             $("#replyValue").val($(this).attr("data-replyId"));
             $(".replycontent").html($(this).attr("data-replyContent"));
             $(".replycontent").addClass("bg-secondary p-2 text-light m-1");
+        })
+        $(".editcomment").click(function () {
+            $("#postId").val($(this).attr("data-Id"));
+            $("#description").html($(this).attr("data-description"));
+            console.log($(this).attr("data-description"));
         })
     </script>
 }

@@ -104,5 +104,31 @@ namespace PresentationLayer.Controllers
                 return Json(new { message = "لطفا پیام خود را بنویسید" });
             }
         }
+        public async Task<IActionResult> EditCommentPost(string description, int post_Id, int postId)
+        {
+            var user = await userManager.FindByNameAsync(User.Identity.Name);
+            if (!string.IsNullOrEmpty(description))
+            {
+                var comment = commentLogic.CommentDetail(postId);
+                comment.Title = "";
+                comment.User_Id = user.Id;
+                comment.Description = description.ToString();
+                comment.LastUpdate = DateTime.Now;
+                comment.BlogPost_Id = post_Id;
+                var result = commentLogic.EditComment(comment);
+                if (result)
+                {
+                    return Json(new { message = "کامنت شما با موفقیت ثبت شد" });
+                }
+                else
+                {
+                    return Json(new { message = "خطایی  رخ داده لطفا بعدا تلاش کنید !" });
+                }
+            }
+            else
+            {
+                return Json(new { message = "لطفا پیام خود را بنویسید" });
+            }
+        }
     }
 }
