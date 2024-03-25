@@ -247,7 +247,114 @@ section {
         }
     }
 }
+.searchposts {
+    .search {
+        @include flex(row);
 
+        input {
+            text-align: right;
+            font-weight: 500;
+        }
+
+        input::placeholder {
+            text-align: right;
+        }
+
+        button {
+            background-color: $Primary;
+            color: $white;
+            border: none;
+        }
+
+        button:hover {
+            background-color: $darkPrimary;
+        }
+    }
+
+    .postlist {
+        ul {
+            list-style: none;
+
+            li a {
+                width: auto;
+                @include flex();
+                margin: .5em;
+            }
+
+            .post-item {
+                box-shadow: 0 0 20px 5px rgba($color: $lightSecondary, $alpha: 0.3);
+
+                img {
+                    width: 100%;
+                    padding: 1em;
+                    border-radius: 1em;
+                }
+
+                .detail {
+                    color: $Secondary;
+                    padding: .5em;
+                    @include flex(row,space-between)
+                }
+
+                h4 {
+                    color: $dark;
+                    font-family: "Lalezar","Vazir";
+                }
+
+                p {
+                    color: $darkSecondary;
+                    text-wrap: balance;
+                    font-weight: 300;
+                }
+            }
+        }
+    }
+}
+
+.popular-tags {
+    margin-top: 1em;
+    display: flex;
+    flex-wrap: wrap;
+
+    .tag {
+        border: 2px solid $dark;
+        margin: .1em;
+        border-radius: 2em;
+        box-shadow: 0 0 10px 5px rgba($color: #a0a0a0, $alpha: 0.3);
+        padding: .5em 1em .5em 1em;
+        font-size: .8em;
+    }
+}
+
+.tags {
+    width: 100%;
+    @include flex(row, flex-end);
+    flex-wrap: wrap;
+    column-gap: .5em;
+
+    .tag {
+        padding: .5em;
+        // background-color: rgba($color: $lightPrimary, $alpha: 0.3);
+        background-color: transparent;
+        border: 2px solid $darkPrimary;
+        color: $darkPrimary;
+        border-radius: 2em;
+        transition: all .5s;
+    }
+
+    .tag:hover {
+        background-color: $darkPrimary;
+        color: $white;
+        transition: all .5s;
+    }
+}
+@media screen and (max-width:768px) {
+    .searchposts .postlist .post-item {
+        p {
+            // display: none;
+        }
+    }
+}
 @media screen and (max-width:991px) {
     section aside {
         display: none;

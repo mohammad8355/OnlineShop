@@ -13,7 +13,11 @@ namespace PresentationLayer.Controllers
         }
         public IActionResult Index()
         {
-            return View();
+            var model = new BlogPostIndexViewModel()
+            {
+                Posts = blogPostLogic.blogPostList(),
+            };
+            return View(model);
         }
         public IActionResult Post(string Title)
         {
@@ -23,6 +27,12 @@ namespace PresentationLayer.Controllers
                 Post = blogPostLogic.BlogPostDetail(Title),
             };
             return View(model);
+        }
+        [HttpGet]
+        public IActionResult SearchPost(string search = "")
+        {
+            var model = blogPostLogic.SearchPost(search);
+            return PartialView("Partials/SearchPostPartial");
         }
 
     }

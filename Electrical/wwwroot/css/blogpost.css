@@ -315,6 +315,105 @@ section .comments .sendComment form button:hover {
   background-color: #00719C;
 }
 
+.searchposts .search {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  gap: 0;
+}
+.searchposts .search input {
+  text-align: right;
+  font-weight: 500;
+}
+.searchposts .search input::placeholder {
+  text-align: right;
+}
+.searchposts .search button {
+  background-color: #009BD6;
+  color: #fff;
+  border: none;
+}
+.searchposts .search button:hover {
+  background-color: #00719C;
+}
+.searchposts .postlist ul {
+  list-style: none;
+}
+.searchposts .postlist ul li a {
+  width: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 0;
+  margin: 0.5em;
+}
+.searchposts .postlist ul .post-item {
+  box-shadow: 0 0 20px 5px rgba(189, 191, 193, 0.3);
+}
+.searchposts .postlist ul .post-item img {
+  width: 100%;
+  padding: 1em;
+  border-radius: 1em;
+}
+.searchposts .postlist ul .post-item .detail {
+  color: #919192;
+  padding: 0.5em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  gap: 0;
+}
+.searchposts .postlist ul .post-item h4 {
+  color: #2F2E2E;
+  font-family: "Lalezar", "Vazir";
+}
+.searchposts .postlist ul .post-item p {
+  color: #6B6B6C;
+  text-wrap: balance;
+  font-weight: 300;
+}
+
+.popular-tags {
+  margin-top: 1em;
+  display: flex;
+  flex-wrap: wrap;
+}
+.popular-tags .tag {
+  border: 2px solid #2F2E2E;
+  margin: 0.1em;
+  border-radius: 2em;
+  box-shadow: 0 0 10px 5px rgba(160, 160, 160, 0.3);
+  padding: 0.5em 1em 0.5em 1em;
+  font-size: 0.8em;
+}
+
+.tags {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-direction: row;
+  gap: 0;
+  flex-wrap: wrap;
+  column-gap: 0.5em;
+}
+.tags .tag {
+  padding: 0.5em;
+  background-color: transparent;
+  border: 2px solid #00719C;
+  color: #00719C;
+  border-radius: 2em;
+  transition: all 0.5s;
+}
+.tags .tag:hover {
+  background-color: #00719C;
+  color: #fff;
+  transition: all 0.5s;
+}
+
 @media screen and (max-width: 991px) {
   section aside {
     display: none;

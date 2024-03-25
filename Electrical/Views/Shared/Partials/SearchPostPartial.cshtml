@@ -1,0 +1,34 @@
+﻿@using DataAccessLayer.Models
+@model List<BlogPost>
+
+@if(Model != null)
+{
+    <ul class="col-12 p-0 m-0">
+        @foreach (var post in Model)
+        {
+            <li>
+                <a class="nav-link" href="#">
+                    <div class="col-md-8 col-12 post-item d-flex flex-wrap bg-light">
+                        <div class="col-md-2 col-4 rounded-3 overflow-hidden">
+                            <img src="@post.CoverLink" alt="" width="100px">
+                        </div>
+                        <div class="col-md-10 col-8 d-flex flex-column">
+                            <div class="detail">
+                                <span>0 <i class="fa-solid fa-eye"></i></span>
+                                <span>@post.ReadingTime دقیقه زمان مطالعه</span>
+                            </div>
+                            <h4>@post.Title</h4>
+                            <div class="tags col-12 ps-2">
+                                @foreach (var tag in post.TagToBlogPosts.Select(t => t.Tag).ToList())
+                                {
+                                    <span class="tag">#@tag.TagName</span>
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+        }
+    </ul>
+}

@@ -93,5 +93,10 @@ namespace BusinessLogicLayer.BlogPostService
             }  
             return blogpostList;
         }
+        public List<BlogPost> SearchPost(string search)
+        {
+            var postList = blogPostList().Where(p => p.Title.Contains(search) || p.TagToBlogPosts.Select(t => t.Tag.TagName).ToList().Contains(search)).ToList();
+            return postList;
+        }
     }
 }

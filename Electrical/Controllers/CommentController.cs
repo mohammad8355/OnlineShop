@@ -141,6 +141,10 @@ namespace PresentationLayer.Controllers
                 {
                     return Json(new { message = "حذف با موفقیت انجام شد" });
                 }
+                else
+                {
+                    return Json(new { message = "خطا در حذف کامنت" });
+                }
             }
             else
             {

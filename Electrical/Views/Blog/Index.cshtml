@@ -1,5 +1,79 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@model BlogPostIndexViewModel
+@using Utility.PersianDate;
+<section class="scrollBlog scrollSection d-flex flex-column align-items-center" dir="ltr">
+    <h2 class="col-10 text-dark d-flex flex-row-reverse justify-content-between">
+        <span>آخرین مقالات</span>
+        <!-- <span><a href="#" class="nav-link text-secondary display-5">مشاهده بیشتر</a></span> -->
+    </h2>
+    <div class="container-lg container-fluid p-2">
+        <div class="card-slider">
+            @if(Model != null)
+            {
+                @if(Model.Posts != null)
+                {
+                    @foreach (var post in Model.Posts)
+                    {
+                        <div class="card rounded-4" style="width: 18rem;">
+                            <div class="card-header">
+                                <img src="@post.CoverLink" class="card-img-top rounded-3" alt="c#">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">@post.Title</h5>
+                                <span class="badge bg-info">@post.LastUpdates.Date.ToPersianDate() </span>
+                            </div>
+                        </div>
+                    }
+                }
+            }
+        </div>
+        <!-- <button class="slick-prev" aria-label="Previous" type="button"></button>
+            <button class="slick-next" aria-label="Next" type="button"></button> -->
+    </div>
+</section>
+<section class="searchposts container-md container-fluid">
+    <form class="col-12" dir="ltr">
+        <div class="input-group search">
+            <input id="search" type="text" class="col-md-6 col-10" placeholder="تگ یا عنوان مقاله مورد نظر را جستجو کنید">
+            <button type="button" class="btn btn-dark" id="searchBtn" >جستجو</button>
+        </div>
+    </form>
+    <div class="col-12 d-flex justify-content-center p-2">
+        <div class="popular-tags">
+            <span class="tag"><a class="nav-link" href="#">کامپیوتر#</a></span>
+            <span class="tag"><a class="nav-link" href="#">درایو</a></span>
+            <span class="tag"><a class="nav-link" href="#">ویندوز#</a></span>
+            <span class="tag"><a class="nav-link" href="#">5-نکته-مهم#</a></span>
+            <span class="tag"><a class="nav-link" href="#">5-نکته-مهم#</a></span>
+        </div>
+    </div>
+    <div class="postlist col-12 mt-4">
+       
+    </div>
+</section>
+@section InLineCss{
+    <link rel="stylesheet" href="~/sass/blogpost.css" />
+}
+@section InLineScript{
+    <script>
+        $("#search").change(function(){
+            $.ajax({
+                url:'@Url.Action("SearchPost","Blog")',
+                type:'GET',
+                data:{ search : $(this).val() },
+                success:function(data){
+                    $(".postlist").append(data);
+                },
+            })
+        })
+        $("#searchBtn").click(function(){
+            $.ajax({
+                url: '@Url.Action("SearchPost","Blog")',
+                type: 'GET',
+                data: { search: $(this).val() },
+                success: function (data) {
+                    $(".postlist").append(data);
+                },
+            })
+        })
+    </script>
 }
