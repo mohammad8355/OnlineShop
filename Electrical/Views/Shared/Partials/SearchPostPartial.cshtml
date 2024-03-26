@@ -7,7 +7,7 @@
         @foreach (var post in Model)
         {
             <li>
-                <a class="nav-link" href="#">
+                <a class="nav-link" asp-action="Post" asp-controller="Blog" asp-route-Title="@post.Title" >
                     <div class="col-md-8 col-12 post-item d-flex flex-wrap bg-light">
                         <div class="col-md-2 col-4 rounded-3 overflow-hidden">
                             <img src="@post.CoverLink" alt="" width="100px">
