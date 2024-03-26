@@ -80,6 +80,15 @@ namespace BusinessLogicLayer.OrderService
             }
             return orders;
         }
+        public Order FindOpenOrderByUser(string user_Id)
+        {
+            var order = new Order();
+            if (!string.IsNullOrEmpty(user_Id))
+            {
+                order = OrderList().Where(o => o.User_Id == user_Id && o.IsFinally == false).FirstOrDefault();
+            }
+            return order;
+        }
 
     }
 }

@@ -1,0 +1,84 @@
+﻿@using Utility.PersianDate;
+@model OrderFinallyViewModel
+<section class="complementionShop container-lg container-fluid">
+    <div class="table-responsive">
+        <table class="table mt-5 mb-5 px-3 table-striped table-hover table-info">
+            <thead>
+                <tr>
+                    <th>نام کاربر</th>
+                    <th>نام کالا</th>
+                    <th>قیمت واحد</th>
+                    <th>قیمت کل</th>
+                    <th>تعداد</th>
+                    <th>کد کالا</th>
+                    <th>کد رهگیری</th>
+                    <th>وضعیت سفارش</th>
+                    <th>تاریخ</th>
+                    <th>چاپ</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var order in Model.Order.orderDetails){
+                    <tr>
+                        <td>@Model.User.UserName</td>
+                        <td>@order.Product.Name</td>
+                        <td>تومان @order.Product.Price.ToString("N0")</td>
+                        <td>@order.TotalPrice.ToString("N0") تومان</td>
+                        <td>@order.count</td>
+                        <td>@order.Product.ProductCode<td>
+                        <td>3456789012</td>
+                        <td><span class="badge bg-warning">نهایی نشده </span></td>
+                        <td>@Model.Order.DateCreate.ToPersianDate()</td>
+                        <td><a href="#" class="btn btn-primary">چاپ</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="submitShop">
+        <form method="post" class="col-lg-6 col-md-8 col-12">
+            <div class="form-group col-8">
+                <label>نام و نام خانوادگی</label>
+                <input type="text" value="@Model.User.FullName" disabled>
+            </div>
+            <div class="form-group col-8">
+                <label>شماره همراه</label>
+                <input type="tel" value="@Model.User.PhoneNumber" disabled>
+            </div>
+            <div class="form-group col-8">
+                <label>آدرس</label>
+                <textarea type="text" disabled>
+                      @Model.User.Address
+                    </textarea>
+            </div>
+            <div class="form-group col-8">
+                <label>نام شهر</label>
+                <input type="text" value="@Model.User.city" disabled>
+            </div>
+            <div class="form-group col-8">
+                <label>کد پستی</label>
+                <input type="number" value="@Model.User.PostalCode" disabled>
+            </div>
+            <div class="form-group col-8">
+                <label>قیمت کل</label>
+                <input type="number" value="@Model.Order.TotalPrice" disabled>
+            </div>
+            <div class="form-group col-8">
+                <label>تعداد کل</label>
+                <input type="number" value="@Model.Order.TotalCount" disabled>
+            </div>
+            <div class="form-group col-8">
+                <label>تاریخ</label>
+                <input type="datetime-local" value="@DateTime.Now.Date.ToPersianDate()" disabled>
+            </div>
+            <div class="btn-group col-8 mt-2" dir="ltr">
+                <button type="submit" class="btn btn-success">پرداخت</button>
+                <a asp-area="Identity" asp-page="/Account/Manage/Index" class="btn btn-outline-warning">ویرایش اطلاعات</a>
+                <a asp-action="Index" asp-controller="Shop" class="btn btn-outline-primary">مرحله قبل</a>
+            </div>
+        </form>
+    </div>
+</section>
+@*@section InlineCss{
+    <link rel="stylesheet" href="~/"
+}*@

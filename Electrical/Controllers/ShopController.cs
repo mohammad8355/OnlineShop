@@ -196,5 +196,18 @@ namespace PresentationLayer.Controllers
             return Json(new { res = false });
 
         }
+        [HttpGet]
+        public async Task<IActionResult> OrderFinally()
+        {
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            var order = orderLogic.FindOpenOrderByUser(user.Id);
+            var model = new OrderFinallyViewModel()
+            {
+                User = user,
+                Order = order,
+            };
+            return View(model);
+        }
+
     }
 }
