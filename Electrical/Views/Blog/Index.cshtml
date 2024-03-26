@@ -18,7 +18,7 @@
                                 <img src="@post.CoverLink" class="card-img-top rounded-3" alt="c#">
                             </div>
                             <div class="card-body">
-                                <h5 class="card-title">@post.Title</h5>
+                                <h5 class="card-title text-wrap">@post.Title</h5>
                                 <span class="badge bg-info">@post.LastUpdates.Date.ToPersianDate() </span>
                             </div>
                         </div>
@@ -33,7 +33,7 @@
 <section class="searchposts container-md container-fluid">
     <form class="col-12" dir="ltr">
         <div class="input-group search">
-            <input id="search" type="text" class="col-md-6 col-10" placeholder="تگ یا عنوان مقاله مورد نظر را جستجو کنید">
+            <input id="search" type="text" class="col-md-6 col-10 form-control" placeholder="تگ یا عنوان مقاله مورد نظر را جستجو کنید">
             <button type="button" class="btn btn-dark" id="searchBtn" >جستجو</button>
         </div>
     </form>
@@ -52,16 +52,18 @@
 </section>
 @section InLineCss{
     <link rel="stylesheet" href="~/sass/blogpost.css" />
+    <link rel="stylesheet" href="~/css/blogpost.css" />
 }
 @section InLineScript{
     <script>
-        $("#search").change(function(){
+        $("#search").keyup(function () {
+            var inputValue = $(this).val();
             $.ajax({
                 url:'@Url.Action("SearchPost","Blog")',
                 type:'GET',
-                data:{ search : $(this).val() },
+                data: { search: inputValue.toString() },
                 success:function(data){
-                    $(".postlist").append(data);
+                    $(".postlist").html(data);
                 },
             })
         })
@@ -69,9 +71,9 @@
             $.ajax({
                 url: '@Url.Action("SearchPost","Blog")',
                 type: 'GET',
-                data: { search: $(this).val() },
-                success: function (data) {
-                    $(".postlist").append(data);
+                data: { search: inputValue.toString() },
+                success:function(data) {
+                    $(".postlist").html(data);
                 },
             })
         })

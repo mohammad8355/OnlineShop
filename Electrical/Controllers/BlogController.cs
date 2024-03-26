@@ -32,7 +32,7 @@ namespace PresentationLayer.Controllers
         public IActionResult SearchPost(string search = "")
         {
             var model = blogPostLogic.SearchPost(search);
-            return PartialView("Partials/SearchPostPartial");
+            return PartialView("Partials/SearchPostPartial",model);
         }
 
     }
