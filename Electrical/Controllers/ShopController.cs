@@ -208,6 +208,12 @@ namespace PresentationLayer.Controllers
             };
             return View(model);
         }
-
+        [HttpPost]
+        public async Task<IActionResult> OrderFinally(OrderFinallyViewModel model)
+        {
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            var order = orderLogic.FindOpenOrderByUser(user.Id);
+            return View(model);
+        }
     }
 }
