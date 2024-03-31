@@ -2,6 +2,7 @@
 using BusinessLogicLayer.OrderService;
 using BusinessLogicLayer.ProductService;
 using DataAccessLayer.Models;
+using Infrustructure.Payment;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +12,7 @@ using PresentationLayer.Models.ViewModels;
 using System.Linq;
 using System.Net.WebSockets;
 using System.Runtime.CompilerServices;
+using ZarinPal.Class;
 
 namespace PresentationLayer.Controllers
 {
@@ -21,12 +23,14 @@ namespace PresentationLayer.Controllers
         private readonly ProductLogic productLogic;
         private readonly OrderLogic orderLogic;
         private readonly OrderDetailsLogic orderDetailsLogic;
-        public ShopController(UserManager<ApplicationUser> _userManager, ProductLogic productLogic, OrderLogic orderLogic, OrderDetailsLogic orderDetailsLogic)
+        private readonly IPayment _payment;
+        public ShopController(UserManager<ApplicationUser> _userManager, ProductLogic productLogic, OrderLogic orderLogic, OrderDetailsLogic orderDetailsLogic, ZarinPalPay payment)
         {
             this._userManager = _userManager;
             this.productLogic = productLogic;
             this.orderLogic = orderLogic;
             this.orderDetailsLogic = orderDetailsLogic;
+            _payment = payment;
         }
         public async Task<IActionResult> Index()
         {
@@ -73,7 +77,7 @@ namespace PresentationLayer.Controllers
                 if (result)
                 {
                     product.QuantityInStock -= count;
-                    if(await productLogic.UpdateProduct(product))
+                    if (await productLogic.UpdateProduct(product))
                     {
                         return Json(new { message = "به سبد خرید اضافه شد" });
                     }
@@ -128,13 +132,13 @@ namespace PresentationLayer.Controllers
                     if (result)
                     {
                         product.QuantityInStock += orderDetail.count;
-                        if(await productLogic.UpdateProduct(product))
+                        if (await productLogic.UpdateProduct(product))
                         {
                             return Json(new { message = "سفارش با موفقیت حذف شد", header = "موفقیت", type = "success" });
                         }
                     }
                 }
-                return Json(new { message = "خطا ", header = "هشدار خطا" , type = "warning" });
+                return Json(new { message = "خطا ", header = "هشدار خطا", type = "warning" });
             }
             else
             {
@@ -158,22 +162,22 @@ namespace PresentationLayer.Controllers
         public IActionResult AddCountOrderDetails(int Id)
         {
             var orderDetail = orderDetailsLogic.OrderDetailsDetail(Id);
-            if(orderDetail != null)
+            if (orderDetail != null)
             {
-                if(orderDetail.count < orderDetail.Product.QuantityInStock)
+                if (orderDetail.count < orderDetail.Product.QuantityInStock)
                 {
                     var price = orderDetail.Product.Price;
                     orderDetail.count += 1;
                     orderDetail.TotalPrice += price;
                     orderDetail.order.TotalCount += 1;
                     orderDetail.order.TotalPrice += price;
-                    orderDetail.Product.QuantityInStock -= 1;   
+                    orderDetail.Product.QuantityInStock -= 1;
                     var result = orderDetailsLogic.EditOrderDetails(orderDetail);
                     return Json(new { res = result, price = price });
                 }
             }
             return Json(new { res = false });
-                
+
         }
         [HttpGet]
         public IActionResult MinusCountOrderDetails(int Id)
@@ -181,7 +185,7 @@ namespace PresentationLayer.Controllers
             var orderDetail = orderDetailsLogic.OrderDetailsDetail(Id);
             if (orderDetail != null)
             {
-                if(orderDetail.count > 0)
+                if (orderDetail.count > 0)
                 {
                     var price = orderDetail.Product.Price;
                     orderDetail.count -= 1;
@@ -208,11 +212,32 @@ namespace PresentationLayer.Controllers
             };
             return View(model);
         }
-        [HttpPost]
-        public async Task<IActionResult> OrderFinally(OrderFinallyViewModel model)
+        [HttpGet]
+        public async Task<IActionResult> Pay(int order_Id)
+        {
+            var order = orderLogic.OrderDetail(order_Id);
+            var description = $"خرید محصول توسط کاربر{order.User.FullName}";
+            var callbackurl = "https://localhost:44337/Shop/Verification/" + order_Id;
+            var paymentResult = await _payment.Pay("xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", callbackurl, (int)order.TotalPrice, description,"sampleEmial@gmail.com","091234568");
+            return Json(new { url = $"https://sandbox.zarinpal.com/pg/StartPay/{paymentResult.Authority}"});
+        }
+        public async Task<IActionResult> Verification(string authority, string status)
         {
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
             var order = orderLogic.FindOpenOrderByUser(user.Id);
+            var verificationResult = await _payment.Verification((int)order.TotalPrice, authority, "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx");
+            var model = new VerificationPaymentViewModel()
+            {
+                User = order.User,
+                order = order,
+                TrackingCode = verificationResult.RefId.ToString(),
+                Status = verificationResult.Status.ToString(),
+            };
+            if (status.Equals("OK"))
+            {
+                order.IsFinally = true;
+                orderLogic.EditOrder(order);
+            }
             return View(model);
         }
     }

@@ -18,14 +18,16 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach(var order in Model.Order.orderDetails){
+                @foreach (var order in Model.Order.orderDetails)
+                {
                     <tr>
                         <td>@Model.User.UserName</td>
                         <td>@order.Product.Name</td>
                         <td>تومان @order.Product.Price.ToString("N0")</td>
                         <td>@order.TotalPrice.ToString("N0") تومان</td>
                         <td>@order.count</td>
-                        <td>@order.Product.ProductCode<td>
+                        <td>@order.Product.ProductCode
+                        <td>
                         <td>3456789012</td>
                         <td><span class="badge bg-warning">نهایی نشده </span></td>
                         <td>@Model.Order.DateCreate.ToPersianDate()</td>
@@ -36,43 +38,44 @@
         </table>
     </div>
     <div class="submitShop">
-        <form method="post" class="col-lg-6 col-md-8 col-12" asp-action="OrderFinally" asp-controller="Shop" id="OrderInfoForm">
-            <div class="form-group col-8">
-                <label>نام و نام خانوادگی</label>
-                <input type="text" value="@Model.User.FullName" >
-            </div>
-            <div class="form-group col-8">
-                <label>شماره همراه</label>
-                <input type="tel" value="@Model.User.PhoneNumber" >
-            </div>
-            <div class="form-group col-8">
-                <label>آدرس</label>
-                <textarea type="text" >
-                      @Model.User.Address
-                    </textarea>
-            </div>
-            <div class="form-group col-8">
-                <label>نام شهر</label>
-                <input type="text" value="@Model.User.city" >
-            </div>
-            <div class="form-group col-8">
-                <label>کد پستی</label>
-                <input type="number" value="@Model.User.PostalCode" >
-            </div>
-            <div class="form-group col-8">
-                <label>قیمت کل</label>
-                <input type="number" value="@Model.Order.TotalPrice" >
-            </div>
-            <div class="form-group col-8">
-                <label>تعداد کل</label>
-                <input type="number" value="@Model.Order.TotalCount" >
-            </div>
-            <div class="form-group col-8">
-                <label>تاریخ</label>
-                <input type="datetime-local" value="@DateTime.Now.Date.ToPersianDate()" >
-            </div>
+        <form class="col-lg-6 col-md-8 col-12" id="OrderInfoForm">
+
+            <table class="table">
+                <tr>
+                    <th>نام و نام خانوادگی</th>
+                    <td class="input">@Model.User.FullName</td>
+                </tr>
+                <tr>
+                    <th>شماره موبایل</th>
+                    <td class="input">@Model.User.PhoneNumber</td>
+                </tr>
+                <tr>
+                    <th>آدرس</th>
+                    <td class="input">@Model.User.Address</td>
+                </tr>
+                <tr>
+                    <th>کد پستی</th>
+                    <td class="input">@Model.User.PostalCode</td>
+                </tr>
+                <tr>
+                    <th>نام شهر</th>
+                    <td class="input">@Model.User.city</td>
+                </tr>
+                <tr>
+                    <th>تاریخ</th>
+                    <td class="input">@Model.Order.DateCreate</td>
+                </tr>
+                <tr>
+                    <th>مبلغ کل</th>
+                    <td class="input">@Model.Order.TotalPrice</td>
+                </tr>
+                <tr>
+                    <th>تعداد کل</th>
+                    <td class="input">@Model.Order.TotalCount</td>
+                </tr>
+            </table>
             <div class="btn-group col-8 mt-2" dir="ltr">
-                <button type="submit" onclick="PostForm()" class="btn btn-success">پرداخت</button>
+                <button type="button" onclick="PostForm()" class="btn btn-success">پرداخت</button>
                 <a asp-area="Identity" asp-page="/Account/Manage/Index" class="btn btn-outline-warning">ویرایش اطلاعات</a>
                 <a asp-action="Index" asp-controller="Shop" class="btn btn-outline-primary">مرحله قبل</a>
             </div>
@@ -81,15 +84,23 @@
 </section>
 @section InlineScript{
     <script>
-        function PostForm(){
+        function PostForm() {
             var form = document.getElementById('OrderInfoForm');
-            var inputs = form.getElementsByTagName('input');
-            var textarea = form.getElementsByTagName('textarea');
-            for(var i =0 ;i< inputs.length ; i++){
-                inputs[i].disabled = true;
+            if($('.input').html() != null && $('.input').html() != "")
+            {
+                $.ajax({
+                    url: '@Url.Action("Pay","Shop")',
+                    type:'GET',
+                    data:{order_Id : @Model.Order.Id },
+                    success:function(data){
+                       window.location.replace(data.url);
+                    }
+                });
             }
-            textarea.disabled = true;
-            form.submit();
+            else
+            {
+                $("#OrderInfoForm").append("<div class='alert alert-warning'>لطفا اطلاعات خود را تکیمل کنید</div>");
+            }
         }
     </script>
 }

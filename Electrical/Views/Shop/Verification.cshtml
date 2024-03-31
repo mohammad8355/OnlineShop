@@ -1,0 +1,97 @@
+﻿@using Utility.PersianDate;
+@model VerificationPaymentViewModel
+
+<div class="row justify-content-center">
+    @if (Model.Status == "100")
+    {
+        <!--if payment be successfull-->
+        <div class="card col-6 p-0 m-1">
+            <div class="card-header bg-success">
+                <h3 class="text-light"> پرداخت موفق </h3>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <tr>
+                        <th>نام کالا</th>
+                        @{
+                            var product = "";
+                            foreach (var orderdetail in @Model.order.orderDetails)
+                            {
+                                product += "/" + orderdetail.Product.Name;
+                            }
+                        }
+                        <td>@product</td>
+                    </tr>
+                    <tr>
+                        <th>مبلغ</th>
+                        <td>@Model.order.TotalPrice.ToString("N0")</td>
+                    </tr>
+                    <tr>
+                        <th>شماره فاکتور</th>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th>کد پیگیری</th>
+                        <td>@Model.TrackingCode</td>
+                    </tr>
+                    <tr>
+                        <th>تاریخ</th>
+                        <td>@DateTime.Now.Date.ToPersianDate()</td>
+                    </tr>
+                    <tr>
+                        <th>نام کاربر</th>
+                        <td>@Model.User.FullName</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="card-footer">
+                <button type="button" class="btn btn-primary">چاپ</button>
+            </div>
+        </div>
+    }
+    else
+    {
+
+        <!--if payment be fail-->
+        <div class="card col-6 m-1 p-0">
+            <div class="card-header bg-danger">
+                <h3 class="text-light"> پرداخت ناموفق </h3>
+            </div>
+            <div class="card-body">
+                   <h3>@Model.Status</h3>
+                @switch (Model.Status)
+                {
+                    case "-9":
+                        <p>
+                            خطای اعتبار سنجی
+                            1- مرچنت کد داخل تنظیمات وارد نشده باشد
+                            -2 آدرس بازگشت (callbackurl) وارد نشده باشد
+                            -3 توضیحات (description ) وارد نشده باشد و یا از حد مجاز 500 کارکتر بیشتر باشد
+                            -4 مبلغ پرداختی کمتر یا بیشتر از حد مجاز
+                        </p>
+                        break;
+                    case "-10":
+                        <p>
+                            ای پی یا مرچنت كد پذیرنده صحیح نیست
+                        </p>
+                        break;
+                    case "-11":
+                        <p>
+                            مرچنت کد فعال نیست، پذیرنده مشکل خود را به امور مشتریان زرین‌پال ارجاع دهد.
+                        </p>
+                        break;
+                    case "-12":
+                        <p>	تلاش بیش از دفعات مجاز در یک بازه زمانی کوتاه به امور مشتریان زرین پال اطلاع دهید</p>
+                        break;
+                    default:
+                        <p>خطایی رخ داده است با پشتیانی تماس بگیرید</p>
+                    break;
+
+                }
+            </div>
+            <div class="card-footer">
+                <a class="btn btn-primary">بازگشت</a>
+            </div>
+        </div>
+    }
+</div>

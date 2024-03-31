@@ -41,6 +41,7 @@ using Microsoft.Extensions.Options;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using PresentationLayer.Areas.Identity.Claims;
+using Infrustructure.Payment;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -143,6 +144,7 @@ builder.Services.AddScoped<OrderDetailsLogic>();
 builder.Services.AddScoped<ReturnMultipleData<UploadFile>>();
 builder.Services.AddScoped<UploadFile>();
 builder.Services.AddScoped<ProductCodeGenerator>();
+builder.Services.AddScoped<ZarinPalPay>();
 builder.Services.AddScoped<CodeGenerator>();
 var app = builder.Build();
 
