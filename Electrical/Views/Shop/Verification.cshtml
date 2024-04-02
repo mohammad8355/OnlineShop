@@ -1,7 +1,7 @@
 ﻿@using Utility.PersianDate;
 @model VerificationPaymentViewModel
 
-<div class="row justify-content-center">
+<div class="row justify-content-center align-items-center">
     @if (Model.Status == "100")
     {
         <!--if payment be successfull-->
@@ -9,7 +9,7 @@
             <div class="card-header bg-success">
                 <h3 class="text-light"> پرداخت موفق </h3>
             </div>
-            <div class="card-body">
+            <div class="card-body" id="factor">
                 <table class="table">
                     <tr>
                         <th>نام کالا</th>
@@ -28,7 +28,7 @@
                     </tr>
                     <tr>
                         <th>شماره فاکتور</th>
-                        <td></td>
+                        <td>@Model.order.FactorNumber</td>
                     </tr>
                     <tr>
                         <th>کد پیگیری</th>
@@ -45,7 +45,7 @@
                 </table>
             </div>
             <div class="card-footer">
-                <button type="button" class="btn btn-primary">چاپ</button>
+                <button type="button" id="printBtn" class="btn btn-primary">چاپ</button>
             </div>
         </div>
     }
@@ -95,3 +95,17 @@
         </div>
     }
 </div>
+@section ScriptRefrence{
+    <script src="~/js/html2canvas.js"></script>
+    <script src="~/js/function.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha512-qZvrmS2ekKPF2mSznTQsxqPgnpkI4DNTlrdUmTzrDgektczlKNRRhy5X5AAOnx5S09ydFYWWNSfcEqDTTHgtNA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+}
+@section InLineScript {
+    <script>
+        window.jsPDF = window.jspdf.jsPDF;
+        $("#printBtn").click(function(){
+           HtmlTopdf("factor",@Model.order.TrackingCode);
+        })
+    </script>
+}

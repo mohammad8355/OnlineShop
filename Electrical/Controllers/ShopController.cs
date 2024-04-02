@@ -12,6 +12,7 @@ using PresentationLayer.Models.ViewModels;
 using System.Linq;
 using System.Net.WebSockets;
 using System.Runtime.CompilerServices;
+using Utility.ProductCodeGenerator;
 using ZarinPal.Class;
 
 namespace PresentationLayer.Controllers
@@ -21,15 +22,17 @@ namespace PresentationLayer.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ProductLogic productLogic;
+        private readonly ProductCodeGenerator _codeGenerator;
         private readonly OrderLogic orderLogic;
         private readonly OrderDetailsLogic orderDetailsLogic;
         private readonly IPayment _payment;
-        public ShopController(UserManager<ApplicationUser> _userManager, ProductLogic productLogic, OrderLogic orderLogic, OrderDetailsLogic orderDetailsLogic, ZarinPalPay payment)
+        public ShopController(ProductCodeGenerator codeGenerator,UserManager<ApplicationUser> _userManager, ProductLogic productLogic, OrderLogic orderLogic, OrderDetailsLogic orderDetailsLogic, ZarinPalPay payment)
         {
             this._userManager = _userManager;
             this.productLogic = productLogic;
             this.orderLogic = orderLogic;
             this.orderDetailsLogic = orderDetailsLogic;
+            _codeGenerator = codeGenerator;
             _payment = payment;
         }
         public async Task<IActionResult> Index()
@@ -236,6 +239,10 @@ namespace PresentationLayer.Controllers
             if (status.Equals("OK"))
             {
                 order.IsFinally = true;
+                var FactorNumber = _codeGenerator.CodeGenerator("Fact",false,16,false,16,true);
+                order.FactorNumber = FactorNumber;
+                order.TrackingCode = model.TrackingCode;
+                order.PayDate = DateTime.Now;
                 orderLogic.EditOrder(order);
             }
             return View(model);

@@ -2,7 +2,7 @@
 @model OrderFinallyViewModel
 <section class="complementionShop container-lg container-fluid">
     <div class="table-responsive">
-        <table class="table mt-5 mb-5 px-3 table-striped table-hover table-info">
+        <table class="table mt-5 mb-5 px-3 table-striped table-hover table-info" id="factor">
             <thead>
                 <tr>
                     <th>نام کاربر</th>
@@ -26,12 +26,11 @@
                         <td>تومان @order.Product.Price.ToString("N0")</td>
                         <td>@order.TotalPrice.ToString("N0") تومان</td>
                         <td>@order.count</td>
-                        <td>@order.Product.ProductCode
-                        <td>
+                        <td>@order.Product.ProductCode</td>
                         <td>3456789012</td>
                         <td><span class="badge bg-warning">نهایی نشده </span></td>
                         <td>@Model.Order.DateCreate.ToPersianDate()</td>
-                        <td><a href="#" class="btn btn-primary">چاپ</a></td>
+                        <td><a href="#" class="btn btn-primary printBtn">چاپ</a></td>
                     </tr>
                 }
             </tbody>
@@ -82,23 +81,34 @@
         </form>
     </div>
 </section>
+@section ScriptRefrence{
+    <script src="~/js/html2canvas.js"></script>
+    <script src="~/js/function.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha512-qZvrmS2ekKPF2mSznTQsxqPgnpkI4DNTlrdUmTzrDgektczlKNRRhy5X5AAOnx5S09ydFYWWNSfcEqDTTHgtNA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+}
 @section InlineScript{
+    <script>
+        window.jsPDF = window.jspdf.jsPDF;
+        $(document).ready(function () {
+            $(".printBtn").click(function () {
+                HtmlTopdf("factor", "orderfactor");
+            })
+        });
+    </script>
     <script>
         function PostForm() {
             var form = document.getElementById('OrderInfoForm');
-            if($('.input').html() != null && $('.input').html() != "")
-            {
+            if ($('.input').html() != null && $('.input').html() != "") {
                 $.ajax({
                     url: '@Url.Action("Pay","Shop")',
-                    type:'GET',
-                    data:{order_Id : @Model.Order.Id },
-                    success:function(data){
-                       window.location.replace(data.url);
+                    type: 'GET',
+                    data: { order_Id: @Model.Order.Id },
+                    success: function (data) {
+                        window.location.replace(data.url);
                     }
                 });
             }
-            else
-            {
+            else {
                 $("#OrderInfoForm").append("<div class='alert alert-warning'>لطفا اطلاعات خود را تکیمل کنید</div>");
             }
         }

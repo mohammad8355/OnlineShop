@@ -18,6 +18,11 @@ namespace DataAccessLayer.Models
         public decimal TotalPrice { get; set; }
         [Required]
         public int TotalCount { get; set; }
+        [MaxLength(50)]
+        public string TrackingCode { get; set; }
+        [MaxLength(50)]
+        public string FactorNumber { get; set; }
+        public DateTime PayDate { get; set; }
         public bool IsFinally { get; set; }
 
         //navigation property
