@@ -11,7 +11,13 @@
                     <div class="product-box col-12">
                         <a href="#" id="DeleteOrder" data-Id="@orderDetail.Id" data-orderId="@Model.Order.Id" ><i class="fa-solid fa-trash"></i></a>
                         <div class="product-img col-lg-2 col-md-4 col-12">
-                            <img src="~/Image/Chat gpt.jpg" alt="">
+                            @if(orderDetail.Product.ProductPhotos != null)
+                            {
+                                @if(orderDetail.Product.ProductPhotos.Count() > 0)
+                                {
+                                    <img src="~/Image/Product/@(orderDetail.Product.Name)/@(orderDetail.Product.ProductPhotos.First().Name)" alt="@(orderDetail.Product.Name)">
+                                }
+                            }
                         </div>
                         <div class="product-detail col-lg-10 col-md-8 col-12">
                             <div class="row">
@@ -55,7 +61,7 @@
 else
 {
     <div class="container-lg container-fluid">
-        <div class="alert alert-warning" role="alert">
+        <div class="alert alert-warning m-2" role="alert">
             <p>سبد خرید شما خالی است !</p>
         </div>
     </div>

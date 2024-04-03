@@ -54,7 +54,9 @@ namespace PresentationLayer.Controllers
         {
             var currentUser = await _userManager.FindByNameAsync(User.Identity.Name);
             var product = await productLogic.ProductDetail(product_Id);
-            var totalPrice = count * product.Price;
+            var discount = (decimal)product.Discount / 100;
+            var price = product.Price - (discount * product.Price);
+            var totalPrice = count * price;
             var Order = orderLogic.OrderList().Where(o => o.User_Id == currentUser.Id && o.IsFinally == false).FirstOrDefault();
             if (Order != null)
             {
@@ -135,6 +137,8 @@ namespace PresentationLayer.Controllers
                     if (result)
                     {
                         product.QuantityInStock += orderDetail.count;
+                        order.TotalCount -= orderDetail.count;
+                        order.TotalPrice -= orderDetail.TotalPrice;
                         if (await productLogic.UpdateProduct(product))
                         {
                             return Json(new { message = "سفارش با موفقیت حذف شد", header = "موفقیت", type = "success" });
@@ -162,20 +166,25 @@ namespace PresentationLayer.Controllers
             }
         }
         [HttpGet]
-        public IActionResult AddCountOrderDetails(int Id)
+        public async Task<IActionResult> AddCountOrderDetails(int Id)
         {
             var orderDetail = orderDetailsLogic.OrderDetailsDetail(Id);
             if (orderDetail != null)
             {
+                var order = orderLogic.OrderDetail(orderDetail.order_Id);
+                var product = orderDetail.Product;
                 if (orderDetail.count < orderDetail.Product.QuantityInStock)
                 {
-                    var price = orderDetail.Product.Price;
+                    var discount = (decimal)orderDetail.Product.Discount / 100;
+                    var price = orderDetail.Product.Price - (orderDetail.Product.Price * discount);
                     orderDetail.count += 1;
                     orderDetail.TotalPrice += price;
-                    orderDetail.order.TotalCount += 1;
-                    orderDetail.order.TotalPrice += price;
-                    orderDetail.Product.QuantityInStock -= 1;
+                    order.TotalCount += 1;
+                    order.TotalPrice += price;
+                    product.QuantityInStock -= 1;
                     var result = orderDetailsLogic.EditOrderDetails(orderDetail);
+                    result = orderLogic.EditOrder(order);
+                    result = await productLogic.UpdateProduct(product);
                     return Json(new { res = result, price = price });
                 }
             }
@@ -183,20 +192,25 @@ namespace PresentationLayer.Controllers
 
         }
         [HttpGet]
-        public IActionResult MinusCountOrderDetails(int Id)
+        public async Task<IActionResult> MinusCountOrderDetails(int Id)
         {
             var orderDetail = orderDetailsLogic.OrderDetailsDetail(Id);
             if (orderDetail != null)
             {
+                var order = orderLogic.OrderDetail(orderDetail.order_Id);
+                var product = orderDetail.Product;
                 if (orderDetail.count > 0)
                 {
-                    var price = orderDetail.Product.Price;
+                    var discount = (decimal)orderDetail.Product.Discount / 100;
+                    var price = orderDetail.Product.Price - (orderDetail.Product.Price * discount);
                     orderDetail.count -= 1;
                     orderDetail.TotalPrice -= price;
-                    orderDetail.order.TotalCount -= 1;
-                    orderDetail.order.TotalPrice -= price;
-                    orderDetail.Product.QuantityInStock += 1;
+                    order.TotalCount -= 1;
+                    order.TotalPrice -= price;
+                    product.QuantityInStock += 1;
                     var result = orderDetailsLogic.EditOrderDetails(orderDetail);
+                    result = orderLogic.EditOrder(order);
+                    result = await productLogic.UpdateProduct(product);
                     return Json(new { res = result, price = price });
                 }
             }

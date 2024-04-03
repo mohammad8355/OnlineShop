@@ -1,4 +1,5 @@
-﻿using DataAccessLayer.Models;
+﻿using BusinessLogicLayer.ProductService;
+using DataAccessLayer.Models;
 using DataAccessLayer.services;
 using System;
 using System.Collections.Generic;
@@ -11,9 +12,11 @@ namespace BusinessLogicLayer.OrderDetailsService
     public class OrderDetailsLogic
     {
         private readonly MainRepository<OrderDetails> OrderDetailsRepository;
-        public OrderDetailsLogic(MainRepository<OrderDetails> OrderDetailsRepository)
+        private readonly ProductLogic _productLogic;
+        public OrderDetailsLogic(MainRepository<OrderDetails> OrderDetailsRepository, ProductLogic productLogic)
         {
             this.OrderDetailsRepository = OrderDetailsRepository;
+            _productLogic = productLogic;
         }
         public async Task<bool> CreateOrderDetails(OrderDetails model)
         {
@@ -53,13 +56,26 @@ namespace BusinessLogicLayer.OrderDetailsService
         }
         public OrderDetails OrderDetailsDetail(int Id)
         {
-            var OrderDetails = OrderDetailsRepository.Get(o => o.Id == Id,o => o.order,p => p.Product).Result.FirstOrDefault();
+            var OrderDetails = OrderDetailsRepository.Get(o => o.Id == Id,o => o.order).Result.FirstOrDefault();
+            if(OrderDetails != null)
+            {
+                OrderDetails.Product = _productLogic.ProductDetail(OrderDetails.Product_Id).Result;
+            }
             return OrderDetails;
         }
         public List<OrderDetails> OrderDetailsList()
         {
             var OrderDetailss = OrderDetailsRepository.Get(null,o => o.Product).Result.ToList();
+            foreach(var orderdetail in OrderDetailss)
+            {
+                orderdetail.Product = _productLogic.ProductDetail(orderdetail.Product_Id).Result;
+            }
             return OrderDetailss;
+        }
+        public List<OrderDetails> OrderDetailsByOrderId(int order_Id)
+        {
+            var orderDetailsList = OrderDetailsList().Where(od => od.order_Id == order_Id).ToList();
+            return orderDetailsList;
         }
     }
 }

@@ -120,12 +120,20 @@
                                 <!--this is for whem we dont have an off-->
                             }
                         </div>
-                        @if (User.Identity.IsAuthenticated)
+                        @if (User.Identity.IsAuthenticated && Model.product.QuantityInStock > 0)
                         {
+                            @if(Model.product.QuantityInStock < 6)
+                            {
+                                <span class="text-danger" >تنها @Model.product.QuantityInStock عدد در انبار موجود است</span>
+                            }
                             <button type="button" id="shop" class="btn btn-success">خرید</button>
                         }
                         else
                         {
+                            @if(Model.product.QuantityInStock <= 0)
+                            {
+                                <span class="text-danger" >این کالا در انبار موجود نیست</span>
+                            }
                             <button type="button" disabled id="shop" class="btn btn-success disabled">خرید</button>
                         }
                     </div>

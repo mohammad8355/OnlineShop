@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BusinessLogicLayer.OrderDetailsService;
 using DataAccessLayer.Migrations;
 using DataAccessLayer.Models;
 using DataAccessLayer.services;
@@ -13,11 +14,11 @@ namespace BusinessLogicLayer.OrderService
     public class OrderLogic
     {
         private readonly MainRepository<Order> orderRepository;
-        private readonly MainRepository<OrderDetails> orderDetailsRepository;
-        public OrderLogic(MainRepository<Order> orderRepository, MainRepository<OrderDetails> orderDetailsRepository)
+        private readonly OrderDetailsLogic orderDetailsLogic;
+        public OrderLogic(MainRepository<Order> orderRepository, OrderDetailsLogic orderDetailsLogic)
         {
             this.orderRepository = orderRepository;
-            this.orderDetailsRepository = orderDetailsRepository;
+            this.orderDetailsLogic = orderDetailsLogic;
         }
         public async Task<bool> CreateOrder(Order model)
         {
@@ -47,7 +48,7 @@ namespace BusinessLogicLayer.OrderService
         {
             if (Id != 0)
             {
-                var orderDetails = orderDetailsRepository.Get(od => od.order_Id == Id).Result.ToList();
+                var orderDetails = orderDetailsLogic.OrderDetailsByOrderId(Id);
                 if (orderDetails != null)
                 {
                     if (orderDetails.Count() == 0)
@@ -66,7 +67,7 @@ namespace BusinessLogicLayer.OrderService
     public Order OrderDetail(int Id)
         {
             var order = orderRepository.Get(o => o.Id == Id).Result.FirstOrDefault();
-            var orderDetails = orderDetailsRepository.Get(od => od.order_Id == Id, d => d.Product).Result.ToList();
+            var orderDetails = orderDetailsLogic.OrderDetailsByOrderId(Id);
             order.orderDetails = orderDetails;
             return order;
         }
@@ -75,7 +76,7 @@ namespace BusinessLogicLayer.OrderService
             var orders = orderRepository.Get().Result.ToList();
             foreach (var order in orders)
             {
-                var orderDetails = orderDetailsRepository.Get(od => od.order_Id == order.Id, d => d.Product).Result.ToList();
+                var orderDetails = orderDetailsLogic.OrderDetailsByOrderId(order.Id);
                 order.orderDetails = orderDetails;
             }
             return orders;
