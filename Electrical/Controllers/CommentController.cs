@@ -33,16 +33,16 @@ namespace PresentationLayer.Controllers
                 var result = await commentLogic.AddComment(comment);
                 if (result)
                 {
-                    return Json(new { message = "نظر شما با موفقیت ثبت شد" });
+                    return Json(new { message = "نظر شما با موفقیت ثبت شد" ,type = "success"});
                 }
                 else
                 {
-                    return Json(new { message = "خطایی  رخ داده لطفا بعدا تلاش کنید !" });
+                    return Json(new { message = "خطایی  رخ داده لطفا بعدا تلاش کنید !" , type = "error"});
                 }
             }
             else
             {
-                return Json(new { message = "لطفا پیما خود را بنویسید" });
+                return Json(new { message = "لطفا پیما خود را بنویسید" , type = "info" });
             }
         }
         [HttpGet]

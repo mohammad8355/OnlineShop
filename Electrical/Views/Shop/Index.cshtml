@@ -78,10 +78,20 @@ else
                 async:false,
                 data:{Id : $(this).attr("data-Id"),orderId : $(this).attr("data-orderId")},
                 success:function(data){
-                    autoCloseAlert(".container-lg", 2500, 3000, data.message, data.header, data.type);
+                    Swal.fire({
+                        title: data.header,
+                        icon: data.type,
+                        text: data.message,
+                    }).then((result) => {
+                        location.reload();
+                    });
                 },
                 error:function(){
-                    autoCloseAlert(".factor-detail", 2500, 3000, "خطا در شبکه", "خطا", "هشدار","warning");
+                    Swal.fire({
+                        title: "خطاای رخ داده است",
+                        icon: "error",
+                        text: "دوباره تلاش کنید",
+                    });
                 }
             })
         })
@@ -106,7 +116,11 @@ else
                     }
                 },
                 error:function(){
-                    alert("unknown error !!!");
+                    Swal.fire({
+                        title: "خطاای رخ داده است",
+                        icon: "error",
+                        text: "دوباره تلاش کنید",
+                    });
                 }
             })
         })
@@ -130,16 +144,28 @@ else
                             intCounter("#finalyprice", data.price, true);
                         }
                         else {
-                            alert("بیشتر از تعداد محاز است ");
+                            Swal.fire({
+                                title:"هشدار",
+                                icon:"warning",
+                                text:"کالای مورد نظر در انبار موجود نیست",
+                            });
                         }
                     },
                     error: function () {
-                        alert("unknown error !!!");
+                        Swal.fire({
+                            title: "خطاای رخ داده است",
+                            icon: "error",
+                            text: "دوباره تلاش کنید",
+                        });
                     }
                 })
             }
             else{
-                  alert("حداقل تعداد مچاز قابل انتخاب !!");
+                  Swal.fire({
+                      icon:"warning",
+                      title:"هشدار",
+                      text:"حداقل تعداد مجاز سفارش",
+                  });
             }
         })
     </script>

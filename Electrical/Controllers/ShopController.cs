@@ -84,10 +84,10 @@ namespace PresentationLayer.Controllers
                     product.QuantityInStock -= count;
                     if (await productLogic.UpdateProduct(product))
                     {
-                        return Json(new { message = "به سبد خرید اضافه شد" });
+                        return Json(new { message = "به سبد خرید اضافه شد" ,type = "success"});
                     }
                 }
-                return Json(new { message = "خطا" });
+                return Json(new { message = "خطا" ,type = "error"});
             }
             else
             {
@@ -114,11 +114,11 @@ namespace PresentationLayer.Controllers
                         product.QuantityInStock -= count;
                         if (await productLogic.UpdateProduct(product))
                         {
-                            return Json(new { message = "به سبد خرید اضافه شد" });
+                            return Json(new { message = "به سبد خرید اضافه شد" , type = "success" });
                         }
                     }
                 }
-                return Json(new { message = "خطا" });
+                return Json(new { message = "خطا" , type = "error" });
             }
 
 

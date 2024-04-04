@@ -122,17 +122,17 @@
                         </div>
                         @if (User.Identity.IsAuthenticated && Model.product.QuantityInStock > 0)
                         {
-                            @if(Model.product.QuantityInStock < 6)
+                            @if (Model.product.QuantityInStock < 6)
                             {
-                                <span class="text-danger" >تنها @Model.product.QuantityInStock عدد در انبار موجود است</span>
+                                <span class="text-danger">تنها @Model.product.QuantityInStock عدد در انبار موجود است</span>
                             }
                             <button type="button" id="shop" class="btn btn-success">خرید</button>
                         }
                         else
                         {
-                            @if(Model.product.QuantityInStock <= 0)
+                            @if (Model.product.QuantityInStock <= 0)
                             {
-                                <span class="text-danger" >این کالا در انبار موجود نیست</span>
+                                <span class="text-danger">این کالا در انبار موجود نیست</span>
                             }
                             <button type="button" disabled id="shop" class="btn btn-success disabled">خرید</button>
                         }
@@ -189,7 +189,7 @@
                             <label>نظر خود را بنویسید</label>
                             <textarea placeholder="نظر خود را بنویسید" class="form-control" required id="description">
 
-                                                </textarea>
+                                                    </textarea>
                         </div>
                         <button type="submit" class="btn btn-primary">ارسال</button>
                     </form>
@@ -201,7 +201,7 @@
                             <label>نظر خود را بنویسید</label>
                             <textarea placeholder="نظر خود را بنویسید" class="form-control">
 
-                                                    </textarea>
+                                                        </textarea>
                         </div>
                         <a asp-area="Identity" asp-page="/Account/Register" type="submit" class="btn btn-primary">ارسال</a>
                     </form>
@@ -434,7 +434,11 @@
                     counter.innerHTML = intValue.toString();
                 }
                 else {
-                    alert("تعداد سفارش بیش از حد مجاز است ");
+                    Swal.fire({
+                        text: "تعداد سفارش بیش از حد مجاز است ",
+                        title: "هشدار",
+                        icon: "warning",
+                    });
                 }
             })
             $(".fa-minus").click(function () {
@@ -456,10 +460,17 @@
                     async: false,
                     data: { product_Id: productId, count: intValue },
                     success: function (data) {
-                        alert(data.message);
+                        Swal.fire({
+                            icon: data.type,
+                            title: data.message,
+                        });
                     },
                     error: function () {
-                        alert("خطا در برقراری ارتباط");
+                        Swal.fire({
+                            title: "خطا در برقراری ارتباط",
+                            text: "دوباره تلاش کنید",
+                            icon: "error",
+                        });
                     },
                 })
             })
@@ -519,11 +530,19 @@
                 type: 'GET',
                 data: { description: $("#description").val(), product_Id: @Model.product.Id },
                 success: function (data) {
-                    alert(data.message);
-                    location.reload();
+                    Swal.fire({
+                        title: data.message,
+                        icon: data.type,
+                    }).then((result) => {
+                        location.reload();
+                    });
                 },
                 error: function () {
-                    alert("خطایی رخ داده بعدا دوباره تلاش کنید");
+                    Swal.fire({
+                        title: "خطا در برقراری ارتباط",
+                        text: "دوباره تلاش کنید",
+                        icon: "error",
+                    });
                 }
             })
         })
@@ -555,7 +574,11 @@
                     }
                 },
                 error: function () {
-                    alert("fail");
+                    Swal.fire({
+                        title: "خطا در برقراری ارتباط",
+                        text: "دوباره تلاش کنید",
+                        icon: "error",
+                    });
                 }
             })
         }
