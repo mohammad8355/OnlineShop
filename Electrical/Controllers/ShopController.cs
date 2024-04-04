@@ -149,10 +149,10 @@ namespace PresentationLayer.Controllers
             }
             else
             {
+                var orderDetail = order.orderDetails.Where(o => o.Id == Id).FirstOrDefault();
+                var product = await productLogic.ProductDetail(orderDetail.Product_Id);
                 if (await orderDetailsLogic.DeleteOrderDetails(Id))
                 {
-                    var orderDetail = order.orderDetails.Where(o => o.Id == Id).FirstOrDefault();
-                    var product = await productLogic.ProductDetail(orderDetail.Product_Id);
                     if (await orderLogic.DeleteOrder(orderId))
                     {
                         product.QuantityInStock += orderDetail.count;
@@ -199,7 +199,7 @@ namespace PresentationLayer.Controllers
             {
                 var order = orderLogic.OrderDetail(orderDetail.order_Id);
                 var product = orderDetail.Product;
-                if (orderDetail.count > 0)
+                if (orderDetail.count > 1)
                 {
                     var discount = (decimal)orderDetail.Product.Discount / 100;
                     var price = orderDetail.Product.Price - (orderDetail.Product.Price * discount);

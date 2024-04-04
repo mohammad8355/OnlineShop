@@ -111,31 +111,36 @@ else
             })
         })
         $(".minusbtn").click(function () {
-            $.ajax({
-                url: '@Url.Action("MinusCountOrderDetails","Shop")',
-                type: 'GET',
-                async: false,
-                data: { Id: $(this).attr("data-Id") },
-                success: function (data) {
-                    if (data.res) {
-                        //change count of order in the view
-                        intCounter(".countProduct", 1, true);
-                        //change count of order in the view
-                        //change Total count in the view
-                        intCounter(".totalCount", 1, true);
-                        //change Total count in the view
-                        intCounter(".totalOrderPrice", data.price, true);
-                        intCounter("#TotalPrice",data.price,true);
-                        intCounter("#finalyprice", data.price, true);
+            if (parseInt(document.querySelector(".countProduct").innerHTML) > 1 ){
+                $.ajax({
+                    url: '@Url.Action("MinusCountOrderDetails","Shop")',
+                    type: 'GET',
+                    async: false,
+                    data: { Id: $(this).attr("data-Id") },
+                    success: function (data) {
+                        if (data.res) {
+                            //change count of order in the view
+                            intCounter(".countProduct", 1, true);
+                            //change count of order in the view
+                            //change Total count in the view
+                            intCounter(".totalCount", 1, true);
+                            //change Total count in the view
+                            intCounter(".totalOrderPrice", data.price, true);
+                            intCounter("#TotalPrice", data.price, true);
+                            intCounter("#finalyprice", data.price, true);
+                        }
+                        else {
+                            alert("بیشتر از تعداد محاز است ");
+                        }
+                    },
+                    error: function () {
+                        alert("unknown error !!!");
                     }
-                    else{
-                        alert("بیشتر از تعداد محاز است ");
-                    }
-                },
-                error: function () {
-                    alert("unknown error !!!");
-                }
-            })
+                })
+            }
+            else{
+                  alert("حداقل تعداد مچاز قابل انتخاب !!");
+            }
         })
     </script>
 }
