@@ -62,16 +62,16 @@ namespace PresentationLayer.Controllers
                 var result = await commentLogic.AddComment(comment);
                 if (result)
                 {
-                    return Json(new { message = "کامنت شما با موفقیت ثبت شد" });
+                    return Json(new { message = "کامنت شما با موفقیت ثبت شد",type = "success" });
                 }
                 else
                 {
-                    return Json(new { message = "خطایی  رخ داده لطفا بعدا تلاش کنید !" });
+                    return Json(new { message = "خطایی  رخ داده لطفا بعدا تلاش کنید !" , type = "error"});
                 }
             }
             else
             {
-                return Json(new { message = "لطفا پیام خود را بنویسید" });
+                return Json(new { message = "لطفا پیام خود را بنویسید", type = "warning" });
             }
         }
 
@@ -92,24 +92,24 @@ namespace PresentationLayer.Controllers
                 var result = await commentLogic.AddComment(comment);
                 if (result)
                 {
-                    return Json(new { message = "کامنت شما با موفقیت ثبت شد" });
+                    return Json(new { message = "کامنت شما با موفقیت ثبت شد" , type = "success"});
                 }
                 else
                 {
-                    return Json(new { message = "خطایی  رخ داده لطفا بعدا تلاش کنید !" });
+                    return Json(new { message = "خطایی  رخ داده لطفا بعدا تلاش کنید !" ,type = "error"});
                 }
             }
             else
             {
-                return Json(new { message = "لطفا پیام خود را بنویسید" });
+                return Json(new { message = "لطفا پیام خود را بنویسید" , type  = "warning"});
             }
         }
-        public async Task<IActionResult> EditCommentPost(string description, int post_Id, int postId)
+        public async Task<IActionResult> EditCommentPost(string description, int post_Id, int comment_Id)
         {
             var user = await userManager.FindByNameAsync(User.Identity.Name);
             if (!string.IsNullOrEmpty(description))
             {
-                var comment = commentLogic.CommentDetail(postId);
+                var comment = commentLogic.CommentDetail(comment_Id);
                 comment.Title = "";
                 comment.User_Id = user.Id;
                 comment.Description = description.ToString();
@@ -118,16 +118,16 @@ namespace PresentationLayer.Controllers
                 var result = commentLogic.EditComment(comment);
                 if (result)
                 {
-                    return Json(new { message = "کامنت شما با موفقیت ثبت شد" });
+                    return Json(new { message = "کامنت شما با موفقیت ثبت شد" , type = "success"});
                 }
                 else
                 {
-                    return Json(new { message = "خطایی  رخ داده لطفا بعدا تلاش کنید !" });
+                    return Json(new { message = "خطایی  رخ داده لطفا بعدا تلاش کنید !" , type = "error"});
                 }
             }
             else
             {
-                return Json(new { message = "لطفا پیام خود را بنویسید" });
+                return Json(new { message = "لطفا پیام خود را بنویسید" , type = "info"});
             }
         }
         public async Task<IActionResult> DeleteComment(int Id)
@@ -139,16 +139,16 @@ namespace PresentationLayer.Controllers
                 var result = commentLogic.EditComment(comment);
                 if (result)
                 {
-                    return Json(new { message = "حذف با موفقیت انجام شد" });
+                    return Json(new { message = "حذف با موفقیت انجام شد" , type = "success" });
                 }
                 else
                 {
-                    return Json(new { message = "خطا در حذف کامنت" });
+                    return Json(new { message = "خطا در حذف کامنت" , type = "error"});
                 }
             }
             else
             {
-                return Json(new { message = "کامنتی یافت نشد" });
+                return Json(new { message = "کامنتی یافت نشد" , type = "info" });
             }
         }
     }

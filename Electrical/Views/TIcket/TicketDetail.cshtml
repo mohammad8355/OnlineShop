@@ -86,11 +86,19 @@
                 type: 'GET',
                 data: { description: description, title: $("#ticket-title").val(), ticket_Id: @Model.Id },
                 success: function (data) {
-                    alert(data.message);
-                    location.reload();
+                    Swal.fire({
+                        title: data.message,
+                        icon: data.type,
+                    }).then((result) => {
+                        location.reload();
+                    });
                 },
                 error: function () {
-                    alert("خطایی رخ داده بعدا دوباره تلاش کنید");
+                    Swal.fire({
+                        title: "خطا در برقراری ارتباط",
+                        text: "دوباره تلاش کنید",
+                        icon: "error",
+                    });
                 }
             })
         })
