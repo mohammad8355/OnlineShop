@@ -1,10 +1,11 @@
 ﻿using BusinessLogicLayer.DiscountService;
 using BusinessLogicLayer.OrderService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace PresentationLayer.Controllers
 {
-    [Area("dashboard")]
+    [Authorize]
     public class DiscountController : Controller
     {
         private readonly DiscountLogic _discountLogic;
@@ -24,6 +25,7 @@ namespace PresentationLayer.Controllers
             decimal value = 0;
             if (result.result)
             {
+                message = "کد تخفیف با موفقیت اعمال شد";
                 order.DiscountValue = HaveDiscount.Value;
             }
             else
@@ -33,7 +35,6 @@ namespace PresentationLayer.Controllers
             }
             if (_orderLogic.EditOrder(order))
             {
-                message = "کد تخفیف با موفقیت اعمال شد";
                 value = HaveDiscount.Value;
             }
             else

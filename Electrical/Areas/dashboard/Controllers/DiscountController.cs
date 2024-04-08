@@ -73,7 +73,7 @@ namespace PresentationLayer.Areas.dashboard.Controllers
                        await discountToProductLogic.AddDiscountToProduct(discountToProduct);
                     }
                     ViewBag.success = "تخفیف افزوده شد!";
-                    return View();
+                    return RedirectToAction("Index");
                 }
                 return View(model);
 
