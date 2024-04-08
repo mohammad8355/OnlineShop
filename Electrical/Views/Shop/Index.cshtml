@@ -9,11 +9,11 @@
                 @foreach (var orderDetail in Model.Order.orderDetails)
                 {
                     <div class="product-box col-12">
-                        <a href="#" id="DeleteOrder" data-Id="@orderDetail.Id" data-orderId="@Model.Order.Id" ><i class="fa-solid fa-trash"></i></a>
+                        <a href="#" id="DeleteOrder" data-Id="@orderDetail.Id" data-orderId="@Model.Order.Id"><i class="fa-solid fa-trash"></i></a>
                         <div class="product-img col-lg-2 col-md-4 col-12">
-                            @if(orderDetail.Product.ProductPhotos != null)
+                            @if (orderDetail.Product.ProductPhotos != null)
                             {
-                                @if(orderDetail.Product.ProductPhotos.Count() > 0)
+                                @if (orderDetail.Product.ProductPhotos.Count() > 0)
                                 {
                                     <img src="~/Image/Product/@(orderDetail.Product.Name)/@(orderDetail.Product.ProductPhotos.First().Name)" alt="@(orderDetail.Product.Name)">
                                 }
@@ -26,7 +26,7 @@
                             </div>
                             <div class="row">
                                 <div class="count col-md-6 col-12">
-                                    <span>تعداد:</span><a data-Id="@orderDetail.Id" class="plusbtn" ><i class="fa-solid fa-plus"></i></a>
+                                    <span>تعداد:</span><a data-Id="@orderDetail.Id" class="plusbtn"><i class="fa-solid fa-plus"></i></a>
                                     <span class="countProduct">@orderDetail.count</span><a data-Id="@orderDetail.Id" class="minusbtn"><i class="fa-solid fa-minus"></i></a>
                                 </div>
                                 <div class="price col-md-6 col-12">
@@ -41,10 +41,21 @@
                     <h3 class="title">خلاصه فاکتور</h3>
                     <div class="box">
                         <h4>مجموع تعداد محصول:<span class="totalCount">@Model.Order.TotalCount</span></h4>
-                        <h4>مجموع سبد خرید:<span><span id="TotalPrice" >@Model.Order.TotalPrice</span> تومان</span></h4>
-                        <h4>مجموع تخفیف :<span>0 تومان</span></h4>
+                        <h4>مجموع سبد خرید:<span><span id="TotalPrice">@Model.Order.TotalPrice</span> تومان</span></h4>
+                        <h4>مجموع تخفیف :<span>@Model.Order.DiscountValue %</span></h4>
                         <hr>
-                        <h4>قیمت کل :<span><span id="finalyprice">@Model.Order.TotalPrice</span> تومان</span></h4>
+                        <h4>قیمت کل :<span><span id="finalyprice">@{
+                                        var Totalprice =  Model.Order.TotalPrice;
+                                        var discountAmount = Totalprice * (Model.Order.DiscountValue / 100);
+                                        Totalprice -= discountAmount;
+                                    }
+                                    @Totalprice
+                        </span> تومان</span></h4>
+
+                            <div class="input-group" id="discountBox" dir="ltr">
+                                <input id="discountCode" type="text" class="form-control" placeholder="کد تخفیف">
+                                <button type="button" class="btn btn-primary" id="discountBtn">اعمال</button>
+                            </div>
                     </div>
                     <a asp-action="OrderFinally" asp-controller="Shop" class="btn btn-block col-12">ادامه فرایند خرید</a>
                 </div>
@@ -71,13 +82,13 @@ else
 }
 @section InlineScript{
     <script>
-        $("#DeleteOrder").click(function(){
+        $("#DeleteOrder").click(function () {
             $.ajax({
                 url: '@Url.Action("DeleteOrderDetail","Shop")',
-                type:'GET',
-                async:false,
-                data:{Id : $(this).attr("data-Id"),orderId : $(this).attr("data-orderId")},
-                success:function(data){
+                type: 'GET',
+                async: false,
+                data: { Id: $(this).attr("data-Id"), orderId: $(this).attr("data-orderId") },
+                success: function (data) {
                     Swal.fire({
                         title: data.header,
                         icon: data.type,
@@ -86,7 +97,7 @@ else
                         location.reload();
                     });
                 },
-                error:function(){
+                error: function () {
                     Swal.fire({
                         title: "خطاای رخ داده است",
                         icon: "error",
@@ -95,27 +106,27 @@ else
                 }
             })
         })
-        $(".plusbtn").click(function(){
+        $(".plusbtn").click(function () {
             $.ajax({
                 url: '@Url.Action("AddCountOrderDetails","Shop")',
-                type:'GET',
-                async:false,
-                data:{ Id : $(this).attr("data-Id")},
-                success:function(data){
-                    if(data.res){
+                type: 'GET',
+                async: false,
+                data: { Id: $(this).attr("data-Id") },
+                success: function (data) {
+                    if (data.res) {
                         //change count of order in the view
                         intCounter(".countProduct", 1, false);
-                           //change count of order in the view
+                        //change count of order in the view
                         //change Total count in the view
-                        intCounter(".totalCount",1,false);
+                        intCounter(".totalCount", 1, false);
                         //change Total count in the view
-                        intCounter(".totalOrderPrice",data.price,false);
+                        intCounter(".totalOrderPrice", data.price, false);
 
                         intCounter("#TotalPrice", data.price, false);
                         intCounter("#finalyprice", data.price, false);
                     }
                 },
-                error:function(){
+                error: function () {
                     Swal.fire({
                         title: "خطاای رخ داده است",
                         icon: "error",
@@ -125,7 +136,7 @@ else
             })
         })
         $(".minusbtn").click(function () {
-            if (parseInt(document.querySelector(".countProduct").innerHTML) > 1 ){
+            if (parseInt(document.querySelector(".countProduct").innerHTML) > 1) {
                 $.ajax({
                     url: '@Url.Action("MinusCountOrderDetails","Shop")',
                     type: 'GET',
@@ -145,9 +156,9 @@ else
                         }
                         else {
                             Swal.fire({
-                                title:"هشدار",
-                                icon:"warning",
-                                text:"کالای مورد نظر در انبار موجود نیست",
+                                title: "هشدار",
+                                icon: "warning",
+                                text: "کالای مورد نظر در انبار موجود نیست",
                             });
                         }
                     },
@@ -160,13 +171,42 @@ else
                     }
                 })
             }
-            else{
-                  Swal.fire({
-                      icon:"warning",
-                      title:"هشدار",
-                      text:"حداقل تعداد مجاز سفارش",
-                  });
+            else {
+                Swal.fire({
+                    icon: "warning",
+                    title: "هشدار",
+                    text: "حداقل تعداد مجاز سفارش",
+                });
             }
+        })
+        $("#discountBtn").click(function()
+        {
+            $.ajax({
+                url: '@Url.Action("DiscountCheck","Discount")',
+                type:'GET',
+                data: { code: $("#discountCode").val(), orderId: @Model.Order.Id },
+                async:false,
+                success:function(data){
+                    if (data.IsSuccess) {
+                        Swal.fire({
+                            icon:"success",
+                            title:data.text,
+                        }).then((result) => {
+                            location.reload();
+                        });
+                    }
+                    else{
+                        Swal.fire({
+                            icon: "warning",
+                            title:"هشدار خطا",
+                            text: data.text,
+                        });
+                    }
+                },
+                error:function(ts){
+                    alert(ts.responseText);
+                }
+            })
         })
     </script>
 }

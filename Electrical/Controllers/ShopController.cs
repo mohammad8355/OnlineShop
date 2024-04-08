@@ -35,7 +35,7 @@ namespace PresentationLayer.Controllers
             _codeGenerator = codeGenerator;
             _payment = payment;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(decimal  discount = 0)
         {
             var currentUser = await _userManager.FindByNameAsync(User.Identity.Name);
             var Order = orderLogic.OrderList().Where(o => o.User_Id == currentUser.Id && o.IsFinally == false).FirstOrDefault();

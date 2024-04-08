@@ -22,6 +22,7 @@ namespace DataAccessLayer.Models
         public string TrackingCode { get; set; }
         [MaxLength(50)]
         public string FactorNumber { get; set; }
+        public decimal DiscountValue { get; set; }
         public DateTime PayDate { get; set; }
         public bool IsFinally { get; set; }
 
