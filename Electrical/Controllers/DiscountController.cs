@@ -41,7 +41,7 @@ namespace PresentationLayer.Controllers
             {
                 value = 0;
             }
-            return Json(new { IsSuccess = result.result, text = message, discountValue = value });
+            return Json(new { result = result.result, text = message, discountValue = value });
         }
     }
 }

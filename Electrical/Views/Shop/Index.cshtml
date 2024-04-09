@@ -30,8 +30,8 @@
                                     <span class="countProduct">@orderDetail.count</span><a data-Id="@orderDetail.Id" class="minusbtn"><i class="fa-solid fa-minus"></i></a>
                                 </div>
                                 <div class="price col-md-6 col-12">
-                                    <h4 class="priceUnit">قیمت واحد:<span>@orderDetail.Product.Price تومان</span></h4>
-                                    <h4 class="totalPrice">قیمت کل:<span><span class="totalOrderPrice">@orderDetail.TotalPrice</span> تومان</span></h4>
+                                    <h4 class="priceUnit">قیمت واحد:<span>@orderDetail.Product.Price.ToString("N0") تومان</span></h4>
+                                    <h4 class="totalPrice">قیمت کل:<span><span class="totalOrderPrice">@orderDetail.TotalPrice.ToString("N0")</span> تومان</span></h4>
                                 </div>
                             </div>
                         </div>
@@ -41,21 +41,26 @@
                     <h3 class="title">خلاصه فاکتور</h3>
                     <div class="box">
                         <h4>مجموع تعداد محصول:<span class="totalCount">@Model.Order.TotalCount</span></h4>
-                        <h4>مجموع سبد خرید:<span><span id="TotalPrice">@Model.Order.TotalPrice</span> تومان</span></h4>
+                        <h4>مجموع سبد خرید:<span><span id="TotalPrice">@Model.Order.TotalPrice.ToString("N0")</span> تومان</span></h4>
                         <h4>مجموع تخفیف :<span>@Model.Order.DiscountValue %</span></h4>
                         <hr>
-                        <h4>قیمت کل :<span><span id="finalyprice">@{
-                                        var Totalprice =  Model.Order.TotalPrice;
+                        <h4>
+                            قیمت کل :<span>
+                                <span id="finalyprice">
+                                    @{
+                                        var Totalprice = Model.Order.TotalPrice;
                                         var discountAmount = Totalprice * (Model.Order.DiscountValue / 100);
                                         Totalprice -= discountAmount;
                                     }
-                                    @Totalprice
-                        </span> تومان</span></h4>
+                                    @Totalprice.ToString("N0")
+                                </span> تومان
+                            </span>
+                        </h4>
 
-                            <div class="input-group" id="discountBox" dir="ltr">
-                                <input id="discountCode" type="text" class="form-control" placeholder="کد تخفیف">
-                                <button type="button" class="btn btn-primary" id="discountBtn">اعمال</button>
-                            </div>
+                        <div class="input-group" id="discountBox" dir="ltr">
+                            <input id="discountCode" type="text" class="form-control" placeholder="کد تخفیف">
+                            <button type="button" class="btn btn-primary" id="discountBtn">اعمال</button>
+                        </div>
                     </div>
                     <a asp-action="OrderFinally" asp-controller="Shop" class="btn btn-block col-12">ادامه فرایند خرید</a>
                 </div>
@@ -179,34 +184,43 @@ else
                 });
             }
         })
-        $("#discountBtn").click(function()
-        {
-            $.ajax({
-                url: '@Url.Action("DiscountCheck","Discount")',
-                type:'GET',
-                data: { code: $("#discountCode").val(), orderId: @Model.Order.Id },
-                async:false,
-                success:function(data){
-                    if (data.IsSuccess) {
-                        Swal.fire({
-                            icon:"success",
-                            title:data.text,
-                        }).then((result) => {
-                            location.reload();
-                        });
-                    }
-                    else{
-                        Swal.fire({
-                            icon: "warning",
-                            title:"هشدار خطا",
-                            text: data.text,
-                        });
-                    }
-                },
-                error:function(ts){
-                    alert(ts.responseText);
-                }
-            })
-        })
     </script>
+    @if (Model != null)
+    {
+        @if (Model.Order != null)
+        {
+            <script>
+                $("#discountBtn").click(function () {
+                    $.ajax({
+                        url: '@Url.Action("DiscountCheck","Discount")',
+                        type: 'GET',
+                        data: { code: $("#discountCode").val(), orderId: @Model.Order.Id },
+                        async: false,
+                        success: function (data) {
+                            if (data.result) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: data.text,
+                                }).then((result) => {
+                                    location.reload();
+                                });
+                            }
+                            else {
+                                Swal.fire({
+                                    icon: "warning",
+                                    title: "هشدار خطا",
+                                    text: data.text,
+                                }).then((result) => {
+                                    location.reload();
+                                });
+                            }
+                        },
+                        error: function (ts) {
+                            alert(ts.responseText);
+                        }
+                    })
+                })
+            </script>
+        }
+    }
 }
