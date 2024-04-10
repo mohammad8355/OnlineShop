@@ -75,5 +75,9 @@ namespace PresentationLayer.Controllers
             }
             return Json(new {  message = "لطفا یک عکس انتخاب کنید"});
         }
+        public IActionResult Orders()
+        {
+            return View();
+        }
     }
 }

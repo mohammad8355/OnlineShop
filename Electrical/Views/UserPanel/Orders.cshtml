@@ -1,0 +1,165 @@
+﻿@{
+    Layout = "userPanelLayout";
+    ViewData["ActiveLink"] = "order";
+}
+<section class="order">
+    <div class="row col-12">
+        <form method="post" class="form-control d-flex flex-row-reverse flex-wrap">
+            <div class="form-group">
+                <label>وضعیت</label>
+                <select class="form-control">
+                    <option value="0">همه</option>
+                    <option value="1">نهایی نشده</option>
+                    <option value="2">نهایی شده</option>
+                    <option value="3">در حال آماده سازی</option>
+                    <option value="4">ارسال شده</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>از تاریخ</label>
+                <input type="datetime-local" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label>تا تاریخ</label>
+                <input type="datetime-local" class="form-control" />
+            </div>
+            <div class="form-group flex-fill">
+                <label>جستجو</label>
+                <input type="text" class="form-control" placeholder="عنوان یا کد کالا را جستجو کنید" />
+            </div>
+            <div class="form-group flex-fill">
+                <button type="button" class="btn btn-primary col-12">فیلتر</button>
+            </div>
+        </form>
+    </div>
+    <div class="table-responsive bg-white p-2 border-1 border border-secondary rounded-2 col-12">
+        <table class="table mt-5 mb-5 px-3 table-striped table-hover table-light">
+            <thead>
+                <tr>
+                    <th>نام کاربر</th>
+                    <th>نام کالا</th>
+                    <th>قیمت واحد</th>
+                    <th>قیمت کل</th>
+                    <th>تعداد</th>
+                    <th>کد کالا</th>
+                    <th>کد رهگیری</th>
+                    <th>وضعیت سفارش</th>
+                    <th>تاریخ</th>
+                    <th>چاپ</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>علیرضا</td>
+                    <td>مانیتور فلان</td>
+                    <td>تومان 20,000</td>
+                    <td>40,000 تومان</td>
+                    <td>2</td>
+                    <td>MQ234-Manitor-4b</td>
+                    <td>3456789012</td>
+                    <td><span class="badge bg-warning">نهایی نشده </span></td>
+                    <td>1402/12/02</td>
+                    <td><a href="#" class="btn btn-primary view">مشاهده</a></td>
+                </tr>
+                <tr>
+                    <td>علیرضا</td>
+                    <td>مانیتور فلان</td>
+                    <td>تومان 20,000</td>
+                    <td>40,000 تومان</td>
+                    <td>2</td>
+                    <td>MQ234-Manitor-4b</td>
+                    <td>3456789012</td>
+                    <td><span class="badge bg-dark">ارسال شده</span></td>
+                    <td>1402/12/02</td>
+                    <td><a href="#" class="btn btn-primary view">مشاهده</a></td>
+                </tr>
+                <tr>
+                    <td>علیرضا</td>
+                    <td>مانیتور فلان</td>
+                    <td>تومان 20,000</td>
+                    <td>40,000 تومان</td>
+                    <td>2</td>
+                    <td>MQ234-Manitor-4b</td>
+                    <td>3456789012</td>
+                    <td><span class="badge bg-secondary">در حال آماده سازی</span></td>
+                    <td>1402/12/02</td>
+                    <td><a href="#" class="btn btn-primary view">مشاهده</a></td>
+                </tr>
+                <tr>
+                    <td>علیرضا</td>
+                    <td>مانیتور فلان</td>
+                    <td>تومان 20,000</td>
+                    <td>40,000 تومان</td>
+                    <td>2</td>
+                    <td>MQ234-Manitor-4b</td>
+                    <td>3456789012</td>
+                    <td><span class="badge bg-success">نهایی شده</span></td>
+                    <td>1402/12/02</td>
+                    <td><a href="#" class="btn btn-primary view">مشاهده</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!--Modal-->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+         tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" id="rowfile">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">فاکتور خرید</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="card-body" id="factor">
+                        <table class="table">
+                            <tr>
+                                <th>نام کالا</th>
+                                <td>مانیتور 2024</td>
+                            </tr>
+                            <tr>
+                                <th>کد کالا</th>
+                                <td>MQ234-Manitor-4b</td>
+                            </tr>
+                            <tr>
+                                <th>مبلغ</th>
+                                <td>12000000</td>
+                            </tr>
+                            <tr>
+                                <th>شماره فاکتور</th>
+                                <td>123456</td>
+                            </tr>
+                            <tr>
+                                <th>کد پیگیری</th>
+                                <td>5328576339</td>
+                            </tr>
+                            <tr>
+                                <th>تاریخ</th>
+                                <td>1403/01/05</td>
+                            </tr>
+                            <tr>
+                                <th>نام کاربر</th>
+                                <td>َعلیرضا طاهری</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
+                    <button type="button" onclick="HtmlTopdf('rowfile')" class="btn btn-primary">چاپ</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Modal-->
+</section>
+@section InlineScript{
+    <script>
+        var modal = new bootstrap.Modal(document.getElementById('staticBackdrop'), {
+            keyboard: false
+        });
+        $(".view").click(function () {
+            modal.show();
+        })
+    </script>
+}
