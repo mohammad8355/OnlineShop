@@ -1,4 +1,5 @@
 ﻿using BusinessLogicLayer.favoriteProductService;
+using BusinessLogicLayer.OrderService;
 using BusinessLogicLayer.ProductService;
 using DataAccessLayer.Models;
 using Infrustructure.uploadfile;
@@ -17,16 +18,18 @@ namespace PresentationLayer.Controllers
         private readonly UploadFile fileManage;
         private readonly IWebHostEnvironment webHostEnvironment;
         private readonly favoriteProductLogic favoriteProductLogic;
-        public UserPanelController(favoriteProductLogic favoriteProductLogic,IWebHostEnvironment webHostEnvironment,UserManager<ApplicationUser> _userManaManager, UploadFile fileManage)
+        private readonly OrderLogic _orderLogic;
+        public UserPanelController(OrderLogic orderLogic, favoriteProductLogic favoriteProductLogic, IWebHostEnvironment webHostEnvironment, UserManager<ApplicationUser> _userManaManager, UploadFile fileManage)
         {
             this._userManaManager = _userManaManager;
             this.fileManage = fileManage;
             this.webHostEnvironment = webHostEnvironment;
             this.favoriteProductLogic = favoriteProductLogic;
+            _orderLogic = orderLogic;
         }
         public async Task<IActionResult> Index()
         {
-            var user = await  _userManaManager.FindByNameAsync(User.Identity.Name);
+            var user = await _userManaManager.FindByNameAsync(User.Identity.Name);
             var products = await favoriteProductLogic.LikedProducts(user.Id);
             var model = new ConsoleUserViewModel()
             {
@@ -53,10 +56,10 @@ namespace PresentationLayer.Controllers
                 ".jfif",
                 ".png",
             };
-            if(file != null)
+            if (file != null)
             {
                 var name = User.Identity.Name;
-                var destination = "Image\\Users" + "\\" + name  + "\\";
+                var destination = "Image\\Users" + "\\" + name + "\\";
                 var webrootpath = webHostEnvironment.WebRootPath;
                 var path = Path.Combine(webrootpath, destination);
                 var result = await fileManage.Upload(name, path, 0, formats, file);
@@ -71,13 +74,28 @@ namespace PresentationLayer.Controllers
                     }
                     return Json(new { message = updateUserResult.Errors.First().Description });
                 }
-                return Json(new {  message = "خطا در سرور !" });
+                return Json(new { message = "خطا در سرور !" });
             }
-            return Json(new {  message = "لطفا یک عکس انتخاب کنید"});
+            return Json(new { message = "لطفا یک عکس انتخاب کنید" });
         }
         public IActionResult Orders()
         {
+
             return View();
+        }
+        [HttpGet]
+        public IActionResult OrderFilter(OrderFilterViewModel model)
+        {
+            var resultModel = new OrdersViewModel();
+            if (model != null)
+            {
+                resultModel.Orders = _orderLogic.OrderFilter(model.FromDate, model.ToDate, model.Search, model.Status);
+            }
+            else
+            {
+                resultModel.Orders = _orderLogic.OrderList();
+            }
+            return PartialView("Partials/_OrdersPartial", resultModel);
         }
     }
 }

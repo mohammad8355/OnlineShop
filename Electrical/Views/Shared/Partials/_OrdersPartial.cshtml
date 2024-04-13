@@ -1,0 +1,44 @@
+﻿@model OrdersViewModel
+
+@if(Model != null)
+{
+    @foreach (var order in Model.Orders)
+    {
+
+            @foreach (var orderdetail in order.orderDetails)
+            {
+            <tr>
+                <td>@order.User.UserName</td>
+                <td>@orderdetail.Product.Name</td>
+                <td>@orderdetail.Product.Price</td>
+                <td>@orderdetail.TotalPrice</td>
+                <td>@orderdetail.count</td>
+                <td>@orderdetail.Product.ProductCode</td>
+                <td>@order.TrackingCode</td>
+                <td>
+                    @if (order.IsFinally)
+                    {
+                        <span class="badge bg-success">
+                            نهایی شده
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-warning">
+                            نهایی نشده
+                        </span>
+                    }
+                </td>
+                <td>@order.DateCreate</td>
+                <td>
+                    <button data-order-Id="@order.Id"  class="btn btn-primary view">مشاهده</button>
+                </td>
+            </tr>
+            }
+    }
+}
+else{
+    <div class="alert alert-warning">
+        موردی یافت نشد
+    </div>
+}

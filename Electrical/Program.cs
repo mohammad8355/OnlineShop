@@ -49,6 +49,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews().AddJsonOptions(opt =>
 {
     opt.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+    //opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
 });
 #region AddContext 
 

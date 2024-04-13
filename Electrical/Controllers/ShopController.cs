@@ -261,5 +261,12 @@ namespace PresentationLayer.Controllers
             }
             return View(model);
         }
+        [HttpGet]
+        public IActionResult OrderDetail(int Id)
+        {
+            var order = orderLogic.OrderDetail(Id);
+            var Products = order.orderDetails.Select(od => new { od.Product.Name, od.Product.ProductCode }).ToList();
+            return Json(new { products = Products.ToArray(), price = order.TotalPrice, FactorNumber = order.FactorNumber, TrackingCode = order.TrackingCode, date = order.PayDate, customerName = order.User.UserName });
+        }
     }
 }

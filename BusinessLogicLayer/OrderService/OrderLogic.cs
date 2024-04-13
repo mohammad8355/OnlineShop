@@ -90,6 +90,25 @@ namespace BusinessLogicLayer.OrderService
             }
             return order;
         }
+        public List<Order> OrderFilter(DateTime fromDate,DateTime ToDate,string Search = "",string Status = "all")
+        {
+            var orders = OrderList();
+                orders = orders.Where(o => o.orderDetails.Any(od => od.Product.Name.Contains(Search))).ToList();
+            if (!fromDate.Equals(default(DateTime)) && !fromDate.Equals(DateTime.MinValue) && !ToDate.Equals(default(DateTime)) && !ToDate.Equals(DateTime.MinValue))
+            {
+               orders = orders.Where(o => o.DateCreate > fromDate && o.DateCreate < ToDate).ToList();
+            }
+            switch (Status)
+            {
+                case "complete":
+                   orders = orders.Where(o => o.IsFinally == true).ToList();
+                    break;
+                case "incomplete":
+                  orders =  orders.Where(o => o.IsFinally == false).ToList();
+                    break;
+            };
+            return orders;
+        }
 
     }
 }

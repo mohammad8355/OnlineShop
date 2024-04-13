@@ -7,28 +7,28 @@
         <form method="post" class="form-control d-flex flex-row-reverse flex-wrap">
             <div class="form-group">
                 <label>وضعیت</label>
-                <select class="form-control">
-                    <option value="0">همه</option>
-                    <option value="1">نهایی نشده</option>
-                    <option value="2">نهایی شده</option>
-                    <option value="3">در حال آماده سازی</option>
-                    <option value="4">ارسال شده</option>
+                <select id="status" class="form-control">
+                    <option value="all">همه</option>
+                    <option value="complete">نهایی نشده</option>
+                    <option value="incomplete">نهایی شده</option>
+                    <option value="inprogress">در حال آماده سازی</option>
+                    <option value="sended">ارسال شده</option>
                 </select>
             </div>
             <div class="form-group">
                 <label>از تاریخ</label>
-                <input type="datetime-local" class="form-control" />
+                <input id="fromDate" type="datetime-local" class="form-control" />
             </div>
             <div class="form-group">
                 <label>تا تاریخ</label>
-                <input type="datetime-local" class="form-control" />
+                <input id="toDate" type="datetime-local" class="form-control" />
             </div>
             <div class="form-group flex-fill">
                 <label>جستجو</label>
-                <input type="text" class="form-control" placeholder="عنوان یا کد کالا را جستجو کنید" />
+                <input id="search" type="text" class="form-control" placeholder="عنوان یا کد کالا را جستجو کنید" />
             </div>
             <div class="form-group flex-fill">
-                <button type="button" class="btn btn-primary col-12">فیلتر</button>
+                <button type="button" id="filterBtn" class="btn btn-primary col-12">فیلتر</button>
             </div>
         </form>
     </div>
@@ -48,55 +48,12 @@
                     <th>چاپ</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td>علیرضا</td>
-                    <td>مانیتور فلان</td>
-                    <td>تومان 20,000</td>
-                    <td>40,000 تومان</td>
-                    <td>2</td>
-                    <td>MQ234-Manitor-4b</td>
-                    <td>3456789012</td>
-                    <td><span class="badge bg-warning">نهایی نشده </span></td>
-                    <td>1402/12/02</td>
-                    <td><a href="#" class="btn btn-primary view">مشاهده</a></td>
-                </tr>
-                <tr>
-                    <td>علیرضا</td>
-                    <td>مانیتور فلان</td>
-                    <td>تومان 20,000</td>
-                    <td>40,000 تومان</td>
-                    <td>2</td>
-                    <td>MQ234-Manitor-4b</td>
-                    <td>3456789012</td>
-                    <td><span class="badge bg-dark">ارسال شده</span></td>
-                    <td>1402/12/02</td>
-                    <td><a href="#" class="btn btn-primary view">مشاهده</a></td>
-                </tr>
-                <tr>
-                    <td>علیرضا</td>
-                    <td>مانیتور فلان</td>
-                    <td>تومان 20,000</td>
-                    <td>40,000 تومان</td>
-                    <td>2</td>
-                    <td>MQ234-Manitor-4b</td>
-                    <td>3456789012</td>
-                    <td><span class="badge bg-secondary">در حال آماده سازی</span></td>
-                    <td>1402/12/02</td>
-                    <td><a href="#" class="btn btn-primary view">مشاهده</a></td>
-                </tr>
-                <tr>
-                    <td>علیرضا</td>
-                    <td>مانیتور فلان</td>
-                    <td>تومان 20,000</td>
-                    <td>40,000 تومان</td>
-                    <td>2</td>
-                    <td>MQ234-Manitor-4b</td>
-                    <td>3456789012</td>
-                    <td><span class="badge bg-success">نهایی شده</span></td>
-                    <td>1402/12/02</td>
-                    <td><a href="#" class="btn btn-primary view">مشاهده</a></td>
-                </tr>
+            <div id="spinner" class="container d-flex justify-content-center d-none">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+            <tbody id="tbody">
             </tbody>
         </table>
     </div>
@@ -104,7 +61,7 @@
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
          tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <div class="modal-content" id="rowfile">
+            <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="staticBackdropLabel">فاکتور خرید</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"
@@ -112,7 +69,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="card-body" id="factor">
-                        <table class="table">
+                        <table class="table" id="rowfile">
                             <tr>
                                 <th>نام کالا</th>
                                 <td>مانیتور 2024</td>
@@ -146,20 +103,62 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
-                    <button type="button" onclick="HtmlTopdf('rowfile')" class="btn btn-primary">چاپ</button>
+                    <button type="button" onclick="HtmlTopdf('rowfile','orderDetailFactor')" class="btn btn-primary">چاپ</button>
                 </div>
             </div>
         </div>
     </div>
     <!--Modal-->
 </section>
+@section ScriptRefrence{
+    <script src="~/js/html2canvas.js"></script>
+    <script src="~/js/function.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha512-qZvrmS2ekKPF2mSznTQsxqPgnpkI4DNTlrdUmTzrDgektczlKNRRhy5X5AAOnx5S09ydFYWWNSfcEqDTTHgtNA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+}
 @section InlineScript{
     <script>
-        var modal = new bootstrap.Modal(document.getElementById('staticBackdrop'), {
-            keyboard: false
+        window.jsPDF = window.jspdf.jsPDF;
+        $(document).ready(function(){
+            $("#tbody").click(function(event){
+                if(event.target && event.target.classList.contains('view')){
+                    $.ajax({
+                        url: '@Url.Action("OrderDetail","Shop")',
+                        type: 'GET',
+                        data: { Id: $(event.target).attr("data-order-Id") },
+                        success: function (data) {
+                            var table = document.querySelector("#factor").querySelector(".table");
+                            $(table).html("");
+                            data.products.forEach(function (item) {
+                                $(table).append('<tr><th>نام کالا</th><td>' + item.name + '</td></tr>');
+                                $(table).append('<tr><th>کد کالا</th><td>' + item.productCode + '</td></tr>');
+                            });
+                            $(table).append('<tr><th>قیمت</th><td>' + data.price + '</td></tr>');
+                            $(table).append('<tr><th>شماره فاکتور</th><td>' + data.factorNumber + '</td></tr>');
+                            $(table).append('<tr><th>کد پیگیری</th><td>' + data.trackingCode + '</td></tr>');
+                            $(table).append('<tr><th>تاریخ</th><td>' + data.date + '</td></tr>');
+                            $(table).append('<tr><th>نام مشتری</th><td>' + data.customerName + '</td></tr>');
+                            $("#staticBackdrop").modal('show');
+                        }
+                    });
+                }
+            })
         });
-        $(".view").click(function () {
-            modal.show();
+      
+        $("#filterBtn").click(function(){
+            console.log("click filter");
+            $("#spinner").removeClass("d-none");
+            var Url = '@Url.Action("OrderFilter","UserPanel")';
+            var model = { FromDate: $("#fromDate").val(), ToDate: $("#toDate").val(), Search: $("#search").val(), Status: $("#status").val() };
+            $.ajax({
+                url:Url,
+                data:model,
+                type:'GET',
+                success: function (res) {
+                    $("#spinner").addClass("d-none");
+                    $("#tbody").html(res);
+                }
+            });
         })
     </script>
 }
