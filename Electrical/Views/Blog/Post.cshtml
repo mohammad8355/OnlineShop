@@ -151,7 +151,7 @@
                     }
                     else
                     {
-                        <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-primary">ارسال نظر</a>
+                        <a asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Url.Action("Post","Blog",new { Title = Model.Post.Title})" class="btn btn-primary">ارسال نظر</a>
                     }
                 </form>
             </div>

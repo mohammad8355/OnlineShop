@@ -20,7 +20,7 @@
                     }
                     else
                     {
-                        <a onclick="alert('لطفا وارد وبسایت شوید')" asp-area="Identity" asp-page="/Account/Login"><i class="fa-regular fa-heart like"></i></a>
+                        <a onclick="alert('لطفا وارد وبسایت شوید')" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Url.Action("ProductShow","Product",new { Id = Model.product.Id})"><i class="fa-regular fa-heart like"></i></a>
                     }
                     <a href="#"><i class="fa-regular fa-bookmark"></i></a>
                     <a href="#"><i class="fa-solid fa-share-nodes"></i></a>
@@ -203,7 +203,7 @@
 
                                                         </textarea>
                         </div>
-                        <a asp-area="Identity" asp-page="/Account/Register" type="submit" class="btn btn-primary">ارسال</a>
+                        <a asp-area="Identity" asp-page="/Account/Register" asp-route-returnUrl="@Url.Action("ProductShow","Product",new { Id = Model.product.Id})" type="submit" class="btn btn-primary">ارسال</a>
                     </form>
                 }
                 @if (Model.product.commnets != null)
