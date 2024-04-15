@@ -6,8 +6,8 @@
                 <i class="fa-solid fa-basket-shopping"></i>
             </span>
             <div class="info-box-content">
-                <span class="info-box-text">تعداد خرید</span>
-                <span class="info-box-number">5</span>
+                <span class="info-box-text">تعداد سفارش ها</span>
+                <span class="info-box-number">@Model.User.Order.Select(o => o.orderDetails).Count()</span>
             </div>
 
         </div>
@@ -26,7 +26,7 @@
             </span>
             <div class="info-box-content">
                 <span class="info-box-text">تعداد کامنت ها</span>
-                <span class="info-box-number">20</span>
+                <span class="info-box-number">@Model.User.Commnets.Count()</span>
             </div>
 
         </div>
@@ -36,22 +36,29 @@
             </span>
             <div class="info-box-content">
                 <span class="info-box-text">تعداد تیکت ها</span>
-                <span class="info-box-number">7</span>
+                <span class="info-box-number">@Model.User.Tickets.Count()</span>
             </div>
 
         </div>
     </div>
     <div class="d-flex gap-2 flex-wrap justify-content-center ">
-        <div class="card card-info col-10 col-md-4 m-0 p-0">
+        <div class="card card-info col-10 col-lg-4 m-0 p-0">
             <div class="card-header">
                 <h3>مشخصات اولیه</h3>
             </div>
             <div class="card-body col-12">
-                <div class="col-sm-6">
-                    <img src="AdminLTE/dist/img/avatar.png" class="rounded-circle border col-12" />
+                <div class="col-12">
+                    @if(Model.User.ProfileImageName != null)
+                    {
+                        <img src="~/Image/Users/@(Model.User.UserName)/@(Model.User.ProfileImageName)" class="rounded-circle border col-12" />
+                    }
+                    else
+                    {
+                        <img src="~/Image/Users/defaultUser/UserProfile.jpg" class="rounded-circle border col-12" />
+                    }
                 </div>
-                <div class="col-sm-6">
-                    <table class="table">
+                <div class="col-12">
+                    <table class="table col-12">
                         <tbody>
                             <tr>
                                 <td>
@@ -96,7 +103,7 @@
                                 <td>
                                     ایمیل
                                 </td>
-                                <td>
+                                <td style="word-wrap:break-word;max-width:160px" class="text-wrap">
                                     @Model.User.Email
                                 </td>
                             </tr>
@@ -135,7 +142,7 @@
                 </div>
             </div>
         </div>
-        <div class="card card-primary col-10 col-md-8 m-0 p-0">
+        <div class="card card-primary col-10 col-lg-8 m-0 p-0">
             <div class="card-header">
                 <h3>خرید های اخیر</h3>
             </div>

@@ -125,7 +125,9 @@ namespace Electrical.Areas.Identity.Pages.Account
                 {
                     if (result.Succeeded)
                     {
-                        var claims = new List<Claim>
+                        if (user.IsEnable)
+                        {
+                            var claims = new List<Claim>
                         {
                              new Claim(ClaimTypes.NameIdentifier,user.Id),
                              new Claim(ClaimTypes.Email,user.Email),
@@ -133,46 +135,45 @@ namespace Electrical.Areas.Identity.Pages.Account
                              new Claim(ClaimTypes.Role, "Administrator"),
                         };
 
-                        var claimsIdentity = new ClaimsIdentity(
-                            claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                        var authProperties = new AuthenticationProperties
-                        {
-                            IsPersistent = Input.RememberMe,
-                        };
-                        await HttpContext.SignInAsync(
-                       CookieAuthenticationDefaults.AuthenticationScheme,
-                       new ClaimsPrincipal(claimsIdentity),
-                        authProperties);
+                            var claimsIdentity = new ClaimsIdentity(
+                                claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                            var authProperties = new AuthenticationProperties
+                            {
+                                IsPersistent = Input.RememberMe,
+                            };
+                            await HttpContext.SignInAsync(
+                           CookieAuthenticationDefaults.AuthenticationScheme,
+                           new ClaimsPrincipal(claimsIdentity),
+                            authProperties);
+                            _logger.LogInformation("User logged in.");
+                            return LocalRedirect(returnUrl);
 
+                        }
+                        else
+                        {
+                            ModelState.AddModelError(string.Empty, "خطایی رخ داده است ");
+                            return Page();
+                        }
+
+                    }
+                    if (result.RequiresTwoFactor)
+                    {
+                        return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
+                    }
+                    if (result.IsLockedOut)
+                    {
+                        _logger.LogWarning("User account locked out.");
+                        return RedirectToPage("./Lockout");
                     }
                     else
                     {
-                        ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                        ModelState.AddModelError(string.Empty, "خطایی رخ داده است ");
                         return Page();
                     }
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    return Page();
-                }
-                if (result.Succeeded)
-                {
-                    _logger.LogInformation("User logged in.");
-                    return LocalRedirect(returnUrl);
-                }
-                if (result.RequiresTwoFactor)
-                {
-                    return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
-                }
-                if (result.IsLockedOut)
-                {
-                    _logger.LogWarning("User account locked out.");
-                    return RedirectToPage("./Lockout");
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "خطایی رخ داده است ");
                     return Page();
                 }
             }

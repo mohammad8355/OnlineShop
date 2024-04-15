@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+
 namespace Electrical.Areas.Identity.Pages.Account
 {
     public class ResetPasswordModel : PageModel
@@ -100,17 +102,24 @@ namespace Electrical.Areas.Identity.Pages.Account
                 // Don't reveal that the user does not exist
                 return RedirectToPage("./ResetPasswordConfirmation");
             }
-
-            var result = await _userManager.ResetPasswordAsync(user, Input.Code, Input.Password);
-            if (result.Succeeded)
+            if (user.IsEnable)
             {
-                return RedirectToPage("./ResetPasswordConfirmation");
-            }
+                var result = await _userManager.ResetPasswordAsync(user, Input.Code, Input.Password);
+                if (result.Succeeded)
+                {
+                    return RedirectToPage("./ResetPasswordConfirmation");
+                }
 
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError(string.Empty, error.Description);
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
             }
+            else
+            {
+                ModelState.AddModelError(string.Empty,"خطایی  رخ داده است ");
+            }
+         
             return Page();
         }
     }

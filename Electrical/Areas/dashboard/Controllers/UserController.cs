@@ -1,4 +1,7 @@
-﻿using DataAccessLayer.Models;
+﻿using BusinessLogicLayer.CommentService;
+using BusinessLogicLayer.OrderService;
+using BusinessLogicLayer.TicketService;
+using DataAccessLayer.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -15,12 +18,18 @@ namespace PresentationLayer.Areas.dashboard.Controllers
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
+        private readonly OrderLogic _orderLogic;
+        private readonly CommentLogic _commentLogic;
+        private readonly TicketLogic _ticketLogic;
         private readonly RoleManager<IdentityRole> roleManager;
-        public UserController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager)
+        public UserController(TicketLogic ticketLogic,CommentLogic commentLogic,OrderLogic orderLogic,UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.roleManager = roleManager;
+            _orderLogic = orderLogic;
+            _commentLogic = commentLogic;
+            _ticketLogic = ticketLogic;
 
         }
         public async Task<IActionResult> Index()
@@ -255,6 +264,12 @@ namespace PresentationLayer.Areas.dashboard.Controllers
         {
             var user = await userManager.FindByIdAsync(Id);
             var roles = await userManager.GetRolesAsync(user);
+            var orders = _orderLogic.AllUserOrder(user.Id);
+            var comments = _commentLogic.CommentsOfUser(user.Id);
+            var tickets = _ticketLogic.TicketListOfUser(user.Id);
+            user.Order = orders;
+            user.Commnets = comments;
+            user.Tickets = tickets;
             var model = new UserDetailsViewModel()
             {
                 User = user,

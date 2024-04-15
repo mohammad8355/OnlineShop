@@ -90,6 +90,15 @@ namespace BusinessLogicLayer.OrderService
             }
             return order;
         }
+        public List<Order> AllUserOrder(string user_Id)
+        {
+            var order = new List<Order>();
+            if (!string.IsNullOrEmpty(user_Id))
+            {
+                order.AddRange(OrderList().Where(o => o.User_Id == user_Id).ToList());
+            }
+            return order;
+        }
         public List<Order> OrderFilter(DateTime fromDate,DateTime ToDate,string Search = "",string Status = "all")
         {
             var orders = OrderList();

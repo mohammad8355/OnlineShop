@@ -46,19 +46,29 @@ namespace Electrical.Areas.Identity.Pages.Account
             }
 
             code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
-            var result = await _userManager.ChangeEmailAsync(user, email, code);
-            if (!result.Succeeded)
+            if (user.IsEnable)
             {
-                StatusMessage = "Error changing email.";
-                return Page();
-            }
+                var result = await _userManager.ChangeEmailAsync(user, email, code);
+                if (!result.Succeeded)
+                {
+                    StatusMessage = "خطایی  رخ داده است";
+                    return Page();
+                }
 
-            // In our UI email and user name are one and the same, so when we update the email
-            // we need to update the user name.
- 
-            await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Thank you for confirming your email change.";
-            return Page();
+                // In our UI email and user name are one and the same, so when we update the email
+                // we need to update the user name.
+
+                await _signInManager.RefreshSignInAsync(user);
+                StatusMessage = "سپاس از تایید تغییر ایمیل شما";
+                return Page();
+
+            }
+            else
+            {
+                StatusMessage = "خطایی  رخ داده است";
+                return Page();
+
+            }
         }
     }
 }
