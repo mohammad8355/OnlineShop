@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PresentationLayer.MessageSender
+namespace Infrustructure.MessageSender
 {
     public interface IEmailSender
     {

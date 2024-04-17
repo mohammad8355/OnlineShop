@@ -20,7 +20,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
-using PresentationLayer.MessageSender;
+using Infrustructure.MessageSender;
 namespace Electrical.Areas.Identity.Pages.Account
 
 {

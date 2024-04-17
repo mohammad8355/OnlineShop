@@ -7,7 +7,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PresentationLayer.MessageSender
+namespace Infrustructure.MessageSender
 {
     public class EmailSender : IEmailSender
     {

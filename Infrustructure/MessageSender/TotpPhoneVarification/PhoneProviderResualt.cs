@@ -1,4 +1,4 @@
-﻿namespace PresentationLayer.MessageSender.TotpPhoneVarification
+﻿namespace Infrustructure.MessageSender.TotpPhoneVarification
 {
     public class PhoneProviderResualt
     {

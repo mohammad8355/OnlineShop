@@ -21,6 +21,7 @@ namespace DataAccessLayer.Models
         public List<Ticket> Tickets { get; set; }
         public List<Commnet> Commnets { get; set; }
         public List<Order> Order { get; set; }
+        public List<Notification> notification { get; set; }
         public List<FavoriteProduct> favoriteProducts { get; set; }
     }
 }

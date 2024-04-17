@@ -3,7 +3,7 @@ using OtpNet;
 using System.Drawing.Imaging;
 using System.Text;
 
-namespace PresentationLayer.MessageSender.TotpPhoneVarification
+namespace Infrustructure.MessageSender.TotpPhoneVarification
 {
     public class PhoneProvider : IPhoneProvider
     {

@@ -62,6 +62,7 @@ namespace DataAccessLayer
             builder.Entity<ApplicationUser>().Property(au => au.ProfileImageName).IsRequired(false);
             builder.Entity<ApplicationUser>().HasMany(au => au.Order).WithOne(o => o.User).HasForeignKey(o => o.User_Id);
             builder.Entity<ApplicationUser>().Property(au => au.city).IsRequired(false);
+            builder.Entity<ApplicationUser>().HasMany(au => au.notification).WithOne(n => n.User).HasForeignKey(n => n.User_Id);
             builder.Entity<Commnet>().HasOne(c => c.reply).WithOne().HasForeignKey<Commnet>(c => c.Reply_Id).HasPrincipalKey<Commnet>(c => c.Id).OnDelete(DeleteBehavior.NoAction);
             builder.Entity<Commnet>().Property(c => c.Title).IsRequired(false);
             builder.Entity<Commnet>().Property(c => c.Ticket_Id).IsRequired(false);
@@ -74,9 +75,9 @@ namespace DataAccessLayer
             builder.Entity<BlogPost>().HasMany(c => c.Comments).WithOne(c => c.Post).HasForeignKey(c => c.BlogPost_Id);
             builder.Entity<Order>().Property(o => o.TrackingCode).IsRequired(false);
             builder.Entity<Order>().Property(o => o.FactorNumber).IsRequired(false);
-
-
-
+            builder.Entity<Notification>().Property(n => n.Type ).IsRequired(false);
+            builder.Entity<Notification>().Property(n => n.Source).IsRequired(false);
+            builder.Entity<Notification>().Property(n => n.Action).IsRequired(false);
         }
         DbSet<Product> products { get; set; }
         DbSet<AdjKey> adjKeys { get; set; }
@@ -90,6 +91,7 @@ namespace DataAccessLayer
         DbSet<FavoriteProduct> favoriteProducts { get; set; }
         DbSet<ValueToProduct> valueToProducts { get; set; }
         DbSet<Order> orders { get; set; }
+        DbSet<Notification> notifications { get; set; }
         DbSet<OrderDetails> orderDetails { get; set; }
         DbSet<Contact> contacts { get; set; }
         DbSet<General> generals { get; set; }

@@ -1,7 +1,10 @@
 ﻿using BusinessLogicLayer.CommentService;
+using BusinessLogicLayer.NotificationLogic;
 using BusinessLogicLayer.OrderService;
 using BusinessLogicLayer.TicketService;
 using DataAccessLayer.Models;
+using Infrustructure.SignalR;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -22,15 +25,18 @@ namespace PresentationLayer.Areas.dashboard.Controllers
         private readonly CommentLogic _commentLogic;
         private readonly TicketLogic _ticketLogic;
         private readonly RoleManager<IdentityRole> roleManager;
-        public UserController(TicketLogic ticketLogic,CommentLogic commentLogic,OrderLogic orderLogic,UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager)
+        private readonly IHubContext<HubConfig> _hubContext;
+        private readonly NotificationLogic _notificationLogic;
+        public UserController(NotificationLogic notificationLogic,IHubContext<HubConfig> hubContext,TicketLogic ticketLogic,CommentLogic commentLogic,OrderLogic orderLogic,UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.roleManager = roleManager;
             _orderLogic = orderLogic;
+            _notificationLogic = notificationLogic;
             _commentLogic = commentLogic;
             _ticketLogic = ticketLogic;
-
+            _hubContext = hubContext;
         }
         public async Task<IActionResult> Index()
         {
@@ -305,6 +311,23 @@ namespace PresentationLayer.Areas.dashboard.Controllers
                 return Json(new { res = result });
             }
             return Json(new { res = false });
+        }
+        [HttpGet]
+        public IActionResult Notification()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Notification(Notification model)
+        {
+            model.Date = DateTime.Now;
+            model.Status = "unread";
+          //var result =  await  _notificationLogic.AddNotification(model);
+            //if (result)
+            //{
+               await  _hubContext.Clients.All.SendAsync("receiveMessage", model.message);
+            //}
+            return View();
         }
     }
 }

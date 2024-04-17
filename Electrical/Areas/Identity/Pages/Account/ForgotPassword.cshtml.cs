@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-using PresentationLayer.MessageSender;
+using Infrustructure.MessageSender;
 
 namespace Electrical.Areas.Identity.Pages.Account
 {

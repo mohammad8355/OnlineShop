@@ -12,8 +12,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
-using PresentationLayer.MessageSender;
-using PresentationLayer.MessageSender.TotpPhoneVarification;
+using Infrustructure.MessageSender;
+using Infrustructure.MessageSender.TotpPhoneVarification;
 using System.Security.Policy;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json;
@@ -42,6 +42,9 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using PresentationLayer.Areas.Identity.Claims;
 using Infrustructure.Payment;
+using BusinessLogicLayer.NotificationLogic;
+using Infrustructure.SignalR;
+using Microsoft.AspNet.SignalR;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -101,6 +104,7 @@ builder.Services.AddScoped<MainRepository<AdjKey>>();
 builder.Services.AddScoped<MainRepository<AdjValue>>();
 builder.Services.AddScoped<MainRepository<Discount>>();
 builder.Services.AddScoped<MainRepository<Order>>();
+builder.Services.AddScoped<MainRepository<Notification>>();
 builder.Services.AddScoped<MainRepository<OrderDetails>>();
 builder.Services.AddScoped<MainRepository<General>>();
 builder.Services.AddScoped<MainRepository<BlogPost>>();
@@ -129,6 +133,7 @@ builder.Services.AddScoped<CategoryLogic>();
 builder.Services.AddScoped<KeyToSubCategoryLogic>();
 builder.Services.AddScoped<CategoryToProductLogic>();
 builder.Services.AddScoped<ValueToProductLogic>();
+builder.Services.AddScoped<NotificationLogic>();
 builder.Services.AddScoped<KeyToProductLogic>();
 builder.Services.AddScoped<DiscountToProductLogic>();
 builder.Services.AddScoped<ContactsLogic>();
@@ -145,8 +150,10 @@ builder.Services.AddScoped<OrderDetailsLogic>();
 builder.Services.AddScoped<ReturnMultipleData<UploadFile>>();
 builder.Services.AddScoped<UploadFile>();
 builder.Services.AddScoped<ProductCodeGenerator>();
+builder.Services.AddScoped<HubConfig>();
 builder.Services.AddScoped<ZarinPalPay>();
 builder.Services.AddScoped<CodeGenerator>();
+builder.Services.AddSignalR();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -159,7 +166,6 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
@@ -171,7 +177,7 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-
+app.MapHub<HubConfig>("/notification");
 //app.UseBlazorFrameworkFiles();
 app.MapFallbackToFile("index.html");
 app.Run();
