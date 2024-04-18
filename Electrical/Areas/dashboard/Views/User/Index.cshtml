@@ -19,9 +19,15 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
+                <div class="row justify-content-end p-1">
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#SendMessage">ارسال پیام </button>
+                    <button class="btn btn-warning">غیرفعال</button>
+                    <button class="btn btn-danger">حذف</button>
+                </div>
                 <table id="example1" class="table table-bordered table-striped">
                     <thead>
                         <tr>
+                            <th>#</th>
                             <th>نام کاربر</th>
                             <th>ایمیل</th>
                             <th>شماره موبایل</th>
@@ -35,9 +41,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach(var user in Model)
+                        @foreach (var user in Model)
                         {
                             <tr>
+                                <th><input type="checkbox" value="@user.User.UserName" class="UserName" /></th>
                                 <th>@user.User.UserName</th>
                                 <td>@user.User.Email</td>
                                 <td>@user.User.PhoneNumber</td>
@@ -45,7 +52,7 @@
                                 <td>@user.User.PhoneNumberConfirmed</td>
                                 <td>
                                     <ul>
-                                        @foreach(var role in user.Roles)
+                                        @foreach (var role in user.Roles)
                                         {
                                             <li class="badge badge-primary">@role</li>
                                         }
@@ -54,7 +61,7 @@
                                 <td>@user.User.IsEnable</td>
                                 <td>
                                     <div class="btn-group">
-                                      <a asp-action="UserDetails" asp-controller="User" asp-route-Id="@user.User.Id" class="btn btn-primary" >جزییات</a>
+                                        <a asp-action="UserDetails" asp-controller="User" asp-route-Id="@user.User.Id" class="btn btn-primary">جزییات</a>
                                     </div>
                                 </td>
                             </tr>
@@ -62,6 +69,7 @@
                     </tbody>
                     <tfoot>
                         <tr>
+                            <th>#</th>
                             <th>نام کاربر</th>
                             <th>ایمیل</th>
                             <th>شماره موبایل</th>
@@ -109,7 +117,45 @@
         <!-- /.col -->
     </div>
     <!-- /.row -->
+    <!--send message modal -->
+    <div class="modal fade" id="SendMessage" tabindex="-1" aria-labelledby="SendMessageLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-right" id="SendMessageLabel">ارسال پیام</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="sendMessageForm">
+                        <div class="form-group">
+                            <label>عنوان</label>
+                            <input type="text" class="form-control" placeholder="عنوان پیام" />
+                        </div>
+                        <div class="form-group">
+                            <label>متن</label>
+                            <textarea class="form-control" placeholder="عنوان پیام" required ></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>نوع</label>
+                            <select class="form-control">
+                                <option selected value="primary">معمولی</option>
+                                <option value="info">اطلاعات</option>
+                                <option value="success">موفقیت</option>
+                                <option value="warning">هشدار</option>
+                                <option value="danger">خطر</option>
+                            </select>
+                        </div>
+                    </form>
 
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="sendMessageBtn">ارسال</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /. send message modal -->
     <div class="row">
         <div class="col-md-6">
             <!-- Line chart -->
@@ -543,7 +589,43 @@
                 "responsive": true,
             });
         });
+        $("#sendMessageBtn").click(function(){
+            var names = document.querySelectorAll(".UserName").values();
+            var namelist = [...names].map(String);
+            console.log(document.querySelectorAll(".UserName"));
+            var form = document.querySelector("#sendMessageForm");
+            var title = form.querySelector("input").value;
+            var message = form.querySelector("textarea").value;
+            var type = form.querySelector("select").value;
+            console.log(title,message,type);
+             $.ajax({
+                url: '@Url.Action("Notification","User")',
+                 type:'POST',
+                 async:true,
+                data: { namelist: names, Message: message, Type: type, Title: title },
+                 success:function(data){
+                     if(data.result){
+                         Swal.fire({
+                         icon:"success",
+                         title:"با موفقیت ارسال شد",
+                     });
+                     }
+                     else{
+                        Swal.fire({
+                            icon: "error",
+                            title: "لطفا فیلد ها را به درستی پر کنید",
+                        });
+                     }
+                 },
+                 error:function(){
+                    Swal.fire({
+                        icon: "error",
+                        title: "خطایی رخ داده است",
+                    });
+                 }
 
+             })
+        })
 
     </script>
     }

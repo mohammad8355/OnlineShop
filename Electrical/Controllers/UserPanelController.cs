@@ -1,4 +1,5 @@
 ﻿using BusinessLogicLayer.favoriteProductService;
+using BusinessLogicLayer.NotificationLogic;
 using BusinessLogicLayer.OrderService;
 using BusinessLogicLayer.ProductService;
 using DataAccessLayer.Models;
@@ -19,10 +20,12 @@ namespace PresentationLayer.Controllers
         private readonly IWebHostEnvironment webHostEnvironment;
         private readonly favoriteProductLogic favoriteProductLogic;
         private readonly OrderLogic _orderLogic;
-        public UserPanelController(OrderLogic orderLogic, favoriteProductLogic favoriteProductLogic, IWebHostEnvironment webHostEnvironment, UserManager<ApplicationUser> _userManaManager, UploadFile fileManage)
+        private readonly NotificationLogic _notificationLogic;
+        public UserPanelController(NotificationLogic notificationLogic,OrderLogic orderLogic, favoriteProductLogic favoriteProductLogic, IWebHostEnvironment webHostEnvironment, UserManager<ApplicationUser> _userManaManager, UploadFile fileManage)
         {
             this._userManaManager = _userManaManager;
             this.fileManage = fileManage;
+            _notificationLogic = notificationLogic;
             this.webHostEnvironment = webHostEnvironment;
             this.favoriteProductLogic = favoriteProductLogic;
             _orderLogic = orderLogic;
@@ -38,9 +41,11 @@ namespace PresentationLayer.Controllers
             };
             return View(model);
         }
-        public IActionResult notification()
+        public async Task<IActionResult> notification()
         {
-            return View();
+            var currentUser = await _userManaManager.FindByNameAsync(User.Identity.Name);
+            var model = await _notificationLogic.UserNotifications(currentUser.Id);
+            return View(model);
         }
         public IActionResult Account()
         {

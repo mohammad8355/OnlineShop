@@ -9,38 +9,34 @@ using System.Threading.Tasks;
 
 namespace PresentationLayer.NotificationSystem
 {
-    public class PushNotification 
+    public class PushNotification:INotification
     {
         private readonly HubConfig _hubConfig;
         private readonly NotificationLogic _notifLogic;
         private readonly ILogger _logger;
-        public PushNotification(Logger<PushNotification> logger,NotificationLogic notifLogic,HubConfig hubConfig)
+        public PushNotification(ILogger<PushNotification> logger,NotificationLogic notifLogic,HubConfig hubConfig)
         {
             _hubConfig = hubConfig;
             _notifLogic = notifLogic;
             _logger = logger;
         }
-        //public async void SendNotification(string message, string receiver_Id)
-        //{
-        //    //_hubConfig.sendMessageToClient(receiver_Id, message);
-        //    //var usertonotif = new List<UserToNotification>();
-        //    //var model = new Notification()
-        //    //{
-        //    //    message = message,
-        //    //    Date = DateTime.Now,
-        //    //};
-        //    //usertonotif.Add(new UserToNotification() { User_Id = receiver_Id, Notification_Id = model.Id });
-        //    //model.userToNotifications = usertonotif;
-        //    //var result = await _notifLogic.AddNotification(model);
-        //    //if (result)
-        //    //{
-        //    //    _logger.LogInformation("send notification to user with Id '{receiver_Id}'", receiver_Id);
-        //    //}
-        //    //else
-        //    //{
-        //    //    _logger.LogWarning("failed to send notification to user with Id '{receiver_Id}'", receiver_Id);
-        //    //}
-
-        //}
+        public async void SendNotification(string message,string type, string source, string user_Id,string title = "")
+        {
+            var model = new Notification()
+            {
+                Title = title,
+                message = message,
+                Type = type,
+                Source = source,
+                User_Id = user_Id,
+                Date = DateTime.Now,
+                Status = false,
+            };
+            var result = await _notifLogic.AddNotification(model);
+            if (result)
+            {
+                _hubConfig.SendMessage(model.message,model.Date,model.Source, model.Type,model.Title);
+            }
+        }
     }
 }

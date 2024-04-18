@@ -45,6 +45,7 @@ using Infrustructure.Payment;
 using BusinessLogicLayer.NotificationLogic;
 using Infrustructure.SignalR;
 using Microsoft.AspNet.SignalR;
+using PresentationLayer.NotificationSystem;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -150,6 +151,9 @@ builder.Services.AddScoped<OrderDetailsLogic>();
 builder.Services.AddScoped<ReturnMultipleData<UploadFile>>();
 builder.Services.AddScoped<UploadFile>();
 builder.Services.AddScoped<ProductCodeGenerator>();
+builder.Services.AddScoped<PushNotification>();
+builder.Services.AddScoped<EmailNotification>();
+builder.Services.AddScoped<SMSNotification>();
 builder.Services.AddScoped<HubConfig>();
 builder.Services.AddScoped<ZarinPalPay>();
 builder.Services.AddScoped<CodeGenerator>();

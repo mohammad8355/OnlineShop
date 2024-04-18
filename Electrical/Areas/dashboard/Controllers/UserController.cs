@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using PresentationLayer.Models.ViewModels;
 using Utility.ReturnMultipleData;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using PresentationLayer.NotificationSystem;
 
 namespace PresentationLayer.Areas.dashboard.Controllers
 {
@@ -26,14 +27,14 @@ namespace PresentationLayer.Areas.dashboard.Controllers
         private readonly TicketLogic _ticketLogic;
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly IHubContext<HubConfig> _hubContext;
-        private readonly NotificationLogic _notificationLogic;
-        public UserController(NotificationLogic notificationLogic,IHubContext<HubConfig> hubContext,TicketLogic ticketLogic,CommentLogic commentLogic,OrderLogic orderLogic,UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager)
+        private readonly INotification _notification;
+        public UserController(PushNotification notification, IHubContext<HubConfig> hubContext, TicketLogic ticketLogic, CommentLogic commentLogic, OrderLogic orderLogic, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.roleManager = roleManager;
             _orderLogic = orderLogic;
-            _notificationLogic = notificationLogic;
+            _notification = notification;
             _commentLogic = commentLogic;
             _ticketLogic = ticketLogic;
             _hubContext = hubContext;
@@ -80,7 +81,7 @@ namespace PresentationLayer.Areas.dashboard.Controllers
                     PhoneNumber = model.PhoneNumber,
                     PhoneNumberConfirmed = model.ConfrimPhoneNumber,
                     IsEnable = model.IsEnable,
-                    brithDate =  model.birthDate,
+                    brithDate = model.birthDate,
                 };
                 var result = await userManager.CreateAsync(user, model.password);
                 if (result.Succeeded)
@@ -252,7 +253,7 @@ namespace PresentationLayer.Areas.dashboard.Controllers
         {
             var id = model.Id;
             var user = await userManager.FindByIdAsync(id);
-            if(user !=  null)
+            if (user != null)
             {
                 var result = await userManager.DeleteAsync(user);
                 if (result.Succeeded)
@@ -287,7 +288,7 @@ namespace PresentationLayer.Areas.dashboard.Controllers
         public async Task<IActionResult> DeleteRole(string Id)
         {
             var role = await roleManager.FindByIdAsync(Id);
-            if(role != null)
+            if (role != null)
             {
                 var result = await roleManager.DeleteAsync(role);
                 return Json(new { name = role.Name, result = result });
@@ -297,37 +298,34 @@ namespace PresentationLayer.Areas.dashboard.Controllers
         public async Task<IActionResult> ActiveUser(string Id)
         {
             var user = await userManager.FindByIdAsync(Id);
-            if(user != null)
-            if (user.IsEnable)
-            {
-                user.IsEnable = false;
-               var result = await userManager.UpdateAsync(user);
-                return Json(new { res = result });
-            }
-            else
-            {
-                user.IsEnable = true;
-                var result = await userManager.UpdateAsync(user);
-                return Json(new { res = result });
-            }
+            if (user != null)
+                if (user.IsEnable)
+                {
+                    user.IsEnable = false;
+                    var result = await userManager.UpdateAsync(user);
+                    return Json(new { res = result });
+                }
+                else
+                {
+                    user.IsEnable = true;
+                    var result = await userManager.UpdateAsync(user);
+                    return Json(new { res = result });
+                }
             return Json(new { res = false });
         }
-        [HttpGet]
-        public IActionResult Notification()
-        {
-            return View();
-        }
         [HttpPost]
-        public async Task<IActionResult> Notification(Notification model)
+        public async Task<IActionResult> Notification(string[] NameList, string Message, string Type, string Title = "")
         {
-            model.Date = DateTime.Now;
-            model.Status = "unread";
-          //var result =  await  _notificationLogic.AddNotification(model);
-            //if (result)
-            //{
-               await  _hubContext.Clients.All.SendAsync("receiveMessage", model.message);
-            //}
-            return View();
+            if (string.IsNullOrEmpty(Message) || string.IsNullOrEmpty(Type) || NameList.Count() == 0)
+            {
+                return Json(new { result = false });
+            }
+            foreach (var name in NameList)
+            {
+                var user = await userManager.FindByNameAsync(name);
+                _notification.SendNotification(Message, Title, Type, "Admin", user.Id);
+            }
+            return Json(new { result = true });
         }
     }
 }

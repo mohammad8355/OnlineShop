@@ -10,10 +10,10 @@ namespace DataAccessLayer.Models
     {
         public int Id { get; set; }
         public string message { get; set; }
-        public string Status  { get; set; }
+        public bool Status  { get; set; }
         public string Type { get; set; }
         public string Source { get; set; }
-        public string Action { get; set; }
+        public string Title { get; set; }
         public DateTime Date { get; set; }
         public string User_Id { get; set; }
         public ApplicationUser User { get; set; }

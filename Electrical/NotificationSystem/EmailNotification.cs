@@ -8,7 +8,7 @@ namespace PresentationLayer.NotificationSystem
 {
     public class EmailNotification : INotification
     {
-        public void SendNotification(string message, string receiver_Id)
+        public void SendNotification(string message, string title, string type, string source, string user_Id)
         {
             throw new NotImplementedException();
         }

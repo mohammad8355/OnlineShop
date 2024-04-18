@@ -9,9 +9,9 @@ namespace Infrustructure.SignalR
 {
     public class HubConfig : Hub
     {
-        public void SendMessage(string message)
+        public void SendMessage(string message,DateTime date,string source,string type,string title = "")
         {
-            Clients.All.SendAsync("receiveMessage", message);
+            Clients.All.SendAsync("receiveMessage",message,date,source,type,title);
         }
         //public void sendMessageToClient(string clientId, string message)
         //{

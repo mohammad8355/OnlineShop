@@ -75,9 +75,7 @@ namespace DataAccessLayer
             builder.Entity<BlogPost>().HasMany(c => c.Comments).WithOne(c => c.Post).HasForeignKey(c => c.BlogPost_Id);
             builder.Entity<Order>().Property(o => o.TrackingCode).IsRequired(false);
             builder.Entity<Order>().Property(o => o.FactorNumber).IsRequired(false);
-            builder.Entity<Notification>().Property(n => n.Type ).IsRequired(false);
-            builder.Entity<Notification>().Property(n => n.Source).IsRequired(false);
-            builder.Entity<Notification>().Property(n => n.Action).IsRequired(false);
+            builder.Entity<Notification>().Property(n => n.Title).IsRequired(false);
         }
         DbSet<Product> products { get; set; }
         DbSet<AdjKey> adjKeys { get; set; }
