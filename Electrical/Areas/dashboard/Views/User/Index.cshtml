@@ -590,9 +590,10 @@
             });
         });
         $("#sendMessageBtn").click(function(){
-            var names = document.querySelectorAll(".UserName").values();
+            var names = $(".UserName:checked").map(function () { return $(this).val(); }).get();
             var namelist = [...names].map(String);
-            console.log(document.querySelectorAll(".UserName"));
+            console.log(names);
+            console.log(namelist);
             var form = document.querySelector("#sendMessageForm");
             var title = form.querySelector("input").value;
             var message = form.querySelector("textarea").value;
@@ -602,7 +603,7 @@
                 url: '@Url.Action("Notification","User")',
                  type:'POST',
                  async:true,
-                data: { namelist: names, Message: message, Type: type, Title: title },
+                data: { NameList: names, Message: message, Type: type, Title: title },
                  success:function(data){
                      if(data.result){
                          Swal.fire({

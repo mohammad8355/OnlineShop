@@ -154,10 +154,20 @@ builder.Services.AddScoped<ProductCodeGenerator>();
 builder.Services.AddScoped<PushNotification>();
 builder.Services.AddScoped<EmailNotification>();
 builder.Services.AddScoped<SMSNotification>();
-builder.Services.AddScoped<HubConfig>();
+builder.Services.AddScoped<Dictionary<string, INotificationProvider>>(provider => new Dictionary<string, INotificationProvider>
+{
+    {"email",provider.GetRequiredService<EmailNotification>() },
+    {"sms",provider.GetRequiredService<SMSNotification>() },
+    {"push",provider.GetRequiredService<PushNotification>() },
+});
+builder.Services.AddScoped<NotificationManager>();
+//builder.Services.AddScoped<IHubContext<HubConfig>>();
 builder.Services.AddScoped<ZarinPalPay>();
 builder.Services.AddScoped<CodeGenerator>();
-builder.Services.AddSignalR();
+builder.Services.AddSignalR(options =>
+{
+    options.EnableDetailedErrors = true;
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -167,7 +177,6 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();

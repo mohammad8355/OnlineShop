@@ -27,6 +27,18 @@ namespace BusinessLogicLayer.NotificationLogic
                 return true;
             }
         }
+        public  bool EditNotification(Notification model)
+        {
+            if (string.IsNullOrEmpty(model.message))
+            {
+                return false;
+            }
+            else
+            {
+                 _notifRepos.EditItem(model);
+                return true;
+            }
+        }
         public async Task<List<Notification>> AllNotif()
         {
             var notifs = await _notifRepos.Get(null,n => n.User);

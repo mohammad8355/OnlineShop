@@ -1,6 +1,7 @@
 ﻿using BusinessLogicLayer.NotificationLogic;
 using DataAccessLayer.Models;
 using Infrustructure.SignalR;
+using Microsoft.AspNet.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,14 +10,14 @@ using System.Threading.Tasks;
 
 namespace PresentationLayer.NotificationSystem
 {
-    public class PushNotification:INotification
+    public class PushNotification:INotificationProvider
     {
-        private readonly HubConfig _hubConfig;
+        //private readonly IHubContext<HubConfig> _hubConfig;
         private readonly NotificationLogic _notifLogic;
         private readonly ILogger _logger;
-        public PushNotification(ILogger<PushNotification> logger,NotificationLogic notifLogic,HubConfig hubConfig)
+        public PushNotification(ILogger<PushNotification> logger,NotificationLogic notifLogic)
         {
-            _hubConfig = hubConfig;
+            //_hubConfig = hubConfig;
             _notifLogic = notifLogic;
             _logger = logger;
         }
@@ -33,10 +34,7 @@ namespace PresentationLayer.NotificationSystem
                 Status = false,
             };
             var result = await _notifLogic.AddNotification(model);
-            if (result)
-            {
-                _hubConfig.SendMessage(model.message,model.Date,model.Source, model.Type,model.Title);
-            }
+            
         }
     }
 }

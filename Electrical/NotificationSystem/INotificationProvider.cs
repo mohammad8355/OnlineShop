@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace PresentationLayer.NotificationSystem
 {
-    public interface INotification
+    public interface INotificationProvider
     {
-        public void SendNotification(string message,string title,string type,string source,string user_Id);
+        public void SendNotification(string message, string type, string source, string user_Id, string title = "");
         
     }
 }

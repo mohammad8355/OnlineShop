@@ -27,14 +27,14 @@ namespace PresentationLayer.Areas.dashboard.Controllers
         private readonly TicketLogic _ticketLogic;
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly IHubContext<HubConfig> _hubContext;
-        private readonly INotification _notification;
-        public UserController(PushNotification notification, IHubContext<HubConfig> hubContext, TicketLogic ticketLogic, CommentLogic commentLogic, OrderLogic orderLogic, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager)
+        private readonly NotificationManager _notificationManager;
+        public UserController(NotificationManager notificationManager, IHubContext<HubConfig> hubContext, TicketLogic ticketLogic, CommentLogic commentLogic, OrderLogic orderLogic, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.roleManager = roleManager;
             _orderLogic = orderLogic;
-            _notification = notification;
+            _notificationManager = notificationManager;
             _commentLogic = commentLogic;
             _ticketLogic = ticketLogic;
             _hubContext = hubContext;
@@ -323,7 +323,8 @@ namespace PresentationLayer.Areas.dashboard.Controllers
             foreach (var name in NameList)
             {
                 var user = await userManager.FindByNameAsync(name);
-                _notification.SendNotification(Message, Title, Type, "Admin", user.Id);
+                _notificationManager.SendNotification("push",Message,Type,"Admin",user.Id,Title);
+               await _hubContext.Clients.All.SendAsync("receiveMessage",Message,DateTime.Now,"Admin",Type,Title);
             }
             return Json(new { result = true });
         }
