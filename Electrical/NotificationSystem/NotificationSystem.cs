@@ -7,15 +7,13 @@
         {
             _Providers = Providers;
         }
-        public void SendNotification(string providerName,string message,string type,string source,string user_Id,string title = "")
+        public void SendNotification(string[] providerName,string message,string type,string source,string user_Id,string title = "")
         {
-            if (_Providers.ContainsKey(providerName))
+            if(providerName != null)
+            if(providerName.Count() > 0)
+            foreach(var provider in providerName)
             {
-                _Providers[providerName].SendNotification(message, type, source, user_Id, title);
-            }
-            else
-            {
-                _Providers["push"].SendNotification(message, type, source, user_Id, title);
+                    _Providers[provider].SendNotification(message, type, source, user_Id, title);
             }
         }
     }

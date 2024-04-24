@@ -314,7 +314,7 @@ namespace PresentationLayer.Areas.dashboard.Controllers
             return Json(new { res = false });
         }
         [HttpPost]
-        public async Task<IActionResult> Notification(string[] NameList, string Message, string Type, string Title = "")
+        public async Task<IActionResult> Notification(string[] Providers, string[] NameList, string Message, string Type, string Title = "")
         {
             if (string.IsNullOrEmpty(Message) || string.IsNullOrEmpty(Type) || NameList.Count() == 0)
             {
@@ -323,7 +323,7 @@ namespace PresentationLayer.Areas.dashboard.Controllers
             foreach (var name in NameList)
             {
                 var user = await userManager.FindByNameAsync(name);
-                _notificationManager.SendNotification("push",Message,Type,"Admin",user.Id,Title);
+                _notificationManager.SendNotification(Providers,Message,Type,"Admin",user.Id,Title);
                await _hubContext.Clients.All.SendAsync("receiveMessage",Message,DateTime.Now,"Admin",Type,Title);
             }
             return Json(new { result = true });

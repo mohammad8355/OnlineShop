@@ -137,12 +137,20 @@
                         </div>
                         <div class="form-group">
                             <label>نوع</label>
-                            <select class="form-control">
+                            <select id="type" class="form-control">
                                 <option selected value="primary">معمولی</option>
                                 <option value="info">اطلاعات</option>
                                 <option value="success">موفقیت</option>
                                 <option value="warning">هشدار</option>
                                 <option value="danger">خطر</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>ارايه دهنده</label>
+                            <select id="provider" multiple class="form-control col-12">
+                                <option value="push" selected >داخلی</option>
+                                <option value="email">ایمیل</option>
+                                <option value="sms">پیامک</option>
                             </select>
                         </div>
                     </form>
@@ -285,9 +293,13 @@
     <script src="AdminLTE/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
     <script src="AdminLTE/plugins/datatables-buttons/js/buttons.print.min.js"></script>
     <script src="AdminLTE/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+    <script src="AdminLTE/plugins/select2/js/select2.full.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     }
 @section InlineScripts {
     <script>
+        $('#provider').select2();
         $(function () {
             /*
              * Flot Interactive Chart
@@ -597,13 +609,14 @@
             var form = document.querySelector("#sendMessageForm");
             var title = form.querySelector("input").value;
             var message = form.querySelector("textarea").value;
-            var type = form.querySelector("select").value;
+            var type = form.querySelector("select#type").value;
+            var providers = form.querySelector("select#provider").value;
             console.log(title,message,type);
              $.ajax({
                 url: '@Url.Action("Notification","User")',
                  type:'POST',
                  async:true,
-                data: { NameList: names, Message: message, Type: type, Title: title },
+                data: { Providers : providers,NameList: names, Message: message, Type: type, Title: title },
                  success:function(data){
                      if(data.result){
                          Swal.fire({
