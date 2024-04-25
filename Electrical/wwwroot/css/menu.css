@@ -66,11 +66,11 @@ header div.container div.logo {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
+  flex-direction: row-reverse;
   gap: 0;
 }
 header div.container div.logo img {
-  width: 100px;
+  width: 50px;
 }
 header div.container div.logo h4 {
   font-family: "Montserrat", sans-serif;

@@ -166,11 +166,11 @@ header div.container div.logo {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
+  flex-direction: row-reverse;
   gap: 0;
 }
 header div.container div.logo img {
-  width: 100px;
+  width: 50px;
 }
 header div.container div.logo h4 {
   font-family: "Montserrat", sans-serif;
@@ -1166,14 +1166,18 @@ section.aboutus div.container div.content a {
 }
 section.aboutus div.container div.cover {
   position: absolute;
+  width:5em;
+  height:5em;
   left: -0.5em;
   top: -0.5em;
   border-radius: 1em;
-  background-color: transparent;
+  background-color: #fff;
   z-index: 10;
   animation: move 5s ease-in-out infinite;
   transition: all 0.5s;
   overflow: visible;
+  display:flex;
+  justify-content:center;
 }
 section.aboutus div.container div.cover img {
   height: 5em;
