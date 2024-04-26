@@ -1,12 +1,28 @@
 ﻿@font-face {
   font-family: "Vazir";
   src: url("../Fonts/Vazir-Font/Vazir.ttf");
-  src: url("../Fonts/Vazir-Font/Vazir-Thin.ttf");
-  src: url("../Fonts/Vazir-Font/Vazir-Regular.ttf");
   src: url("../Fonts/Vazir-Font/Vazir-Medium.ttf");
   src: url("../Fonts/Vazir-Font/Vazir-Light.ttf");
+}
+@font-face {
+  font-family: "Vazir";
+  src: url("../Fonts/Vazir-Font/Vazir-Thin.ttf");
+  font-family: "light";
+}
+@font-face {
+  font-family: "Vazir";
+  src: url("../Fonts/Vazir-Font/Vazir-Regular.ttf");
+  font-family: "normal";
+}
+@font-face {
+  font-family: "Vazir";
   src: url("../Fonts/Vazir-Font/Vazir-Bold.ttf");
+  font-family: "bold";
+}
+@font-face {
+  font-family: "Vazir";
   src: url("../Fonts/Vazir-Font/Vazir-Black.ttf");
+  font-family: "black";
 }
 * {
   margin: 0;

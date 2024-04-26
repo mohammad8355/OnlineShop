@@ -325,7 +325,41 @@ section {
         font-size: .8em;
     }
 }
-
+.scrollBlog.scrollSection {
+    .card{
+        background-color:$light;
+        border-radius:1em;
+        .card-header{
+            border-radius:.5em;
+            overflow:hidden;
+            height:10em;
+            background-color:transparent;
+            border:none;
+            a{
+                width:100%;
+                height:100%;
+            }
+            img{
+                width:100%;
+                height:100%;
+                height:auto;
+                object-fit:cover;
+            }
+        }
+        .card-body{
+            h5,.date{
+                color:$verydarkSecondary;
+                text-align:right;
+                font-weight:600;
+            }
+            .date{
+                font-weight:300;
+                font-size:.9em;
+            }
+            
+        }
+    }
+}
 .tags {
     width: 100%;
     @include flex(row, flex-end);
@@ -335,17 +369,13 @@ section {
     .tag {
         padding: .5em;
         // background-color: rgba($color: $lightPrimary, $alpha: 0.3);
-        background-color: transparent;
+        background-color:lighten($lightPrimary,30);
         border: 2px solid $darkPrimary;
         color: $darkPrimary;
         border-radius: 2em;
         transition: all .5s;
-    }
-
-    .tag:hover {
-        background-color: $darkPrimary;
-        color: $white;
-        transition: all .5s;
+        font-size:.8em;
+        font-weight:normal;
     }
 }
 @media screen and (max-width:768px) {
