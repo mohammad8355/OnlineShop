@@ -69,13 +69,13 @@ namespace PresentationLayer.Areas.dashboard.Controllers
                         var destination = "Image/icons/aboutus";
                         var webroot = webHostEnvironment.WebRootPath;
                         var result = await FileManager.Upload(model.Name, Path.Combine(webroot, destination), null, null, model.File);
-                        if (!(bool)result.First())
+                        if (!result.result)
                         {
-                            ViewBag.error = "مشکل در آپلود فایل ";
+                            ViewBag.error = result.message;
                         }
                         else
                         {
-                            aboutusModel.ImageName = model.Name + result.Last().ToString();
+                            aboutusModel.ImageName = model.Name + result.message.ToString();
                             await generalLogic.UpdateGeneral(aboutusModel);
                         }
                     }
@@ -89,13 +89,13 @@ namespace PresentationLayer.Areas.dashboard.Controllers
                         var destination = "Image/icons/aboutus";
                         var webroot = webHostEnvironment.WebRootPath;
                         var result = await FileManager.Upload(model.Name, Path.Combine(webroot, destination), null, null, model.File);
-                        if (!(bool)result.First())
+                        if (!result.result)
                         {
-                            ViewBag.error = "مشکل در آپلود فایل ";
+                            ViewBag.error = result.message;
                         }
                         else
                         {
-                            aboutus.First().ImageName = model.Name + result.Last().ToString();
+                            aboutus.First().ImageName = model.Name + result.message.ToString();
                             var res = await generalLogic.UpdateGeneral(aboutus.First());
                             if (!res)
                             {
@@ -136,16 +136,16 @@ namespace PresentationLayer.Areas.dashboard.Controllers
                     label = "slider",
 
                 };
-                if(await generalLogic.AddGeneral(slide))
+                if (await generalLogic.AddGeneral(slide))
                 {
-                    if(model.File != null)
+                    if (model.File != null)
                     {
                         var destination = "Image/slider/";
                         var webroot = webHostEnvironment.WebRootPath;
                         var res = await FileManager.Upload(model.Name, Path.Combine(webroot, destination), null, null, model.File);
-                        if ((bool)res.First())
+                        if (res.result)
                         {
-                            slide.ImageName = model.Name + res.Last().ToString();
+                            slide.ImageName = model.Name + res.message.ToString();
                             await generalLogic.UpdateGeneral(slide);
                             ViewBag.success = "با موفقیت اسلاید افزوده شد";
                             return View();
@@ -165,13 +165,13 @@ namespace PresentationLayer.Areas.dashboard.Controllers
             {
                 Name = slide.Name,
             };
-            return View("AddSlider",model);
+            return View("AddSlider", model);
         }
         [HttpPost]
         public async Task<IActionResult> EditSlide(AddEditSliderViewModel model)
         {
             ModelState.Remove("File");
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 var slide = await generalLogic.GeneralDetail(model.Id);
                 slide.Name = model.Name;
@@ -180,16 +180,50 @@ namespace PresentationLayer.Areas.dashboard.Controllers
                     var destination = "Image/slider/";
                     var webroot = webHostEnvironment.WebRootPath;
                     var res = await FileManager.Upload(model.Name, Path.Combine(webroot, destination), null, null, model.File);
-                    if ((bool)res.First())
+                    if (res.result)
                     {
-                        slide.ImageName = model.Name + res.Last().ToString();
-                        return RedirectToAction("SliderList");
+                        slide.ImageName = model.Name + res.message.ToString();
                     }
                 }
                 await generalLogic.UpdateGeneral(slide);
                 return RedirectToAction("SliderList");
             }
-            return View("AddSlider",model);
+            return View("AddSlider", model);
         }
+        [HttpGet]
+        public async Task<IActionResult> DeleteSlide(int Id)
+        {
+            var slide = await generalLogic.GeneralDetail(Id);
+            var message = "Error Not Found !!";
+            var FinResult = false;
+            if (slide != null)
+            {
+                var webroot = webHostEnvironment.WebRootPath;
+                var destination = "Image/slider/" + slide.ImageName;
+                var path = Path.Combine(webroot, destination);
+                var result = await FileManager.DeleteFile(path);
+                if (result.result)
+                {
+                    var deleteRes = await generalLogic.DeleteGeneral(slide.Id);
+                    FinResult = deleteRes;
+                    if (deleteRes)
+                    {
+                        message = "با موفقیت انجام شد";
+                    }
+                    else
+                    {
+                        message = "خطایی رخ داده است ";
+                    }
+                }
+                else
+                {
+                    FinResult = result.result;
+                    message = result.message;
+                }
+            }
+            return Json(new { result = FinResult, message = message });
+        }
+
     }
 }
+

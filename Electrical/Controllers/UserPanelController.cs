@@ -68,10 +68,10 @@ namespace PresentationLayer.Controllers
                 var webrootpath = webHostEnvironment.WebRootPath;
                 var path = Path.Combine(webrootpath, destination);
                 var result = await fileManage.Upload(name, path, 0, formats, file);
-                if ((bool)result.First())
+                if (result.result)
                 {
                     var user = await _userManaManager.FindByNameAsync(name);
-                    user.ProfileImageName = name + result.Last().ToString();
+                    user.ProfileImageName = name + result.message.ToString();
                     var updateUserResult = await _userManaManager.UpdateAsync(user);
                     if (updateUserResult.Succeeded)
                     {

@@ -23,9 +23,22 @@
                 <h4 >OnlionShop</h4>
             </div>
             <div class="search-box col-12 col-md-6 col-lg-8">
-                <form method="post">
-                    <input type="search" placeholder="جستجو کنید" class="col-4">
-                    <i class="fa-solid fa-magnifying-glass"></i>
+                <form class="search-container col-12">
+                    <div class="category-dropdown col-4">
+                        <select class="col-12" >
+                            <option value="All">All</option>
+                            <option value="category1">Category 1</option>
+                            <option value="category2">Category 2</option>
+                            <option value="category3">Category 3</option>
+                            <!-- Add more categories here -->
+                        </select>
+                    </div>
+                    <div class="search-input col-8">
+                        <input type="text" class="col-8" placeholder="Search..." />
+                        <button class="search-btn">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                    </div>
                 </form>
             </div>
             <div class="left-side col-lg-2 col-md-3 col-6 d-flex justify-content-center align-items-center">
@@ -238,6 +251,10 @@
                 document.querySelectorAll(".category")[0].classList.add("select");
             })
         })
+        function toggleDropdown() {
+            const dropdown = document.getElementById("myDropdown");
+            dropdown.classList.toggle("show");
+        }
     </script>
     @RenderSection("InLineScript",false)
 </body>

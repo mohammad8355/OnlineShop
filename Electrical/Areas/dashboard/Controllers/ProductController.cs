@@ -155,17 +155,17 @@ namespace PresentationLayer.Areas.dashboard.Controllers
 
                         var UploadFileResault = await fileManager.Upload(ImageName, destination, limitsize, null, file);
                         //if upload successfull 
-                        if ((bool)UploadFileResault.First() == true)
+                        if (UploadFileResault.result == true)
                         {
                             //convert bytes to kilobytes
                             var ImageSize = file.Length / 1024;
                             #region bind productphoto model 
                             ProductPhoto productPhoto = new ProductPhoto()
                             {
-                                Name = ImageName + UploadFileResault.Last().ToString(),
+                                Name = ImageName + UploadFileResault.message.ToString(),
                                 Size = (int)ImageSize,
                                 Product_Id = product.Id,
-                                format = UploadFileResault.Last().ToString(),
+                                format = UploadFileResault.message.ToString(),
                             };
                             #endregion
                             //add photo to productphoto model
@@ -179,7 +179,7 @@ namespace PresentationLayer.Areas.dashboard.Controllers
                         }
                         else
                         {
-                            ModelState.AddModelError("", UploadFileResault.Last().ToString());
+                            ModelState.AddModelError("", UploadFileResault.message.ToString());
                             return View(model);
                         }
 
@@ -319,7 +319,7 @@ namespace PresentationLayer.Areas.dashboard.Controllers
                         //delete file from server
                         #region delete last images from server
                         var isSuccess = await fileManager.DeleteFile(path);
-                        if ((bool)isSuccess.First())
+                        if (isSuccess.result)
                         {
                             #region delete last images from db
                             //delete photo from db
@@ -333,7 +333,7 @@ namespace PresentationLayer.Areas.dashboard.Controllers
                         }
                         else
                         {
-                            ModelState.AddModelError("", isSuccess.Last().ToString());
+                            ModelState.AddModelError("", isSuccess.message.ToString());
                             return View(model);
                         }
                         #endregion
@@ -348,17 +348,17 @@ namespace PresentationLayer.Areas.dashboard.Controllers
                         //upload image on server;
                         var UploadFileResault = await fileManager.Upload(ImageName, destination, limitsize, null, file);
                         //if upload successfull 
-                        if ((bool)UploadFileResault.First() == true)
+                        if ((bool)UploadFileResault.result == true)
                         {
                             //convert bytes to kilobytes
                             var ImageSize = file.Length / 1024;
                             #region bind productphoto model
                             ProductPhoto productPhoto = new ProductPhoto()
                             {
-                                Name = ImageName + UploadFileResault.Last().ToString(),
+                                Name = ImageName + UploadFileResault.message.ToString(),
                                 Size = (int)ImageSize,
                                 Product_Id = model.Id,
-                                format = UploadFileResault.Last().ToString(),
+                                format = UploadFileResault.message.ToString(),
                             };
                             #endregion
                             //add photo to productphoto model
@@ -367,7 +367,7 @@ namespace PresentationLayer.Areas.dashboard.Controllers
                         }
                         else
                         {
-                            ModelState.AddModelError("", UploadFileResault.Last().ToString());
+                            ModelState.AddModelError("", UploadFileResault.message.ToString());
                             return View( model);
                         }
 

@@ -18,7 +18,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach(var slide in Model)
+                            @foreach (var slide in Model)
                             {
                                 <tr>
                                     <td>@slide.Name</td>
@@ -26,7 +26,7 @@
                                     <td>
                                         <div class="btn-group">
                                             <a asp-action="EditSlide" asp-controller="General" asp-route-Id="@slide.Id" class="btn btn-info"><i class="fa-solid fa-pen"></i></a>
-                                            <a  class="btn btn-danger delete" data-Id="@slide.Id" ><i class="fa-solid fa-trash-can"></i></a>
+                                            <a class="btn btn-danger delete" data-Id="@slide.Id"><i class="fa-solid fa-trash-can"></i></a>
                                         </div>
                                     </td>
                                 </tr>
@@ -89,17 +89,25 @@
                 console.log("click");
                 if (confirm("آیا از حذف این مورد اطمینان دارید ؟")) {
                     $.ajax({
-                        url: '@Url.Action("DeleteGeneral","General")',
+                        url: '@Url.Action("DeleteSlide","General")',
                         type: 'GET',
-                        async:true,
+                        async: true,
                         data: { Id: $(item).attr("data-Id") },
                         success: function (data) {
-                            if (data) {
-                                alert("با موفقیت انجام شد");
+                            if (data.result) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "موفقیت ",
+                                    text: data.message,
+                                });
                                 location.reload();
                             }
                             else {
-                                alert("خطا در سیستم ");
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "خطا",
+                                    text: data.message,
+                                });
                             }
                         }
                     })

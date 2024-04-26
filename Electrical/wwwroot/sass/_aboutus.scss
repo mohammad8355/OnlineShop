@@ -38,11 +38,16 @@ section.aboutus {
             left: -.5em;
             top: -.5em;
             border-radius: 1em;
-            background-color: transparent;
+            background-color:#fff;
             z-index: 10;
             animation: move 5s ease-in-out infinite;
             transition: all .5s;
             overflow: visible;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            width:5em;
+            height:5em;
             //logo css
             img {
                 // width:5em;

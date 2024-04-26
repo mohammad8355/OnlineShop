@@ -17,14 +17,14 @@ namespace Infrustructure.uploadfile
         {
             returnMultipleData = ReturnMultipleData;
         }
-        public async Task<List<object>> Upload(string name,string destination,int? limitSize,List<string>? formats,IFormFile file)
+        public async Task<(bool result,string message)> Upload(string name,string destination,int? limitSize,List<string>? formats,IFormFile file)
         {
             var havelegalFormat = true;
             if(file != null)
             {
                 if(file.Length > limitSize && limitSize != 0)
                 {
-                    return await returnMultipleData.Return(false,$"حجم فایل آپلود شده بیش از حد مجاز بوده است حجم فایل باید حداقل{limitSize}باشد ") ;
+                    return (false,$"حجم فایل آپلود شده بیش از حد مجاز بوده است حجم فایل باید حداقل{limitSize}باشد ") ;
                 }
                 else if(formats != null)
                 {
@@ -42,7 +42,7 @@ namespace Infrustructure.uploadfile
                     }
                     if (!havelegalFormat)
                     {
-                        return await returnMultipleData.Return(false,"فایل فرمت مجاز را ندارد") ;
+                        return  (false,"فایل فرمت مجاز را ندارد") ;
                     }
                 }
                     var extention = Path.GetExtension(file.FileName);
@@ -57,25 +57,25 @@ namespace Infrustructure.uploadfile
                     newfileStream.Close();
 
 
-                    return await returnMultipleData.Return(true,extention);
+                    return (true, extention);
             }
             else
             {
-                return await returnMultipleData.Return(false, $"لطفا فایل را آپلود کنید"); ;
+                return (false, $"لطفا فایل را آپلود کنید");
             }
         }
-        public async Task<List<object>> DeleteFile(string path)
+        public async Task<(bool result,string message)> DeleteFile(string path)
         {
             var completePath = Path.Combine(path);
             FileInfo file = new FileInfo(completePath);
             if (file.Exists)
             {
                 file.Delete();
-                return await returnMultipleData.Return(true, "");
+                return (true, "");
             }
             else
             {
-                return await returnMultipleData.Return(false, "چنین فایلی وجود ندارد");
+                return (false, "چنین فایلی وجود ندارد");
             }
         }
         public bool FormatChecker(IFormFile file,List<string> formats)

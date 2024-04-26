@@ -80,27 +80,61 @@ header div.container div.logo h4 {
 }
 header div.container div.search-box {
   padding: 0.5em;
+  /* Search container styling */
+  /* Category dropdown styling */
+  /* Search input styling */
+  /* Search button styling */
 }
-header div.container div.search-box form {
-  width: 100%;
-  background-color: rgba(0, 0, 0, 0.1);
-  border-radius: 2em;
-  padding: 0.1em 0.5em 0.1em 0.5em;
+header div.container div.search-box .search-container {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  flex-direction: _;
-  gap: 0;
+  background-color: #f5f5f5;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-header div.container div.search-box form i {
-  color: #009BD6;
-  font-size: 1.5em;
+header div.container div.search-box .category-dropdown {
+  padding: 0;
+  margin: 0;
 }
-header div.container div.search-box form input {
-  border: none;
+header div.container div.search-box .category-dropdown select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 0 4px 4px 0;
+  font-size: 14px;
   outline: none;
-  background-color: rgba(0, 0, 0, 0);
-  padding: 0.5em 0.2em 0.5em 0.2em;
+}
+header div.container div.search-box .search-input {
+  display: flex;
+  justify-content: center;
+}
+header div.container div.search-box .search-input input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+header div.container div.search-box .search-input input:focus {
+  border-color: #007bff; /* Add your desired focus color */
+}
+header div.container div.search-box .search-btn {
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px 0 0 4px;
+  padding: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+header div.container div.search-box .search-btn i {
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+  color: #fff;
+}
+header div.container div.search-box .search-btn:hover {
+  background-color: #0056b3; /* Darker shade on hover */
 }
 header div.container div.left-side .login-part {
   width: 10em;

@@ -51,9 +51,9 @@ namespace PresentationLayer.Areas.dashboard.Controllers
                         var root = webHostEnvironment.WebRootPath;
                         var completePath = Path.Combine(root, destination);
                         var uploadRes = await FileManager.Upload(model.Name, completePath, 0, null, model.file);
-                        if ((bool)uploadRes.First())
+                        if (uploadRes.result)
                         {
-                            brand.ImageName = model.Name + uploadRes.Last().ToString();
+                            brand.ImageName = model.Name + uploadRes.message.ToString();
                             brandLogic.EditBrand(brand);
                             ViewBag.success = "برند مورد نطر با موفقیت افزوده شد";
                             return View();
@@ -97,9 +97,9 @@ namespace PresentationLayer.Areas.dashboard.Controllers
                         var root = webHostEnvironment.WebRootPath;
                         var completePath = Path.Combine(root, destination);
                         var uploadRes = await FileManager.Upload(model.Name, completePath, 0, null, model.file);
-                        if ((bool)uploadRes.First())
+                        if (uploadRes.result)
                         {
-                            brand.ImageName = model.Name + uploadRes.Last().ToString();
+                            brand.ImageName = model.Name + uploadRes.message.ToString();
                             brandLogic.EditBrand(brand);
                             return RedirectToAction("Index");
                         }
