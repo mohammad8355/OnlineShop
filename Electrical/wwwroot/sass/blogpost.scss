@@ -5,7 +5,7 @@
     src: url("../Fonts/Lalezar-Font/OTF/Lalezar-Regular.otf");
     src: url("../Fonts/Lalezar-Font/TTF/Lalezar-Regular.ttf");
 }
-section {
+.scrollSection {
     width: 100%;
     min-height: 100vh;
     display: flex;
@@ -44,13 +44,11 @@ section {
                 @include flex(row,space-between,center);
                 column-gap: .5em;
                 color: $Secondary;
-                h5{
+
+                h5 {
                     font-size: .9em;
                 }
-
-
             }
-
         }
 
         .body {
@@ -73,7 +71,6 @@ section {
                 padding: .5em 1em .5em 1em;
                 line-height: 2em;
             }
-
         }
 
         .tags {
@@ -91,14 +88,17 @@ section {
             }
         }
     }
-    aside{
+
+    aside {
         position: relative;
         min-height: 100%;
     }
+
     nav {
-        overflow-y:auto;
+        overflow-y: auto;
         position: absolute;
         transition: all .5s;
+
         h3 {
             font-size: 1.5em;
             color: $darkSecondary;
@@ -111,6 +111,7 @@ section {
             list-style: none;
             width: 100%;
             padding: 0;
+
             li {
                 background-color: $white;
                 border-radius: .5em;
@@ -125,15 +126,17 @@ section {
 
                     h3 {
                         font-size: 1em;
-                        color:$dark;
+                        color: $dark;
                     }
-                    h6{
-                        font-size:.8em;
+
+                    h6 {
+                        font-size: .8em;
                         text-align: left;
                         color: $Secondary;
                     }
-                    img{
-                        width:6em;
+
+                    img {
+                        width: 6em;
                         border-radius: .5em;
                     }
                 }
@@ -143,24 +146,29 @@ section {
                 box-shadow: 0 0 10px rgba($color: #000000, $alpha: 0.5);
             }
         }
-        .popularTags{
+
+        .popularTags {
             @include flex();
             background-color: $white;
             border-radius: .5em;
             margin: .5em;
-            .tags{
+
+            .tags {
                 @include flex(row);
                 flex-wrap: wrap;
-                .tag{
-                    background-color:$lightSecondary;
+
+                .tag {
+                    background-color: $lightSecondary;
                     border-radius: 2em;
                     padding: .5em;
                     margin: .5em;
-                    a{
+
+                    a {
                         color: $dark;
                         text-decoration: none;
                     }
-                    a:hover{
+
+                    a:hover {
                         color: $Primary;
                     }
                 }
@@ -170,77 +178,92 @@ section {
 
     .comments {
         @include flex(column,flex-start,flex-start);
-        div.container{
+
+        div.container {
             display: flex;
             flex-direction: column;
             row-gap: 1em;
         }
-        .comment-reply{
+
+        .comment-reply {
             width: 100%;
             border-radius: 1em;
             color: $light;
-            background-color:rgba($color: $Primary, $alpha: 0.8);
+            background-color: rgba($color: $Primary, $alpha: 0.8);
             padding: .5em;
-            .reply{
+
+            .reply {
                 background-color: $darkPrimary;
                 padding: .5em;
-                border-radius:.5em;
+                border-radius: .5em;
             }
-            .header{
+
+            .header {
                 @include flex(row,space-between);
-                column-gap:.5em;
+                column-gap: .5em;
                 padding: .5em;
-                .sender{
+
+                .sender {
                     @include flex(row);
-                    img{
+
+                    img {
                         width: 5em;
-                        border-radius:50%;
+                        border-radius: 50%;
                     }
-                    h5{
+
+                    h5 {
                         font-size: 1em;
                     }
                 }
-                .replylink{
-                  text-decoration: none;
-                  color: $white;
+
+                .replylink {
+                    text-decoration: none;
+                    color: $white;
                 }
             }
-          
         }
-        .comment{
+
+        .comment {
             width: 100%;
             border-radius: 1em;
             color: $dark;
-            background-color:rgba($color: $light, $alpha: 0.8);
+            background-color: rgba($color: $light, $alpha: 0.8);
             box-shadow: 0 0 10px rgba($color: #000000, $alpha: 0.5);
             padding: .5em;
-            .header{
+
+            .header {
                 @include flex(row,space-between);
-                column-gap:.5em;
+                column-gap: .5em;
                 padding: .5em;
-                .sender{
+
+                .sender {
                     @include flex(row);
-                    img{
+
+                    img {
                         width: 5em;
-                        border-radius:50%;
+                        border-radius: 50%;
                     }
-                    h5{
+
+                    h5 {
                         font-size: 1em;
                     }
                 }
-                .replylink{
-                  text-decoration: none;
-                  color: $dark;
+
+                .replylink {
+                    text-decoration: none;
+                    color: $dark;
                 }
             }
         }
-        .sendComment{
-            form{
-                button{
+
+        .sendComment {
+            form {
+                button {
                     background-color: $Primary;
                     border: none;
                 }
-                button:hover{
+
+                button:hover {
                     background-color: $darkPrimary;
                 }
             }
@@ -327,7 +350,7 @@ section {
 }
 .scrollBlog.scrollSection {
     .card{
-        background-color:$light;
+        background-color:#fff;
         border-radius:1em;
         .card-header{
             border-radius:.5em;

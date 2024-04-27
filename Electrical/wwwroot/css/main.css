@@ -1182,7 +1182,7 @@ section.scrollSection .card {
   display: inline-block;
   width: 300px;
   margin-right: 10px;
-  box-shadow: 0 0 5px #6B6B6C;
+  box-shadow: 0 0 10px #c7c2c2;
 }
 section.scrollSection .slick-prev,
 section.scrollSection .slick-next {

@@ -69,41 +69,41 @@ body, html {
   src: url("../Fonts/Lalezar-Font/OTF/Lalezar-Regular.otf");
   src: url("../Fonts/Lalezar-Font/TTF/Lalezar-Regular.ttf");
 }
-section {
+.scrollSection {
   width: 100%;
   min-height: 100vh;
   display: flex;
   flex-wrap: wrap;
   padding: 1em 0 1em 0;
 }
-section article {
+.scrollSection article {
   height: 100%;
   background-color: #fff;
   border-radius: 0.5em;
   padding: 0.5em;
 }
-section article .header h1 {
+.scrollSection article .header h1 {
   font-size: 2em;
   font-family: "Lalezar";
   color: #00719C;
 }
-section article .header .author {
+.scrollSection article .header .author {
   display: flex;
   justify-content: flex-start;
   align-items: center;
   flex-direction: row;
   gap: 0;
 }
-section article .header .author img {
+.scrollSection article .header .author img {
   border-radius: 50%;
   margin: 0.1em;
   width: 3em;
 }
-section article .header .author h5 {
+.scrollSection article .header .author h5 {
   color: #919192;
   font-size: 1em;
 }
-section article .header .detail {
+.scrollSection article .header .detail {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -112,32 +112,32 @@ section article .header .detail {
   column-gap: 0.5em;
   color: #919192;
 }
-section article .header .detail h5 {
+.scrollSection article .header .detail h5 {
   font-size: 0.9em;
 }
-section article .body {
+.scrollSection article .body {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   gap: 0;
 }
-section article .body img {
+.scrollSection article .body img {
   width: 80%;
   margin: auto 0;
   border-radius: 0.5em;
 }
-section article .body h2 {
+.scrollSection article .body h2 {
   width: 100%;
   text-align: right;
 }
-section article .body p {
+.scrollSection article .body p {
   text-wrap: balance;
   text-align: right;
   padding: 0.5em 1em 0.5em 1em;
   line-height: 2em;
 }
-section article .tags {
+.scrollSection article .tags {
   width: 100%;
   display: flex;
   justify-content: flex-end;
@@ -147,40 +147,40 @@ section article .tags {
   flex-wrap: wrap;
   column-gap: 0.5em;
 }
-section article .tags .tag {
+.scrollSection article .tags .tag {
   padding: 0.5em;
   background-color: #00719C;
   color: #fff;
   border-radius: 2em;
 }
-section aside {
+.scrollSection aside {
   position: relative;
   min-height: 100%;
 }
-section nav {
+.scrollSection nav {
   overflow-y: auto;
   position: absolute;
   transition: all 0.5s;
 }
-section nav h3 {
+.scrollSection nav h3 {
   font-size: 1.5em;
   color: #6B6B6C;
   font-family: "Lalezar";
   font-weight: 300;
   text-align: center;
 }
-section nav ul {
+.scrollSection nav ul {
   list-style: none;
   width: 100%;
   padding: 0;
 }
-section nav ul li {
+.scrollSection nav ul li {
   background-color: #fff;
   border-radius: 0.5em;
   padding: 0.5em;
   margin: 0.5em;
 }
-section nav ul li a {
+.scrollSection nav ul li a {
   text-decoration: none;
   text-align: center;
   display: flex;
@@ -190,23 +190,23 @@ section nav ul li a {
   gap: 0;
   column-gap: 0.5em;
 }
-section nav ul li a h3 {
+.scrollSection nav ul li a h3 {
   font-size: 1em;
   color: #2F2E2E;
 }
-section nav ul li a h6 {
+.scrollSection nav ul li a h6 {
   font-size: 0.8em;
   text-align: left;
   color: #919192;
 }
-section nav ul li a img {
+.scrollSection nav ul li a img {
   width: 6em;
   border-radius: 0.5em;
 }
-section nav ul li:hover {
+.scrollSection nav ul li:hover {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
-section nav .popularTags {
+.scrollSection nav .popularTags {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -216,7 +216,7 @@ section nav .popularTags {
   border-radius: 0.5em;
   margin: 0.5em;
 }
-section nav .popularTags .tags {
+.scrollSection nav .popularTags .tags {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -224,44 +224,44 @@ section nav .popularTags .tags {
   gap: 0;
   flex-wrap: wrap;
 }
-section nav .popularTags .tags .tag {
+.scrollSection nav .popularTags .tags .tag {
   background-color: #BDBFC1;
   border-radius: 2em;
   padding: 0.5em;
   margin: 0.5em;
 }
-section nav .popularTags .tags .tag a {
+.scrollSection nav .popularTags .tags .tag a {
   color: #2F2E2E;
   text-decoration: none;
 }
-section nav .popularTags .tags .tag a:hover {
+.scrollSection nav .popularTags .tags .tag a:hover {
   color: #009BD6;
 }
-section .comments {
+.scrollSection .comments {
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
   flex-direction: column;
   gap: 0;
 }
-section .comments div.container {
+.scrollSection .comments div.container {
   display: flex;
   flex-direction: column;
   row-gap: 1em;
 }
-section .comments .comment-reply {
+.scrollSection .comments .comment-reply {
   width: 100%;
   border-radius: 1em;
   color: #F4F4F4;
   background-color: rgba(0, 155, 214, 0.8);
   padding: 0.5em;
 }
-section .comments .comment-reply .reply {
+.scrollSection .comments .comment-reply .reply {
   background-color: #00719C;
   padding: 0.5em;
   border-radius: 0.5em;
 }
-section .comments .comment-reply .header {
+.scrollSection .comments .comment-reply .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -270,25 +270,25 @@ section .comments .comment-reply .header {
   column-gap: 0.5em;
   padding: 0.5em;
 }
-section .comments .comment-reply .header .sender {
+.scrollSection .comments .comment-reply .header .sender {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: row;
   gap: 0;
 }
-section .comments .comment-reply .header .sender img {
+.scrollSection .comments .comment-reply .header .sender img {
   width: 5em;
   border-radius: 50%;
 }
-section .comments .comment-reply .header .sender h5 {
+.scrollSection .comments .comment-reply .header .sender h5 {
   font-size: 1em;
 }
-section .comments .comment-reply .header .replylink {
+.scrollSection .comments .comment-reply .header .replylink {
   text-decoration: none;
   color: #fff;
 }
-section .comments .comment {
+.scrollSection .comments .comment {
   width: 100%;
   border-radius: 1em;
   color: #2F2E2E;
@@ -296,7 +296,7 @@ section .comments .comment {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   padding: 0.5em;
 }
-section .comments .comment .header {
+.scrollSection .comments .comment .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -305,29 +305,29 @@ section .comments .comment .header {
   column-gap: 0.5em;
   padding: 0.5em;
 }
-section .comments .comment .header .sender {
+.scrollSection .comments .comment .header .sender {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: row;
   gap: 0;
 }
-section .comments .comment .header .sender img {
+.scrollSection .comments .comment .header .sender img {
   width: 5em;
   border-radius: 50%;
 }
-section .comments .comment .header .sender h5 {
+.scrollSection .comments .comment .header .sender h5 {
   font-size: 1em;
 }
-section .comments .comment .header .replylink {
+.scrollSection .comments .comment .header .replylink {
   text-decoration: none;
   color: #2F2E2E;
 }
-section .comments .sendComment form button {
+.scrollSection .comments .sendComment form button {
   background-color: #009BD6;
   border: none;
 }
-section .comments .sendComment form button:hover {
+.scrollSection .comments .sendComment form button:hover {
   background-color: #00719C;
 }
 
@@ -407,7 +407,7 @@ section .comments .sendComment form button:hover {
 }
 
 .scrollBlog.scrollSection .card {
-  background-color: #F4F4F4;
+  background-color: #fff;
   border-radius: 1em;
 }
 .scrollBlog.scrollSection .card .card-header {

@@ -1,53 +1,56 @@
-section.scrollSection{
+section.scrollSection {
     .card-slider {
         overflow-x: auto;
         white-space: nowrap;
         scrollbar-width: none; /* Hide scrollbar in Firefox */
         -ms-overflow-style: none; /* Hide scrollbar in IE and Edge */
         padding: .5em 0 .5em 0;
+
         .slick-list.draggable {
-          padding: 1em;
+            padding: 1em;
         }
-      }
-  
-      .card-slider::-webkit-scrollbar {
+    }
+
+    .card-slider::-webkit-scrollbar {
         display: none; /* Hide scrollbar in Chrome, Safari, and Opera */
-      }
-  
-      .card {
+    }
+
+    .card {
         display: inline-block;
         width: 300px;
         margin-right: 10px;
-        box-shadow: 0 0 5px $darkSecondary;
-      }
-  
-      .slick-prev,
-      .slick-next {
+        box-shadow: 0 0 10px #c7c2c2;
+    }
+
+    .slick-prev,
+    .slick-next {
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
         z-index: 1;
         font-size: 24px;
         cursor: pointer;
-      }
-      .slick-next::before{
+    }
+
+    .slick-next::before {
         color: $lightPrimary;
         font-size: 1.3em;
-      } 
-      .slick-prev::before{
-    
+    }
+
+    .slick-prev::before {
         color: $lightPrimary;
         font-size: 1.3em;
-      }
-      .slick-prev {
+    }
+
+    .slick-prev {
         right: 10px;
-        left:unset;
-      }
-  
-      .slick-next {
+        left: unset;
+    }
+
+    .slick-next {
         left: 10px;
         right: unset;
-      }
+    }
 }
 section.scrollComment{
 
