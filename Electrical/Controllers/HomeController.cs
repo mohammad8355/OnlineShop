@@ -1,4 +1,5 @@
 ﻿using BusinessLogicLayer.BlogPostService;
+using BusinessLogicLayer.CommentService;
 using BusinessLogicLayer.ContactService;
 using BusinessLogicLayer.GeneralService;
 using BusinessLogicLayer.ProductService;
@@ -17,13 +18,15 @@ namespace PresentationLayer.Controllers
         private readonly GeneralLogic generalLogic;
         private readonly ContactsLogic contactsLogic;
         private readonly BlogPostLogic blogPostLogic;
-        public HomeController(ILogger<HomeController> logger, ContactsLogic contactsLogic, ProductLogic productLogic, GeneralLogic generalLogic, BlogPostLogic blogPostLogic)
+        private readonly CommentLogic _commentLogic;
+        public HomeController(CommentLogic commentLogic,ILogger<HomeController> logger, ContactsLogic contactsLogic, ProductLogic productLogic, GeneralLogic generalLogic, BlogPostLogic blogPostLogic)
         {
             _logger = logger;
             this.productLogic = productLogic;
             this.blogPostLogic = blogPostLogic;
             this.contactsLogic = contactsLogic;
             this.generalLogic = generalLogic;
+            _commentLogic = commentLogic;
         }
 
         public async Task<IActionResult> Index()
@@ -34,6 +37,7 @@ namespace PresentationLayer.Controllers
             var posts = blogPostLogic.blogPostList();
             var aboutus = await generalLogic.ReturnByLabel("aboutus");
             var slider = generalLogic.GeneralList().Where(s => s.label == "slider").ToList();
+            var comments = _commentLogic.LimitedComment();
             var model = new HomePageViewModel()
             {
                 HotDiscountProduct = offProducts.ToList(),
@@ -42,6 +46,7 @@ namespace PresentationLayer.Controllers
                 Posts = posts,
                 Sliders = slider,
                 Aboutus = aboutus.First(),
+                Comments = comments,
 
             };
             return View(model);

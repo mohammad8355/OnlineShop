@@ -141,7 +141,7 @@
     </div>
 </section>
 <section class="banner container">
-    <img src="../image/Sliderimage3.jpg">
+    <img src="~/Image/slider/چمعه سیاه.jpg">
 </section>
 @if (Model != null)
 {
@@ -289,27 +289,35 @@
         </section>
     }
 }
-<section class="scrollComment scrollSection d-flex flex-column align-items-center" dir="ltr">
-    <h3 class="text-center">نظرات</h3>
-    <div class="container container-fluid p-2">
-        <div class="card-slider slider">
-            <div class="p-3 card rounded-2 bg-light  comnent-card " style="width: 18rem;">
-                <div class="header">
-                    <h5 class="tex-end text-primary font-weight-bold">موس لاجیتکM90</h5>
-                                        <h5 class="card-title text-primary font-weight-normal">سارا احمدی</h5>
-                </div>
-                <div class="card-body">
-                    <p class="text-wrap">موس خیلی خوبی بود اما یه سری مشکلات داشت</p>
-                </div>
-                <div class="footer">
-                    <h5 class="font-weight-bold text-primary">1401/03/28</h5>
-                </div>
+@if(Model.Comments != null)
+{
+    <section class="scrollComment scrollSection d-flex flex-column align-items-center" dir="ltr">
+        <h3 class="text-center">نظرات</h3>
+        <div class="container container-fluid p-2">
+            <div class="card-slider slider">
+                @foreach (var comment in Model.Comments)
+                {
+                    <div class="p-3 card rounded-2 bg-light  comnent-card " style="width: 18rem;">
+                        <div class="header">
+                            <h5 class="text-wrap tex-end text-primary font-weight-bold">
+                                    @comment.Product.Name
+                                </h5>
+                            <h5 class="card-title text-primary font-weight-normal">@comment.User.UserName</h5>
+                        </div>
+                        <div class="card-body">
+                            <p class="text-wrap">@comment.Description</p>
+                        </div>
+                        <div class="footer">
+                            <h5 class="font-weight-bold text-primary">@comment.LastUpdate.Date.ToPersianDate()</h5>
+                        </div>
+                    </div>
+                }
             </div>
+            <!-- <button class="slick-prev" aria-label="Previous" type="button"></button>
+                <button class="slick-next" aria-label="Next" type="button"></button> -->
         </div>
-        <!-- <button class="slick-prev" aria-label="Previous" type="button"></button>
-            <button class="slick-next" aria-label="Next" type="button"></button> -->
-    </div>
-</section>
+    </section>
+}
 @if (Model != null)
 {
     <section class="aboutus">

@@ -92,5 +92,10 @@ namespace BusinessLogicLayer.CommentService
             var commentsOfPost = comments.Where(c => c.BlogPost_Id == Post_Id).ToList();
             return commentsOfPost;
         }
+        public List<Commnet> LimitedComment(int value = 10)
+        {
+            var comments = CommentRepository.Get(c => c.Product_Id != 0 && c.Product_Id != null, c => c.User, c => c.Product).Result.OrderByDescending(o => o.Id).Take(value).ToList();
+            return comments;
+        }
     }
 }
