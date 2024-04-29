@@ -401,6 +401,15 @@
         font-weight:normal;
     }
 }
+.overlay-content {
+    display: flex;
+    justify-content: end;
+    flex-direction: column;
+    align-items: start;
+    height: 100%;
+    background-image: linear-gradient(transparent, #22222275 70%);
+    transition: display .5s;
+}
 @media screen and (max-width:768px) {
     .searchposts .postlist .post-item {
         p {

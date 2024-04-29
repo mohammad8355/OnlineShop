@@ -88,14 +88,12 @@ builder.Services.Configure<TotpPhoneProviderOptions>(options =>
 #region Addcookies
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
 {
-    options.LoginPath = "/Account/Login";
-    options.AccessDeniedPath = "/AccessDenied";
+    options.LoginPath = "/Identity/Account/Login";
+    options.AccessDeniedPath = "/Identity/Account/AccessDenied";
     options.ExpireTimeSpan = TimeSpan.FromDays(15);
-    options.LogoutPath = "/Account/Logout";
+    options.LogoutPath = "/Identity/Account/Logout";
 });
 #endregion
-
-
 #region main repository service
 builder.Services.AddScoped<MainRepository<KeyToProduct>>();
 builder.Services.AddScoped<MainRepository<DiscountToProduct>>();
