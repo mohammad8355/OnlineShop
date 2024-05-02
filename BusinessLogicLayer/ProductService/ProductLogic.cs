@@ -26,7 +26,7 @@ namespace BusinessLogicLayer.ProductService
         private readonly MainRepository<FavoriteProduct> favoriteProductRepository;
         private readonly CommentLogic commentLogic;
         private readonly MainRepository<AdjValue> adjValueLogic;
-        public ProductLogic(CommentLogic commentLogic,MainRepository<ValueToProduct> ValueToProductRepository, MainRepository<FavoriteProduct> favoriteProductRepository, MainRepository<AdjValue> adjValueLogic, CategoryToProductLogic categoryToProductLogic, MainRepository<Product> ProductRepository, MainRepository<Category> SubRepository, MainRepository<KeyToProduct> KeyToProductRepository, MainRepository<DiscountToProduct> discountToProductRepository, MainRepository<ProductPhoto> productphotoRepository)
+        public ProductLogic(CommentLogic commentLogic, MainRepository<ValueToProduct> ValueToProductRepository, MainRepository<FavoriteProduct> favoriteProductRepository, MainRepository<AdjValue> adjValueLogic, CategoryToProductLogic categoryToProductLogic, MainRepository<Product> ProductRepository, MainRepository<Category> SubRepository, MainRepository<KeyToProduct> KeyToProductRepository, MainRepository<DiscountToProduct> discountToProductRepository, MainRepository<ProductPhoto> productphotoRepository)
         {
             this.ProductRepository = ProductRepository;
             this.commentLogic = commentLogic;
@@ -187,6 +187,21 @@ namespace BusinessLogicLayer.ProductService
             var newsetProduct = productList.OrderByDescending(p => p.Id);
             return newsetProduct;
         }
+        public List<Product> Search(string SearchInput="",int Category_Id=0)
+        {
+            var productList = ProductList().ToList();
+            if (Category_Id != 0)
+            {
+                productList.Where(p => p.Name.Contains(SearchInput) && p.CategoryToProducts.Select(c => c.Category_Id).Contains(Category_Id)).ToList();
+
+            }
+            else
+            {
+                productList.Where(p => p.Name.Contains(SearchInput)).ToList();
+            }
+            return productList;
+        }
+
 
     }
 }

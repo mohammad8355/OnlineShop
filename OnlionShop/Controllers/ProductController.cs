@@ -108,6 +108,18 @@ namespace PresentationLayer.Controllers
                 return Json(new { islike = false });
             }
         }
+        public IActionResult Search(SearchViewModel model)
+        {
+            if(model != null)
+            {
+                var result = productLogic.Search(model.SearchInput,model.CategoryId);
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index","Home");
+            }
+        }
 
     }
 }
