@@ -76,11 +76,11 @@
     </div>
     <div class="footer-menu">
         <ul>
-            <li><span><i class="fa-solid fa-house"></i></span><a href="#">خانه</a></li>
+            <li><span><i class="fa-solid fa-house"></i></span><a asp-action="Index" asp-controller="Home">خانه</a></li>
             <li id="Category"><span><i class="fa-solid fa-layer-group"></i></span><a href="#">دسته&zwnj;بندی&zwnj;</a></li>
-            <li><span><i class="fa-solid fa-bag-shopping"></i></span><a href="#">سبد خرید</a></li>
-            <li><span><i class="fa-solid fa-headset"></i></span><a href="#">پشتیبانی</a></li>
-            <li><span><i class="fa-solid fa-user"></i></span><a href="#">اکانت</a></li>
+            <li><span><i class="fa-solid fa-bag-shopping"></i></span><a asp-action="Index" asp-controller="Shop" >سبد خرید</a></li>
+            <li><span><i class="fa-solid fa-headset"></i></span><a asp-area="" asp-action="Index" asp-controller="Ticket">پشتیبانی</a></li>
+            <li><span><i class="fa-solid fa-user"></i></span><a asp-action="Index" asp-controller="UserPanel">اکانت</a></li>
         </ul>
     </div>
     <footer class="col-12">
