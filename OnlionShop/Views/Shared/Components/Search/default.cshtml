@@ -1,0 +1,19 @@
+﻿@model SearchViewModel
+<form class="search-container col-12" asp-action="Search" asp-controller="Product" >
+    <div class="category-dropdown col-4">
+        <select class="col-12" asp-for="CategoryId">
+            <option value="0">همه</option>
+            @foreach(var ct in Model.Categories)
+            {
+                <option value="@ct.Id" >@ct.Name</option>
+            }
+            <!-- Add more categories here -->
+        </select>
+    </div>
+    <div class="search-input col-8">
+        <input class="col-8" asp-for="SearchInput" placeholder="Search..." />
+        <button class="search-btn" type="submit">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+    </div>
+</form>

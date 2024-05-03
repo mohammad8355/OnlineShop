@@ -113,7 +113,11 @@ namespace PresentationLayer.Controllers
             if(model != null)
             {
                 var result = productLogic.Search(model.SearchInput,model.CategoryId);
-                return View();
+                var viewmodel = new SearchResultViewModel()
+                {
+                    Products = result,
+                };
+                return View(viewmodel);
             }
             else
             {

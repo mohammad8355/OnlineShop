@@ -23,23 +23,7 @@
                 <h4 >OnlionShop</h4>
             </div>
             <div class="search-box col-12 col-md-6 col-lg-8">
-                <form class="search-container col-12">
-                    <div class="category-dropdown col-4">
-                        <select class="col-12" >
-                            <option value="All">All</option>
-                            <option value="category1">Category 1</option>
-                            <option value="category2">Category 2</option>
-                            <option value="category3">Category 3</option>
-                            <!-- Add more categories here -->
-                        </select>
-                    </div>
-                    <div class="search-input col-8">
-                        <input type="text" class="col-8" placeholder="Search..." />
-                        <button class="search-btn">
-                            <i class="fa-solid fa-magnifying-glass"></i>
-                        </button>
-                    </div>
-                </form>
+              @await Component.InvokeAsync("Search");
             </div>
             <div class="left-side col-lg-2 col-md-3 col-6 d-flex justify-content-center align-items-center">
                 <div class="login-part">
