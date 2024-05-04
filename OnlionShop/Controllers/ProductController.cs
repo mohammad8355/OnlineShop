@@ -124,6 +124,15 @@ namespace PresentationLayer.Controllers
                 return RedirectToAction("Index","Home");
             }
         }
+        public IActionResult ParameterSearch(string Search="",int Category_Id = 0)
+        {
+                var result = productLogic.Search(Search,Category_Id);
+                var viewmodel = new SearchResultViewModel()
+                {
+                    Products = result,
+                };
+                return View("Search",viewmodel);
+        }
 
     }
 }
