@@ -192,12 +192,12 @@ namespace BusinessLogicLayer.ProductService
             var productList = ProductList().ToList();
             if (Category_Id != 0)
             {
-                productList.Where(p => p.Name.Contains(SearchInput) && p.CategoryToProducts.Select(c => c.Category_Id).Contains(Category_Id)).ToList();
+               productList = productList.Where(p => p.Name.Contains(SearchInput) && p.CategoryToProducts.Select(c => c.Category_Id).Contains(Category_Id)).ToList();
 
             }
             else
             {
-                productList.Where(p => p.Name.Contains(SearchInput)).ToList();
+               productList = productList.Where(p => p.Name.Contains(SearchInput)).ToList();
             }
             return productList;
         }

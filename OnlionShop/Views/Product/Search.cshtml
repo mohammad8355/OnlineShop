@@ -12,56 +12,59 @@
             </select>
         </div>
         <div class="col-12 Product-container">
-            @if (Model.Products.Count > 0)
-            {
-                @foreach (var product in Model.Products)
+            <div class="product-wrapper">
+                @if (Model.Products.Count > 0)
                 {
-                    <div class="product-card" style="min-width: 15rem;">
-                        <div class="cover">
-                            <a class="nav-link" asp-action="ProductShow" asp-controller="Product" asp-route-Id="@product.Id">
-                                <img src="~/Image/Product/@(product.Name)/@(product.ProductPhotos.First().Name)" alt="@product.Name" width="200px">
-                            </a>
-                        </div>
-                        <div class="card-body">
-                            <div class="product-name">
-                                <a class="nav-link" asp-action="ProductShow" asp-controller="Product" asp-route-Id="@product.Id">@product.Name</a>
+                    @foreach (var product in Model.Products)
+                    {
+                        <div class="product-card" style="min-width: 15rem;">
+                            <div class="cover">
+                                <a class="nav-link" asp-action="ProductShow" asp-controller="Product" asp-route-Id="@product.Id">
+                                    <img src="~/Image/Product/@(product.Name)/@(product.ProductPhotos.First().Name)" alt="@product.Name" width="200px">
+                                </a>
                             </div>
-                            <div class="price">
-                                @if (product.Discount > 0)
-                                {
-                                    <span class="original-price text-danger"><del>@product.Price.ToString("N0") تومان</del></span>
+                            <div class="card-body">
+                                <div class="product-name">
+                                    <a class="nav-link" asp-action="ProductShow" asp-controller="Product" asp-route-Id="@product.Id">@product.Name</a>
+                                </div>
+                                <div class="price">
+                                    @if (product.Discount > 0)
+                                    {
+                                        <span class="original-price text-danger"><del>@product.Price.ToString("N0") تومان</del></span>
 
 
-                                    var finPrice = product.Price - (product.Price * ((decimal)product.Discount / 100));
+                                        var finPrice = product.Price - (product.Price * ((decimal)product.Discount / 100));
 
 
-                                    <span class="off-price">@finPrice.ToString("N0") تومان</span>
-                                }
-                                else
-                                {
-                                    <span class="text-dark">@product.Price.ToString("N0") تومان</span>
-                                }
-                            </div>
-                            <div class="card-footer">
-                                <a href="#" class="shopbtn"><i class="fa-solid fa-cart-shopping"></i></a>
-                                <div class="d-flex flex-row-reverse">
-                                    <i class="fa-solid fa-star"></i><span>4.5</span>
-                                    @*         <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>*@
+                                        <span class="off-price">@finPrice.ToString("N0") تومان</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-dark">@product.Price.ToString("N0") تومان</span>
+                                    }
+                                </div>
+                                <div class="card-footer">
+                                    <a href="#" class="shopbtn"><i class="fa-solid fa-cart-shopping"></i></a>
+                                    <div class="d-flex flex-row-reverse">
+                                        <i class="fa-solid fa-star"></i><span>4.5</span>
+                                        @*         <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-regular fa-star"></i>
+                                <i class="fa-regular fa-star"></i>*@
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                    }
+
+                }
+                else
+                {
+                    <div class="alert alert-warning">
+                        <p>نتیجه ای یافت نشد</p>
                     </div>
                 }
-            }
-            else
-            {
-                <div class="alert alert-warning">
-                    <p>نتیجه ای یافت نشد</p>
-                </div>
-            }
+            </div>
         </div>
     </div>
 </section>
