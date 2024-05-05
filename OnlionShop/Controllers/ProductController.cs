@@ -116,6 +116,7 @@ namespace PresentationLayer.Controllers
                 var viewmodel = new SearchResultViewModel()
                 {
                     Products = result,
+                    Category_Id = model.CategoryId,
                 };
                 return View(viewmodel);
             }
@@ -130,6 +131,7 @@ namespace PresentationLayer.Controllers
                 var viewmodel = new SearchResultViewModel()
                 {
                     Products = result,
+                    Category_Id = Category_Id,
                 };
                 return View("Search",viewmodel);
         }

@@ -3,41 +3,9 @@
     @if (Model.Products.Count > 0)
     {
         <div class="col-lg-4 col-12 d-flex align-items-top p-2">
-            <form class="form-control bg-white">
-                <label>مرتب سازی بر اساس</label>
-                <select class="form-control col-4">
-                    <option>پیش فرض</option>
-                    <option>پیش فرض</option>
-                    <option>پیش فرض</option>
-                    <option>پیش فرض</option>
-                </select>
-                <div class="form-group">
-                    <label>دسته بندی</label>
-                    <input type="checkbox" />
-                </div>
-                <div class="form-group">
-                    <label>دسته بندی</label>
-                    <input type="checkbox" />
-                </div>
-                <div class="form-group">
-                    <label>دسته بندی</label>
-                    <input type="checkbox" />
-                </div>
-                <div class="form-group">
-                    <label>دسته بندی</label>
-                    <input type="checkbox" />
-                </div>
-                <div class="form-group">
-                    <label>دسته بندی</label>
-                    <input type="checkbox" />
-                </div>
-                <div class="form-group">
-                    <label>قیمت</label>
-                    <input type="range" />
-                </div>
-            </form>
+           @await Component.InvokeAsync("SearchFilter",Model.Category_Id)
         </div>
-        <div class="col-lg-8 col-12 d-flex flex-column p-0 m-0 justify-content-center align-items-center ">
+        <div class="col-lg-8 col-12 d-flex flex-column p-0 m-0 justify-content-start align-items-center ">
             <div class=" col-12 d-flex flex-wrap  p-1 m-3">
                 @foreach (var product in Model.Products)
                 {
@@ -90,3 +58,12 @@
         </div>
     }
 </section>
+@section InlineScript{
+    <script>
+        $(".headlist").next().slideUp();
+        $(".headlist").click(function(){
+            $(this).next().slideToggle();
+            $(this).toggleClass("text-primary");
+        });
+    </script>
+}
