@@ -16,6 +16,7 @@ namespace PresentationLayer.Views.ViewComponents
             var model = new SearchFilterViewModel()
             {
                 keys = _adjkeyLogic.AdjKeyListByCategory(category_Id),
+                Category_Id = category_Id,
             };
             return View(model);
         }

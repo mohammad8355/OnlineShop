@@ -10,6 +10,7 @@ namespace PresentationLayer.Models.ViewModels
         public decimal FromPrice { get; set; }
         public decimal ToPrice { get; set; }
         public bool IsExist { get; set; }
+        public int Category_Id { get; set; }
 
     }
 }

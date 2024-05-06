@@ -135,6 +135,33 @@ namespace PresentationLayer.Controllers
                 };
                 return View("Search",viewmodel);
         }
+        public async Task<IActionResult> SearchFilter(SearchFilterViewModel model)
+        {
+            if(model != null)
+            {
+                if(model.Values != null)
+                {
+                    var result = productLogic.SearchFilter(model.IsExist, model.Values, model.FromPrice, model.ToPrice);
+                    var viewModel = new SearchResultViewModel()
+                    {
+                        Products = result,
+                        Category_Id = model.Category_Id,
+                    };
+                    return View("Search", viewModel);
+                }
+                else
+                {
+                    var result = productLogic.SearchFilter(model.IsExist, new List<int>(), model.FromPrice, model.ToPrice);
+                    var viewModel = new SearchResultViewModel()
+                    {
+                        Products = result,
+                        Category_Id = model.Category_Id,
+                    };
+                    return View("Search", viewModel);
+                }
+            }
+            return RedirectToAction("Index", "Home");
+        }
 
     }
 }

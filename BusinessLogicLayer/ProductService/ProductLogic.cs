@@ -201,7 +201,48 @@ namespace BusinessLogicLayer.ProductService
             }
             return productList;
         }
-
+        public List<Product> SearchFilter(bool isExit, List<int> values, decimal minPrice = 0, decimal maxPrice = 0)
+        {
+            var productList = ProductList();
+            if (isExit)
+            {
+                productList = productList.Where(p => p.QuantityInStock > 0).ToList();
+            }
+            if (values.Count() > 0)
+            {
+                var valuesList = new List<AdjValue>();
+                foreach(var id in values)
+                {
+                    valuesList.Add(adjValueLogic.Get(av => av.Id == id).Result.First());
+                }
+                var GroupedValuesList = valuesList.GroupBy(v => v.adjkey_Id).ToList();
+                foreach(var group in GroupedValuesList)
+                {
+                    var groupvalue = new List<Product>();
+                   foreach(var value in group)
+                    {
+                        groupvalue.AddRange(productList.Where(p => p.valueToProducts.Select(vp => vp.Value_Id).Contains(value.Id)).ToList());
+                    }
+                   if(groupvalue.Count() > 0)
+                    {
+                        productList = groupvalue;
+                    }
+                }
+            }
+            if (minPrice != 0 && minPrice != 0)
+            {
+                productList = productList.Where(p => p.Price >= minPrice && p.Price <= maxPrice).ToList();
+            }
+            if(minPrice !=0 && maxPrice == 0)
+            {
+                productList = productList.Where(p => p.Price >= minPrice).ToList();
+            }
+            if (minPrice == 0 && maxPrice != 0)
+            {
+                productList = productList.Where(p => p.Price <= maxPrice).ToList();
+            }
+            return productList.ToList();
+        }
 
     }
 }

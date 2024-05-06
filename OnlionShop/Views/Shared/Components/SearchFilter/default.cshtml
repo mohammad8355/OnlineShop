@@ -1,5 +1,6 @@
 ﻿@model SearchFilterViewModel
 <form class="form-control bg-white" asp-action="SearchFilter" asp-controller="Product" >
+    <input asp-for="Category_Id" hidden class="hidden" />
     <label>مرتب سازی بر اساس</label>
     <select class="form-control col-4" asp-for="Sortby">
         <option value="default">پیش فرض</option>
