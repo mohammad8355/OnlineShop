@@ -187,23 +187,31 @@ namespace BusinessLogicLayer.ProductService
             var newsetProduct = productList.OrderByDescending(p => p.Id);
             return newsetProduct;
         }
-        public List<Product> Search(string SearchInput="",int Category_Id=0)
+        public List<Product> Search(string SearchInput = "", int Category_Id = 0)
         {
             var productList = ProductList().ToList();
             if (Category_Id != 0)
             {
-               productList = productList.Where(p => p.Name.Contains(SearchInput) && p.CategoryToProducts.Select(c => c.Category_Id).Contains(Category_Id)).ToList();
+                productList = productList.Where(p => p.Name.Contains(SearchInput) && p.CategoryToProducts.Select(c => c.Category_Id).Contains(Category_Id)).ToList();
 
             }
             else
             {
-               productList = productList.Where(p => p.Name.Contains(SearchInput)).ToList();
+                productList = productList.Where(p => p.Name.Contains(SearchInput)).ToList();
             }
             return productList;
         }
-        public List<Product> SearchFilter(bool isExit, List<int> values, decimal minPrice = 0, decimal maxPrice = 0)
+        public List<Product> SearchFilter(int Category_Id, bool isExit, List<int> values, decimal minPrice = 0, decimal maxPrice = 0)
         {
-            var productList = ProductList();
+            var productList = new List<Product>();
+            if (Category_Id != 0)
+            {
+                productList = ProductList().Where(p => p.CategoryToProducts.Select(cp => cp.Category_Id).Contains(Category_Id)).ToList();
+            }
+            else
+            {
+                productList = ProductList().ToList();
+            }
             if (isExit)
             {
                 productList = productList.Where(p => p.QuantityInStock > 0).ToList();
@@ -211,29 +219,27 @@ namespace BusinessLogicLayer.ProductService
             if (values.Count() > 0)
             {
                 var valuesList = new List<AdjValue>();
-                foreach(var id in values)
+                foreach (var id in values)
                 {
                     valuesList.Add(adjValueLogic.Get(av => av.Id == id).Result.First());
                 }
                 var GroupedValuesList = valuesList.GroupBy(v => v.adjkey_Id).ToList();
-                foreach(var group in GroupedValuesList)
+                foreach (var group in GroupedValuesList)
                 {
                     var groupvalue = new List<Product>();
-                   foreach(var value in group)
+                    foreach (var value in group)
                     {
                         groupvalue.AddRange(productList.Where(p => p.valueToProducts.Select(vp => vp.Value_Id).Contains(value.Id)).ToList());
                     }
-                   if(groupvalue.Count() > 0)
-                    {
-                        productList = groupvalue;
-                    }
+                    productList = groupvalue;
+
                 }
             }
-            if (minPrice != 0 && minPrice != 0)
+            if (minPrice != 0 && maxPrice != 0)
             {
                 productList = productList.Where(p => p.Price >= minPrice && p.Price <= maxPrice).ToList();
             }
-            if(minPrice !=0 && maxPrice == 0)
+            if (minPrice != 0 && maxPrice == 0)
             {
                 productList = productList.Where(p => p.Price >= minPrice).ToList();
             }

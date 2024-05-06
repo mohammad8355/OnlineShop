@@ -141,7 +141,7 @@ namespace PresentationLayer.Controllers
             {
                 if(model.Values != null)
                 {
-                    var result = productLogic.SearchFilter(model.IsExist, model.Values, model.FromPrice, model.ToPrice);
+                    var result = productLogic.SearchFilter(model.Category_Id,model.IsExist, model.Values, model.FromPrice, model.ToPrice);
                     var viewModel = new SearchResultViewModel()
                     {
                         Products = result,
@@ -151,7 +151,7 @@ namespace PresentationLayer.Controllers
                 }
                 else
                 {
-                    var result = productLogic.SearchFilter(model.IsExist, new List<int>(), model.FromPrice, model.ToPrice);
+                    var result = productLogic.SearchFilter(model.Category_Id,model.IsExist, new List<int>(), model.FromPrice, model.ToPrice);
                     var viewModel = new SearchResultViewModel()
                     {
                         Products = result,
