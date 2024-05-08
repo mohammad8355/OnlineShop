@@ -201,16 +201,18 @@ namespace BusinessLogicLayer.ProductService
             }
             return productList;
         }
-        public List<Product> SearchFilter(int Category_Id, bool isExit, List<int> values, decimal minPrice = 0, decimal maxPrice = 0)
+        public async Task<List<Product>> SearchFilter(int Category_Id, bool isExit, List<int> values, decimal minPrice = 0, decimal maxPrice = 0,string sortby = "")
         {
             var productList = new List<Product>();
             if (Category_Id != 0)
             {
-                productList = ProductList().Where(p => p.CategoryToProducts.Select(cp => cp.Category_Id).Contains(Category_Id)).ToList();
+                var tempList = await SortBy(sortby);
+                productList = tempList.Where(p => p.CategoryToProducts.Select(cp => cp.Category_Id).Contains(Category_Id)).ToList();
             }
             else
             {
-                productList = ProductList().ToList();
+                var tempList = await SortBy(sortby);
+                productList = tempList.ToList();
             }
             if (isExit)
             {
@@ -249,6 +251,23 @@ namespace BusinessLogicLayer.ProductService
             }
             return productList.ToList();
         }
-
+        public async Task<IEnumerable<Product>> SortBy(string sortby = "")
+        {
+            switch (sortby)
+            {
+                case "expensive":
+                    return await MostExpensiveProduct();
+                case " cheap":
+                    return await CheapestProduct();
+                case "bestsell":
+                    return await BestSellingProduct();
+                case "new":
+                    return NewsetProduct();
+                case "popular":
+                    return await PopularProduct();
+                default:
+                    return ProductList();
+            }
+        }
     }
 }
