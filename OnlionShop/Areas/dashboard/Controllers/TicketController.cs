@@ -9,7 +9,7 @@ using PresentationLayer.Models.ViewModels;
 namespace PresentationLayer.Areas.dashboard.Controllers
 {
     [Area("dashboard")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,Supporter")]
     public class TicketController : Controller
     {
         private readonly TicketLogic ticketLogic;

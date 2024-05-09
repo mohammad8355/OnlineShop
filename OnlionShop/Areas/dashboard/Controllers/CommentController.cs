@@ -9,7 +9,7 @@ using System.Collections.Generic;
 namespace PresentationLayer.Areas.dashboard.Controllers
 {
     [Area("dashboard")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,Supporter")]
     public class CommentController : Controller
     {
         private readonly CommentLogic commentLogic;

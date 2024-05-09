@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace PresentationLayer.Areas.dashboard.Controllers
 {
     [Area("dashboard")]
-    [Authorize(Roles = "Admin,writer")]
+    [Authorize(Roles = "Admin,Writer")]
     public class BlogPostController : Controller
     {
         private readonly BlogPostLogic blogPostLogic;
