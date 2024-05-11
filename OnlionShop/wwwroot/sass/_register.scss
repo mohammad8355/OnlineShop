@@ -8,7 +8,7 @@
 
     .card {
         width: 18rem;
-        background-color: transparent;
+        background-color:#fff;
         border: 2px solid $Primary;
         overflow: hidden;
 
@@ -24,7 +24,7 @@
         .card-body {
             form {
                 border: none;
-                background-color: transparent;
+                background-color:#fff;
                 @include flex(row, flex-start);
                 column-gap: 2em;
 

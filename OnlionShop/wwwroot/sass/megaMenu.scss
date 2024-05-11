@@ -4,7 +4,7 @@
 @media screen and (min-width:767px) {
     #megamenu {
         position: absolute;
-        top: 0;
+        top:6em;
         display: flex;
         background-color: $verylightSecondary;
         border-radius: .5em;
@@ -37,8 +37,8 @@
 
     .tab-item .tab-Index.active {
         border-bottom: 2px solid $Primary;
-        background-color: rgba($color: $lightPrimary, $alpha: 0.5);
-        color: #333;
+        background-color:$darkPrimary;
+        color: #fff;
     }
 
     .tab-container-Item {
@@ -63,6 +63,7 @@
 
     .category-list .category-list-item {
         padding: .2em;
+        text-decoration: none;
     }
 
     .category-list .category-list-item ul {
@@ -77,11 +78,16 @@
 
     .category-list .category-list-item ul a:hover {
         color: $lightPrimary;
+        text-decoration: none;
     }
 
     .category-list .category-list-item h6 {
         color: $Primary;
         font-weight: 700;
+
+        a {
+            text-decoration: none;
+        }
     }
 }
 
@@ -151,7 +157,7 @@
         }
 
         .category-list .category-list-item ul a:hover {
-            color: $lightPrimary;
+            color: $Primary;
         }
 
         .category-list .category-list-item h6 {

@@ -23,7 +23,7 @@
                 <h4 >OnlionShop</h4>
             </div>
             <div class="search-box col-12 col-md-6 col-lg-8">
-              @await Component.InvokeAsync("Search");
+              @await Component.InvokeAsync("Search")
             </div>
             <div class="left-side col-lg-2 col-md-3 col-6 d-flex justify-content-center align-items-center">
                 <div class="login-part">
@@ -40,7 +40,7 @@
                 <li class="special" id="category">
                     <a href="#">دسته&zwnj;بندی&zwnj;</a>
                 </li>
-                <li class="special"><a href="#">پشتیبانی</a></li>
+                <li class="special"><a asp-action="Index" asp-controller="Ticket" >پشتیبانی</a></li>
                 <li><span><i class="fa-solid fa-newspaper"></i></span><a asp-action="Index" asp-controller="BLog">مجله</a></li>
                 <li class="dropdown">
                     <a href="#">سایر<span>...</span></a>

@@ -935,7 +935,7 @@ body, html {
 
 .accountBox .card {
   width: 18rem;
-  background-color: transparent;
+  background-color: #fff;
   border: 2px solid #009BD6;
   overflow: hidden;
 }
@@ -956,7 +956,7 @@ body, html {
 
 .accountBox .card .card-body form {
   border: none;
-  background-color: transparent;
+  background-color: #fff;
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -2016,7 +2016,7 @@ section.Product-container .container-lg .product-detail .tab-container table tr:
 }
 
 section.Product-container .container-lg .product-detail .tab-container table tr:hover td {
-  background-color: #00B8FF;
+  background-color: #00719C;
 }
 
 section.Product-container .container-lg .product-detail .tab-container.active {

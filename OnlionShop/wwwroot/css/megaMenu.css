@@ -67,7 +67,7 @@ body, html {
 @media screen and (min-width: 767px) {
   #megamenu {
     position: absolute;
-    top: 0;
+    top: 6em;
     display: flex;
     background-color: #E6E7E9;
     border-radius: 0.5em;
@@ -96,8 +96,8 @@ body, html {
   }
   .tab-item .tab-Index.active {
     border-bottom: 2px solid #009BD6;
-    background-color: rgba(0, 184, 255, 0.5);
-    color: #333;
+    background-color: #00719C;
+    color: #fff;
   }
   .tab-container-Item {
     display: none;
@@ -118,6 +118,7 @@ body, html {
   }
   .category-list .category-list-item {
     padding: 0.2em;
+    text-decoration: none;
   }
   .category-list .category-list-item ul {
     list-style: none;
@@ -129,10 +130,14 @@ body, html {
   }
   .category-list .category-list-item ul a:hover {
     color: #00B8FF;
+    text-decoration: none;
   }
   .category-list .category-list-item h6 {
     color: #009BD6;
     font-weight: 700;
+  }
+  .category-list .category-list-item h6 a {
+    text-decoration: none;
   }
 }
 @media screen and (max-width: 767px) {
@@ -193,7 +198,7 @@ body, html {
     color: #2F2E2E;
   }
   #megamenu .category-list .category-list-item ul a:hover {
-    color: #00B8FF;
+    color: #009BD6;
   }
   #megamenu .category-list .category-list-item h6 {
     width: 100%;
