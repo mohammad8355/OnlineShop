@@ -124,7 +124,7 @@
                         <div class="col-12 col-sm-6 p-3">
                             <a asp-action="ProductEdit" asp-controller="Product" asp-area="dashboard" asp-route-Id="@Model.product.Id" asp class="btn btn-primary">ویرایش</a>
                             <a asp-action="ChooseSpecialKeys" asp-controller="Product" asp-area="dashboard" asp-route-productId="@Model.product.Id" asp class="btn btn-primary">انتخاب ویژگی های کلیدی</a>
-                            <button type="button" class="btn btn-danger productDel"><i value="@Model.product.Id" class="fa-solid fa-trash-can"></i></button>
+                            <button type="button" class="btn btn-danger productDel" value="@Model.product.Id"><i class="fa-solid fa-trash-can"></i></button>
                         </div>
                     </div>
                 </div>
@@ -193,7 +193,6 @@
                             <tr>
                                 <td>عکس</td>
                                 <td>نام کاربر</td>
-                                <td>موضوع</td>
                                 <td>متن پیام</td>
                                 <td>
                                     کنترل
@@ -201,42 +200,23 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td><img src="AdminLTE/dist/img/user1-128x128.jpg" alt="user" class="border rounded-circle" /></td>
-                                <td>محمد الماسی</td>
-                                <td>کیفیت محصول</td>
-                                <td>کیفیت محصول عالی بود اما رنگش کمی ...</td>
+                            @foreach(var comment in Model.Comments){
+                                <tr>
+                                    @if(!string.IsNullOrEmpty(comment.User.ProfileImageName)){
+                                        <td><img width="200px" src="~/Image/Users/@comment.User.UserName/@comment.User.ProfileImageName" alt="user" class="border rounded-circle" /></td>
+                                    }else{
+                                        <td><img width="200px" src="~/Image/Users/defaultUser/UserProfile.jpg" alt="user" class="border rounded-circle" /></td>
+                                    }
+                                <td>@comment.User.UserName</td>
+                                <td>@comment.Description</td>
                                 <td>
-                                    <div class="btn-group">
+   @*                                 <div class="btn-group">
                                         <button type="button" class="btn btn-info"><i class="fa-solid fa-eye"></i></button>
                                         <button type="button" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
-                                    </div>
+                                    </div>*@
                                 </td>
                             </tr>
-                            <tr>
-                                <td><img src="AdminLTE/dist/img/user1-128x128.jpg" alt="user" class="border rounded-circle" /></td>
-                                <td>محمد الماسی</td>
-                                <td>کیفیت محصول</td>
-                                <td>کیفیت محصول عالی بود اما رنگش کمی ...</td>
-                                <td>
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-info"><i class="fa-solid fa-eye"></i></button>
-                                        <button type="button" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><img src="AdminLTE/dist/img/user1-128x128.jpg" alt="user" class="border rounded-circle" /></td>
-                                <td>محمد الماسی</td>
-                                <td>کیفیت محصول</td>
-                                <td>کیفیت محصول عالی بود اما رنگش کمی ...</td>
-                                <td>
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-info"><i class="fa-solid fa-eye"></i></button>
-                                        <button type="button" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
+                            }
                         </tbody>
                     </table>
                 </div>

@@ -52,12 +52,14 @@ namespace BusinessLogicLayer.TagService
         }
         public async Task<bool> DeleteTag(int Id)
         {
-            var tagtoblog = TagDetail(Id).tagToBlogPosts;
-            foreach(var tagToBlogPost in tagtoblog)
+            if(tagToBlogPostLogic.TagToBlogPostList().Where(tp => tp.Tag_Id == Id).Any())
             {
-                if(!await tagToBlogPostLogic.DeleteTagToBlogPost(tagToBlogPost.BlogPost_Id, tagToBlogPost.Tag_Id))
+                foreach (var tagToBlogPost in tagToBlogPostLogic.TagToBlogPostList().Where(tp => tp.Tag_Id == Id).ToList())
                 {
-                    return false;
+                    if (!await tagToBlogPostLogic.DeleteTagToBlogPost(tagToBlogPost.BlogPost_Id, tagToBlogPost.Tag_Id))
+                    {
+                        return false;
+                    }
                 }
             }
             if (await tagRepository.DeleteItem(Id))

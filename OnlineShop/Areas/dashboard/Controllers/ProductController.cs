@@ -19,6 +19,7 @@ using Utility.ProductCodeGenerator;
 using BusinessLogicLayer.BrandService;
 using Microsoft.CodeAnalysis;
 using Microsoft.AspNetCore.Authorization;
+using BusinessLogicLayer.CommentService;
 
 namespace PresentationLayer.Areas.dashboard.Controllers
 {
@@ -37,8 +38,9 @@ namespace PresentationLayer.Areas.dashboard.Controllers
         private readonly ProductCodeGenerator productCodeGenerator;
         private readonly KeyToProductLogic keyToProductLogic;
         private readonly BrandLogic brandLogic;
+        private readonly CommentLogic _commentLogic;
         private readonly IWebHostEnvironment webHostEnvironment;
-        public ProductController(BrandLogic brandLogic,ProductCodeGenerator productCodeGenerator,IWebHostEnvironment webHostEnvironment, AdjValueLogic adjvaluelogic, ValueToProductLogic valueToProductLogic, KeyToProductLogic keyToProductLogic, AdjKeyLogic adjKeyLogic, CategoryToProductLogic categoryToProductLogic, CategoryLogic categoryLogic, ProductLogic productLogic, UploadFile fileManager, ProductPhotoLogic productPhotoLogic)
+        public ProductController(CommentLogic commentLogic,BrandLogic brandLogic,ProductCodeGenerator productCodeGenerator,IWebHostEnvironment webHostEnvironment, AdjValueLogic adjvaluelogic, ValueToProductLogic valueToProductLogic, KeyToProductLogic keyToProductLogic, AdjKeyLogic adjKeyLogic, CategoryToProductLogic categoryToProductLogic, CategoryLogic categoryLogic, ProductLogic productLogic, UploadFile fileManager, ProductPhotoLogic productPhotoLogic)
         {
             this.productLogic = productLogic;
             this.fileManager = fileManager;
@@ -51,6 +53,7 @@ namespace PresentationLayer.Areas.dashboard.Controllers
             this.valueToProductLogic = valueToProductLogic;
             this.adjvaluelogic = adjvaluelogic;
             this.webHostEnvironment = webHostEnvironment;
+            _commentLogic = commentLogic;
             this.brandLogic = brandLogic;
         }
         //list of product
@@ -205,6 +208,7 @@ namespace PresentationLayer.Areas.dashboard.Controllers
                 categories = categoryLogic.CategoryList(),
                 keyToProducts = keyToProductLogic.KeyToProductList().Where(kp => kp.Product_Id == Id).ToList(),
                 valueToProducts = valueToProductLogic.ValueToProductList().Where(vp => vp.Product_Id == Id).ToList(),
+                Comments = _commentLogic.CommentsOfProduct(Id),
 
             };
             return View(model);

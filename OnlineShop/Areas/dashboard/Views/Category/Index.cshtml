@@ -202,17 +202,17 @@
 
                     $.ajax(
                         {
-                            url: '@Url.Action("DeleteHeadCategory","Category")',
+                            url: '@Url.Action("DeleteCategory","Category")',
                             async: true,
                             data: { Id: $(item).attr('value') },
                             type: 'Get',
-                            success: function (result) {
-                                console.log(result);
-                                if (result.resualt) {
-                                    alert("  دسته بندی حذف " + result.name + " با موفقیت انجام شد  ");
+                            success: function (data) {
+                                if (data.result) {
+                                    alert("  دسته بندی حذف با موفقیت انجام شد  ");
+                                    location.reload();
                                 }
                                 else {
-                                    alert(" دسته بندی حذف " + result.name + " با شکست مواجه شد  ");
+                                    alert(" دسته بندی حذف  با شکست مواجه شد  ");
                                 }
                                 console.log("ajax");
                             },

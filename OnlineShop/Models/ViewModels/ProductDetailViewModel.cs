@@ -8,5 +8,6 @@ namespace PresentationLayer.Models.ViewModels
         public IEnumerable<Category> categories { get; set; }
         public List<KeyToProduct> keyToProducts { get; set; }
         public List<ValueToProduct> valueToProducts { get; set; }
+        public List<Commnet> Comments { get; set; }
     }
 }

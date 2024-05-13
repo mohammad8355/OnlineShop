@@ -1,4 +1,6 @@
-﻿using DataAccessLayer.Models;
+﻿using BusinessLogicLayer.CategoryToProductService;
+using BusinessLogicLayer.KeyToSubCategoryService;
+using DataAccessLayer.Models;
 using DataAccessLayer.services;
 using System;
 using System.Collections.Generic;
@@ -12,9 +14,13 @@ namespace BusinessLogicLayer.CategoryService
     {
         private readonly MainRepository<Category> CategoryRepository;
         private readonly MainRepository<AdjKey> adjkeyRepository;
-        public CategoryLogic( MainRepository<Category> CategoryRepository, MainRepository<AdjKey> adjkeyRepository)
+        private readonly CategoryToProductLogic _categoryToProductLogic;
+        private readonly KeyToSubCategoryLogic _keyToSubCategoryLogic;
+        public CategoryLogic(KeyToSubCategoryLogic keyToSubCategoryLogic,CategoryToProductLogic categoryToProductLogic, MainRepository<Category> CategoryRepository, MainRepository<AdjKey> adjkeyRepository)
         {
             this.CategoryRepository = CategoryRepository;
+            _categoryToProductLogic = categoryToProductLogic;
+            _keyToSubCategoryLogic = keyToSubCategoryLogic;
             this.adjkeyRepository = adjkeyRepository;
         }
         public async Task<bool> AddCategory(Category model)
@@ -55,6 +61,26 @@ namespace BusinessLogicLayer.CategoryService
         }
         public async Task<bool> DeleteCategory(int Id)
         {
+            if(CategoryList().Where(c => c.ParentId == Id).Any())
+            {
+                foreach(var childcat in CategoryList().Where(c => c.ParentId == Id).ToList())
+                {
+                    await CategoryRepository.DeleteItem(childcat.Id);
+                }
+            }
+            if(_categoryToProductLogic.CategoryToProductList().Where(c => c.Category_Id == Id).Any())
+            {
+                foreach(var cp in _categoryToProductLogic.CategoryToProductList().Where(c => c.Category_Id == Id).ToList())
+                {
+                    await _categoryToProductLogic.DeleteCategoryToProduct(cp.Category_Id, cp.Product_Id);
+                }
+            }
+            if(_keyToSubCategoryLogic.KeyToSubCategoryList().Where(ks => ks.SubCategory_Id == Id).Any())
+            {
+                foreach(var ks in _keyToSubCategoryLogic.KeyToSubCategoryList().Where(ks => ks.SubCategory_Id == Id).ToList()){
+                    await _keyToSubCategoryLogic.DeleteKeyToSubCategory(ks.key_Id,ks.SubCategory_Id);
+                }
+            }
             if (await CategoryRepository.DeleteItem(Id))
             {
                 return true;

@@ -50,10 +50,12 @@ namespace BusinessLogicLayer.BlogPostService
         }
         public async Task<bool> DeleteBlogPost(int Id)
         {
-            var blogpost = BlogPostDetail(Id);
-            foreach (var tagtoblog in blogpost.TagToBlogPosts)
+            if(tagToBlogPostLogic.TagToBlogPostList().Where(tp => tp.BlogPost_Id == Id).Any())
             {
-                await tagToBlogPostLogic.DeleteTagToBlogPost(tagtoblog.BlogPost_Id, tagtoblog.Tag_Id);
+                foreach (var tagtoblog in tagToBlogPostLogic.TagToBlogPostList().Where(tp => tp.BlogPost_Id == Id).ToList())
+                {
+                    await tagToBlogPostLogic.DeleteTagToBlogPost(tagtoblog.BlogPost_Id, tagtoblog.Tag_Id);
+                }
             }
             if(await blogRepository.DeleteItem(Id))
             {
