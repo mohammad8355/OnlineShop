@@ -43,7 +43,7 @@ namespace Infrustructure.MessageSender
                     DeliveryMethod = SmtpDeliveryMethod.Network,
                     UseDefaultCredentials = false,
                     Host = _emailSetting.MailServer,
-                    EnableSsl = _emailSetting.Sender.Contains("gmail"),
+                    EnableSsl = _emailSetting.EnableSsl,
                     Credentials = credentials
                 };
 
