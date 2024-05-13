@@ -12,13 +12,6 @@ namespace DataAccessLayer
     {
         public AppDbContext() { }
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) {}
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer("server=DESKTOP-5FTTMPU\\MSSQLSERVER2022;database=SalehDb;Trusted_Connection=true;TrustServerCertificate=True");
-            optionsBuilder.EnableSensitiveDataLogging(true);
-            base.OnConfiguring(optionsBuilder);
-        }
         protected override void OnModelCreating(ModelBuilder builder)
         {
         
