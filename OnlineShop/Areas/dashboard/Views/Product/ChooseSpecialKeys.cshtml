@@ -1,0 +1,42 @@
+﻿@model ChooseSpecialKeysViewModel
+@{
+    ViewBag.adjkey = new SelectList(@Model.keys, "Id", "Name");
+}
+<div class="container">
+    <div class="row">
+        <div class="card card-warning">
+            <div class="card-header">
+                <h3 class="card-title col-12">مشخصات فنی</h3>
+            </div>
+            <div class="card-body row">
+                <!-- select -->
+                <form asp-action="ChooseSpecialKeys" asp-controller="Product">
+                    <input asp-for="@Model.ProductId" hidden class="hidden" />
+                @if (ViewBag.success != null)
+                {
+                    <div class="alert alert-success">ViewBag.success</div>
+                }
+                <div class="form-group col-12">
+                    <label>ویژگی های کلیدی</label>
+                <select asp-for="@Model.chooseKeys" asp-items="@ViewBag.adjkey" multiple class="select2 col-12">
+
+                </select>
+                </div>
+                <button type="submit" class="btn btn-success" >انتخاب</button>
+                <!-- /.card-body -->
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section RefrenceScripts{
+    <script src="AdminLTE/plugins/select2/js/select2.full.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        }
+@section InlineScripts{
+    <script>
+        $(".select2").select2();
+    </script>
+        }

@@ -1,0 +1,99 @@
+﻿@font-face {
+  font-family: "Vazir";
+  src: url("../Fonts/Vazir-Font/Vazir.ttf");
+  src: url("../Fonts/Vazir-Font/Vazir-Medium.ttf");
+  src: url("../Fonts/Vazir-Font/Vazir-Light.ttf");
+}
+@font-face {
+  font-family: "Vazir";
+  src: url("../Fonts/Vazir-Font/Vazir-Thin.ttf");
+  font-family: "light";
+}
+@font-face {
+  font-family: "Vazir";
+  src: url("../Fonts/Vazir-Font/Vazir-Regular.ttf");
+  font-family: "normal";
+}
+@font-face {
+  font-family: "Vazir";
+  src: url("../Fonts/Vazir-Font/Vazir-Bold.ttf");
+  font-family: "bold";
+}
+@font-face {
+  font-family: "Vazir";
+  src: url("../Fonts/Vazir-Font/Vazir-Black.ttf");
+  font-family: "black";
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Vazir";
+}
+
+body, html {
+  overflow: auto;
+}
+
+body, html {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background-color: #F4F4F4;
+}
+
+/* ===== Scrollbar CSS ===== */
+/* Firefox */
+* {
+  scrollbar-width: auto;
+  scrollbar-color: #bfbfbf #ffffff;
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 11px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #ffffff;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #bfbfbf;
+  border-radius: 10px;
+  border: 3px solid #ffffff;
+}
+
+.ticket-info .ticket-info-item {
+  color: #00719C;
+  font-weight: 400;
+}
+
+.comment-admin {
+  background-color: #E6E7E9;
+}
+
+.comment-send {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+}
+
+input, textarea {
+  background-color: #E6E7E9;
+  border-radius: 0.5em;
+  padding: 0.5em 1em 0.5em 1em;
+  border: none;
+  outline: none;
+  color: #2F2E2E;
+}
+
+.ck-editor {
+  width: 100% !important;
+}
+
+.comment-contaier {
+  min-height: 100vh;
+}

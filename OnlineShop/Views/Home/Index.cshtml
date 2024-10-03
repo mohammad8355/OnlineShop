@@ -1,0 +1,391 @@
+﻿@using Utility.PersianDate;
+@model HomePageViewModel;
+@{
+    ViewData["Title"] = "صفحه اصلی";
+}
+@if (Model.Sliders != null)
+{
+    <section class="carousel-container" dir="ltr">
+        <div class="carousel-wrapper">
+            @foreach (var slide in Model.Sliders)
+            {
+                <div class="carousel-slide 1" id="last-clone">
+                    <img src="~/Image/slider/@(slide.ImageName)" alt="@slide.Name">
+                </div>
+            }
+        </div>
+        <div class="navigation">
+            <button class="right-nav"> > </button>
+            <button class="left-nav">></button>
+        </div>
+    </section>
+}
+<section class="SpecialOffer scrollcontainer">
+    <div class="Product-container">
+        <h2 class="text-light">تخفیفات ویژه</h2>
+        <div class="product-wrapper">
+            @if (Model != null)
+            {
+                if (Model.HotDiscountProduct.Count() != 0)
+                {
+                    @foreach (var product in Model.HotDiscountProduct)
+                    {
+                        <div class="product-card" style="min-width: 15rem;">
+                            <span class="off badge badge-danger bg-danger rounded-5">@product.Discount %</span>
+                            <div class="cover">
+                                <a class="nav-link" asp-action="ProductShow" asp-controller="Product" asp-route-Id="@product.Id">
+                                 <img src="~/Image/Product/@(product.Name)/@(product.ProductPhotos.First().Name)" alt="@product.Name" width="200px">
+                                </a>
+                            </div>
+                            <div class="card-body">
+                                <div class="product-name">
+                                    <a  class="nav-link" asp-action="ProductShow" asp-controller="Product" asp-route-Id="@product.Id">@product.Name</a>
+                                </div>
+                                <div class="price">
+                                    @if (product.Discount > 0)
+                                    {
+                                        <span class="original-price text-danger"><del>@product.Price.ToString("N0") تومان</del></span>
+
+
+                                        var finPrice = product.Price - (product.Price * ((decimal)product.Discount / 100));
+
+
+                                        <span class="off-price">@finPrice.ToString("N0") تومان</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-dark">@product.Price.ToString("N0") تومان</span>
+                                    }
+                                </div>
+                                <button class="btn btn-primary">خرید</button>
+                            </div>
+                            <div class="card-footer">
+                                <div class="rate">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-regular fa-star"></i>
+                                    <i class="fa-regular fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+                }
+            }
+        </div>
+        <div class="navigation">
+            <button class="right-nav-scroll"> > </button>
+            <button class="left-nav-scroll">></button>
+        </div>
+    </div>
+</section>
+<section class="seggustion scrollcontainer">
+    <div class="Product-container">
+        <h2 class="text-light"><span>جدیدترین محصولات</span><span><a href="#">مشاهده بیشتر</a></span></h2>
+        <div class="product-wrapper slider" dir="ltr">
+            @if (Model != null)
+            {
+                @if (Model.NewsetProduct.Count() > 0)
+                {
+                    @foreach (var product in Model.NewsetProduct)
+                    {
+                        <div class="product-card" style="min-width: 15rem;">
+                            <div class="cover">
+                                <a class="nav-link" asp-action="ProductShow" asp-controller="Product" asp-route-Id="@product.Id">
+                                    <img src="~/Image/Product/@(product.Name)/@(product.ProductPhotos.First().Name)" alt="@product.Name" width="200px">
+                                </a>
+                            </div>
+                            <div class="card-body">
+                                <div class="product-name">
+                                    <a  class="nav-link" asp-action="ProductShow" asp-controller="Product" asp-route-Id="@product.Id">@product.Name</a>
+                                </div>
+                                <div class="price">
+                                    @if (product.Discount > 0)
+                                    {
+                                        <span class="original-price text-danger"><del>@product.Price.ToString("N0") تومان</del></span>
+
+
+                                        var finPrice = product.Price - (product.Price * ((decimal)product.Discount / 100));
+
+
+                                        <span class="off-price">@finPrice.ToString("N0") تومان</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-dark">@product.Price.ToString("N0") تومان</span>
+                                    }
+                                </div>
+                                <div class="card-footer">
+                                    <a href="#" class="shopbtn"><i class="fa-solid fa-cart-shopping"></i></a>
+                                    <div class="d-flex flex-row-reverse">
+                                        <i class="fa-solid fa-star"></i><span>4.5</span>
+                                        @*         <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>*@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            }
+
+
+        </div>
+        <!-- <div class="navigation">
+            <button class="right-nav-scroll"> > </button>
+            <button class="left-nav-scroll">></button>
+        </div> -->
+    </div>
+</section>
+<section class="banner container">
+    <img src="~/Image/slider/چمعه سیاه.jpg">
+</section>
+@if (Model != null)
+{
+    @if (Model.PopularProduct.Count() > 0)
+    {
+        <section class="seggustion scrollcontainer">
+            <div class="Product-container">
+                <h2 class="text-light"><span>محبوب ترین محصولات</span><span><a href="#">مشاهده بیشتر</a></span></h2>
+                <div class="product-wrapper slider" dir="ltr">
+                    @foreach (var product in Model.PopularProduct)
+                    {
+                        <div class="product-card" style="min-width: 15rem;">
+                            <div class="cover">
+                                <a class="nav-link" asp-action="ProductShow" asp-controller="Product" asp-route-Id="@product.Id">
+                                    <img src="~/Image/Product/@(product.Name)/@(product.ProductPhotos.First().Name)" alt="@product.Name" width="200px">
+                                </a>
+                            </div>
+                            <div class="card-body">
+                                <div class="product-name">
+                                    <a class="nav-link" asp-action="ProductShow" asp-controller="Product" asp-route-Id="@product.Id">@product.Name</a>
+                                </div>
+                                <div class="price">
+                                    @if (product.Discount > 0)
+                                    {
+                                        <span class="original-price text-danger"><del>@product.Price.ToString("N0") تومان</del></span>
+
+
+                                        var finPrice = product.Price - (product.Price * ((decimal)product.Discount / 100));
+
+
+                                        <span class="off-price">@finPrice.ToString("N0") تومان</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-dark">@product.Price.ToString("N0") تومان</span>
+                                    }
+                                </div>
+                                <div class="card-footer">
+                                    <a href="#" class="shopbtn"><i class="fa-solid fa-cart-shopping"></i></a>
+                                    <div class="d-flex flex-row-reverse">
+                                        <i class="fa-solid fa-star"></i><span>4.5</span>
+                                        @*         <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>*@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+
+                </div>
+                <!-- <div class="navigation">
+                    <button class="right-nav-scroll"> > </button>
+                    <button class="left-nav-scroll">></button>
+                </div> -->
+            </div>
+        </section>
+    }
+}
+<!-- <section class="popular-category">
+    <h2>محبوب ترین دسته بندی ها</h2>
+    <div class="container container-circle-card">
+        <div class="wrapper">
+            <a class="box">
+                <img src="../image/icons8-macbook-air-100.png" alt="laptop">
+                <p>لپتاپ</p>
+            </a>
+            <a class="box">
+                <img src="../image/icons8-monitor-100.png" alt="laptop">
+                <p>مانیتور</p>
+            </a>
+            <a class="box">
+                <img src="../image/icons8-smartphone-96.png" alt="laptop">
+                <p>موبایل</p>
+            </a>
+            <a class="box">
+                <img src="../image/icons8-mouse-96.png" alt="laptop">
+                <p>موس</p>
+            </a>
+            <a class="box">
+                <img src="../image/icons8-electronics-100.png" alt="laptop">
+                <p>پردازنده</p>
+            </a>
+            <a class="box">
+                <img src="../image/icons8-game-controller-100.png" alt="laptop">
+                <p>کنسول بازی</p>
+            </a>
+            <a class="box">
+                <img src="../image/icons8-motherboard-100.png" alt="laptop">
+                <p>مادربرد</p>
+            </a>
+        </div>
+        <button class="prev-btn navigation-btns" aria-label="Previous" type="button">&lt;</button>
+        <button class="next-btn navigation-btns" aria-label="Next" type="button">&gt;</button>
+    </div>
+</section> -->
+<section class="banner container-fluid d-flex flex-wrap p-5 justify-content-evenly gap-3">
+    <div class="col-md-5 col-8 rounded-3">
+        <img src="../image/laptop-jpg.jpg" alt="laptop">
+    </div>
+    <div class="col-md-5 col-8 rounded-3">
+        <img src="../image/Capture.PNG" alt="laptop">
+    </div>
+</section>
+@if (Model != null)
+{
+    @if (Model.Posts.Count() > 0)
+    {
+        <section class="scrollBlog scrollSection d-flex flex-column align-items-center" dir="ltr">
+            <h2 class="col-10 text-dark d-flex flex-row-reverse justify-content-between">
+                <span>وبلاگ</span><span>
+                    <a href="#"
+                       class="nav-link text-secondary display-5">مشاهده بیشتر</a>
+                </span>
+            </h2>
+            <div class="container-lg container-fluid p-2">
+                <div class="card-slider">
+                    @foreach (var post in Model.Posts)
+                    {
+                        <div class="card" style="width: 18rem;">
+                            <div class="card-header">
+                                <a class="nav-link" asp-action="Post" asp-route-Title="@post.Title" asp-controller="Blog">
+                                <img src="@post.CoverLink" class="card-img-top" alt="c#">
+                                </a>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title text-wrap"><a class="nav-link" asp-action="Post" asp-route-Title="@post.Title" asp-controller="Blog">@post.Title</a></h5>
+                                <span class="date"> منتشر شده در @post.LastUpdates.Date.ToPersianDate()</span>
+                                <div class="tags">
+                                    @foreach(var tag in post.TagToBlogPosts)
+                                    {
+                                        <span class="tag" >#@tag.Tag.TagName</span>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+                <!-- <button class="slick-prev" aria-label="Previous" type="button"></button>
+                    <button class="slick-next" aria-label="Next" type="button"></button> -->
+            </div>
+        </section>
+    }
+}
+@if(Model.Comments != null)
+{
+    <section class="scrollComment scrollSection d-flex flex-column align-items-center" dir="ltr">
+        <h3 class="text-center">نظرات</h3>
+        <div class="container container-fluid p-2">
+            <div class="card-slider slider">
+                @foreach (var comment in Model.Comments)
+                {
+                    <div class="p-3 card rounded-2 bg-light  comnent-card " style="width: 18rem;">
+                        <div class="header">
+                            <h5 class="text-wrap tex-end text-primary font-weight-bold">
+                                    @comment.Product.Name
+                                </h5>
+                            <h5 class="card-title text-primary font-weight-normal">@comment.User.UserName</h5>
+                        </div>
+                        <div class="card-body">
+                            <p class="text-wrap">@comment.Description</p>
+                        </div>
+                        <div class="footer">
+                            <h5 class="font-weight-bold text-primary">@comment.LastUpdate.Date.ToPersianDate()</h5>
+                        </div>
+                    </div>
+                }
+            </div>
+            <!-- <button class="slick-prev" aria-label="Previous" type="button"></button>
+                <button class="slick-next" aria-label="Next" type="button"></button> -->
+        </div>
+    </section>
+}
+@if (Model != null)
+{
+    <section class="aboutus">
+        <h3 class="col-md-6 col-10" style="color:#00719C" >@Model.Aboutus.Name</h3>
+        <div class="col-md-6 col-10 container">
+            <div class="cover">
+                @if (!string.IsNullOrEmpty(Model.Aboutus.ImageName))
+                {
+                    <img src="~/Image//icons/aboutus/@(Model.Aboutus.ImageName)" alt="Model.Aboutus.Name">
+                }
+            </div>
+            <div class="content">
+                <p>
+                    @Model.Aboutus.Description
+                </p>
+                @*        <a href="#" class="btn btn-outline-primary">بیشتر</a>*@
+            </div>
+        </div>
+    </section>
+}
+
+@section InlineCss{
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.css" />
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.css" />
+          <link rel="stylesheet" href="~/css/blogpost.css" />
+    }
+@section ScriptRefrence{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+    <script src="~/js/function.js"></script>
+    <script src="~/js/app.js"></script>
+    }
+@section InlineScript{
+    <script>
+
+        $(document).ready(function () {
+            $('.slider').slick({
+                slidesToShow: 4,
+                slidesToScroll: 1,
+                autoplay: true,
+                autoplaySpeed: 2000,
+                responsive: [
+                    {
+                        breakpoint: 992,
+                        settings: {
+                            slidesToShow: 3
+                        }
+                    },
+                    {
+                        breakpoint: 767,
+                        settings: {
+                            slidesToShow: 2
+                        }
+                    },
+                    {
+                        breakpoint: 500,
+                        settings: {
+                            slidesToShow: 1
+                        }
+                    },
+                ]
+            });
+        });
+
+              
+                                                                                //    $(document).ready(function(){
+                                                                                //     createCircularCardSlider('.container-circle-card','.box','.prev-btn','.next-btn',2000);
+                                                                                //    })
+    </script>
+    }

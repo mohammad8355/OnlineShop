@@ -1,0 +1,4 @@
+username user
+password Th4z^0j44
+
+Server=MyServer\SQLLow03.centraldnserver.com;Database=OnlineShopDb;UID=moha-c27XR_user;PWD=Th4z^0j44

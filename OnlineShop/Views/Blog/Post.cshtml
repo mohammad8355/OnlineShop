@@ -1,0 +1,354 @@
+﻿@using Utility.PersianDate;
+@model PostViewModel
+<section class="container-lg container-fluid">
+    <article class="col-lg-8 col-12">
+        <div class="header">
+            <h1>@Model.Post.Title</h1>
+            <div class="author">
+                <img src="../image//_cd41bf86-975a-4116-8ef1-c39f7b52cd4e.jpeg" alt="author">
+                <h5>@Model.Post.Author</h5>
+            </div>
+            <hr>
+            <div class="detail">
+                <div>
+                    <h5> <i class="fa-regular fa-calendar"></i> <span>تاریخ آخرین بروزرسانی:@Model.Post.LastUpdates.Date.ToPersianDate()</span></h5>
+                    <h5> <i class="fa-regular fa-calendar"></i> <span>تاریخ انتشار:@Model.Post.PublishDate.Date.ToPersianDate()</span></h5>
+                </div>
+                <div>
+                    <h5> <i class="fa-regular fa-clock"></i> <span>زمان تقریبی مطالعه: @Model.Post.ReadingTime </span></h5>
+                    <h5> <i class="fa-regular fa-eye"></i> <span>تعداد بازدید:22</span></h5>
+                </div>
+            </div>
+        </div>
+        <hr style="border-style:dashed;border-width:1px;">
+        <div class="body">
+            <p>
+                @Html.Raw(Model.Post.Content)
+            </p>
+        </div>
+        <div class="tags">
+            @foreach (var tag in Model.Post.TagToBlogPosts)
+            {
+                <span class="tag">#@tag.Tag.TagName </span>
+            }
+        </div>
+    </article>
+    <aside class="col-lg-4">
+        <nav class="sidebar">
+            <h3>مقالات برتر</h3>
+            <ul>
+                <li>
+                    <a href="#">
+                        <div>
+                            <h3>چگونه کیس اسمبل کنیم ؟</h3>
+                            <h6>1402/11/04</h6>
+                        </div>
+                        <img src="../image/laptop-jpg.jpg" alt="">
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <div>
+                            <h3>چگونه کیس اسمبل کنیم ؟</h3>
+                            <h6>1402/11/04</h6>
+                        </div>
+                        <img src="../image/laptop-jpg.jpg" alt="">
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <div>
+                            <h3>چگونه کیس اسمبل کنیم ؟</h3>
+                            <h6>1402/11/04</h6>
+                        </div>
+                        <img src="../image/laptop-jpg.jpg" alt="">
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <div>
+                            <h3>چگونه کیس اسمبل کنیم ؟</h3>
+                            <h6>1402/11/04</h6>
+                        </div>
+                        <img src="../image/laptop-jpg.jpg" alt="">
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <div>
+                            <h3>چگونه کیس اسمبل کنیم ؟</h3>
+                            <h6>1402/11/04</h6>
+                        </div>
+                        <img src="../image/laptop-jpg.jpg" alt="">
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <div>
+                            <h3>چگونه کیس اسمبل کنیم ؟</h3>
+                            <h6>1402/11/04</h6>
+                        </div>
+                        <img src="../image/laptop-jpg.jpg" alt="">
+                    </a>
+                </li>
+            </ul>
+            <!-- <div class="popularTags">
+                <h4>تگ های محبوب</h4>
+                <div class="tags">
+                    <span class="tag"><a href="#">کامپیوتر#</a></span>
+                    <span class="tag"> <a href="#">درایو#</a></span>
+                    <span class="tag"><a href="#">ویندوز#</a></span>
+                    <span class="tag"><a href="#">کامپیوتر#</a></span>
+                    <span class="tag"> <a href="#">درایو#</a></span>
+                    <span class="tag"><a href="#">ویندوز#</a></span>
+                    <span class="tag"><a href="#">کامپیوتر#</a></span>
+                    <span class="tag"> <a href="#">درایو#</a></span>
+                    <span class="tag"><a href="#">ویندوز#</a></span>
+                </div>
+            </div> -->
+        </nav>
+    </aside>
+    <div class="col-12 col-lg-8 comments">
+        <div class="d-flex flex-column p-2">
+            <h2>نظرات</h2>
+            @if (Model.Post.Comments != null)
+            {
+                <span class="p-2">
+                    @Model.Post.Comments.Count() نظر درباره مقاله <span>
+                        <span class="text-primary">
+                            @Model.Post.Title
+                        </span>
+                    </span>
+                </span>
+            }
+            else
+            {
+                <span class="p-2">
+                    0 نظر درباره مقاله <span>
+                        <span class="text-primary">
+                            @Model.Post.Title
+                        </span>
+                    </span>
+                </span>
+            }
+        </div>
+        <div class="container">
+            <div class="sendComment">
+                <form id="comment" class="form-control container">
+                    <h5>نظر خود را ارسال کنید</h5>
+                    <div class="form-group p-2">
+                        <label>متن پیام</label>
+                        <input hidden class="hidden" id="replyValue" />
+                        <input hidden class="hidden" id="comment_Id" />
+                        <div class="replycontent">
+                        </div>
+                        <textarea id="description" class="form-control" placeholder="متن پیام خود را وارد کنید" required>
+                         </textarea>
+                    </div>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <button type="submit" class="btn btn-primary">ارسال نظر</button>
+                    }
+                    else
+                    {
+                        <a asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Url.Action("Post","Blog",new { Title = Model.Post.Title})" class="btn btn-primary">ارسال نظر</a>
+                    }
+                </form>
+            </div>
+            @if (Model.Post.Comments != null)
+            {
+                @foreach (var comment in Model.Post.Comments.Where(c => c.IsHide == false).ToList())
+                {
+                    @if (comment.Reply_Id != null && comment.reply != null)
+                    {
+                        <div class="comment-reply">
+                            <div class="reply">
+                                <p>@comment.reply.Description</p>
+                            </div>
+                            <div class="message">
+                                <div class="header">
+                                    <div class="sender">
+                                        @if (string.IsNullOrEmpty(comment.User.ProfileImageName))
+                                        {
+                                            <img src="~/Image/Users/defaultUser/UserProfile.jpg" alt="@comment.User.UserName">
+                                        }
+                                        else
+                                        {
+                                            <img src="~/Image/Users/@comment.User.UserName/@comment.User.ProfileImageName" alt="@comment.User.UserName">
+                                        }
+                                        <div class="d-flex flex-column">
+                                            <h5>@comment.User.UserName</h5>
+                                            <h6>@comment.LastUpdate.Date.ToPersianDate()</h6>
+                                        </div>
+                                    </div>
+                                    <div class="flex-column d-flex">
+                                    <a href="#comment" class="replylink" data-replyId="@comment.Id" data-replyContent="@comment.Description"><span>پاسخ<i class="fa-solid fa-reply"></i></span></a>
+                                    @if (comment.User.UserName == User.Identity.Name)
+                                    {
+                                        <a href="#comment" class="editcomment text-light" data-Id="@comment.Id" data-description="@comment.Description">ویرایش</a>
+                                        <button type="button" class="nav-link" onclick="deleteHandler(@comment.Id)" >حذف</button>
+                                    }
+                                    </div>
+                                </div>
+                                <p>
+                                    @comment.Description
+                                </p>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="comment">
+                            <div class="message">
+                                <div class="header">
+                                    <div class="sender">
+                                        @if (string.IsNullOrEmpty(comment.User.ProfileImageName))
+                                        {
+                                            <img src="~/Image/Users/defaultUser/UserProfile.jpg" alt="@comment.User.UserName">
+                                        }
+                                        else
+                                        {
+                                            <img src="~/Image/Users/@comment.User.UserName/@comment.User.ProfileImageName" alt="@comment.User.UserName">
+                                        }
+                                        <div class="d-flex flex-column">
+                                            <h5>@comment.User.UserName</h5>
+                                            <h6>@comment.LastUpdate.Date.ToPersianDate()</h6>
+                                        </div>
+                                    </div>
+                                       <div class="flex-column d-flex">
+                                    <a href="#comment" class="replylink" data-replyId="@comment.Id" data-replyContent="@comment.Description"><span>پاسخ<i class="fa-solid fa-reply"></i></span></a>
+                                    @if (comment.User.UserName == User.Identity.Name)
+                                    {
+                                        <a href="#comment" class="editcomment text-dark" data-Id="@comment.Id" data-description="@comment.Description">ویرایش</a>
+                                            <button type="button" class="nav-link" onclick="deleteHandler(@comment.Id)">حذف</button>
+                                    }
+                                    </div>
+                                </div>
+                                <p>
+                                    @comment.Description
+                                </p>
+                            </div>
+                        </div>
+                    }
+
+                }
+            }
+
+        </div>
+    </div>
+</section>
+@section InlineCss{
+    <link rel="stylesheet" href="~/sass/blogpost.css">
+}
+@section InlineScript{
+    <script>
+        $(window).on("scroll", function () {
+            var content = document.querySelector("article");
+            var sidebar = document.querySelector("nav.sidebar");
+            var aside = document.querySelector("aside");
+            if (sidebar && content) {
+                var sidebarRect = sidebar.getBoundingClientRect();
+                var contentRect = content.getBoundingClientRect();
+                var sideBarHeight = sidebar.clientHeight;
+                var contentHeight = content.clientHeight;
+                var windowHeight = window.innerHeight;
+                var scrollTop = window.scrollY;
+                if (sidebarRect.top < 0 && (sideBarHeight + Math.abs(contentRect.top)) < aside.clientHeight) {
+                    sidebar.style.top = Math.abs(contentRect.top) + "px";
+                }
+                else {
+                    if (contentRect.top < 0 && windowHeight <= sidebarRect.bottom) {
+                        sidebar.style.top = Math.abs(contentRect.top) + "px";
+                    }
+                }
+
+
+            }
+        })
+        $("#comment").submit(function (e) {
+            e.preventDefault();
+           var comment_Id = $("#comment_Id").val();
+            if (comment_Id != null || comment_Id.length != 0 || comment_Id != "0") {
+                console.log(comment_Id);
+                $.ajax({
+                    url: '@Url.Action("EditCommentPost","Comment")',
+                    type: 'GET',
+                    data: { description: $("#description").val(), post_Id: @Model.Post.Id , comment_Id: comment_Id },
+                    success: function (data) {
+                        Swal.fire({
+                            title: data.message,
+                            icon: data.type,
+                        }).then((result) => {
+                            location.reload();
+                        });
+                    },
+                    error: function () {
+                        Swal.fire({
+                            title: "خطا در برقراری ارتباط",
+                            text: "دوباره تلاش کنید",
+                            icon: "error",
+                        });
+                    }
+                })
+            } else {
+                console.log("add");
+                $.ajax({
+                    url: '@Url.Action("AddCommentPost","Comment")',
+                    type: 'GET',
+                    data: { description: $("#description").val(), post_Id: @Model.Post.Id , reply_Id: $("#replyValue").val() },
+                    success: function (data) {
+                        Swal.fire({
+                            title: data.message,
+                            icon: data.type,
+                        }).then((result) => {
+                            location.reload();
+                        });
+                    },
+                    error: function () {
+                        Swal.fire({
+                            title: "خطا در برقراری ارتباط",
+                            text: "دوباره تلاش کنید",
+                            icon: "error",
+                        });
+                    }
+                })
+            }
+
+        })
+        $(".replylink").click(function () {
+            $("#replyValue").val($(this).attr("data-replyId"));
+            $(".replycontent").html($(this).attr("data-replyContent"));
+            $(".replycontent").addClass("bg-secondary p-2 text-light m-1");
+        })
+        $(".editcomment").click(function () {
+            $("#comment_Id").val($(this).attr("data-Id"));
+            $("#description").html($(this).attr("data-description"));
+            console.log($(this).attr("data-description"));
+        })
+        function deleteHandler(Id){
+            $.ajax({
+                url:'@Url.Action("DeleteComment","Comment")',
+                type:'GET',
+                data:{Id: Id },
+                success:function(data){
+                    Swal.fire({
+                        title: data.message,
+                        icon: data.type,
+                    }).then((result) => {
+                        location.reload();
+                    });
+                },
+                error:function(){
+                    Swal.fire({
+                        title: "خطا در برقراری ارتباط",
+                        text: "دوباره تلاش کنید",
+                        icon: "error",
+                    });
+                }
+            })
+        }
+    </script>
+}
+@section ScriptRefrence{
+
+}

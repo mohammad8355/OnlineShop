@@ -1,0 +1,53 @@
+﻿@{
+    Layout = "UserPanelLayout";
+    ViewData["ActiveLink"] = "notification";
+}
+@using DataAccessLayer.Models;
+@using Utility.PersianDate;
+@model List<Notification>
+<ul class="col-8 d-flex flex-column nav" id="notificationContainer">
+    @foreach(var notification in Model)
+    {
+        <li class="p-2 alert alert-@(notification.Type)">
+            <div class="col-12 d-flex justify-content-between">
+                <span>@notification.Source</span>
+                <span>@notification.Date.Date.ToPersianDate()</span>
+            </div>
+            <h3 class="text-end">@notification.Title</h3>
+            <p class="text-end">
+               @notification.message
+            </p>
+            <a href="#">خوانده شد</a>
+        </li>
+    }
+</ul>
+@section ScriptRefrence{
+    <script src="~/Scripts/jquery.signalR-2.4.3.min.js" ></script>
+    <script src="~/signalr/hubs"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script>
+}
+@section InLineScript{
+    <script>
+        const connection = new signalR.HubConnectionBuilder()
+        .withUrl("/notification")
+        .configureLogging(signalR.LogLevel.Information)
+        .build();
+
+        connection.start().then(function(){
+            console.log("SignalR Connected");
+        }).catch(function(err){
+            console.error(err.toString());
+
+        });
+        connection.on("receiveMessage", function (message,date,source,type,title) {
+            var li = document.createElement('li');
+            $("#notificationContainer").prepend(li);
+            li.classList.add("alert","alert-"+ type);
+            $(li).append("<div class='col-12 d-flex justify-content-between' ><span>" + source + "</span><span>" + date + "</span></div>");
+            $(li).append("<h3 class='text-end'>"+ title +"</h3>");
+            $(li).append("<p class='text-end' >"+ message +"</p>")
+            console.log("receiveMessage :",message);
+        });
+
+</script>
+}

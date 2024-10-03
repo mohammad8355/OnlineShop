@@ -1,0 +1,69 @@
+@import "general";
+@import "utility";
+body{
+    width: 100%;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+section {
+    .slick-prev,
+    .slick-next {
+        position: absolute;
+        height: 100%;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 1;
+        font-size: 24px;
+        cursor: pointer;
+    }
+    .slick-prev,
+    .slick-next:hover{
+       background-color: rgba($color: $Secondary, $alpha: 0.3);
+    }
+    .slick-next::before {
+        color: $lightPrimary;
+        font-size: 1.3em;
+    }
+
+    .slick-prev::before {
+
+        color: $lightPrimary;
+        font-size: 1.3em;
+    }
+
+    .slick-prev {
+        right: .2em !important;
+        left: unset;
+    }
+
+    .slick-next {
+        left: .2em !important;
+        right: unset;
+    }
+}
+form{
+    background-color: $white;
+    border-radius: .5em;
+    padding: 1em;
+    margin: 1em;
+    h3{
+        color: $verydarkSecondary;
+        text-align: center;
+    }
+    div.form-group{
+        @include flex();
+        padding: .5em;
+        input,textarea{
+            width: 90%;
+            padding: .5em 0 .5em 0;
+            outline: none;
+            border: none;
+            border-radius: .5em;
+            background-color: $verylightSecondary;
+            padding-right: .5em;
+        }
+        input:disabled{
+            color: $Secondary;
+        }
+    }
+}

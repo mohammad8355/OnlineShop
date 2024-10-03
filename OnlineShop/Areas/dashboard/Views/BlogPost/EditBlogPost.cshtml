@@ -1,0 +1,68 @@
+﻿@model AddEditBlogPostViewModel
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="card card-primary col-sm-10">
+                <div class="card-header">
+                    <h3>ویرایش وبلاگ</h3>
+                </div>
+                <div class="card-body">
+                    <form method="post" asp-action="EditBlogPost" asp-controller="BlogPost">
+                        <div class="text-danger" asp-validation-summary="All" ></div>
+                        <input asp-for="Id" hidden class="hidden" />
+                        <div class="form-group">
+                            <label>عنوان</label>
+                            <input asp-for="Title" type="text" placeholder="عنوان وبلاگ را وارد کنید" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label>زمان مطالعه</label>
+                            <input asp-for="ReadingTime" type="number" placeholder="زمان مطالعه وبلاگ را وارد کنید" class="form-control" />
+                        </div>
+
+                        <div class="form-group">
+                            <label>عکس</label>
+                            <input asp-for="CoverLink" class="form-control" placeholder="لینک عکس را قرار دهید">
+
+                        </div>
+                        <div class="form-group">
+                            <label>نویسنده</label>
+                            <input asp-for="Author" class="form-control" placeholder="نام نویسنده را وارد کنید">
+                        </div>
+                        <div class="form-group">
+                            <label>متن</label>
+                            <textarea asp-for="Content" id="content" class="form-control" placeholder="متن  را قرار دهید">
+
+                            </textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>تگ ها</label>
+                            <select id="tags" asp-for="Tags" asp-items="ViewBag.tags" class="col-12">
+                            </select>
+                        </div>
+                        <button class="btn btn-success" type="submit">ثبت</button>
+                    </form>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+</section>
+@section RefrenceScripts{
+    <script src="AdminLTE/plugins/select2/js/select2.full.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+}
+@section InlineScripts{
+    <script>
+        $("#tags").select2({
+            tags:true,
+        });
+        ClassicEditor
+            .create(document.querySelector('#content'))
+            .catch(error => {
+                console.error(error);
+            });
+</script>
+}

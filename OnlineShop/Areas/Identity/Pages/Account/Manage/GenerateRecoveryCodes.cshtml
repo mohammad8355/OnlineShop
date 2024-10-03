@@ -1,0 +1,30 @@
+﻿@page
+@model GenerateRecoveryCodesModel
+@{
+    ViewData["ActivePage"] = ManageNavPages.TwoFactorAuthentication;
+}
+
+<partial name="_StatusMessage" for="StatusMessage" />
+
+<div class="alert alert-warning" role="alert">
+    <p>
+        <span class="glyphicon glyphicon-warning-sign"></span>
+        <strong>این کد را در مکان امن نگه داری کنید</strong>
+    </p>
+    <p>
+        اگر شما دستگاه و کد را از دست بدهید دسترسی به اکانت ندارید
+    </p>
+    <p>
+   تولید کد ریکاوری جدید کد شما در برنامه احراز هویت را تغییر نمی دهد چناچه میخواهید کد برنامه راتغییر دهید 
+       باید  <a asp-page="./ResetAuthenticator">کد احراز هویت را ریست کنید</a>
+    </p>
+</div>
+<div>
+    <form method="post">
+        <button class="btn btn-danger" type="submit">تولید کد ریکاوری</button>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

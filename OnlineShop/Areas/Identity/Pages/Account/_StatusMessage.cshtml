@@ -1,0 +1,17 @@
+﻿@model string
+
+@if (!String.IsNullOrEmpty(Model))
+{
+    <div class="row">
+        <div class="d-flex justify-content-center align-items-center p-2">
+            @{var statusMessageClass = Model.StartsWith("Error") ? "danger" : "success";}
+            <div class="alert alert-@statusMessageClass" alert-dismissible" role="alert">
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                @Model
+                <div class="row">
+                    <a asp-page="./Login" class="btn btn-primary">متوجه شدم!!</a>
+                </div>
+            </div>
+        </div>
+    </div>
+}

@@ -1,0 +1,44 @@
+﻿@model SearchFilterViewModel
+<form class="form-control bg-white" asp-action="SearchFilter" asp-controller="Product" >
+    <input asp-for="Category_Id" hidden class="hidden" />
+    <label>مرتب سازی بر اساس</label>
+    <select class="form-control col-4" asp-for="Sortby">
+        <option value="default">پیش فرض</option>
+        <option value="cheap" >ارزانترین</option>
+        <option value="expensive" >گرانترین</option>
+        <option value="new" >جدیدترین</option>
+        <option value="bestsell">پر فروش ترین ها</option>
+        <option value="popular" >محبوبترین</option>
+    </select>
+    @if(Model.keys.Count() > 0)
+    {
+        @foreach (var kv in Model.keys)
+        {
+            <div class="form-group">
+                <label class="headlist">@kv.Name</label>
+                <div>
+                    @foreach (var v in kv.adjValues)
+                    {
+                        <div class="form-check">
+                            <label class="form-check-label">@v.Value</label>
+                            <input type="checkbox" name="Values" value="@v.Id" class="form-check-input" />
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    }
+    <div class="form-group">
+        <label>از مبلغ:</label>
+        <input type="number" class="form-control" asp-for="FromPrice" />
+    </div>
+    <div class="form-group">
+        <label>تا مبلغ:</label>
+        <input type="number" class="form-control" asp-for="ToPrice" />
+    </div>
+    <div class="form-group">
+        <label>فقط کالا های موجود</label>
+        <input type="checkbox" class="form-check" asp-for="IsExist" />
+    </div>
+    <button type="submit" class="btn col-12 btn-outline-primary">فیلتر</button>
+</form>

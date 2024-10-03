@@ -1,0 +1,116 @@
+﻿@using Utility.PersianDate;
+@model OrderFinallyViewModel
+<section class="complementionShop container-lg container-fluid">
+    <div class="table-responsive">
+        <table class="table mt-5 mb-5 px-3 table-striped table-hover table-info" id="factor">
+            <thead>
+                <tr>
+                    <th>نام کاربر</th>
+                    <th>نام کالا</th>
+                    <th>قیمت واحد</th>
+                    <th>قیمت کل</th>
+                    <th>تعداد</th>
+                    <th>کد کالا</th>
+                    <th>کد رهگیری</th>
+                    <th>وضعیت سفارش</th>
+                    <th>تاریخ</th>
+                    <th>چاپ</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var order in Model.Order.orderDetails)
+                {
+                    <tr>
+                        <td>@Model.User.UserName</td>
+                        <td>@order.Product.Name</td>
+                        <td>تومان @order.Product.Price.ToString("N0")</td>
+                        <td>@order.TotalPrice.ToString("N0") تومان</td>
+                        <td>@order.count</td>
+                        <td>@order.Product.ProductCode</td>
+                        <td>3456789012</td>
+                        <td><span class="badge bg-warning">نهایی نشده </span></td>
+                        <td>@Model.Order.DateCreate.ToPersianDate()</td>
+                        <td><a href="#" class="btn btn-primary printBtn">چاپ</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="submitShop">
+        <form class="col-lg-6 col-md-8 col-12" id="OrderInfoForm">
+
+            <table class="table">
+                <tr>
+                    <th>نام و نام خانوادگی</th>
+                    <td class="input">@Model.User.FullName</td>
+                </tr>
+                <tr>
+                    <th>شماره موبایل</th>
+                    <td class="input">@Model.User.PhoneNumber</td>
+                </tr>
+                <tr>
+                    <th>آدرس</th>
+                    <td class="input">@Model.User.Address</td>
+                </tr>
+                <tr>
+                    <th>کد پستی</th>
+                    <td class="input">@Model.User.PostalCode</td>
+                </tr>
+                <tr>
+                    <th>نام شهر</th>
+                    <td class="input">@Model.User.city</td>
+                </tr>
+                <tr>
+                    <th>تاریخ</th>
+                    <td class="input">@Model.Order.DateCreate</td>
+                </tr>
+                <tr>
+                    <th>مبلغ کل</th>
+                    <td class="input">@Model.Order.TotalPrice</td>
+                </tr>
+                <tr>
+                    <th>تعداد کل</th>
+                    <td class="input">@Model.Order.TotalCount</td>
+                </tr>
+            </table>
+            <div class="btn-group col-8 mt-2" dir="ltr">
+                <button type="button" onclick="PostForm()" class="btn btn-success">پرداخت</button>
+                <a asp-area="Identity" asp-page="/Account/Manage/Index" class="btn btn-outline-warning">ویرایش اطلاعات</a>
+                <a asp-action="Index" asp-controller="Shop" class="btn btn-outline-primary">مرحله قبل</a>
+            </div>
+        </form>
+    </div>
+</section>
+@section ScriptRefrence{
+    <script src="~/js/html2canvas.js"></script>
+    <script src="~/js/function.js"></script>
+    <script src="~/js/jspdf.umd.min.js" ></script>
+}
+@section InlineScript{
+    <script>
+        window.jsPDF = window.jspdf.jsPDF;
+        $(document).ready(function () {
+            $(".printBtn").click(function () {
+                HtmlTopdf("factor", "orderfactor");
+            })
+        });
+    </script>
+    <script>
+        function PostForm() {
+            var form = document.getElementById('OrderInfoForm');
+            if ($('.input').html() != null && $('.input').html() != "") {
+                $.ajax({
+                    url: '@Url.Action("Pay","Shop")',
+                    type: 'GET',
+                    data: { order_Id: @Model.Order.Id },
+                    success: function (data) {
+                        window.location.replace(data.url);
+                    }
+                });
+            }
+            else {
+                $("#OrderInfoForm").append("<div class='alert alert-warning'>لطفا اطلاعات خود را تکیمل کنید</div>");
+            }
+        }
+    </script>
+}

@@ -1,0 +1,68 @@
+@import "utility";
+@import "general";
+
+.accountBox {
+    width: 100%;
+    height: 80vh;
+    @include flex();
+
+    .card {
+        width: 18rem;
+        background-color:#fff;
+        border: 2px solid $Primary;
+        overflow: hidden;
+
+        .card-header {
+            border: none;
+            background-color: transparent;
+            @include flex(row);
+            img {
+                width:5em;
+            }
+        }
+
+        .card-body {
+            form {
+                border: none;
+                background-color:#fff;
+                @include flex(row, flex-start);
+                column-gap: 2em;
+
+                .firstSide,
+                .secondSide {
+                    transition: all .5s;
+                }
+
+                div.form-group {
+                    margin: .5em 0;
+                }
+
+                input {
+                    background-color: transparent;
+                }
+
+                span {
+                    color: $Secondary;
+                }
+
+                input[type=tel]::placeholder {
+                    text-align: right;
+                }
+
+                button {
+                    background-color: $darkPrimary;
+                }
+
+                button:hover {
+                    background-color: $varydarkPrimary;
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width:767px) {
+    .accountBox {
+        height: 100vh;
+    }
+}

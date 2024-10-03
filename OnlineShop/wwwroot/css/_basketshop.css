@@ -1,0 +1,192 @@
+﻿@font-face {
+  font-family: "Vazir";
+  src: url("../Fonts/Vazir-Font/Vazir.ttf");
+  src: url("../Fonts/Vazir-Font/Vazir-Medium.ttf");
+  src: url("../Fonts/Vazir-Font/Vazir-Light.ttf");
+}
+@font-face {
+  font-family: "Vazir";
+  src: url("../Fonts/Vazir-Font/Vazir-Thin.ttf");
+  font-family: "light";
+}
+@font-face {
+  font-family: "Vazir";
+  src: url("../Fonts/Vazir-Font/Vazir-Regular.ttf");
+  font-family: "normal";
+}
+@font-face {
+  font-family: "Vazir";
+  src: url("../Fonts/Vazir-Font/Vazir-Bold.ttf");
+  font-family: "bold";
+}
+@font-face {
+  font-family: "Vazir";
+  src: url("../Fonts/Vazir-Font/Vazir-Black.ttf");
+  font-family: "black";
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Vazir";
+}
+
+body, html {
+  overflow: auto;
+}
+
+body, html {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background-color: #F4F4F4;
+}
+
+/* ===== Scrollbar CSS ===== */
+/* Firefox */
+* {
+  scrollbar-width: auto;
+  scrollbar-color: #bfbfbf #ffffff;
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 11px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #ffffff;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #bfbfbf;
+  border-radius: 10px;
+  border: 3px solid #ffffff;
+}
+
+section.basketShop {
+  width: 100%;
+  min-height: 100vh;
+}
+section.basketShop .title {
+  text-align: right;
+  color: #6B6B6C;
+  font-size: 1.2em;
+}
+section.basketShop .factor-detail {
+  padding: 1em;
+}
+section.basketShop .factor {
+  padding: 1em;
+}
+section.basketShop .factor .box {
+  background-color: #fff;
+  border-radius: 0.5em;
+  padding: 1em;
+}
+section.basketShop .factor .box h4 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  gap: 0;
+  font-size: 1em;
+  color: #919192;
+  margin-bottom: 1em;
+}
+section.basketShop .factor .box h4 span {
+  color: #2F2E2E;
+}
+section.basketShop .factor a.btn {
+  background-color: #00719C;
+  color: #fff;
+  margin-top: 0.5em;
+  transition: all 0.5s;
+}
+section.basketShop .factor a.btn:hover {
+  background-color: #00415A;
+  transition: all 0.5s;
+}
+
+.product-box {
+  position: relative;
+  background-color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  gap: 0;
+  flex-wrap: wrap;
+  border-radius: 0.5em;
+  margin: 0.5em;
+  padding: 1em;
+}
+.product-box i.fa-trash {
+  position: absolute;
+  top: 0.5em;
+  left: 0.5em;
+  font-size: 1em;
+  color: #fff;
+  background-color: #FD0C0C;
+  border-radius: 50%;
+  padding: 0.5em;
+}
+.product-box .product-img {
+  overflow: hidden;
+}
+.product-box .product-img img {
+  width: 100%;
+  object-fit: cover;
+}
+.product-box .product-detail h3 {
+  font-size: 1.5em;
+}
+.product-box .product-detail h4 {
+  font-size: 1.3em;
+  font-weight: 400;
+  color: #919192;
+}
+.product-box .product-detail .count {
+  margin: auto 0;
+}
+.product-box .product-detail .count i {
+  font-size: 1.2em;
+  padding: 0.2em;
+  border-radius: 0.1em;
+  color: #fff;
+}
+.product-box .product-detail .count i.fa-plus {
+  background-color: #0AC834;
+}
+.product-box .product-detail .count i.fa-minus {
+  background-color: #B80000;
+}
+.product-box .product-detail .count span {
+  padding: 0.5em;
+  font-weight: 600;
+  color: #2F2E2E;
+}
+.product-box .product-detail .price {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  flex-direction: column;
+  gap: 0;
+}
+.product-box .product-detail .price .priceUnit, .product-box .product-detail .price .totalPrice {
+  font-size: 1.2em;
+  padding-left: 1.2em;
+  font-weight: 400;
+  color: #919192;
+}
+.product-box .product-detail .price .priceUnit span, .product-box .product-detail .price .totalPrice span {
+  margin: 1em;
+  font-weight: 500;
+  color: #2F2E2E;
+}
+
+@media screen and (max-width: 768px) {
+  .product-box .product-img img {
+    width: 50%;
+  }
+}

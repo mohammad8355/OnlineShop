@@ -1,0 +1,61 @@
+﻿@using static PresentationLayer.Views.ViewComponents.CategoryMegaMenuViewComponent;
+@model CategoryMegaMenuViewComponentModel;
+
+<div class="container-lg" id="megamenu" style="display:none">
+    <div class="tab-item col-md-2 col-12">
+        <ul>
+            @{
+                var index = 1;
+                foreach (var parent in Model.ParentCategories)
+                {
+                    <li class="tab-Index col-md-12 @((index == 1) ? "active" : "")" data-index="@index">
+                        @parent.Name
+                    </li>
+                    index++;
+                }
+            }
+        </ul>
+    </div>
+    <div class="tab-container col-md-10 col-12">
+        @{
+            var Index = 1;
+            @if (Model.ParentCategories != null)
+            {
+                @foreach (var parent in Model.ParentCategories)
+                {
+                    <div class="tab-container-Item @((Index == 1) ? "active" : "")" data-index="@Index">
+                        <ul class="nav category-list">
+                            @if (parent.ChildCategories != null)
+                            {
+                                @foreach (var child in parent.ChildCategories)
+                                {
+                                    <li class="category-list-item col-md-4 col-12">
+                                        <h6><a asp-action="ParameterSearch" asp-controller="Product" asp-route-Search=" " asp-route-Category_Id="@child.Id"><span class="seprator"> | </span>@child.Name ></a></h6>
+                                        <ul>
+                                            @if (child.ChildCategories != null)
+                                            {
+                                                @foreach (var childofchild in child.ChildCategories)
+                                                {
+                                                    <li><a asp-action="ParameterSearch" asp-controller="Product" asp-route-Search=" " asp-route-Category_Id="@childofchild.Id">@childofchild.Name</a> </li>
+                                                    @if (childofchild.ChildCategories != null)
+                                                    {
+                                                        @foreach (var ch in childofchild.ChildCategories)
+                                                        {
+                                                            <li><a asp-action="ParameterSearch" asp-controller="Product" asp-route-Search=" " asp-route-Category_Id="@ch.Id">@childofchild.Name - @ch.Name</a> </li>
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        </ul>
+                                    </li>
+                                }
+                            }
+                        </ul>
+                    </div>
+                    Index++;
+                }
+          
+            }
+        }
+    </div>
+</div>

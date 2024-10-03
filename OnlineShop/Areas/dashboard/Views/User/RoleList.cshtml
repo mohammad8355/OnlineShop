@@ -1,0 +1,62 @@
+﻿@using PresentationLayer.Models;
+@using Microsoft.AspNetCore.Identity;
+@model List<IdentityRole>
+<div class="container">
+    <div class="row">
+        <div class="alert alert-warning" style="display:none;" role="alert">هشدار : در صورت حذف هر نقش تمام کاربران متعلق به آن ,نقش را از دست خواهند داد</div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>نام نقش</th>
+                    <th>سطح دسترسی</th>
+                    <th>کنترل</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var role in Model)
+                {
+                    <tr>
+                        <td>@role.Name</td>
+                        <td><h4><span class="badge bg-primary">کامل</span></h4></td>
+                        <td>
+                            <div class="btn-group">
+                                <a asp-action="EditRole" asp-controller="User" asp-route-Id="@role.Id" class="btn btn-info"><i class="fa-solid fa-pen"></i></a>
+                                <button type="button" class="btn btn-danger" data-delete="@role.Id"><i class="fa-solid fa-trash-can"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+@section InlineScripts{
+    <script>
+        $(".btn-danger").on('click', function () {
+            $(".alert").css("display","block");
+            if (confirm("آیا از حذف این نقش مطمین هستید ؟"))
+            {
+                $.ajax({
+                    url: '@Url.Action("DeleteRole","User")',
+                    type: 'GET',
+                    async: true,
+                    data: { Id: $(this).attr("data-delete") },
+                    success: function (data) {
+                        if (data.result) {
+                            alert("با موفقیت حذف شد" + data.name + "نقش ");
+                            location.reload();
+                        }
+                        else {
+                            alert("با شکست مواجه شد" + data.name + "حذف نقش ");
+                        }
+                    },
+                    error: function () {
+                        alert("خطا در سیستم ");
+                    }
+                });
+            }
+            else{
+            }
+        })
+    </script>
+}

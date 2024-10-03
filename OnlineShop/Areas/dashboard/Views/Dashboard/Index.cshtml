@@ -1,0 +1,121 @@
+﻿<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-3 col-6">
+                <!-- small card -->
+                <div class="small-box" style="background-color:orange;">
+                    <div class="inner">
+                        <h3 class="text-light">1000</h3>
+
+                        <p class="text-light">بازدید</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa-solid fa-eye"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">
+                        More info <i class="fas fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-6">
+                <div class="small-box" style="background-color:purple;">
+                    <div class="inner">
+                        <h3 class="text-light">500</h3>
+
+                        <p class="text-light">تعداد کاربران</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">
+                        More info <i class="fas fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-6">
+                <div class="small-box bg-info">
+                    <div class="inner">
+                        <h3>700</h3>
+
+                        <p>تعداد کالا ها</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa-solid fa-bag-shopping"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">
+                        More info <i class="fas fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-6">
+                <div class="small-box bg-success">
+                    <div class="inner">
+                        <h3>50,000,000T</h3>
+
+                        <p>درآمد کل</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa-solid fa-sack-dollar"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">
+                        More info <i class="fas fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+                <div id="PieChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;">
+                    @*                        <canvas id="donutChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                    *@
+                </div>
+                <!-- /.card-body -->
+        </div>
+    </div>
+</section>
+@section RefrenceScripts{
+    <script src="https://cdn.anychart.com/releases/8.11.1/js/anychart-core.min.js"></script>
+    <script src="https://cdn.anychart.com/releases/8.11.1/js/anychart-pie.min.js"></script>
+    <script src="https://cdn.anychart.com/releases/8.11.1/js/anychart-cartesian.min.js"></script>
+}
+
+@section InlineScripts{
+    <script>
+        anychart.onDocumentReady(function () {
+            var data = [
+                {
+                    x: "فضای پر شده", value: 6,
+                    normal: {
+                        fill: "#e31809",
+                    },
+                    hovered: {
+                        fill: "#ff5245",
+                    },
+                    selected: {
+                        outline: {
+                            enabled: false,
+                            width: 6,
+                            fill: "#404040",
+                            stroke: null
+                        }
+                    }
+                },
+                {
+                    x: "فضای خالی", value: 4,
+                    normal: { fill: "#e0e0e0" },
+                    hovered: {
+                        fill: "#ccc8c8",
+                        outline: {
+                            enabled: false
+                        }
+                    },
+                    selected: { outline: { enabled: false } }
+                }
+            ];
+            var chart = anychart.pie(data)
+                .innerRadius('50%');
+            chart.container('PieChart');
+            chart.draw();
+        });
+
+    </script>
+}

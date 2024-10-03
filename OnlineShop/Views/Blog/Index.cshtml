@@ -1,0 +1,69 @@
+﻿@model BlogPostIndexViewModel
+@using Utility.PersianDate;
+<section class="container">
+    <div class="col-12 row">
+        <div class="col-12 p-1">
+            <div class="position-relative col-12 p-0 overflow-hidden rounded-3">
+                    @{
+                    var lastPost = Model.Posts.Last();
+                    <a asp-action="Post" asp-controller="Blog" asp-rout-Title="@lastPost.Title">
+                        <img src="@lastPost.CoverLink"
+                             class="col-12 overlay-image" alt="@lastPost.Title">
+                        <div class="overlay-content col-12 position-absolute bottom-0">
+                            <h1 class="text-light p-2">@lastPost.Title</h1>
+                            <h5 class="text-light px-1">@lastPost.LastUpdates.ToPersianDate() </h5>
+                        </div>
+                    </a>
+                    }
+            </div>
+        </div>
+    </div>
+</section>
+<section class="searchposts container-md container-fluid">
+    <form class="col-12" dir="ltr">
+        <div class="input-group search">
+            <input id="search" type="text" class="col-md-6 col-10 form-control" placeholder="تگ یا عنوان مقاله مورد نظر را جستجو کنید">
+            <button type="button" class="btn btn-dark" id="searchBtn">جستجو</button>
+        </div>
+    </form>
+@*    <div class="col-12 d-flex justify-content-center p-2">
+        <div class="popular-tags">
+            <span class="tag"><a class="nav-link" href="#">کامپیوتر#</a></span>
+            <span class="tag"><a class="nav-link" href="#">درایو</a></span>
+            <span class="tag"><a class="nav-link" href="#">ویندوز#</a></span>
+            <span class="tag"><a class="nav-link" href="#">5-نکته-مهم#</a></span>
+            <span class="tag"><a class="nav-link" href="#">5-نکته-مهم#</a></span>
+        </div>
+    </div>*@
+    <div class="postlist col-12 mt-4">
+    </div>
+</section>
+@section InLineCss{
+    <link rel="stylesheet" href="~/sass/blogpost.css" />
+    <link rel="stylesheet" href="~/css/blogpost.css" />
+}
+@section InLineScript{
+    <script>
+        $("#search").keyup(function () {
+            var inputValue = $(this).val();
+            $.ajax({
+                url: '@Url.Action("SearchPost","Blog")',
+                type: 'GET',
+                data: { search: inputValue.toString() },
+                success: function (data) {
+                    $(".postlist").html(data);
+                },
+            })
+        })
+        $("#searchBtn").click(function () {
+            $.ajax({
+                url: '@Url.Action("SearchPost","Blog")',
+                type: 'GET',
+                data: { search: inputValue.toString() },
+                success: function (data) {
+                    $(".postlist").html(data);
+                },
+            })
+        })
+    </script>
+}

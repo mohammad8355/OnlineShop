@@ -1,0 +1,587 @@
+﻿@model ProductShowViewModel
+<section class="Product-container">
+    <nav aria-label="breadcrumb" class="p-3">
+        @await Component.InvokeAsync("CategoryBreadCrump",Model.product.CategoryToProducts.First().Category_Id)
+    </nav>
+    <div class="container-lg container-fluid">
+        <div class="product-info d-flex flex-wrap">
+            <div class="product-images col-lg-6 col-12">
+                <div class="tools">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        @if (Model.product.favoriteProducts.FirstOrDefault() != null)
+                        {
+                            <a onclick="like(@Model.product.Id)"><i class="fa-solid fa-heart like"></i></a>
+                        }
+                        else
+                        {
+                            <a onclick="like(@Model.product.Id)"><i class="fa-regular fa-heart like"></i></a>
+                        }
+                    }
+                    else
+                    {
+                        <a onclick="alert('لطفا وارد وبسایت شوید')" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Url.Action("ProductShow","Product",new { Id = Model.product.Id})"><i class="fa-regular fa-heart like"></i></a>
+                    }
+                    <a href="#"><i class="fa-regular fa-bookmark"></i></a>
+                    <a href="#"><i class="fa-solid fa-share-nodes"></i></a>
+                </div>
+                <div class="col-10">
+                    <img class="selectedImage" id="MainImage"
+                         src="~/Image/Product/@(Model.product.Name)/@(Model.product.ProductPhotos.FirstOrDefault().Name)"
+                         alt="@(Model.product.Name)">
+                </div>
+                <hr>
+                <div class="image-wrapper col-12" dir="ltr">
+                    @foreach (var img in Model.product.ProductPhotos)
+                    {
+                        <img src="~/Image/Product/@(Model.product.Name)/@img.Name" alt="@(Model.product.Name)" class="image">
+                    }
+                </div>
+            </div>
+
+            <div class="content col-lg-6 col-12 d-flex flex-wrap">
+
+                <div class="col-12 d-flex flex-wrap">
+                    <div class="header col-12">
+                        <h2>@Model.product.Name</h2>
+                        <p> Samsung Odyssey G5 G51C LS27CG510EMXUE 27Inch 1ms 165Hz QHD Gaming Monitor</p>
+                        <div class="col-12 d-flex  flex-wrap">
+                            <div class="col-lg-6 col-md-12">
+                                <ul>
+                                    <li>کدکالا:@Model.product.ProductCode</li>
+                                    <li>برند: @Model.product.brand.Name</li>
+                                    <li>
+                                        @foreach (var cp in Model.product.CategoryToProducts)
+                                        {
+                                            <span>@cp.Category.Name /</span>
+                                        }
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-6 col-12">
+                                <img width="100px" src="~/Image/Brand/@(Model.product.brand.Name)/@(Model.product.brand.ImageName)" />
+                                <h4>@Model.product.brand.Name</h4>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="keyattr col-12 col-md-6">
+                    <h5>ویژگی های کلیدی</h5>
+                    <ul>
+                        <li><span>عرض</span>@Model.product.Width</li>
+                        <li><span>طول</span>@Model.product.length</li>
+                        <li><span>وزن</span>@Model.product.Weight</li>
+                        <li><span>ارتفاع</span> @Model.product.height</li>
+                        @foreach (var specKey in Model.specialkeys)
+                        {
+                            <li>
+                                <span>@specKey.Name</span>
+                                @foreach (var value in Model.product.valueToProducts.Where(v => v.Value.adjkey_Id == specKey.Id).ToList())
+                                {
+                                    <span>@value.Value.Value /</span>
+                                }
+                            </li>
+                        }
+                    </ul>
+                </div>
+                <div class="shop-box col-md-6 col-12">
+                    <div class="container">
+                        <h5 class="text-right">تعداد:</h5>
+                        <div class="inline">
+                            <div class="shop col-6">
+                                <i class="fa-solid fa-plus"></i>
+                                <span id="countProduct" value="0">0</span>
+                                <i class="fa-solid fa-minus"></i>
+                            </div>
+                            @if (Model.product.Discount != 0)
+                            {
+                                <!--this is for whem we have an off-->
+                                <div class="offprice">
+                                    <span class="col-6 price">@Model.product.Price.ToString("N0") تومان </span>
+                                    <span class="off">
+                                        @{
+                                            var price = Model.product.Price;
+                                            var offprice = (Model.product.Price) * ((decimal)Model.product.Discount / 100);
+                                            var pricewithoff = price - offprice;
+                                        }
+                                        @pricewithoff.ToString("N0") تومان
+                                    </span>
+                                    <h6 class="text-secondary">@Model.product.Discount % تخفیف</h6>
+                                </div>
+                                <!--this is for whem we have an off-->
+                            }
+                            else
+                            {
+                                <!--this is for whem we dont have an off-->
+                                <div class="originalPrice">
+                                    <span class="col-6 price">@Model.product.Price تومان </span>
+                                </div>
+                                <!--this is for whem we dont have an off-->
+                            }
+                        </div>
+                        @if (User.Identity.IsAuthenticated && Model.product.QuantityInStock > 0)
+                        {
+                            @if (Model.product.QuantityInStock < 6)
+                            {
+                                <span class="text-danger">تنها @Model.product.QuantityInStock عدد در انبار موجود است</span>
+                            }
+                            <button type="button" id="shop" class="btn btn-success">خرید</button>
+                        }
+                        else
+                        {
+                            @if (Model.product.QuantityInStock <= 0)
+                            {
+                                <span class="text-danger">این کالا در انبار موجود نیست</span>
+                            }
+                            <button type="button" disabled id="shop" class="btn btn-success disabled">خرید</button>
+                        }
+                    </div>
+                </div>
+                <div class="description col-12">
+                    <h5>درباره محصول</h5>
+                    <p class="text-wrap">
+                        @Model.product.Description
+                    </p>
+                </div>
+            </div>
+
+        </div>
+        <hr>
+        <div class="product-detail d-flex flex-column flex-wrap">
+            <nav>
+                <ul class="tab">
+                    <li class="tab-item active" data-id="tab1">نکات فنی</li>
+                    <li class="tab-item" data-id="tab2">نظرات</li>
+                </ul>
+            </nav>
+            <div class="tab-container active" data-id="tab1">
+                <table class="table col-12">
+                    <thead>
+                    <td>
+                        مشخصه فنی
+                    </td>
+                    <td>
+                        مقدار مشخصه
+                    </td>
+                    </thead>
+                    <tbody>
+                        @foreach (var kv in Model.product.keyToProducts)
+                        {
+                            <tr>
+                                <td>@kv.adjKey.Name</td>
+                                <td>
+                                    @foreach (var value in Model.product.valueToProducts.Where(v => v.Value.adjkey_Id == kv.adjKey.Id).ToList())
+                                    {
+                                        <span>@value.Value.Value /</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-container" data-id="tab2">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <form method="post" class="form-control" id="comment">
+                        <div class="form-group mb-3">
+                            <label>نظر خود را بنویسید</label>
+                            <textarea placeholder="نظر خود را بنویسید" class="form-control" required id="description">
+
+                                                    </textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">ارسال</button>
+                    </form>
+                }
+                else
+                {
+                    <form class="form-control">
+                        <div class="form-floating mb-3">
+                            <label>نظر خود را بنویسید</label>
+                            <textarea placeholder="نظر خود را بنویسید" class="form-control">
+
+                                                        </textarea>
+                        </div>
+                        <a asp-area="Identity" asp-page="/Account/Register" asp-route-returnUrl="@Url.Action("ProductShow","Product",new { Id = Model.product.Id})" type="submit" class="btn btn-primary">ارسال</a>
+                    </form>
+                }
+                @if (Model.product.commnets != null)
+                    @if (Model.product.commnets.Count() > 0)
+                    {
+                        <div class="card-slider" dir="ltr">
+                            @foreach (var comment in Model.product.commnets.Where(c => c.IsHide == false).ToList())
+                            {
+                                var classname = "";
+                                @if (User.Identity.Name == comment.User.UserName)
+                                {
+                                    classname = "bg-info";
+                                }
+                                <div class="card rounded-4 m-2 @classname" style="width: 18rem">
+                                    <div class="header">
+                                        <span class="badge bg-primary text-wrap m-1">@comment.Product.Name</span>
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">
+                                            @if (string.IsNullOrEmpty(comment.User.FullName))
+                                            {
+                                                <span>@comment.User.UserName</span>
+                                            }
+                                            else
+                                            {
+                                                <span>@comment.User.FullName</span>
+                                            }
+                                        </h5>
+                                        <p class="text-wrap">@comment.Description</p>
+                                    </div>
+                                    <div class="footer">
+                                        <span class="badge bg-secondary">@comment.LastUpdate</span>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+
+            </div>
+        </div>
+    </div>
+    @await Component.InvokeAsync("RelatedProduct",Model.RelatedProduct)
+</section>
+<section class="container-fluid fillscreen" style="display:none">
+    <div class="ImageView d-flex flex-wrap">
+        <div class="col-12 header">
+            <i class="fas fa-close closeZoomBox"></i>
+            <h6 class="p-3 text-right">@Model.product.Name</h6>
+        </div>
+        <div class="col-12 content">
+            <button type="button" class="nextBtn"><i class="fa-solid fa-caret-left"></i></button>
+            <div class="image-slider" dir="ltr">
+                @foreach (var img in Model.product.ProductPhotos)
+                {
+                    <div class="slide current">
+                        <img src="~/Image/Product/@(Model.product.Name)/@img.Name" alt="@(Model.product.Name)" class="image">
+                    </div>
+                }
+            </div>
+            <button type="button" class="prevBtn"><i class="fa-solid fa-caret-right"></i></button>
+            <div class="zoomtool">
+                <i class="fa-solid fa-magnifying-glass-plus zoom-in"></i>
+                <i class="fa-solid fa-magnifying-glass-minus zoom-out"></i>
+            </div>
+        </div>
+
+    </div>
+</section>
+@section InLineCss{
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.css" />
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.css" />
+    <!--inline zoombox css-->
+    <style>
+        .fillscreen {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            min-height: 100vh;
+            background-color: rgba(2, 2, 2, 0.1);
+            display: flex;
+            justify-content: center;
+            flex-basis: content;
+            box-sizing: border-box;
+            align-items: center;
+        }
+
+        .ImageView {
+            max-width: 60%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            background-color: #fff;
+            border-radius: .5em;
+            overflow: hidden;
+        }
+
+        .image-slider {
+            width: 100%;
+            display: flex;
+        }
+
+        .ImageView .image-slider .slide {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-width: 100%;
+            height: 50%;
+            overflow: auto;
+        }
+
+        .ImageView .content .slide img {
+            width: 60%;
+            object-fit: contain;
+        }
+
+        .content {
+            position: relative;
+            padding: .5em;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+
+
+
+        .header {
+            position: relative;
+        }
+
+        i.fa-close {
+            position: absolute;
+            top: .5em;
+            left: .5em;
+            font-size: 1.2em;
+            padding: .5em;
+        }
+
+        .zoomtool {
+            position: absolute;
+            bottom: .5em;
+            right: .5em;
+        }
+
+            .zoomtool i {
+                font-size: 2em;
+                color: skyblue;
+            }
+
+        .prevBtn,
+        .nextBtn {
+            position: absolute;
+            z-index: 100;
+            border: none;
+            border-radius: 50%;
+            padding: .5em;
+            color: #222;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+            background-color: #fff;
+        }
+
+        .prevBtn {
+            top: 50%;
+            right: 0;
+            transform: translate(-50%, -50%);
+        }
+
+        .nextBtn {
+            top: 50%;
+            left: 0;
+            transform: translate(50%, -50%);
+        }
+    </style>
+    <style media="screen and (max-width:1023px)">
+
+        .fillscreen {
+            padding: 0;
+        }
+
+        .ImageView {
+            min-width: 100%;
+            min-height: 100vh;
+            padding: 1em;
+        }
+
+        .zoomtool {
+            bottom: 2em;
+        }
+    </style>
+    <!--inline zoombox css-->
+}
+@section ScriptRefrence{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+    <script src="~/js/function.js"> </script>
+}
+@section InlineScript{
+    <script>
+        $(document).ready(function () {
+            $('.image-wrapper').slick({
+                slidesToShow: 3,
+                slidesToScroll: 1,
+            })
+
+            //tab item scripts
+            $(".tab-item").click(function () {
+                if ($(".tab-item").hasClass("active")) {
+                    $(".tab-item").removeClass("active");
+                }
+                $(this).toggleClass("active");
+                var id = $(".tab-item.active").attr("data-id");
+                $(".tab-container").removeClass("active");
+                $(".tab-container[data-id='" + id + "']").addClass("active");
+            })
+            //tab item scripts
+
+
+            // ---> counter the product
+            var counter = document.querySelector("#countProduct");
+            var intValue = 0;
+            var stringvalue = "";
+            $(".fa-plus").click(function () {
+                stringvalue = counter.innerHTML;
+                intValue = parseInt(stringvalue);
+                if (intValue < @Model.product.QuantityInStock) {
+                    intValue += 1;
+                    counter.innerHTML = intValue.toString();
+                }
+                else {
+                    Swal.fire({
+                        text: "تعداد سفارش بیش از حد مجاز است ",
+                        title: "هشدار",
+                        icon: "warning",
+                    });
+                }
+            })
+            $(".fa-minus").click(function () {
+                stringvalue = counter.innerHTML;
+                intValue = parseInt(stringvalue);
+                if (intValue != 0) {
+                    intValue -= 1;
+                }
+                counter.innerHTML = intValue.toString();
+            })
+            // ---> counter the product
+            // --> ajax to server
+            var productId = @Model.product.Id;
+            $("#shop").click(function () {
+                console.log(intValue);
+                $.ajax({
+                    url: '@Url.Action("AddToCart","shop")',
+                    type: 'GET',
+                    async: false,
+                    data: { product_Id: productId, count: intValue },
+                    success: function (data) {
+                        Swal.fire({
+                            icon: data.type,
+                            title: data.message,
+                        });
+                    },
+                    error: function () {
+                        Swal.fire({
+                            title: "خطا در برقراری ارتباط",
+                            text: "دوباره تلاش کنید",
+                            icon: "error",
+                        });
+                    },
+                })
+            })
+
+            // --> ajax to server
+            //end shop product
+
+            //chnage main image
+            $(".image").click(function () {
+                $("#MainImage").attr("src", $(this).attr("src"));
+            });
+            //change main image
+            //zoom box
+            ZoomBoxImageView('.image-slider', '.prevBtn', '.nextBtn', '.slide');
+            $('.selectedImage').click(function () {
+                $('.fillscreen').css('display', 'flex');
+                $("body").css("overflow-y", "hidden");
+            })
+            $('.closeZoomBox').click(function () {
+                $('.fillscreen').css('display', 'none');
+                $("body").css("overflow-y", "auto");
+            })
+            //zoom box
+        })
+        if ($('.card-slider').children().length > 4) {
+            $('.card-slider').slick({
+                slidesToShow: 4,
+                slidesToScroll: 1,
+                autoplay: true,
+                autoplaySpeed: 2000,
+                responsive: [
+                    {
+                        breakpoint: 992,
+                        settings: {
+                            slidesToShow: 3
+                        }
+                    },
+                    {
+                        breakpoint: 767,
+                        settings: {
+                            slidesToShow: 2
+                        }
+                    },
+                    {
+                        breakpoint: 500,
+                        settings: {
+                            slidesToShow: 1
+                        }
+                    },
+                ]
+            });
+        }
+        $("#comment").submit(function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: '@Url.Action("AddComment","Comment")',
+                type: 'GET',
+                data: { description: $("#description").val(), product_Id: @Model.product.Id },
+                success: function (data) {
+                    Swal.fire({
+                        title: data.message,
+                        icon: data.type,
+                    }).then((result) => {
+                        location.reload();
+                    });
+                },
+                error: function () {
+                    Swal.fire({
+                        title: "خطا در برقراری ارتباط",
+                        text: "دوباره تلاش کنید",
+                        icon: "error",
+                    });
+                }
+            })
+        })
+    </script>
+    <script>
+        function like(Id) {
+            console.log("click");
+            $.ajax({
+                url: '@Url.Action("LikeProduct","Product")',
+                type: 'GET',
+                async: false,
+                data: { Id: parseInt(Id) },
+                success: function (data) {
+                    if (data.res) {
+                        if (data.isliked) {
+                            autoCloseAlert(".container-fluid", 2000, 1000, "به علاقه مندی ها افزوده شد ", "علاقه مندی ها", "success");
+                            $(".fa-heart").removeClass("fa-regular");
+                            $(".fa-heart").addClass("fa-solid");
+                            console.log("add fav");
+                        }
+                        else {
+                            autoCloseAlert(".container-fluid", 2000, 1000, "از علاقه مندی ها حذف شد ", "علاقه مندی ها", "success");
+                            $(".fa-heart").addClass("fa-regular");
+                            $(".fa-heart").removeClass("fa-solid");
+                        }
+                    }
+                    else {
+                        autoCloseAlert(".container-fluid", 2000, 1000, "مدتی صبر کنید", "warning");
+                    }
+                },
+                error: function () {
+                    Swal.fire({
+                        title: "خطا در برقراری ارتباط",
+                        text: "دوباره تلاش کنید",
+                        icon: "error",
+                    });
+                }
+            })
+        }
+    </script>
+
+}

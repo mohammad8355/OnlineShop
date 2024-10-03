@@ -1,0 +1,122 @@
+﻿@{
+    ViewData["ActiveLink"] = "ticketDetail";
+    Layout = "UserPanelLayout";
+}
+@using DataAccessLayer.Models;
+@using Utility.PersianDate;
+@model Ticket;
+<div class="ticket-container">
+    <div class="ticket col-12 p-2 my-1  bg-light shadow-sm">
+        <div class=" text-secondary d-flex flex-row justify-content-between">
+            <h6>@Model.User.FullName</h6>
+            <h6>@Model.LastUpdate.Date.ToPersianDate()</h6>
+        </div>
+        <div class="row">
+            <h5 class="text-dark">@Model.Title</h5>
+            <p>
+                @Html.Raw(Model.Description);
+            </p>
+        </div>
+        <div class="d-flex justify-content-between align-items-center">
+            <a href="#">ویرایش<i class="fa-solid fa-pen"></i></a>
+            <a href="#" class="btn btn-danger p-1">حذف<i class="fa-solid fa-trash"></i></a>
+        </div>
+    </div>
+</div>
+<div class="container d-flex flex-column align-items-flex-start comment-contaier">
+    @foreach (var comment in Model.commnets)
+    {
+        var classname = "";
+        var nameRole = "";
+        @if (comment.User.UserName == User.Identity.Name)
+        {
+            classname = "comment-admin";
+            nameRole = comment.User.UserName;
+        }
+        else
+        {
+            classname = "comment-user";
+            nameRole = "ادمین";
+        }
+        <div class="rounded-2 border @classname p-2  mt-1">
+            <div class="d-flex justify-content-between">
+                <span class="badge bg-primary">@nameRole</span>
+                <h6>@comment.LastUpdate.ToPersianDate()</h6>
+                </div>
+            <h6>@comment.Title</h6>
+            <p>
+                @Html.Raw(comment.Description)
+            </p>
+
+        </div>
+    }
+</div>
+
+<div class="comment-send bg-light p-2 col-12 shadow-lg">
+    <div class="input-group" dir="ltr">
+        <input id="ticket-title" type="text" class="form-control" required placeholder="عنوان کامنت" aria-label="Recipient's username" aria-describedby="button-addon2">
+        <a  class="input-group-text bg-primary" id="addon-wrapping"><i class="fa-solid fa-paper-plane text-light"></i></a>
+    </div>
+    <div class="input-group mt-1" id="ticket-message">
+        <textarea id="content" class="form-control" placeholder="متن کامنت" required></textarea>
+    </div>
+</div>
+@section InlineScript{
+    <script>
+        $(document).ready(function () {
+            $("#ticket-message").slideUp();
+            $("#ticket-title").focus(function (event) {
+                event.stopPropagation();
+                $("#ticket-message").slideDown();
+            })
+            $(".ticket-message").on("click", function (event) {
+                event.stopPropagation();
+            })
+            var commentSend = document.querySelector(".comment-send");
+            $(document).click(function (event) {
+                if (!$(event.target).closest('.comment-send').length) {
+                    $("#ticket-message").slideUp();
+                }
+            })
+        })
+        $("#addon-wrapping").on("click", function () {
+            const description = editor.getData();
+            $.ajax({
+                url: '@Url.Action("AddCommentTicket","Comment")',
+                type: 'GET',
+                data: { description: description, title: $("#ticket-title").val(), ticket_Id: @Model.Id },
+                success: function (data) {
+                    Swal.fire({
+                        title: data.message,
+                        icon: data.type,
+                    }).then((result) => {
+                        location.reload();
+                    });
+                },
+                error: function () {
+                    Swal.fire({
+                        title: "خطا در برقراری ارتباط",
+                        text: "دوباره تلاش کنید",
+                        icon: "error",
+                    });
+                }
+            })
+        })
+        let editor;
+        ClassicEditor
+            .create(document.querySelector('#content')).then(newEditor => {
+                editor = newEditor;
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+}
+@section ScriptRefrence{
+    <script src="~/CkEditor/build/ckeditor.js"></script>
+    <script src="~/CkEditor/build/translations/en-au.js"></script>
+    <script src="~/CkEditor/build/translations/en-gb.js"></script>
+}
+@section InlineCss{
+    <link rel="stylesheet" href="~/css/ticket.css" />
+}

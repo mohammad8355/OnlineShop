@@ -1,0 +1,42 @@
+﻿@model AddAdjValuesViewModel
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="card card-warning col-12">
+                <div class="card-header">
+                    <h3 class="card-title col-6">افزودن مقدار به مشخصه </h3>
+                </div>
+                <div class="card-body">
+                    <form method="Post" asp-action="AddValues" asp-controller="TechnicalSpecification" class="form">
+
+                        @if (ViewBag.success != null)
+                        {
+                            <div class="alert alert-success">
+                                <strong>@ViewBag.success</strong>
+                            </div>
+                        }
+                        <div class="alert alert-danger" asp-validation-summary="ModelOnly"></div>
+
+                        <!-- select -->
+                        <div class="form-group col-sm-4">
+                            <label>مشخصات کلید ها</label>
+                            <select class="form-control" asp-items="ViewBag.AdjKeys" asp-for="@Model.adjkey_Id" id="adjkey">
+                                <option value="0">کلید ها</option>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>مقدار </label>
+                                <input type="text" class="form-control" placeholder="مفدار  را وارد کنید" asp-for="@Model.Value" id="textInput" />
+                            </div>
+
+                        </div>
+                        <button type="submit" class="btn btn-primary" id="submitbtn">افزودن</button>
+                        <!-- /.card-body -->
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

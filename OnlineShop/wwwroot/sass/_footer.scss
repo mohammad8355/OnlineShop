@@ -1,0 +1,83 @@
+footer {
+    position: relative;
+    width: 100%;
+    min-height: 20em;
+    border-radius: 1em 1em 0 0;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba($color: $dark, $alpha: 0.5);
+
+    .container-lg {
+        width: 100%;
+       .item-container
+       {
+           .item{
+            @include flex();
+           }
+       }
+       .social{
+        p{
+            font-weight: 600;
+            font-size: 1.5em;
+        }
+        .icons{
+            a{
+                text-decoration: none;
+                i{
+                    font-size: 2em;
+                    color: $Secondary;
+                    padding: .5em;
+            }
+        }
+            @include flex(row);
+        }
+
+       }
+        .news {
+            p {
+                font-weight: 600;
+            }
+
+            form {
+                width: 100%;
+
+                input[type="email"] {
+                    border: none;
+                    outline: none;
+                    border-radius: 1em;
+                    padding: .5em 1em .5em 1em;
+                    background-color: $verylightSecondary;
+                }
+
+                button {
+                    background-color: $darkPrimary;
+                    border: none;
+                    color: $white;
+                    padding: .5em 1em .5em 1em;
+                    border-radius: .5em;
+                    transition: all .5s;
+
+                }
+
+                button:hover {
+                    background-color: $varydarkPrimary;
+                    transition: all .5s;
+                }
+            }
+        }
+       .col-lg-6{
+        gap: 1em;
+        .fast-access{
+            ul{
+                list-style: none;
+                a{
+                    text-decoration: none;
+                    color: $Secondary;
+                }
+                a:hover{
+                    color:$Primary;
+                }
+            }
+        }
+       }
+    }
+}

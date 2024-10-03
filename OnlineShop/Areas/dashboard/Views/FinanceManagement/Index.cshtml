@@ -1,0 +1,158 @@
+﻿<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3 col-sm-6 col-12 m-0 ">
+                <div class="info-box">
+                    <span class="info-box-icon bg-success"><i class="fa-solid fa-wallet"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">مقدار درآمد</span>
+                        <span class="info-box-number">930,000,000</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <div class="col-md-3 col-sm-6 col-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-info"><i class="fa-solid fa-calendar"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">میانگین درآمد سالانه</span>
+                        <span class="info-box-number">50,000,000</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <div class="col-md-3 col-sm-6 col-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-info"><i class="fa-regular fa-calendar-days"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">میانگین درآمد ماهانه </span>
+                        <span class="info-box-number">12,000,000</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <div class="col-md-3 col-sm-6 col-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-info"><i class="fa-solid fa-calendar-week"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">میانگین درآمد هفتگی</span>
+                        <span class="info-box-number">3,000,000</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+        </div>
+        <div class="row m-0">
+            <div class="card card-danger col-sm-12 m-0">
+                <div class="card-header">
+                    <h3 class="card-title">محصولات پر فروش</h3>
+
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body" id="DonutChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;">
+                    @*                        <canvas id="donutChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                    *@
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <div class="card card-info col-sm-12 m-0">
+                <div class="card-header">
+                    <h3 class="card-title">درآمد ماهیانه</h3>
+
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body" id="LineChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;">
+                    @*                        <canvas id="donutChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                    *@
+                </div>
+                <!-- /.card-body -->
+            </div>
+        </div>
+    </div>
+</div>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <!-- /.card -->
+                <!-- DONUT CHART -->
+                <!-- /.card -->
+
+            </div>
+            <!-- /.col (LEFT) -->
+            <!-- /.col (RIGHT) -->
+        </div>
+        <!-- /.row -->
+    </div><!-- /.container-fluid -->
+</section>
+@section RefrenceScripts{
+    <script src="https://cdn.anychart.com/releases/8.11.1/js/anychart-core.min.js"></script>
+    <script src="https://cdn.anychart.com/releases/8.11.1/js/anychart-pie.min.js"></script>
+    <script src="https://cdn.anychart.com/releases/8.11.1/js/anychart-cartesian.min.js"></script>
+}
+
+@section InlineScripts{
+    <script>
+        anychart.onDocumentReady(function () {
+            var data = anychart.data.set([
+                ["تجهیزات جانبی", 9],
+                ["موبایل", 3],
+                ["تجهیزات جانبی کیس", 6],
+                ["کیس اسمبل شده", 2]
+            ]);
+            var chart = anychart.pie(data)
+                .innerRadius('50%');
+            chart.container('DonutChart');
+            chart.draw();
+            var data = [
+                ["فروردین", 10000],
+                ["اردیبهشت", 12000],
+                ["خرداد", 1000],
+                ["تیر", 5000],
+                ["مرداد", 9500],
+                ["شهریور", 100],
+                ["مهر", 900],
+                ["آبان", 15000],
+                ["آذر", 11200],
+                ["دی", 8000],
+                ["بهمن", 7500],
+                ["اسفند", 4000]
+            ];
+
+            // create a chart
+            chart = anychart.line();
+
+            // create a line series and set the data
+            var series = chart.line(data);
+
+            // set the container id
+            chart.container("LineChart");
+
+            // initiate drawing the chart
+            chart.draw();
+        });
+
+    </script>
+}

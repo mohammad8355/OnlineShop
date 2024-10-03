@@ -1,0 +1,128 @@
+﻿@model AddEditProductViewModel;
+@{
+    ViewBag.brands = new SelectList(Model.brands, "Id", "Name");
+}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-12">
+                <!-- general form elements -->
+
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">اطلاعات اولیه</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <div class="card-body">
+                            <form asp-action="ProductEdit" method="post" class="form" enctype="multipart/form-data">
+                                <div asp-validation-summary="All" class="text-danger"></div>
+                                <input asp-for="@Model.Id" hidden />
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">نام محصول</label>
+                                    <input class="form-control" asp-for="@Model.Name" id="exampleInputEmail1" placeholder="نام محصول را وارد کنید">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">قیمت</label>
+                                    <input class="form-control" asp-for="@Model.Price" id="exampleInputPassword1" placeholder="ریال)قیمت محصول) ">
+                                </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">تخفیف</label>
+                                <input class="form-control" asp-for="Discount" id="exampleInputPassword1" placeholder="ریال)تخفیف محصول) ">
+                            </div>
+                                <div class="form-group">
+                                    <label>Textarea</label>
+                                    <textarea class="form-control" rows="3" asp-for="@Model.Description" placeholder=" توضیحات محصول را وارد کنید..."></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">وزن</label>
+                                    <input class="form-control" asp-for="@Model.Weight" id="exampleInputPassword1" placeholder="وزن محصول">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">عرض</label>
+                                    <input class="form-control" asp-for="@Model.Width" id="exampleInputPassword1" placeholder="عرض محصول">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">طول</label>
+                                    <input class="form-control" asp-for="@Model.length" id="exampleInputPassword1" placeholder="طول محصول">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">ارتفاع</label>
+                                    <input class="form-control" asp-for="@Model.height" id="exampleInputPassword1" placeholder="ارتفاع محصول">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">تعداد</label>
+                                    <input class="form-control" asp-for="@Model.QuantityInStock" id="exampleInputPassword1" placeholder="تعداد محصول">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">عکس</label>
+                                    <input class="form-control" asp-for="@Model.File" id="exampleInputPassword1" multiple>
+                                </div>
+                                <div class="form-group">
+                                    <select asp-for="Brand_Id" asp-items="ViewBag.brands" class="form-control">
+                                        <option value="0">یک برند انتخاب کنید</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-sm-6">
+                                    <label>دسته بندی</label>
+                                    <div class="form-group">
+                                        @await Component.InvokeAsync("CategoryList","SelectList")
+                                    </div>
+                                </div>
+                                <!-- /.card-body -->
+                                <button type="submit" class="btn btn-primary">ویرایش</button>
+
+                            </form>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+
+                </div>
+
+                <!--/.col (right) -->
+            </div>
+        </div>
+        <!-- /.row -->
+    </div><!-- /.container-fluid -->
+</section>
+@section  InlineScripts{
+    <script>
+        $(".headlist").next(".list").slideUp();
+        $(".headlist").click(function () {
+            $(this).next(".list").slideToggle();
+        });
+        $('a.headlist input[type="checkbox"]').change(function () {
+            console.log("enter foreach");
+
+            var $checkbox = $(this);
+            var $childCheckboxes = $checkbox.parent().siblings('ul').find('input[type="checkbox"]');
+
+            if ($checkbox.prop('checked')) {
+                // Check child checkboxes
+                $childCheckboxes.prop('checked', true);
+            } else {
+                // Uncheck child checkboxes when the parent is unchecked
+                $childCheckboxes.prop('checked', false);
+            }
+        });
+            var selectedIds = @Json.Serialize(Model.SelectList.ToArray());
+
+            $('input[type="checkbox"]').each(function () {
+                var checkboxValue = $(this).val();
+                console.log(selectedIds);
+
+                // Check the checkbox if its value is in the list of selectedIds
+                for (var i = 0; i < selectedIds.length; i++) {
+                    if (selectedIds[i] == checkboxValue) {
+                        console.log(0o00);
+                        $(this).prop('checked', true);
+                    }
+                }
+            });
+
+        </script>
+    }
+
+
+}

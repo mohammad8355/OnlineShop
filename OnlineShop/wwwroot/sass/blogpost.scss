@@ -1,0 +1,429 @@
+@import "_general";
+@import "_utility";
+@font-face {
+    font-family:"Lalezar" ;
+    src: url("../Fonts/Lalezar-Font/OTF/Lalezar-Regular.otf");
+    src: url("../Fonts/Lalezar-Font/TTF/Lalezar-Regular.ttf");
+}
+.scrollSection {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 1em 0 1em 0;
+
+    article {
+        height: 100%;
+        background-color: $white;
+        border-radius: .5em;
+        padding: .5em;
+
+        .header {
+            h1 {
+                font-size: 2em;
+                font-family: "Lalezar";
+                color: $darkPrimary;
+            }
+
+            .author {
+                @include flex(row, flex-start);
+
+                img {
+                    border-radius: 50%;
+                    margin: .1em;
+                    width: 3em;
+                }
+
+                h5 {
+                    color: $Secondary;
+                    font-size: 1em;
+                }
+            }
+
+            .detail {
+                @include flex(row,space-between,center);
+                column-gap: .5em;
+                color: $Secondary;
+
+                h5 {
+                    font-size: .9em;
+                }
+            }
+        }
+
+        .body {
+            @include flex();
+
+            img {
+                width: 80%;
+                margin: auto 0;
+                border-radius: .5em;
+            }
+
+            h2 {
+                width: 100%;
+                text-align: right;
+            }
+
+            p {
+                text-wrap: balance;
+                text-align: right;
+                padding: .5em 1em .5em 1em;
+                line-height: 2em;
+            }
+        }
+
+        .tags {
+            width: 100%;
+            @include flex(row, flex-end);
+            flex-wrap: wrap;
+            column-gap: .5em;
+
+            .tag {
+                padding: .5em;
+                // background-color: rgba($color: $lightPrimary, $alpha: 0.3);
+                background-color: $darkPrimary;
+                color: $white;
+                border-radius: 2em;
+            }
+        }
+    }
+
+    aside {
+        position: relative;
+        min-height: 100%;
+    }
+
+    nav {
+        overflow-y: auto;
+        position: absolute;
+        transition: all .5s;
+
+        h3 {
+            font-size: 1.5em;
+            color: $darkSecondary;
+            font-family: "Lalezar";
+            font-weight: 300;
+            text-align: center;
+        }
+
+        ul {
+            list-style: none;
+            width: 100%;
+            padding: 0;
+
+            li {
+                background-color: $white;
+                border-radius: .5em;
+                padding: .5em;
+                margin: .5em;
+
+                a {
+                    text-decoration: none;
+                    text-align: center;
+                    @include flex(row-reverse,flex-end);
+                    column-gap: .5em;
+
+                    h3 {
+                        font-size: 1em;
+                        color: $dark;
+                    }
+
+                    h6 {
+                        font-size: .8em;
+                        text-align: left;
+                        color: $Secondary;
+                    }
+
+                    img {
+                        width: 6em;
+                        border-radius: .5em;
+                    }
+                }
+            }
+
+            li:hover {
+                box-shadow: 0 0 10px rgba($color: #000000, $alpha: 0.5);
+            }
+        }
+
+        .popularTags {
+            @include flex();
+            background-color: $white;
+            border-radius: .5em;
+            margin: .5em;
+
+            .tags {
+                @include flex(row);
+                flex-wrap: wrap;
+
+                .tag {
+                    background-color: $lightSecondary;
+                    border-radius: 2em;
+                    padding: .5em;
+                    margin: .5em;
+
+                    a {
+                        color: $dark;
+                        text-decoration: none;
+                    }
+
+                    a:hover {
+                        color: $Primary;
+                    }
+                }
+            }
+        }
+    }
+
+    .comments {
+        @include flex(column,flex-start,flex-start);
+
+        div.container {
+            display: flex;
+            flex-direction: column;
+            row-gap: 1em;
+        }
+
+        .comment-reply {
+            width: 100%;
+            border-radius: 1em;
+            color: $light;
+            background-color: rgba($color: $Primary, $alpha: 0.8);
+            padding: .5em;
+
+            .reply {
+                background-color: $darkPrimary;
+                padding: .5em;
+                border-radius: .5em;
+            }
+
+            .header {
+                @include flex(row,space-between);
+                column-gap: .5em;
+                padding: .5em;
+
+                .sender {
+                    @include flex(row);
+
+                    img {
+                        width: 5em;
+                        border-radius: 50%;
+                    }
+
+                    h5 {
+                        font-size: 1em;
+                    }
+                }
+
+                .replylink {
+                    text-decoration: none;
+                    color: $white;
+                }
+            }
+        }
+
+        .comment {
+            width: 100%;
+            border-radius: 1em;
+            color: $dark;
+            background-color: rgba($color: $light, $alpha: 0.8);
+            box-shadow: 0 0 10px rgba($color: #000000, $alpha: 0.5);
+            padding: .5em;
+
+            .header {
+                @include flex(row,space-between);
+                column-gap: .5em;
+                padding: .5em;
+
+                .sender {
+                    @include flex(row);
+
+                    img {
+                        width: 5em;
+                        border-radius: 50%;
+                    }
+
+                    h5 {
+                        font-size: 1em;
+                    }
+                }
+
+                .replylink {
+                    text-decoration: none;
+                    color: $dark;
+                }
+            }
+        }
+
+        .sendComment {
+            form {
+                button {
+                    background-color: $Primary;
+                    border: none;
+                }
+
+                button:hover {
+                    background-color: $darkPrimary;
+                }
+            }
+        }
+    }
+}
+.searchposts {
+    .search {
+        @include flex(row);
+
+        input {
+            text-align: right;
+            font-weight: 500;
+        }
+
+        input::placeholder {
+            text-align: right;
+        }
+
+        button {
+            background-color: $Primary;
+            color: $white;
+            border: none;
+        }
+
+        button:hover {
+            background-color: $darkPrimary;
+        }
+    }
+
+    .postlist {
+        ul {
+            list-style: none;
+
+            li a {
+                width: auto;
+                @include flex();
+                margin: .5em;
+            }
+
+            .post-item {
+                box-shadow: 0 0 20px 5px rgba($color: $lightSecondary, $alpha: 0.3);
+
+                img {
+                    width: 100%;
+                    padding: 1em;
+                    border-radius: 1em;
+                }
+
+                .detail {
+                    color: $Secondary;
+                    padding: .5em;
+                    @include flex(row,space-between)
+                }
+
+                h4 {
+                    color: $dark;
+                    font-family: "Lalezar","Vazir";
+                }
+
+                p {
+                    color: $darkSecondary;
+                    text-wrap: balance;
+                    font-weight: 300;
+                }
+            }
+        }
+    }
+}
+
+.popular-tags {
+    margin-top: 1em;
+    display: flex;
+    flex-wrap: wrap;
+
+    .tag {
+        border: 2px solid $dark;
+        margin: .1em;
+        border-radius: 2em;
+        box-shadow: 0 0 10px 5px rgba($color: #a0a0a0, $alpha: 0.3);
+        padding: .5em 1em .5em 1em;
+        font-size: .8em;
+    }
+}
+.scrollBlog.scrollSection {
+    .card{
+        background-color:#fff;
+        border-radius:1em;
+        .card-header{
+            border-radius:.5em;
+            overflow:hidden;
+            height:10em;
+            background-color:transparent;
+            border:none;
+            a{
+                width:100%;
+                height:100%;
+            }
+            img{
+                width:100%;
+                height:100%;
+                height:auto;
+                object-fit:cover;
+            }
+        }
+        .card-body{
+            h5,.date{
+                color:$verydarkSecondary;
+                text-align:right;
+                font-weight:600;
+            }
+            .date{
+                font-weight:300;
+                font-size:.9em;
+            }
+            
+        }
+    }
+}
+.tags {
+    width: 100%;
+    @include flex(row, flex-end);
+    flex-wrap: wrap;
+    column-gap: .5em;
+
+    .tag {
+        padding: .5em;
+        // background-color: rgba($color: $lightPrimary, $alpha: 0.3);
+        background-color:lighten($lightPrimary,30);
+        border: 2px solid $darkPrimary;
+        color: $darkPrimary;
+        border-radius: 2em;
+        transition: all .5s;
+        font-size:.8em;
+        font-weight:normal;
+    }
+}
+.overlay-content {
+    display: flex;
+    justify-content: end;
+    flex-direction: column;
+    align-items: start;
+    height: 100%;
+    background-image: linear-gradient(transparent, #22222275 70%);
+    transition: display .5s;
+}
+@media screen and (max-width:768px) {
+    .searchposts .postlist .post-item {
+        p {
+            // display: none;
+        }
+    }
+}
+@media screen and (max-width:991px) {
+    section aside {
+        display: none;
+    }
+    section article .body{
+        img{
+            width: 100%;
+        }
+    }
+}

@@ -1,0 +1,44 @@
+﻿@using PresentationLayer.Models.ViewModels;
+@using DataAccessLayer.Models;
+@using PresentationLayer.Views.ViewComponents;
+@model CategoryListViewModel;
+
+
+@functions {
+    public string List(Category category, string modelListName)
+    {
+        <div>
+            <a class="headlist">
+                @category.Name <input type="checkbox" name="@modelListName" value="@category.Id"  /> <i class="fa-solid fa-caret-up" style="transform:rotate(180deg);"></i>
+
+            </a>
+            @if (category.ChildCategories != null && category.ChildCategories.Any())
+            {
+                <ul class="list list-group">
+                    @foreach (var item in category.ChildCategories)
+                    {
+                        <li class="listItem list-group-item">
+                            @List(item, modelListName)
+                        </li>
+                    }
+                </ul>
+            }
+        </div>
+        return " ";
+    }
+}
+
+<div class="border border-dark border-2 rounded p-2">
+    <a class="headlist nav-link">دسته بندی</a>
+    <ul class="list list-group">
+        @if (Model != null)
+        {
+            foreach (var item in Model.categories)
+            {
+                <li class="list-group-item">
+                    @List(item,Model.nameParam)
+                </li>
+            }
+        }
+    </ul>
+</div>

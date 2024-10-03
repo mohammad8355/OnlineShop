@@ -1,0 +1,26 @@
+*{
+    font-family:"Vazir";
+}
+section.complementionShop{
+    padding: 1em;
+    .responsive-table{
+        width: 100%;
+        height: 100%;
+    }
+    form{
+        background-color: $white;
+        border-radius: .5em;
+        padding: 1em;
+        margin: 0 auto;
+        @include flex();
+        input,textarea{
+            width: 100%;
+            padding-block: .5em;
+            border-radius: .5em;
+            background-color: $lightSecondary;
+            color: $dark;
+            outline: none;
+            border: none;
+        }
+    }
+}

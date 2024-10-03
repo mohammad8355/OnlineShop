@@ -1,0 +1,322 @@
+section.Product-container {
+    width: 100%;
+    min-height: 100vh;
+    @include flex();
+
+    .container-lg {
+        background-color: $white;
+        border-radius: .5em;
+
+        .product-info {
+            width: 100%;
+            @include flex(row);
+            margin-top: 1em;
+
+            .vr {
+                min-height: 80%;
+                width: 2px;
+                padding: .5em 0 .5em 0;
+                border-right: 2px solid $Secondary;
+            }
+
+            .product-images {
+                position: relative;
+                overflow: hidden;
+                @include flex();
+
+                hr {
+                    width: 90%;
+                }
+
+                .tools {
+                    position: absolute;
+                    top: .5em;
+                    right: .5em;
+                    @include flex(row);
+                    column-gap: .5em;
+
+                    a {
+                        i {
+                            font-size: 1.2em;
+                            color: $darkSecondary;
+                        }
+
+                        i.like {
+                            color: $Legendary !important;
+                        }
+                    }
+                }
+
+                .slick-prev,
+                .slick-next {
+                    position: absolute;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    z-index: 1;
+                    font-size: 24px;
+                    cursor: pointer;
+                }
+
+                .slick-next::before {
+                    color: $lightPrimary;
+                    font-size: 1.3em;
+                }
+
+                .slick-prev::before {
+                    color: $lightPrimary;
+                    font-size: 1.3em;
+                }
+
+                .slick-prev {
+                    right: 10px;
+                    left: unset;
+                }
+
+                .slick-next {
+                    left: 10px;
+                    right: unset;
+                }
+
+                img.selectedImage {
+                    width: 90%;
+                    padding: 1em;
+                    border: 1px solid transparent;
+                    border-radius: 1em;
+                }
+
+                .image-wrapper {
+                    width: 100%;
+                    @include flex(row);
+
+                    img {
+                        width: 10em;
+                        margin: .5em;
+                        border-radius: .5em;
+                    }
+                }
+            }
+
+            .content {
+                .header {
+                    padding: 1em;
+
+                    ul {
+                        width: 100%;
+                        list-style: none;
+                        color: $Secondary;
+                        font-weight: 600px;
+                    }
+                }
+
+                .keyattr {
+                    @include flex(column,center,flex-start);
+
+                    h5 {
+                        text-align: right;
+                    }
+
+                    ul {
+                        list-style: none;
+
+                        li {
+                            margin: .5em;
+
+                            span {
+                                color: $Secondary;
+                                padding-left: .5em;
+                            }
+                        }
+                    }
+                }
+
+                .description {
+                    h5 {
+                        margin: .5em;
+                        margin-bottom: 1em;
+                    }
+
+                    p {
+                        color: $Secondary;
+                        text-wrap: balance;
+                        text-align: right;
+                    }
+                }
+
+                .shop-box {
+                    height: auto;
+                    display: inline-block;
+                    position: relative;
+                    @include flex();
+
+                    .container {
+                        border: 2px dotted $lightSecondary;
+                        padding: .5em;
+                        border-radius: 1em;
+                    }
+
+                    h5 {
+                        color: $Secondary;
+                        margin: .5em;
+                    }
+
+                    .shop {
+                        @include flex(row);
+                        column-gap: .5em;
+
+                        i {
+                            // width: 2em;
+                            // height: 2em;
+                            padding: .3em;
+                            text-align: center;
+                            border-radius: .2em;
+                            color: #fff;
+                        }
+
+                        .fa-plus {
+                            background-color: $green;
+                        }
+
+                        .fa-minus {
+                            background-color: $Legendary;
+                        }
+                    }
+
+                    .inline {
+                        @include flex(row);
+
+                        .offprice {
+                            .price {
+                                color: darken($color: $green, $amount: 10);
+                                font-weight: 600;
+                                font-size: 1.3em;
+                                text-decoration: line-through;
+                                color: $Secondary;
+                            }
+
+                            .off {
+                                color: $Legendary;
+                                text-decoration: none;
+                                font-size: 1.2em;
+                            }
+                        }
+
+                        .originalPrice {
+                            .price {
+                                color: darken($color: $green, $amount: 10);
+                                font-weight: 600;
+                                font-size: 1.3em;
+                                color: darken($color: $green, $amount: 10);
+                            }
+                        }
+                    }
+
+                    button {
+                        width: 100%;
+                        background-color: $green;
+                        border: none;
+                        margin-top: 1em;
+                        transition: all .5s;
+                    }
+
+                    button:hover {
+                        background-color: darken($color: $green, $amount: 10);
+                        transition: all .5s;
+                    }
+                }
+            }
+        }
+
+        .product-detail {
+            width: 100%;
+            margin-top: 1em;
+
+            .tab {
+                @include flex(row,flex-start);
+
+                .tab-item {
+                    background-color: $Secondary;
+                    padding: .5em;
+                    border-radius: .5em;
+                    color: $dark;
+                    list-style: none;
+                    margin: .2em;
+                    cursor: pointer;
+                }
+
+                .tab-item.active {
+                    background-color: $Primary;
+                }
+            }
+
+            .tab-container {
+                @include flex();
+                display: none;
+                min-height: 15em;
+
+                table tr td:nth-child(odd) {
+                    background-color: $verylightSecondary;
+                    border-bottom: 1px solid $Secondary;
+                }
+
+                table tr:hover {
+                    background-color: $lightPrimary;
+                    color: $white;
+
+                    td {
+                        background-color: $darkPrimary;
+                    }
+                }
+            }
+
+            .tab-container.active {
+                display: block;
+            }
+        }
+
+        .related-product {
+            position: relative;
+            @include flex();
+            width: 100%;
+            height: auto;
+            overflow: hidden;
+
+            .slick-prev,
+            .slick-next {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                z-index: 1;
+                font-size: 24px;
+                cursor: pointer;
+            }
+
+            .slick-next::before {
+                color: $lightPrimary;
+                font-size: 1.3em;
+            }
+
+            .slick-prev::before {
+                color: $lightPrimary;
+                font-size: 1.3em;
+            }
+
+            .slick-prev {
+                right: 10px;
+                left: unset;
+            }
+
+            .slick-next {
+                left: 10px;
+                right: unset;
+            }
+
+            .product-wrapper {
+                width: 100%;
+                flex-wrap: nowrap;
+                .slick-track{
+                    width:100%;
+                }
+            }
+        }
+    }
+}

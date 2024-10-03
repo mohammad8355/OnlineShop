@@ -1,0 +1,16 @@
+﻿:root {
+    --primary: #014F86;
+    --primary2: #000000;
+    --primary3: #ffffff;
+    --primary4: hwb(205 0% 48% / 0.3);
+    --primary5: #2C7DA0;
+    --primary6: #014F86;
+    --primary7: white;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100vh;
+}

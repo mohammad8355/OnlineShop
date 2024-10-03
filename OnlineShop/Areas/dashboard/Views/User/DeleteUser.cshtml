@@ -1,0 +1,30 @@
+﻿@using DataAccessLayer.Models;
+@model ApplicationUser
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-12">
+                <div class="alert alert-warning">با حذف کاربران تمام اطلاعات مربوط به آن ها از جمله سفارشات ,کامنت ها و ... از بین خواهد رفت</div>
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">حذف کاربر</h3>                    </div>
+                    <form method="post" asp-action="DeleteUser" asp-controller="User">
+                        <div class="card-body">
+                            <input asp-for="@Model.Id" hidden class="hidden" />
+                            <div class="form-group">
+                                <input class="form-control" disabled asp-for="@Model.UserName" />
+                                <input class="form-control" asp-for="@Model.Email" disabled />
+                                <p>آیا از حذف این کاربر اطمینان دارید؟</p>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-outline-danger">حذف</button>
+                            <a class="btn btn-primary" asp-action="Index" asp-controller="User">لغو</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

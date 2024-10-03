@@ -1,0 +1,69 @@
+﻿@model SearchResultViewModel
+<section class="d-flex flex-row justify-content-center flex-wrap">
+    @if (Model.Products.Count > 0)
+    {
+        <div class="col-lg-4 col-12 d-flex align-items-top p-2">
+           @await Component.InvokeAsync("SearchFilter",Model.Category_Id)
+        </div>
+        <div class="col-lg-8 col-12 d-flex flex-column p-0 m-0 justify-content-start align-items-center ">
+            <div class=" col-12 d-flex flex-wrap  p-1 m-3">
+                @foreach (var product in Model.Products)
+                {
+                    <div class="col-lg-3 col-md-4 col-sm-6 col-12 bg-white border border-1 border-light p-2 d-flex flex-sm-column flex-row justify-content-center align-items-center">
+                        <div class="cover col-sm-12 col-6">
+                            <a class="nav-link" asp-action="ProductShow" asp-controller="Product" asp-route-Id="@product.Id">
+                                <img src="~/Image/Product/@(product.Name)/@(product.ProductPhotos.First().Name)" alt="@product.Name" class="col-12">
+                            </a>
+                        </div>
+                        <div class="card-body col-sm-12 col-6">
+                            <div class="product-name">
+                                <a class="nav-link" asp-action="ProductShow" asp-controller="Product" asp-route-Id="@product.Id">@product.Name</a>
+                            </div>
+                            <div class="price d-flex flex-column">
+                                @if (product.Discount > 0)
+                                {
+                                    <span class="original-price text-danger"><del>@product.Price.ToString("N0") تومان</del></span>
+
+
+                                    var finPrice = product.Price - (product.Price * ((decimal)product.Discount / 100));
+
+
+                                    <span class="off-price">@finPrice.ToString("N0") تومان</span>
+                                }
+                                else
+                                {
+                                    <span class="text-dark">@product.Price.ToString("N0") تومان</span>
+                                }
+                            </div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
+                                <a href="#" class="shopbtn"><i class="fa-solid fa-cart-shopping"></i></a>
+                                <div class="d-flex flex-row-reverse">
+                                    <i class="fa-solid fa-star text-warning"></i><span>4.5</span>
+                                    @*         <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning">
+            <p>نتیجه ای یافت نشد</p>
+        </div>
+    }
+</section>
+@section InlineScript{
+    <script>
+        $(".headlist").next().slideUp();
+        $(".headlist").click(function(){
+            $(this).next().slideToggle();
+            $(this).toggleClass("text-primary");
+        });
+    </script>
+}

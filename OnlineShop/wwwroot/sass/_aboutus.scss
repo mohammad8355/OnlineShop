@@ -1,0 +1,120 @@
+section.aboutus {
+    width: 100%;
+    min-height: 15em;
+    @include flex();
+
+    div.container {
+        position: relative;
+        height: 100%;
+        padding: .5em;
+
+        div.content {
+            position: relative;
+            padding: 1em;
+            width: 100%;
+            height: 100%;
+            border-radius: 1em;
+            background-color: $light;
+            box-shadow: 0 0 10px rgba($color: $dark, $alpha: 0.5);
+            animation: move2 5s ease-in-out infinite;
+
+            p {
+                text-align: right;
+                text-wrap: wrap;
+                line-height: 1.5em;
+                width: 80%;
+                text-justify: newspaper;
+            }
+
+            a {
+                position: absolute;
+                bottom: .5em;
+                left: .5em;
+            }
+        }
+
+        div.cover {
+            position: absolute;
+            left: -.5em;
+            top: -.5em;
+            border-radius: 1em;
+            background-color:#fff;
+            z-index: 10;
+            animation: move 5s ease-in-out infinite;
+            transition: all .5s;
+            overflow: visible;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            width:5em;
+            height:5em;
+            //logo css
+            img {
+                // width:5em;
+                height: 5em;
+                // object-fit: cover;
+            }
+            //logo css
+            // overflow: hidden;
+        }
+
+        @keyframes move {
+            0% {
+                transform: translateY(-.5em);
+            }
+
+            50% {
+                transform: translateY(.5em);
+            }
+
+            100% {
+                transform: translateY(-.5em);
+            }
+        }
+
+        @keyframes move2 {
+            0% {
+                transform: translateY(.5em);
+            }
+
+            50% {
+                transform: translateY(-.5em);
+            }
+
+            100% {
+                transform: translateY(.5em);
+            }
+        }
+    }
+}
+section#aboutus {
+    width: 100%;
+    min-height: 100vh;
+    @include flex();
+
+    .container {
+        background-color: $white;
+        border-radius: .5em;
+        box-shadow: 0 0 10px rgba($color: #000000, $alpha: 0.3);
+        padding: 1em;
+    }
+
+    .header {
+        width: 100%;
+        @include flex();
+
+        img {
+            border-radius: .5em;
+        }
+
+        h1 {
+            font-family: "Lalezar";
+        }
+    }
+
+    article {
+        p {
+            line-height: 2em;
+        }
+    }
+}

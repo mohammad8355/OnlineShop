@@ -1,0 +1,226 @@
+﻿@model BasketShopViewModel
+
+@if (Model != null)
+{
+    <section class="basketShop">
+        <div class="container-lg container-fluid d-flex flex-wrap">
+            <div class="factor-detail col-lg-8 col-12">
+                <h3 class="title">محتویات سبد خرید</h3>
+                @foreach (var orderDetail in Model.Order.orderDetails)
+                {
+                    <div class="product-box col-12">
+                        <a href="#" id="DeleteOrder" data-Id="@orderDetail.Id" data-orderId="@Model.Order.Id"><i class="fa-solid fa-trash"></i></a>
+                        <div class="product-img col-lg-2 col-md-4 col-12">
+                            @if (orderDetail.Product.ProductPhotos != null)
+                            {
+                                @if (orderDetail.Product.ProductPhotos.Count() > 0)
+                                {
+                                    <img src="~/Image/Product/@(orderDetail.Product.Name)/@(orderDetail.Product.ProductPhotos.First().Name)" alt="@(orderDetail.Product.Name)">
+                                }
+                            }
+                        </div>
+                        <div class="product-detail col-lg-10 col-md-8 col-12">
+                            <div class="row">
+                                <h3>@orderDetail.Product.Name</h3>
+                                <h4>Ckfjow08853-skf-990</h4>
+                            </div>
+                            <div class="row">
+                                <div class="count col-md-6 col-12">
+                                    <span>تعداد:</span><a data-Id="@orderDetail.Id" class="plusbtn"><i class="fa-solid fa-plus"></i></a>
+                                    <span class="countProduct">@orderDetail.count</span><a data-Id="@orderDetail.Id" class="minusbtn"><i class="fa-solid fa-minus"></i></a>
+                                </div>
+                                <div class="price col-md-6 col-12">
+                                    <h4 class="priceUnit">قیمت واحد:<span>@orderDetail.Product.Price.ToString("N0") تومان</span></h4>
+                                    <h4 class="totalPrice">قیمت کل:<span><span class="totalOrderPrice">@orderDetail.TotalPrice.ToString("N0")</span> تومان</span></h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                <div class="factor col-lg-4 col-12">
+                    <h3 class="title">خلاصه فاکتور</h3>
+                    <div class="box">
+                        <h4>مجموع تعداد محصول:<span class="totalCount">@Model.Order.TotalCount</span></h4>
+                        <h4>مجموع سبد خرید:<span><span id="TotalPrice">@Model.Order.TotalPrice.ToString("N0")</span> تومان</span></h4>
+                        <h4>مجموع تخفیف :<span>@Model.Order.DiscountValue %</span></h4>
+                        <hr>
+                        <h4>
+                            قیمت کل :<span>
+                                <span id="finalyprice">
+                                    @{
+                                        var Totalprice = Model.Order.TotalPrice;
+                                        var discountAmount = Totalprice * (Model.Order.DiscountValue / 100);
+                                        Totalprice -= discountAmount;
+                                    }
+                                    @Totalprice.ToString("N0")
+                                </span> تومان
+                            </span>
+                        </h4>
+
+                        <div class="input-group" id="discountBox" dir="ltr">
+                            <input id="discountCode" type="text" class="form-control" placeholder="کد تخفیف">
+                            <button type="button" class="btn btn-primary" id="discountBtn">اعمال</button>
+                        </div>
+                    </div>
+                    <a asp-action="OrderFinally" asp-controller="Shop" class="btn btn-block col-12">ادامه فرایند خرید</a>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+
+
+
+
+}
+else
+{
+    <div class="container-lg container-fluid">
+        <div class="alert alert-warning m-2" role="alert">
+            <p>سبد خرید شما خالی است !</p>
+        </div>
+    </div>
+}
+@section ScriptRefrence{
+    <script src="~/js/function.js"></script>
+}
+@section InlineScript{
+    <script>
+        $("#DeleteOrder").click(function () {
+            $.ajax({
+                url: '@Url.Action("DeleteOrderDetail","Shop")',
+                type: 'GET',
+                async: false,
+                data: { Id: $(this).attr("data-Id"), orderId: $(this).attr("data-orderId") },
+                success: function (data) {
+                    Swal.fire({
+                        title: data.header,
+                        icon: data.type,
+                        text: data.message,
+                    }).then((result) => {
+                        location.reload();
+                    });
+                },
+                error: function () {
+                    Swal.fire({
+                        title: "خطاای رخ داده است",
+                        icon: "error",
+                        text: "دوباره تلاش کنید",
+                    });
+                }
+            })
+        })
+        $(".plusbtn").click(function () {
+            $.ajax({
+                url: '@Url.Action("AddCountOrderDetails","Shop")',
+                type: 'GET',
+                async: false,
+                data: { Id: $(this).attr("data-Id") },
+                success: function (data) {
+                    if (data.res) {
+                        //change count of order in the view
+                        intCounter(".countProduct", 1, false);
+                        //change count of order in the view
+                        //change Total count in the view
+                        intCounter(".totalCount", 1, false);
+                        //change Total count in the view
+                        intCounter(".totalOrderPrice", data.price, false);
+
+                        intCounter("#TotalPrice", data.price, false);
+                        intCounter("#finalyprice", data.price, false);
+                    }
+                },
+                error: function () {
+                    Swal.fire({
+                        title: "خطاای رخ داده است",
+                        icon: "error",
+                        text: "دوباره تلاش کنید",
+                    });
+                }
+            })
+        })
+        $(".minusbtn").click(function () {
+            if (parseInt(document.querySelector(".countProduct").innerHTML) > 1) {
+                $.ajax({
+                    url: '@Url.Action("MinusCountOrderDetails","Shop")',
+                    type: 'GET',
+                    async: false,
+                    data: { Id: $(this).attr("data-Id") },
+                    success: function (data) {
+                        if (data.res) {
+                            //change count of order in the view
+                            intCounter(".countProduct", 1, true);
+                            //change count of order in the view
+                            //change Total count in the view
+                            intCounter(".totalCount", 1, true);
+                            //change Total count in the view
+                            intCounter(".totalOrderPrice", data.price, true);
+                            intCounter("#TotalPrice", data.price, true);
+                            intCounter("#finalyprice", data.price, true);
+                        }
+                        else {
+                            Swal.fire({
+                                title: "هشدار",
+                                icon: "warning",
+                                text: "کالای مورد نظر در انبار موجود نیست",
+                            });
+                        }
+                    },
+                    error: function () {
+                        Swal.fire({
+                            title: "خطاای رخ داده است",
+                            icon: "error",
+                            text: "دوباره تلاش کنید",
+                        });
+                    }
+                })
+            }
+            else {
+                Swal.fire({
+                    icon: "warning",
+                    title: "هشدار",
+                    text: "حداقل تعداد مجاز سفارش",
+                });
+            }
+        })
+    </script>
+    @if (Model != null)
+    {
+        @if (Model.Order != null)
+        {
+            <script>
+                $("#discountBtn").click(function () {
+                    $.ajax({
+                        url: '@Url.Action("DiscountCheck","Discount")',
+                        type: 'GET',
+                        data: { code: $("#discountCode").val(), orderId: @Model.Order.Id },
+                        async: false,
+                        success: function (data) {
+                            if (data.result) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: data.text,
+                                }).then((result) => {
+                                    location.reload();
+                                });
+                            }
+                            else {
+                                Swal.fire({
+                                    icon: "warning",
+                                    title: "هشدار خطا",
+                                    text: data.text,
+                                }).then((result) => {
+                                    location.reload();
+                                });
+                            }
+                        },
+                        error: function (ts) {
+                            alert(ts.responseText);
+                        }
+                    })
+                })
+            </script>
+        }
+    }
+}

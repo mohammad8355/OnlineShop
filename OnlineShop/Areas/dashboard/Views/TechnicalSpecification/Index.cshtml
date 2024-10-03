@@ -1,0 +1,150 @@
+﻿@using DataAccessLayer.Models
+@model List<AdjKey>
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">مشخصات فنی</h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <table id="example1" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>مشخصه</th>
+                    <th>توع مقدار</th>
+                    <th>مقادیر</th>
+                    <th>زیردسته بندی-ها</th>
+                    <th>
+                        کنترل
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var adj in Model)
+                {
+                    <tr>
+                        <th>@adj.Name</th>
+                        <th>@adj.Description </th>
+                        <th>
+                            @if (adj.adjValues != null)
+                            {
+                                <ul>
+                                    @foreach (var value in adj.adjValues)
+                                    {
+                                        <li>@value.Value</li>
+                                    }
+
+                                </ul>
+                            }
+                            else
+                            {
+                                <p>ندارد</p>
+                            }
+                        </th>
+                        <th>
+                            @if (adj.keyToSubCategories != null)
+                            {
+                                <ul>
+                                    @foreach (var ks in adj.keyToSubCategories)
+                                    {
+                                        <li>@ks.subCategory.Name</li>
+                                    }
+
+                                </ul>
+                            }
+                            else
+                            {
+                                <p>ندارد</p>
+                            }
+                        </th>
+                        <th>
+                            <div class="btn-group">
+                                <a type="button" class="btn btn-info" asp-action="EditTechnicalSpecification" asp-route-Id="@adj.Id" asp-controller="TechnicalSpecification"><i class="fa-solid fa-pen"></i></a>
+                                <button type="button" class="btn btn-danger" value="@adj.Id"><i class="fa-solid fa-trash-can"></i></button>
+                            </div>
+                        </th>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>مشخصه</th>
+                    <th>نوع مقدار</th>
+                    <th>مقادیر</th>
+                    <th>زیردسته بندی-ها</th>
+                    <th>کنترل</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <!-- /.card-body -->
+</div>
+@section CssRefrence {
+    <!-- DataTables -->
+    <link rel="stylesheet" href="AdminLTE/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="AdminLTE/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="AdminLTE/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+    }
+@section RefrenceScripts {
+    <script src="AdminLTE/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="AdminLTE/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="AdminLTE/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="AdminLTE/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="AdminLTE/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="AdminLTE/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="AdminLTE/plugins/jszip/jszip.min.js"></script>
+    <script src="AdminLTE/plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="AdminLTE/plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="AdminLTE/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="AdminLTE/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="AdminLTE/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+    }
+@section InlineScripts {
+    <script>
+        $(function () {
+            $("#example1").DataTable({
+                "responsive": true, "lengthChange": false, "autoWidth": false,
+                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+            $('#example2').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+        var btnDelete = document.querySelectorAll(".btn-danger");
+        btnDelete.forEach((item) => {
+            item.addEventListener("click", function () {
+                if (window.confirm("آیا از حذف این مشخصه اطمینان دارید ؟")) {
+                    $.ajax(
+                        {
+                            url: '@Url.Action("DeleteAdjKey","TechnicalSpecification")',
+                            async: true,
+                            data: { Id: $(item).attr('value') },
+                            type: 'Get',
+                            success: function (result) {
+                                console.log(result);
+                                if (result.resualt) {
+                                    alert("  مشخصه  حذف " + result.name + " با موفقیت انجام شد  ");
+                                    location.reload();
+                                }
+
+                                else {
+                                    alert(" مشخصه  حذف " + result.name + " با شکست مواجه شد  ");
+                                }
+                            },
+                            error: function () {
+                                alert("delete fail");
+                            }
+
+                        }
+                    );
+                }
+            })
+        });
+
+    </script>
+    }

@@ -1,0 +1,169 @@
+﻿@model ProductListViewModel
+
+<section class="content">
+      <div class="container-fluid">
+        <div class="row">
+         <div class="col-lg-3 col-6">
+            <!-- small card -->
+            <div class="small-box bg-info">
+              <div class="inner">
+                <h3>@Model.products.Count()</h3>
+
+                <p>تعداد محصولات</p>
+              </div>
+              <div class="icon">
+                <i class="fas fa-shopping-cart"></i>
+              </div>
+              <a href="#" class="small-box-footer">
+                More info <i class="fas fa-arrow-circle-right"></i>
+              </a>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small card -->
+            <div class="small-box bg-success">
+              <div class="inner">
+                <h3>53<sup style="font-size: 20px">%</sup></h3>
+
+                <p>حجم فروش</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-stats-bars"></i>
+              </div>
+              <a href="#" class="small-box-footer">
+                More info <i class="fas fa-arrow-circle-right"></i>
+              </a>
+            </div>
+          <!-- ./col -->
+            @*          <div class="col-lg-3 col-6">
+            <!-- small card -->
+            <div class="small-box bg-warning">
+              <div class="inner">
+                <h3>44</h3>
+
+                <p></p>
+              </div>
+              <div class="icon">
+                <i class="fas fa-user-plus"></i>
+              </div>
+              <a href="#" class="small-box-footer">
+                More info <i class="fas fa-arrow-circle-right"></i>
+              </a>
+            </div>
+          </div>*@
+          <!-- ./col -->
+            @*          <div class="col-lg-3 col-6">
+            <!-- small card -->
+            <div class="small-box bg-danger">
+              <div class="inner">
+                <h3>65</h3>
+
+                <p>Unique Visitors</p>
+              </div>
+              <div class="icon">
+                <i class="fas fa-chart-pie"></i>
+              </div>
+              <a href="#" class="small-box-footer">
+                More info <i class="fas fa-arrow-circle-right"></i>
+              </a>
+            </div>
+          </div>*@
+        </div>
+          <div class="col-12">
+            <!-- /.card -->
+
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">لیست کل محصولات</h3>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <table id="example1" class="table table-bordered table-striped">
+                  <thead>
+                  <tr>
+                    <th>نام </th>
+                    <th>قیمت </th>
+                    <th>تعداد </th>
+                    <th>عکس</th>
+                    <th>مشاهده</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                                @foreach(var product in @Model.products)
+                                {
+                                    <tr>
+                                        <th>@product.Name</th>
+                                        <th>@product.Price </th>
+                                        <th>@product.QuantityInStock </th>
+                                        <th>
+                                            @if(product.ProductPhotos.Any())
+                                            {
+                                                <img title="@product.Name" width="200px" src="~/Image/Product/@product.Name/@product.ProductPhotos.First().Name" />
+                                            }
+                                        
+</th> 
+                                        <th><a asp-action="ProductDetails" asp-controller="Product" asp-area="dashboard" asp-route-Id="@product.Id">مشاهده</a></th>
+                                    </tr>
+                                }
+                            </tbody>
+                  <tfoot>
+                  <tr>
+                                    <th>نام </th>
+                                    <th>قیمت </th>
+                                    <th>تعداد </th>
+                                    <th>عکس</th>
+                                    <th>مشاهده</th>
+                  </tr>
+                  </tfoot>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </section>
+@section CssRefrence {
+        <!-- DataTables -->
+        <link rel="stylesheet" href="AdminLTE/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+        <link rel="stylesheet" href="AdminLTE/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+        <link rel="stylesheet" href="AdminLTE/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+    }
+@section RefrenceScripts {
+        <script src="AdminLTE/plugins/datatables/jquery.dataTables.min.js"></script>
+        <script src="AdminLTE/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+        <script src="AdminLTE/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+        <script src="AdminLTE/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+        <script src="AdminLTE/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+        <script src="AdminLTE/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+        <script src="AdminLTE/plugins/jszip/jszip.min.js"></script>
+        <script src="AdminLTE/plugins/pdfmake/pdfmake.min.js"></script>
+        <script src="AdminLTE/plugins/pdfmake/vfs_fonts.js"></script>
+        <script src="AdminLTE/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+        <script src="AdminLTE/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+        <script src="AdminLTE/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+    }
+@section InlineScripts {
+        <script>
+            $(function () {
+                $("#example1").DataTable({
+                    "responsive": true, "lengthChange": false, "autoWidth": false,
+                    "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+                }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+                $('#example2').DataTable({
+                    "paging": true,
+                    "lengthChange": false,
+                    "searching": false,
+                    "ordering": true,
+                    "info": true,
+                    "autoWidth": false,
+                    "responsive": true,
+                });
+            });
+        </script>
+    }

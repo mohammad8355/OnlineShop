@@ -1,0 +1,35 @@
+﻿@using DataAccessLayer.Models;
+@model Tag
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="card card-primary col-sm-10">
+                <div class="card-header">
+                    <h3>ویرایش تگ</h3>
+                </div>
+                <div class="card-body">
+                    <form asp-action="EditTag" asp-controller="Tag" asp-area="dashboard">
+                          <div class="form-group">
+                              <input asp-for="TagName" placeholder="نام تگ را وارد کنید" class="form-control" />
+                        </div>
+                        <button type="submit" class="btn btn-success">ویرایش</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@section RefrenceScripts{
+    <script src="AdminLTE/plugins/select2/js/select2.full.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+}
+@section InlineScripts{
+    <script>
+        $(document).ready(function () {
+            $("#tags").select2({
+                tags: true,
+            });
+        })
+    </script>
+}

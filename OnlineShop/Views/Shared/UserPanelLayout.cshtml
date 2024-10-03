@@ -1,0 +1,113 @@
+﻿<!DOCTYPE html>
+
+<html dir="rtl">
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+          integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="~/lib/bootstrap/bootstrap-5.2.3-dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/main.css">
+    <link rel="stylesheet" href="~/css/userPanel.css">
+@*    <link href="https://v1.fontapi.ir/css/Vazir" rel="stylesheet">*@
+    @RenderSection("InlineCss",false)
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    <section>
+        <div class="toggle col-12"><i class="fa-solid fa-bars"></i></div>
+        <nav class="col-lg-2 col-md-4 col-8">
+            <i class="fa-solid fa-x"></i>
+            @await Component.InvokeAsync("UserProfile")
+            <ul>
+                <li><a asp-area="" asp-action="Index" asp-controller="Home">خانه</a></li>
+                <li class="@((ViewData["ActiveLink"].ToString() == "console") ? "active" : "")"><a asp-action="Index" asp-controller="UserPanel" asp-area="">پیشخوان</a></li>
+                <li class="@((ViewData["ActiveLink"].ToString() == "ManageAccount") ? "active" : "")"><a asp-area="Identity" asp-page="/Account/Manage/Index">حساب</a></li>
+                <li class="@((ViewData["ActiveLink"].ToString() == "order") ? "active" : "")"><a asp-area="" asp-action="Orders" asp-controller="UserPanel" >سفارشات</a></li>
+                <li class="@((ViewData["ActiveLink"].ToString() == "wallet") ? "active" : "")"><a href="#">کیف پول</a></li>
+                <li class="@((ViewData["ActiveLink"].ToString() == "notification") ? "active" : "")"><a asp-area="" asp-action="notification" asp-controller="UserPanel">اعلانات</a></li>
+                <li class="@((ViewData["ActiveLink"].ToString() == "ticketDetail") ? "active" : "")"><a asp-area="" asp-action="Index" asp-controller="Ticket">پشتیبانی</a></li>
+                @if(User.IsInRole("Admin") || User.IsInRole("admin"))
+                {
+                    <li><a id="manage" asp-area="dashboard" asp-action="Index" asp-controller="Dashboard" title="Manage">پنل مدیریت</a></li>
+                }
+            </ul>
+        </nav>
+        <div class="content container-lg container-fluid col-lg-10 col-md-8 col-12">
+            @RenderBody()
+        </div>
+        <!-- Button trigger modal -->
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">تغییر عکس پروفایل</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form enctype="multipart/form-data" id="ChangeProfile"  method="post" onsubmit="uploadFile(event)">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <input type="file" id="file" />
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
+                            <button type="submit" class="btn btn-primary">انتخاب</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="~/js/jquery-3.7.1.min.js"></script>
+  @*  <script src="https://cdn.jsdelivr.net/npm/@@popperjs/core@@2.11.6/dist/umd/popper.min.js"
+            integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+            crossorigin="anonymous"></script>*@
+    <script src="~/lib/bootstrap/bootstrap-5.2.3-dist/js/bootstrap.min.js"></script>
+        <script src="~/lib/bootstrap/bootstrap-5.2.3-dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/function.js" ></script>
+
+    @RenderSection("ScriptRefrence",false)
+    <script>
+        function toggleMenu() {
+            $("nav").animate({ width: 'toggle' });
+        };
+        $(".toggle").click(function () {
+            $("body").addClass("active");
+            $("nav").addClass("open");
+            toggleMenu();
+        })
+        $("nav i").click(function () {
+            toggleMenu();
+            $("body").removeClass("active");
+            // $("nav").removeClass("open");
+        })
+        function uploadFile(event) {
+            event.preventDefault();
+            var formData = new FormData();
+            var fileInput = document.querySelector("#file").files[0];
+            console.log(fileInput);
+            formData.append('file',fileInput);
+
+            $.ajax({
+                url: '@Url.Action("changeProfileImage","UserPanel")',
+                type: 'POST',
+                data: formData,
+                async: false,
+                success: function (data) {
+                    alert(data.message)
+                },
+                error:function(){
+                    alert("fail");
+                },
+                cache: false,
+                contentType: false,
+                processData: false
+            });
+        };
+    </script>
+    @RenderSection("InlineScript",false)
+    @RenderSection("Scripts",false)
+</body>
+</html>

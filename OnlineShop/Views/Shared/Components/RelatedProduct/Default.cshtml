@@ -1,0 +1,86 @@
+﻿@using PresentationLayer.Views.ViewComponents;
+@model RelatedProductViewModel;
+
+<div class="related-product Product-container d-flex flex-column mt-2" dir="ltr">
+    <h3 class="text-end mt-2">محصولات مشابه</h3>
+    <div class="product-wrapper flex-nowrap" width="100%">
+        @foreach(var product in Model.relatedProduct)
+        {
+            <div class="product-card" style="min-width: 15rem;">
+                <div class="cover">
+                    @if(product.ProductPhotos != null)
+                    {
+                            <a class="nav-link" asp-action="ProductShow" asp-controller="Product" asp-route-Id="@product.Id">
+                        <img src="~/Image/Product/@(product.Name)/@(product.ProductPhotos.Last().Name)" alt="@product.Name" width="200px">
+                  </a>
+                    }
+                </div>
+                <div class="card-body">
+                    <div class="product-name">
+                        <a class="nav-link" asp-action="ProductShow" asp-controller="Product" asp-route-Id="@product.Id">@product.Name</a>
+                    </div>
+                    <div class="price">
+                        @if (product.Discount > 0)
+                        {
+                            <span class="original-price text-danger"><del>@product.Price.ToString("N0") تومان</del></span>
+
+
+                            var finPrice = product.Price - (product.Price * ((decimal)product.Discount / 100));
+
+
+                            <span class="off-price">@finPrice.ToString("N0") تومان</span>
+                        }
+                        else
+                        {
+                            <span class="text-dark">@product.Price.ToString("N0") تومان</span>
+                        }
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="shopbtn"><i class="fa-solid fa-cart-shopping"></i></a>
+                        <div class="rate">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+@section InlineScript{
+    <script>
+        //related product
+        $(document).ready(function () {
+            $(".product-wrapper").slick({
+                slidesToShow: 5,
+                slidesToScroll: 1,
+                autoplay: true,
+                autoplaySpeed: 2000,
+                responsive: [
+                    {
+                        breakpoint: 992,
+                        settings: {
+                            slidesToShow: 4
+                        }
+                    },
+                    {
+                        breakpoint: 767,
+                        settings: {
+                            slidesToShow: 3
+                        }
+                    },
+                    {
+                        breakpoint: 500,
+                        settings: {
+                            slidesToShow: 2
+                        }
+                    },
+                ]
+            })
+        })
+                    //start shop product
+    </script>
+}

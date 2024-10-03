@@ -1,0 +1,119 @@
+﻿@using DataAccessLayer.Models;
+@model List<General>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="card col-12">
+                <div class="card-header">
+                    <h3 class="card-title">اسلاید ها</h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <table id="example1" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>عنوان</th>
+                                <th>عکس</th>
+                                <th>کنترل</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var slide in Model)
+                            {
+                                <tr>
+                                    <td>@slide.Name</td>
+                                    <td><img src="~/Image/slider/@(slide.ImageName)" width="200px" alt="@slide.Name" /></td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <a asp-action="EditSlide" asp-controller="General" asp-route-Id="@slide.Id" class="btn btn-info"><i class="fa-solid fa-pen"></i></a>
+                                            <a class="btn btn-danger delete" data-Id="@slide.Id"><i class="fa-solid fa-trash-can"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>عنوان</th>
+                                <th>عکس</th>
+                                <th>کنترل</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <!-- /.card-body -->
+            </div>
+        </div>
+    </div>
+</section>
+@section CssRefrence {
+    <!-- DataTables -->
+    <link rel="stylesheet" href="AdminLTE/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="AdminLTE/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="AdminLTE/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+    }
+@section RefrenceScripts {
+    <script src="AdminLTE/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="AdminLTE/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="AdminLTE/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="AdminLTE/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="AdminLTE/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="AdminLTE/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="AdminLTE/plugins/jszip/jszip.min.js"></script>
+    <script src="AdminLTE/plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="AdminLTE/plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="AdminLTE/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="AdminLTE/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="AdminLTE/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+    }
+@section InlineScripts {
+    <script>
+        $(function () {
+            $("#example1").DataTable({
+                "responsive": true, "lengthChange": true, "autoWidth": false,
+                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+            $('#example2').DataTable({
+                "paging": true,
+                "lengthChange": true,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+        var btnDelete = document.querySelectorAll(".delete");
+        btnDelete.forEach((item) => {
+            item.addEventListener("click", function () {
+                console.log("click");
+                if (confirm("آیا از حذف این مورد اطمینان دارید ؟")) {
+                    $.ajax({
+                        url: '@Url.Action("DeleteSlide","General")',
+                        type: 'GET',
+                        async: true,
+                        data: { Id: $(item).attr("data-Id") },
+                        success: function (data) {
+                            if (data.result) {
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "موفقیت ",
+                                    text: data.message,
+                                });
+                                location.reload();
+                            }
+                            else {
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "خطا",
+                                    text: data.message,
+                                });
+                            }
+                        }
+                    })
+                }
+            })
+        });
+
+    </script>
+    }

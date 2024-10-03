@@ -1,0 +1,119 @@
+﻿@using DataAccessLayer.Models;
+@model List<Tag>
+<div class="container">
+    <div class="row">
+        <div class="card col-12">
+            <div class="card-header">
+                <h3 class="card-title">تگ ها </h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>
+                                کنترل
+                            </th>
+                            <th>تگ </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var tag in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="btn-group">
+                                        <a type="button" asp-action="EditTag" asp-controller="Tag" asp-route-Id="@tag.Id" class="btn btn-info"><i class="fa-solid fa-pen"></i></a>
+                                        <button type="button" data-delete="@tag.Id" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
+                                    </div>
+                                </td>
+                                <td>
+                                    @tag.TagName
+                                </td>
+                            </tr>
+                        };
+
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>
+                                کنترل
+                            </th>
+                            <th>تگ </th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+
+    </div>
+</div>
+
+@section CssRefrence {
+    <!-- DataTables -->
+    <link rel="stylesheet" href="AdminLTE/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="AdminLTE/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="AdminLTE/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+    }
+@section RefrenceScripts {
+    <script src="AdminLTE/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="AdminLTE/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="AdminLTE/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="AdminLTE/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="AdminLTE/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="AdminLTE/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="AdminLTE/plugins/jszip/jszip.min.js"></script>
+    <script src="AdminLTE/plugins/pdfmake/pdfmake.min.js"></script>
+    <script src="AdminLTE/plugins/pdfmake/vfs_fonts.js"></script>
+    <script src="AdminLTE/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="AdminLTE/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="AdminLTE/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+    }
+@section InlineScripts {
+    <script>
+        $(function () {
+            $("#example1").DataTable({
+                "responsive": true, "lengthChange": true, "autoWidth": false,
+                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+            $('#example2').DataTable({
+                "paging": true,
+                "lengthChange": true,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+        var btnDelete = document.querySelectorAll(".btn-danger");
+        btnDelete.forEach((item) => {
+            item.addEventListener("click", function () {
+                console.log("ok");
+                if (window.confirm("آیا از حذف این تگ اطمینان دارید ؟")) {
+                    console.log($(this).attr("data-delete"));
+                    $.ajax({
+                        url: '@Url.Action("DeleteTag","Tag")',
+                        type: 'GET',
+                        data: { Id: $(this).attr("data-delete") },
+                        async: true,
+                        success: function (data) {
+                            if (data.result) {
+                                alert("  با موفقیت انجام شد  " + data.name + " حذف  ");
+                                location.reload();
+                            }
+                            else {
+                                alert("با شکست انجام شد" + data.name + "حذف ");
+                            }
+                        },
+                        error: function () {
+                            alert("خطا در شبکه!");
+                        },
+                    });
+                }
+            })
+        });
+
+    </script>
+    }

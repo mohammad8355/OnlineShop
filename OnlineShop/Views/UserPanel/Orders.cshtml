@@ -1,0 +1,164 @@
+﻿@{
+    Layout = "userPanelLayout";
+    ViewData["ActiveLink"] = "order";
+}
+<section class="order">
+    <div class="row col-12">
+        <form method="post" class="form-control d-flex flex-row-reverse flex-wrap">
+            <div class="form-group">
+                <label>وضعیت</label>
+                <select id="status" class="form-control">
+                    <option value="all">همه</option>
+                    <option value="incomplete">نهایی نشده</option>
+                    <option value="complete">نهایی شده</option>
+                    <option value="inprogress">در حال آماده سازی</option>
+                    <option value="sended">ارسال شده</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>از تاریخ</label>
+                <input id="fromDate" type="datetime-local" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label>تا تاریخ</label>
+                <input id="toDate" type="datetime-local" class="form-control" />
+            </div>
+            <div class="form-group flex-fill">
+                <label>جستجو</label>
+                <input id="search" type="text" class="form-control" placeholder="عنوان یا کد کالا را جستجو کنید" />
+            </div>
+            <div class="form-group flex-fill">
+                <button type="button" id="filterBtn" class="btn btn-primary col-12">فیلتر</button>
+            </div>
+        </form>
+    </div>
+    <div class="table-responsive bg-white p-2 border-1 border border-secondary rounded-2 col-12">
+        <table class="table mt-5 mb-5 px-3 table-striped table-hover table-light">
+            <thead>
+                <tr>
+                    <th>نام کاربر</th>
+                    <th>نام کالا</th>
+                    <th>قیمت واحد</th>
+                    <th>قیمت کل</th>
+                    <th>تعداد</th>
+                    <th>کد کالا</th>
+                    <th>کد رهگیری</th>
+                    <th>وضعیت سفارش</th>
+                    <th>تاریخ</th>
+                    <th>چاپ</th>
+                </tr>
+            </thead>
+            <div id="spinner" class="container d-flex justify-content-center align-items-center d-none">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+            <tbody id="tbody">
+            </tbody>
+        </table>
+    </div>
+    <!--Modal-->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+         tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">فاکتور خرید</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="card-body" id="factor">
+                        <table class="table" id="rowfile">
+                            <tr>
+                                <th>نام کالا</th>
+                                <td>مانیتور 2024</td>
+                            </tr>
+                            <tr>
+                                <th>کد کالا</th>
+                                <td>MQ234-Manitor-4b</td>
+                            </tr>
+                            <tr>
+                                <th>مبلغ</th>
+                                <td>12000000</td>
+                            </tr>
+                            <tr>
+                                <th>شماره فاکتور</th>
+                                <td>123456</td>
+                            </tr>
+                            <tr>
+                                <th>کد پیگیری</th>
+                                <td>5328576339</td>
+                            </tr>
+                            <tr>
+                                <th>تاریخ</th>
+                                <td>1403/01/05</td>
+                            </tr>
+                            <tr>
+                                <th>نام کاربر</th>
+                                <td>َعلیرضا طاهری</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
+                    <button type="button" onclick="HtmlTopdf('rowfile','orderDetailFactor')" class="btn btn-primary">چاپ</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Modal-->
+</section>
+@section ScriptRefrence{
+    <script src="~/js/html2canvas.js"></script>
+    <script src="~/js/function.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha512-qZvrmS2ekKPF2mSznTQsxqPgnpkI4DNTlrdUmTzrDgektczlKNRRhy5X5AAOnx5S09ydFYWWNSfcEqDTTHgtNA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+}
+@section InlineScript{
+    <script>
+        window.jsPDF = window.jspdf.jsPDF;
+        $(document).ready(function(){
+            $("#tbody").click(function(event){
+                if(event.target && event.target.classList.contains('view')){
+                    $.ajax({
+                        url: '@Url.Action("OrderDetail","Shop")',
+                        type: 'GET',
+                        data: { Id: $(event.target).attr("data-order-Id") },
+                        success: function (data) {
+                            var table = document.querySelector("#factor").querySelector(".table");
+                            $(table).html("");
+                            data.products.forEach(function (item) {
+                                $(table).append('<tr><th>نام کالا</th><td>' + item.name + '</td></tr>');
+                                $(table).append('<tr><th>کد کالا</th><td>' + item.productCode + '</td></tr>');
+                            });
+                            $(table).append('<tr><th>قیمت</th><td>' + data.price + '</td></tr>');
+                            $(table).append('<tr><th>شماره فاکتور</th><td>' + data.factorNumber + '</td></tr>');
+                            $(table).append('<tr><th>کد پیگیری</th><td>' + data.trackingCode + '</td></tr>');
+                            $(table).append('<tr><th>تاریخ</th><td>' + data.date + '</td></tr>');
+                            $(table).append('<tr><th>نام مشتری</th><td>' + data.customerName + '</td></tr>');
+                            $("#staticBackdrop").modal('show');
+                        }
+                    });
+                }
+            })
+        });
+      
+        $("#filterBtn").click(function(){
+            console.log("click filter");
+            $("#spinner").removeClass("d-none");
+            var Url = '@Url.Action("OrderFilter","UserPanel")';
+            var model = { FromDate: $("#fromDate").val(), ToDate: $("#toDate").val(), Search: $("#search").val(), Status: $("#status").val() };
+            $.ajax({
+                url:Url,
+                data:model,
+                type:'GET',
+                success: function (res) {
+                    $("#spinner").addClass("d-none");
+                    $("#tbody").html(res);
+                }
+            });
+        })
+    </script>
+}

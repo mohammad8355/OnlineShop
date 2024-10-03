@@ -1,0 +1,23 @@
+﻿@{
+    //if (ViewData.TryGetValue("ParentLayout", out var parentLayout) && parentLayout != null)
+    //{
+    //    Layout = parentLayout.ToString();
+    //}
+    //else
+    //{
+    Layout = "/Views/Shared/UserPanelLayout.cshtml";
+    ViewData["ActiveLink"] = "ManageAccount";
+    //}
+}
+
+<div class="container-lg container-fluid p-3">
+    <partial name="_ManageNav" />
+    <div class="row">
+        @RenderBody()
+    </div>
+</div>
+>
+
+@{
+    @RenderSection("Scripts")
+}

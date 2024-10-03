@@ -1,0 +1,241 @@
+﻿<!DOCTYPE html>
+
+<html dir="rtl">
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+          integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="~/lib/bootstrap/bootstrap-5.2.3-dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/lib/bootstrap/bootstrap-5.2.3-dist/css/bootstrap-grid.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="~/css/menu.css" />
+          <link rel="stylesheet" href="~/css/main.css" />
+    <link rel="stylesheet" href="~/css/megaMenu.css" />
+    @RenderSection("InLineCss",false)
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    <header>
+        <div class=" container d-flex flex-wrap">
+            <div class="logo col-lg-2 col-md-3 col-12">
+                <img src="~/image/static/Logo.jpg" title="OnlionShop">
+                <h4 >OnlineShop</h4>
+            </div>
+            <div class="search-box col-12 col-md-6 col-lg-8">
+              @await Component.InvokeAsync("Search")
+            </div>
+            <div class="left-side col-lg-2 col-md-3 col-6 d-flex justify-content-center align-items-center">
+                <div class="login-part">
+                    <partial name="Partials/_LoginPartial.cshtml" />
+                </div>
+                <div class="shop">
+                    <a asp-action="Index" asp-controller="Shop"><i class="fa-solid fa-bag-shopping"></i></a>
+                </div>
+            </div>
+        </div>
+        <nav class="nav navbar col-12">
+            <ul class="col-12">
+                <li class="special"><a asp-action="Index" asp-controller="Home">خانه</a></li>
+                <li class="special" id="category">
+                    <a href="#">دسته&zwnj;بندی&zwnj;</a>
+                </li>
+                <li class="special"><a asp-action="Index" asp-controller="Ticket" >پشتیبانی</a></li>
+                <li><span><i class="fa-solid fa-newspaper"></i></span><a asp-action="Index" asp-controller="BLog">مجله</a></li>
+                <li class="dropdown">
+                    <a href="#">سایر<span>...</span></a>
+                    <ul class="dropdownList">
+                        <li><a asp-action="Contactus" asp-controller="Home">تماس&zwnj;باما&zwnj;</a></li>
+                        <li><a asp-action="Aboutus" asp-controller="Home">درباره&zwnj;ما&zwnj;</a></li>
+                        <li><a asp-action="CommonQuestion" asp-controller="Home"> سوالات &zwj;متداول&zwnj;</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+        </nav>
+        @await Component.InvokeAsync("CategoryMegaMenu")
+    </header>
+    <div>
+        @RenderBody()
+    </div>
+    <div class="footer-menu">
+        <ul>
+            <li><span><i class="fa-solid fa-house"></i></span><a asp-action="Index" asp-controller="Home">خانه</a></li>
+            <li id="Category"><span><i class="fa-solid fa-layer-group"></i></span><a href="#">دسته&zwnj;بندی&zwnj;</a></li>
+            <li><span><i class="fa-solid fa-bag-shopping"></i></span><a asp-action="Index" asp-controller="Shop" >سبد خرید</a></li>
+            <li><span><i class="fa-solid fa-headset"></i></span><a asp-area="" asp-action="Index" asp-controller="Ticket">پشتیبانی</a></li>
+            <li><span><i class="fa-solid fa-user"></i></span><a asp-action="Index" asp-controller="UserPanel">اکانت</a></li>
+        </ul>
+    </div>
+    <footer class="col-12">
+        <div class="container-lg container-fluid d-flex flex-row-reverse flex-wrap">
+            <div class="item-container col-12 d-flex flex-wrap flex-row-reverse justify-content-evenly">
+                <div class="item col-3">
+                    <img src="~/Image/icons/icons8-verified-badge-96.png" alt="">
+                    <span>ضمانت اصل بودن کالا</span>
+                </div>
+                <div class="item col-3">
+                    <img src="~/Image/icons/icons8-fast-delivery-64.png" alt="">
+                    <span>ارسال سریع</span>
+                </div>
+                <div class="item col-3">
+                    <img src="~/Image/icons/icons8-24-hours-day-support-100.png" alt="">
+                    <span>پشتیبانی 7روز هفته ,24 ساعته</span>
+                </div>
+                <div class="item col-3 ">
+                    <img src="~/Image/icons/icons8-pay-date-64.png" alt="">
+                    <span>پرداخت اقساطی</span>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-12 d-flex justify-content-center align-items-center flex-column flex-wrap">
+                <div class="news">
+                    <p>از جدیدترین های صالح آیتی با خبر شو</p>
+                    <form method="post">
+                        <input type="email" placeholder="example@gmail.com">
+                        <button type="submit">ثبت</button>
+                    </form>
+                </div>
+                <div class="e-namad">
+                    <img src="~/image/static/ENAMADpng.parspng.com_.png" class="col-8" alt="">
+                </div>
+            </div>
+
+            <div class="social col-lg-2 col-md-6 col-12">
+                <p class="text-center col-12">با ما همراه باشید!</p>
+                <div class="icons col-12">
+                    <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="#"><i class="fa-brands fa-telegram"></i></a>
+                    <a href="#"> <i class="fa-brands fa-linkedin"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-6 col-12 d-flex flex-row-reverse p-3">
+                <div class="contact">
+                    <div class="contact-item">
+                        <h5>آدرس فروشگاه</h5>
+                        <p>کرج ,گلشهر خیابان اول کوجه دوم ساختمان سبز پ12</p>
+                    </div>
+                    <div class="contact-item">
+                        <h5>تلفن پشتیبانی</h5>
+                        <p>026-34568</p>
+                    </div>
+                </div>
+                <div class="fast-access">
+                    <h5>دسترسی سریع</h5>
+                    <ul>
+                        <li><a href="#">وبلاگ</a></li>
+                        <li><a href="#">سبد خرید</a></li>
+                        <li><a href="#">سوالات متداول</a></li>
+                        <li><a href="#">تماس با ما</a></li>
+                        <li><a href="#">سفارشات</a></li>
+                    </ul>
+                </div>
+                <div class="fast-access">
+                    <h5>دسترسی سریع</h5>
+                    <ul>
+                        <li><a href="#">دسته بندی</a></li>
+                        <li><a href="#">تخفیفات</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="~/js/jquery-3.7.1.min.js"></script>
+  @*  <script src="https://cdn.jsdelivr.net/npm/@@popperjs/core@@2.11.6/dist/umd/popper.min.js"
+            integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+            crossorigin="anonymous"></script>*@
+    <script src="~/lib/bootstrap/bootstrap-5.2.3-dist/js/bootstrap.min.js"></script>
+    <script src="~/lib/bootstrap/bootstrap-5.2.3-dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/sweetalert2@11.js"></script>
+    <script src="~/js/function.js"></script>
+    @RenderSection("ScriptRefrence",false)
+    <script>
+
+        function desktopMegaMenuScript() {
+            $(".category-list ul").slideDown();
+            $(window).mouseover(function (e) {
+                if (!$(e.target).closest("#megamenu").length) {
+                    $("#megamenu").fadeOut();
+                }
+
+            })
+            $("#category").mouseover(function (e) {
+                e.stopPropagation();
+                $("#megamenu").fadeIn();
+            })
+            $("#megamenu").mouseover(function (e) {
+                e.stopPropagation();
+            })
+            $(".tab-Index").mouseover(function () {
+                if ($(".tab-Index").hasClass("active")) {
+                    $(".tab-Index").removeClass("active");
+                }
+                $(this).toggleClass("active");
+                var id = $(".tab-Index.active").attr("data-index");
+                $(".tab-container-Item").removeClass("active");
+                $(".tab-container-Item[data-index='" + id + "']").addClass("active");
+            })
+        }
+        function mobileMegamenuScript() {
+            $(".category-list ul").slideUp();
+            $("#Category").click(function (e) {
+                $("#megamenu").fadeToggle();
+            })
+            $(".tab-Index").click(function () {
+                if ($(".tab-Index").hasClass("active")) {
+                    $(".tab-Index").removeClass("active");
+                }
+                $(this).toggleClass("active");
+                var id = $(".tab-Index.active").attr("data-index");
+                $(".tab-container-Item").removeClass("active");
+                $(".tab-container-Item[data-index='" + id + "']").addClass("active");
+            })
+            $(".category-list h6").click(function () {
+                $(this).next("ul").slideToggle();
+            })
+        }
+        //$("#megamenu").fadeOut(0);
+
+        if (Breakpointcheker(768,false)) {
+            desktopMegaMenuScript();
+        }
+
+        else {
+            mobileMegamenuScript();
+      
+        }
+
+
+        $(window).resize(function () {
+            if (Breakpointcheker(767, true)) {
+                mobileMegamenuScript();
+            }
+            else {
+                desktopMegaMenuScript();
+            }
+        })
+
+    </script>
+    <script>
+        var dropdownLi = document.querySelectorAll(".dropdown");
+        dropdownLi.forEach((item) => {
+            item.addEventListener("mouseover", function () {
+                item.classList.add("active");
+            })
+            item.addEventListener("mouseout", function () {
+                item.classList.remove("active");
+                var isSelect = false;
+                document.querySelectorAll(".category").forEach((item) => {
+                    if (item.classList.contains("select")) {
+                        isSelect = true;
+                    }
+                });
+                document.querySelectorAll(".category")[0].classList.add("select");
+            })
+        })
+        function toggleDropdown() {
+            const dropdown = document.getElementById("myDropdown");
+            dropdown.classList.toggle("show");
+        }
+    </script>
+    @RenderSection("InLineScript",false)
+</body>
+</html>

@@ -1,0 +1,219 @@
+﻿@model UserDetailsViewModel;
+<div class="container" dir="rtl">
+    <div class="row">
+        <div class="info-box col-sm-6 col-lg-3">
+            <span class="info-box-icon bg-info">
+                <i class="fa-solid fa-basket-shopping"></i>
+            </span>
+            <div class="info-box-content">
+                <span class="info-box-text">تعداد سفارش ها</span>
+                <span class="info-box-number">@Model.User.Order.Select(o => o.orderDetails).Count()</span>
+            </div>
+
+        </div>
+        <div class="info-box col-sm-6 col-lg-3">
+            <span class="info-box-icon bg-primary">
+                <i class="fa-solid fa-coins"></i>
+            </span>
+            <div class="info-box-content">
+                <span class="info-box-text">مقدار خرید</span>
+                <span class="info-box-number">2000,000 T</span>
+            </div>
+        </div>
+        <div class="info-box col-sm-6 col-lg-3">
+            <span class="info-box-icon bg-warning">
+                <i class="fa-solid fa-comments"></i>
+            </span>
+            <div class="info-box-content">
+                <span class="info-box-text">تعداد کامنت ها</span>
+                <span class="info-box-number">@Model.User.Commnets.Count()</span>
+            </div>
+
+        </div>
+        <div class="info-box col-sm-6 col-lg-3">
+            <span class="info-box-icon bg-danger">
+                <i class="fa-solid fa-ticket"></i>
+            </span>
+            <div class="info-box-content">
+                <span class="info-box-text">تعداد تیکت ها</span>
+                <span class="info-box-number">@Model.User.Tickets.Count()</span>
+            </div>
+
+        </div>
+    </div>
+    <div class="d-flex gap-2 flex-wrap justify-content-center ">
+        <div class="card card-info col-10 col-lg-4 m-0 p-0">
+            <div class="card-header">
+                <h3>مشخصات اولیه</h3>
+            </div>
+            <div class="card-body col-12">
+                <div class="col-12">
+                    @if(Model.User.ProfileImageName != null)
+                    {
+                        <img src="~/Image/Users/@(Model.User.UserName)/@(Model.User.ProfileImageName)" class="rounded-circle border col-12" />
+                    }
+                    else
+                    {
+                        <img src="~/Image/Users/defaultUser/UserProfile.jpg" class="rounded-circle border col-12" />
+                    }
+                </div>
+                <div class="col-12">
+                    <table class="table col-12">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    نام کاربری
+                                </td>
+                                <td>
+                                    @Model.User.UserName
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    نام و نام خانوادگی 
+                                </td>
+                                <td>
+                                    @Model.User.FullName
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    تاریخ تولد 
+                                </td>
+                                <td>
+                                    @Model.User.brithDate
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    فعال 
+                                </td>
+                                <td>
+                                    @if (Model.User.IsEnable)
+                                    {
+                                        <h6 class="badge badge-success">فعال</h6>
+                                    }
+                                    else
+                                    {
+                                        <h6 class="badge badge-danger">غیر فعال</h6>
+                                    }
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    ایمیل
+                                </td>
+                                <td style="word-wrap:break-word;max-width:160px" class="text-wrap">
+                                    @Model.User.Email
+                                </td>
+                            </tr>
+                            <tr>
+                            </tr>
+                            <tr>
+                                <td>
+                                    نقش
+                                </td>
+                                <td>
+                                    <ul>
+                                        @foreach(var role in Model.Roles)
+                                        {
+                                            <li class="badge badge-primary"><h5 class="display-6">@role</h5></li>
+                                        }
+                                    </ul>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+                <div class="card-footer">
+                    <div class="btn-group" role="group" dir="ltr">
+                        <a asp-action="DeleteUser" asp-controller="User" asp-route-Id="@Model.User.Id" class="btn btn-danger">حذف</a>
+                        <a asp-action="EditUser" asp-controller="User" asp-route-Id="@Model.User.Id" class="btn btn-warning">ویرایش</a>
+                        @if (Model.User.IsEnable)
+                        {
+                            <a  data-Id="@Model.User.Id" id="activebtn" class="btn btn-secondary">غیرفعال</a>
+                        }
+                        else
+                        {
+                            <a data-Id="@Model.User.Id" id="activebtn" class="btn btn-primary">فعال</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card card-primary col-10 col-lg-8 m-0 p-0">
+            <div class="card-header">
+                <h3>خرید های اخیر</h3>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>عکس</th>
+                            <th>نام محصول</th>
+                            <th>تعداد محصول</th>
+                            <th>قیمت محصول</th>
+                            <th>تاریخ خرید</th>
+                            <th>مشاهده</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><img src="AdminLTE/dist/img/prod-1.jpg" class="col-3" /></td>
+                            <td>مانیتور</td>
+                            <td>1</td>
+                            <td>2000,000</td>
+                            <td>2023,08,12</td>
+                            <td><a href="#" class="btn btn-primary">مشاهده فاکتور</a></td>
+                        </tr>
+                        <tr>
+                            <td><img src="AdminLTE/dist/img/prod-1.jpg" class="col-3" /></td>
+                            <td>مانیتور</td>
+                            <td>1</td>
+                            <td>2000,000</td>
+                            <td>2023,08,12</td>
+                            <td><a href="#" class="btn btn-primary">مشاهده فاکتور</a></td>
+                        </tr>
+                        <tr>
+                            <td><img src="AdminLTE/dist/img/prod-1.jpg" class="col-3" /></td>
+                            <td>مانیتور</td>
+                            <td>1</td>
+                            <td>2000,000</td>
+                            <td>2023,08,12</td>
+                            <td><a href="#" class="btn btn-primary">مشاهده فاکتور</a></td>
+                        </tr>
+                        <tr>
+                            <td><img src="AdminLTE/dist/img/prod-1.jpg" class="col-3" /></td>
+                            <td>مانیتور</td>
+                            <td>1</td>
+                            <td>2000,000</td>
+                            <td>2023,08,12</td>
+                            <td><a href="#" class="btn btn-primary">مشاهده فاکتور</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@section InlineScripts{
+    <script>
+        $("#activebtn").on("click",function(){
+            $.ajax({
+                url:'@Url.Action("ActiveUser","User")',
+                type:'GET',
+                async:true,
+                data:{Id: $(this).attr("data-Id")},
+                success:function(data){
+                    if(data.res){
+                        alert("عملیات با موفقیت انحام شد");
+                         location.reload();
+                    }else{
+                        alert("خطا در انجام عملیات");
+                    }
+                }
+            })
+        });
+    </script>
+}

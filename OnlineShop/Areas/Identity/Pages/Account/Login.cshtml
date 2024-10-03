@@ -1,0 +1,104 @@
+﻿@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Log in";
+}
+<section class="container accountBox">
+    <div class="card col-4">
+        <div class="card-header">
+            <img src="~/Image/static/Logo.jpg" title="SalehIT" width="100px">
+        </div>
+        <div class="card-body">
+            <h4>ورود</h4>
+            <form id="account" method="post">
+                <div class="firstSide col-12">
+                    <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                    <div class="form-group">
+                        <input asp-for="Input.Name" class="form-control" autocomplete="username" aria-required="true" placeholder="نام کاربری" />
+                        <span asp-validation-for="Input.Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <button type="button" id="continueBtn" class="btn btn-primary col-12">ادامه</button>
+                    </div>
+                    <div class="form-group">
+                        <a class="btn btn-danger col-12">ورود با گوگل</a>
+                    </div>
+                    <span>هنوز ثبت نام نکردی ؟ <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">اکنون ثبت نام کنید</a></span>
+                </div>
+                <div class="secondSide col-12">
+                    <div class="form-group">
+                        <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" />
+                        <span asp-validation-for="Input.Password" class="text-danger"></span>
+                    </div>
+
+                    <div class="checkbox mb-3">
+                        <label asp-for="Input.RememberMe" class="form-label">
+                            <input asp-for="Input.RememberMe" class="form-check-input" />
+                        @Html.DisplayNameFor(m => m.Input.RememberMe)
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <button type="button" id="backBtn" class="btn btn-primary col-12">برگشت</button>
+                    </div>
+                    <div class="form-group">
+                        <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">ورود</button>
+                    </div>
+                    <span><a id="forgot-password" asp-page="./ForgotPassword">رمز عبور خود را فراموش کردین؟</a></span><br />
+                    <span><a id="resend-confirmation" asp-page="./ResendEmailConfirmation">ایمیل خود را تایید کنید</a></span>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+@*<div class="col-md-6 col-md-offset-2">
+    <section>
+        <h3>Use another service to log in.</h3>
+        <hr />
+        @{
+            if ((Model.ExternalLogins?.Count ?? 0) == 0)
+            {
+                <div>
+                    <p>
+                        There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">
+                            article
+                            about setting up this ASP.NET application to support logging in via external services
+                        </a>.
+                    </p>
+                </div>
+            }
+            else
+            {
+                <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                    <div>
+                        <p>
+                            @foreach (var provider in Model.ExternalLogins!)
+                            {
+                                <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                            }
+                        </p>
+                    </div>
+                </form>
+            }
+        }
+    </section>
+</div>*@
+
+
+@section InlineScript{
+    <script>
+        var size = $("#account").width();
+        $("#continueBtn").on("click", function () {
+            console.log("click");
+            console.log(size);
+            $(".firstSide").css("transform", "translate( " + (size + 28) + "px,0)");
+            $(".secondSide").css("transform", "translate(" + (size + 30) + "px,0)");
+        })
+        $("#backBtn").on("click", function () {
+            console.log("click");
+            console.log(size + 30);
+            $(".firstSide").css("transform", "translate( 0px,0)");
+            $(".secondSide").css("transform", "translate(0px,0)");
+        })
+    </script>
+}

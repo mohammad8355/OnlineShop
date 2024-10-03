@@ -1,0 +1,32 @@
+﻿@using static PresentationLayer.Views.ViewComponents.CategoryBreadCrumpViewComponent;
+@using DataAccessLayer.Models;
+@model BreadCrumpModel;
+
+
+@functions {
+    public string MakeBreadCrump(int Id, List<Category> model)
+    {
+        var category = model.Where(c => c.Id == Id).First();
+        while (category != null)
+        {
+            <li class="breadcrumb-item">
+                <a href="#">@category.Name</a>
+            </li>
+            if (category.ParentId != null)
+            {
+                category = model.Where(c => c.Id == category.ParentId).First();
+            }
+            else
+            {
+                return "";
+            }
+        }
+        return "";
+    }
+}
+<ol class="breadcrumb d-flex flex-row-reverse">
+    <li class="breadcrumb-item">
+
+    </li>
+    @MakeBreadCrump(Model.Category_Id,Model.categories)
+</ol>

@@ -1,0 +1,420 @@
+﻿@using DataAccessLayer.Models;
+@model ProductDetailViewModel
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="info-box col-sm-6 col-lg-3">
+                <span class="info-box-icon bg-danger"><i class="far fa-star"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">علاقه مندی ها</span>
+                    <span class="info-box-number">@Model.product.Like</span>
+                </div>
+
+            </div>
+            <div class="info-box col-sm-6 col-lg-3">
+                <span class="info-box-icon bg-info"><i class="fas fa-comments"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">کامنت ها</span>
+                    <span class="info-box-number">@Model.product.commnets.Count()</span>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-6">
+                <!-- small card -->
+                <div class="small-box bg-info">
+                    <div class="inner">
+                        <h3>@Model.product.QuantityInStock</h3>
+
+                        <p>تعداد محصول</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">
+                        More info <i class="fas fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-4 col-6">
+                <!-- small card -->
+                <div class="small-box bg-success">
+                    <div class="inner">
+                        <h3>53<sup style="font-size: 20px">%</sup></h3>
+
+                        <p>حجم فروش</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa-solid fa-money-bill-wave"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">
+                        More info <i class="fas fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-4 col-6">
+                <!-- small card -->
+                <div class="small-box bg-success">
+                    <div class="inner">
+                        <h3>44</h3>
+
+                        <p>میانگین قیمت</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-stats-bars"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">
+                        more info <i class="fas fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!--START Product Details -->
+        <!---------------------------------------------------->
+        <div class="card card-solid">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 col-sm-6">
+                        <h3 class="d-inline-block d-sm-none">LOWA Men’s Renegade GTX Mid Hiking Boots Review</h3>
+                        <div class="col-12">
+                            <div class="product-image-thumb active">
+                                @if (Model.product.ProductPhotos.Any())
+                                {
+                                    <img title="@Model.product.Name" width="200px" src="~/Image/Product/@Model.product.Name/@Model.product.ProductPhotos.First().Name" />
+
+                                }
+                            </div>
+                        </div>
+                        <div class="col-12 product-image-thumbs">
+                            @if(Model.product.ProductPhotos.Any())
+                            @foreach (var img in @Model.product.ProductPhotos)
+                            {
+                                <div class="product-image-thumb active"><img width="200px" src="~/Image/Product/@Model.product.Name/@img.Name"></div>
+                            }
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        <h3 class="my-3">@Model.product.Name</h3>
+                        <h4>کد کالا : @Model.product.ProductCode</h4>
+                        <h4>برند : @Model.product.brand.Name</h4>
+                        <h4 class="badge badge-danger dg-danger">
+                            @if(Model.product.Discount != 0)
+                            {
+                                @Model.product.Discount
+                            }
+                            %
+                        </h4>
+                        @*             <p><span>@Model.product.subCategory.Name</span> > <span>@Model.product.subCategory.Name</span></p>*@
+                       <nav dir="ltr" class="d-flex flex-column ">
+                            @foreach (var cp in Model.product.CategoryToProducts)
+                            {
+                                @await Component.InvokeAsync("CategoryBreadCrump",cp.Category_Id) 
+                            }
+                       </nav>
+                        <hr>
+                        <div class="bg-gray py-2 px-3 mt-4">
+                            <h2 class="mb-0">
+                                @Model.product.Price
+                            </h2>
+                        </div>
+                        <div class="col-12 col-sm-6 p-3">
+                            <a asp-action="ProductEdit" asp-controller="Product" asp-area="dashboard" asp-route-Id="@Model.product.Id" asp class="btn btn-primary">ویرایش</a>
+                            <a asp-action="ChooseSpecialKeys" asp-controller="Product" asp-area="dashboard" asp-route-productId="@Model.product.Id" asp class="btn btn-primary">انتخاب ویژگی های کلیدی</a>
+                            <button type="button" class="btn btn-danger productDel" value="@Model.product.Id"><i class="fa-solid fa-trash-can"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <nav class="w-100">
+                        <div class="nav nav-tabs" id="product-tab" role="tablist">
+                            <a class="nav-item nav-link active" id="product-desc-tab" data-toggle="tab" href="#product-desc" role="tab" aria-controls="product-desc" aria-selected="true">توضیحات</a>
+                            <a class="nav-item nav-link" id="product-comments-tab" data-toggle="tab" href="#product-comments" role="tab" aria-controls="product-comments" aria-selected="false">مشخصات فنی</a>
+                        </div>
+                    </nav>
+                    <div class="tab-content p-3" id="nav-tabContent">
+                        <div class="tab-pane fade show active" id="product-desc" role="tabpanel" aria-labelledby="product-desc-tab">
+                            @Model.product.Description
+                        </div>
+                        <div class="tab-pane fade" id="product-comments" role="tabpanel" aria-labelledby="product-comments-tab">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <td>ویژگی</td>
+                                        <td>مقدار</td>
+                                        <td>خاص</td>
+                                        <td>کنترل</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach(var keyValue in Model.keyToProducts)
+                                    {
+                                    <tr>
+                                        <td>@keyValue.adjKey.Name</td>
+                                        <td>
+                                            <p>
+                                            @foreach(var value in Model.valueToProducts.Where(v => v.Value.adjkey_Id == keyValue.Key_Id).ToList())
+                                                {
+                                                        @Html.Raw("/") @value.Value.Value @Html.Raw("/")
+                                                }
+                                                </p>
+                                            </td>
+                                            <td>
+                                                @keyValue.IsSpecial
+                                            </td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-danger keyvalueDel" data-key-Id="@keyValue.Key_Id" data-product-Id="@Model.product.Id" ><i class="fa-solid fa-trash-can"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="tab-pane fade" id="product-rating" role="tabpanel" aria-labelledby="product-rating-tab"> Cras ut ipsum ornare, aliquam ipsum non, posuere elit. In hac habitasse platea dictumst. Aenean elementum leo augue, id fermentum risus efficitur vel. Nulla iaculis malesuada scelerisque. Praesent vel ipsum felis. Ut molestie, purus aliquam placerat sollicitudin, mi ligula euismod neque, non bibendum nibh neque et erat. Etiam dignissim aliquam ligula, aliquet feugiat nibh rhoncus ut. Aliquam efficitur lacinia lacinia. Morbi ac molestie lectus, vitae hendrerit nisl. Nullam metus odio, malesuada in vehicula at, consectetur nec justo. Quisque suscipit odio velit, at accumsan urna vestibulum a. Proin dictum, urna ut varius consectetur, sapien justo porta lectus, at mollis nisi orci et nulla. Donec pellentesque tortor vel nisl commodo ullamcorper. Donec varius massa at semper posuere. Integer finibus orci vitae vehicula placerat. </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.card-body -->
+        </div>
+
+        <div class="row">
+            <div class="card col-12 p-0 m-0">
+                <div class="card-header bg-primary">
+                    <h2 class="text-light">کامنت ها</h2>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <td>عکس</td>
+                                <td>نام کاربر</td>
+                                <td>متن پیام</td>
+                                <td>
+                                    کنترل
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach(var comment in Model.Comments){
+                                <tr>
+                                    @if(!string.IsNullOrEmpty(comment.User.ProfileImageName)){
+                                        <td><img width="200px" src="~/Image/Users/@comment.User.UserName/@comment.User.ProfileImageName" alt="user" class="border rounded-circle" /></td>
+                                    }else{
+                                        <td><img width="200px" src="~/Image/Users/defaultUser/UserProfile.jpg" alt="user" class="border rounded-circle" /></td>
+                                    }
+                                <td>@comment.User.UserName</td>
+                                <td>@comment.Description</td>
+                                <td>
+   @*                                 <div class="btn-group">
+                                        <button type="button" class="btn btn-info"><i class="fa-solid fa-eye"></i></button>
+                                        <button type="button" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
+                                    </div>*@
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer">
+                    <a href="#">بیشتر</a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <!-- Line chart -->
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="far fa-chart-bar"></i>
+                            نوسان قیمت بر اساس ماه
+                        </h3>
+
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="PriceChart" style="height: 300px; padding: 0px; position: relative;"><canvas class="flot-base" width="680" height="600" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 340px; height: 300px;"></canvas><canvas class="flot-overlay" width="680" height="600" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 340px; height: 300px;"></canvas><div class="flot-svg" style="position: absolute; top: 0px; left: 0px; height: 100%; width: 100%; pointer-events: none;"><svg style="width: 100%; height: 100%;"><g class="flot-x-axis flot-x1-axis xAxis x1Axis" style="position: absolute; inset: 0px;"><text x="39.6875" y="293.75" class="flot-tick-label tickLabel" style="position: absolute; text-align: center;">0</text><text x="92.83564814814815" y="293.75" class="flot-tick-label tickLabel" style="position: absolute; text-align: center;">3</text><text x="145.9837962962963" y="293.75" class="flot-tick-label tickLabel" style="position: absolute; text-align: center;">5</text><text x="199.13194444444446" y="293.75" class="flot-tick-label tickLabel" style="position: absolute; text-align: center;">8</text><text x="247.7800925925926" y="293.75" class="flot-tick-label tickLabel" style="position: absolute; text-align: center;">10</text><text x="300.92824074074076" y="293.75" class="flot-tick-label tickLabel" style="position: absolute; text-align: center;">13</text></g><g class="flot-y-axis flot-y1-axis yAxis y1Axis" style="position: absolute; inset: 0px;"><text x="1" y="268.25" class="flot-tick-label tickLabel" style="position: absolute; text-align: right;">-1.5</text><text x="1" y="226.25" class="flot-tick-label tickLabel" style="position: absolute; text-align: right;">-1.0</text><text x="1" y="184.25" class="flot-tick-label tickLabel" style="position: absolute; text-align: right;">-0.5</text><text x="7.3984375" y="16.25" class="flot-tick-label tickLabel" style="position: absolute; text-align: right;">1.5</text><text x="7.3984375" y="142.25" class="flot-tick-label tickLabel" style="position: absolute; text-align: right;">0.0</text><text x="7.3984375" y="100.25" class="flot-tick-label tickLabel" style="position: absolute; text-align: right;">0.5</text><text x="7.3984375" y="58.25" class="flot-tick-label tickLabel" style="position: absolute; text-align: right;">1.0</text></g></svg></div></div>
+                    </div>
+                    <!-- /.card-body-->
+                </div>
+                <!-- /.card -->
+
+
+            </div>
+            <!-- /.col -->
+
+            <div class="col-md-6">
+                <!-- Bar chart -->
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="far fa-chart-bar"></i>
+                            حجم فروش بر اساس ماه
+                        </h3>
+
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="LineChart" style="height: 300px; padding: 0px; position: relative;"><canvas class="flot-base" width="680" height="600" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 340px; height: 300px;"></canvas><canvas class="flot-overlay" width="680" height="600" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 340px; height: 300px;"></canvas><div class="flot-svg" style="position: absolute; top: 0px; left: 0px; height: 100%; width: 100%; pointer-events: none;"><svg style="width: 100%; height: 100%;"><g class="flot-x-axis flot-x1-axis xAxis x1Axis" style="position: absolute; inset: 0px;"><text x="123.9346590909091" y="293.75" class="flot-tick-label tickLabel" style="position: absolute; text-align: center;">March</text><text x="178.8856534090909" y="293.75" class="flot-tick-label tickLabel" style="position: absolute; text-align: center;">April</text><text x="230.47336647727275" y="293.75" class="flot-tick-label tickLabel" style="position: absolute; text-align: center;">May</text><text x="18.907670454545453" y="293.75" class="flot-tick-label tickLabel" style="position: absolute; text-align: center;">January</text><text x="278.95170454545456" y="293.75" class="flot-tick-label tickLabel" style="position: absolute; text-align: center;">June</text></g><g class="flot-y-axis flot-y1-axis yAxis y1Axis" style="position: absolute; inset: 0px;"><text x="10" y="268.25" class="flot-tick-label tickLabel" style="position: absolute; text-align: right;">0</text><text x="10" y="205.25" class="flot-tick-label tickLabel" style="position: absolute; text-align: right;">5</text><text x="1" y="16.25" class="flot-tick-label tickLabel" style="position: absolute; text-align: right;">20</text><text x="1" y="142.25" class="flot-tick-label tickLabel" style="position: absolute; text-align: right;">10</text><text x="1" y="79.25" class="flot-tick-label tickLabel" style="position: absolute; text-align: right;">15</text></g></svg></div></div>
+                    </div>
+                    <!-- /.card-body-->
+                </div>
+                <!-- /.card -->
+
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div><!-- /.container-fluid -->
+</section>
+@section RefrenceScripts {
+    <script src="https://cdn.anychart.com/releases/8.11.1/js/anychart-core.min.js"></script>
+    <script src="https://cdn.anychart.com/releases/8.11.1/js/anychart-pie.min.js"></script>
+    <script src="https://cdn.anychart.com/releases/8.11.1/js/anychart-cartesian.min.js"></script>
+}
+@section InlineScripts {
+    <script>
+        anychart.onDocumentReady(function () {
+            var data = [
+                ["فروردین", 10000],
+                ["اردیبهشت", 12000],
+                ["خرداد", 1000],
+                ["تیر", 5000],
+                ["مرداد", 9500],
+                ["شهریور", 100],
+                ["مهر", 900],
+                ["آبان", 15000],
+                ["آذر", 11200],
+                ["دی", 8000],
+                ["بهمن", 7500],
+                ["اسفند", 4000]
+            ];
+
+            // create a chart
+            chart = anychart.line();
+
+            // create a line series and set the data
+            var series = chart.line(data);
+
+            // set the container id
+            chart.container("PriceChart");
+
+            // initiate drawing the chart
+            chart.draw();
+            var data = [
+                ["فروردین", 10],
+                ["اردیبهشت", 12],
+                ["خرداد", 20],
+                ["تیر", 50],
+                ["مرداد", 9],
+                ["شهریور", 0],
+                ["مهر", 7],
+                ["آبان", 15],
+                ["آذر", 11],
+                ["دی", 8],
+                ["بهمن", 17],
+                ["اسفند", 4]
+            ];
+
+            // create a chart
+            chart = anychart.line();
+
+            // create a line series and set the data
+            var series = chart.line(data);
+
+            // set the container id
+            chart.container("LineChart");
+
+            // initiate drawing the chart
+            chart.draw();
+        });
+
+        var btnDelete = document.querySelector(".productDel");
+        var confrimDelete = false;
+
+        btnDelete.addEventListener("click", function () {
+            if (window.confirm("آیا از حذف این محصول اطمینان دارید ؟")) {
+
+                $.ajax(
+                    {
+                        url: '@Url.Action("DeleteProduct","Product")',
+                        async: true,
+                        data: { Id: $(btnDelete).attr('value') },
+                        type: 'Get',
+                        success: function (result) {
+                            console.log(result);
+                            if (result.resualt) {
+                                alert("  محصول  حذف " + result.name + " با موفقیت انجام شد  ");
+                                location.replace('@Url.Action("Index","Product")');
+                            }
+                            else {
+                                alert("  محصول حذف " + result.name + " با شکست مواجه شد  ");
+                            }
+                            console.log("ajax");
+                        },
+                        error: function () {
+                            alert("delete fail");
+                        }
+
+                    }
+                );
+                console.log(item.value);
+                console.log($(item).attr('value'));
+            }
+        })
+
+        $(".keyvalueDel").on('click', function () {
+            if (window.confirm("آیا از حذف این مشخصه اطمینان دارید ؟")) {
+
+                $.ajax(
+                    {
+                        url: '@Url.Action("DeleteKeyValue","Product")',
+                        async: true,
+                        data: { key_Id: $(this).attr('data-key-Id'), product_Id: $(this).attr('data-product-Id') },
+                        type: 'Get',
+                        success: function (result) {
+                            console.log(result);
+                            if (result.result) {
+                                alert("  مشخصه  حذف " + result.name + " با موفقیت انجام شد  ");
+                                location.reload();
+                            }
+                            else {
+                                alert("  مشخصه حذف " + result.name + " با شکست مواجه شد  ");
+                            }
+                            console.log("ajax");
+                        },
+                        error: function () {
+                            alert("delete fail");
+                        }
+
+                    }
+                );
+            }
+
+
+
+
+
+        })
+
+    </script>
+    }
