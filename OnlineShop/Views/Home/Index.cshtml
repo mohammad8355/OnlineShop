@@ -57,7 +57,7 @@
                                         <span class="text-dark">@product.Price.ToString("N0") تومان</span>
                                     }
                                 </div>
-                                <button class="btn btn-primary">خرید</button>
+                                <a  asp-action="ProductShow" asp-controller="Product" asp-route-Id="@product.Id" class="btn btn-primary">خرید</a>
                             </div>
                             <div class="card-footer">
                                 <div class="rate">
@@ -117,7 +117,7 @@
                                     }
                                 </div>
                                 <div class="card-footer">
-                                    <a href="#" class="shopbtn"><i class="fa-solid fa-cart-shopping"></i></a>
+                                    <a  asp-action="ProductShow" asp-controller="Product" asp-route-Id="@product.Id" class="shopbtn"><i class="fa-solid fa-cart-shopping"></i></a>
                                     <div class="d-flex flex-row-reverse">
                                         <i class="fa-solid fa-star"></i><span>4.5</span>
                                         @*         <i class="fa-solid fa-star"></i>
@@ -141,7 +141,7 @@
     </div>
 </section>
 <section class="banner container">
-    <img src="~/Image/slider/چمعه سیاه.jpg">
+    <img src="~/Image/static/laptopBanner.webp">
 </section>
 @if (Model != null)
 {
@@ -180,7 +180,7 @@
                                     }
                                 </div>
                                 <div class="card-footer">
-                                    <a href="#" class="shopbtn"><i class="fa-solid fa-cart-shopping"></i></a>
+                                    <a asp-action="ProductShow" asp-controller="Product" asp-route-Id="@product.Id" class="shopbtn"><i class="fa-solid fa-cart-shopping"></i></a>
                                     <div class="d-flex flex-row-reverse">
                                         <i class="fa-solid fa-star"></i><span>4.5</span>
                                         @*         <i class="fa-solid fa-star"></i>
@@ -240,12 +240,9 @@
         <button class="next-btn navigation-btns" aria-label="Next" type="button">&gt;</button>
     </div>
 </section> -->
-<section class="banner container-fluid d-flex flex-wrap p-5 justify-content-evenly gap-3">
-    <div class="col-md-5 col-8 rounded-3">
-        <img src="../image/laptop-jpg.jpg" alt="laptop">
-    </div>
-    <div class="col-md-5 col-8 rounded-3">
-        <img src="../image/Capture.PNG" alt="laptop">
+<section class="banner container-fluid d-flex flex-wrap p-md-5 p-1 justify-content-evenly gap-3">
+    <div class="col-12 rounded-1">
+        <img src="~/Image/static/middleBanner.webp" alt="laptop">
     </div>
 </section>
 @if (Model != null)

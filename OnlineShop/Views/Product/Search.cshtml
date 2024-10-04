@@ -36,7 +36,7 @@
                                 }
                             </div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
-                                <a href="#" class="shopbtn"><i class="fa-solid fa-cart-shopping"></i></a>
+                                <a class="nav-link" asp-action="ProductShow" asp-controller="Product" asp-route-Id="@product.Id" class="shopbtn"><i class="fa-solid fa-cart-shopping"></i></a>
                                 <div class="d-flex flex-row-reverse">
                                     <i class="fa-solid fa-star text-warning"></i><span>4.5</span>
                                     @*         <i class="fa-solid fa-star"></i>
@@ -53,13 +53,22 @@
     }
     else
     {
-        <div class="alert alert-warning">
-            <p>نتیجه ای یافت نشد</p>
-        </div>
+        <section class="w-100 d-flex flex-row justify-content-center align-items-center p-5" height="40em" >
+            <div class="alert alert-warning h-50">
+                <p>نتیجه ای یافت نشد</p>
+            </div>
+            </section>
+
     }
 </section>
 @section InlineScript{
     <script>
+        jQuery.fn.rotate = function (degrees) {
+            $(this).css({ 'transform': 'rotate(' + degrees + 'deg)' });
+            console.log(degrees);
+            return $(this);
+        };
+        $(".carret-icon").rotate(90)
         $(".headlist").next().slideUp();
         $(".headlist").click(function(){
             $(this).next().slideToggle();

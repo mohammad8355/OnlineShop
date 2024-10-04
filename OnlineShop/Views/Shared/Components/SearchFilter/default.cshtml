@@ -15,7 +15,7 @@
         @foreach (var kv in Model.keys)
         {
             <div class="form-group">
-                <label class="headlist">@kv.Name</label>
+                <label class="headlist">@kv.Name <span class="carret-icon" >></span></label>
                 <div>
                     @foreach (var v in kv.adjValues)
                     {

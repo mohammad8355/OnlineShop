@@ -148,23 +148,25 @@
     <script src="~/js/function.js"></script>
     @RenderSection("ScriptRefrence",false)
     <script>
-
+    $(document).ready(function() {
         function desktopMegaMenuScript() {
-            $(".category-list ul").slideDown();
-            $(window).mouseover(function (e) {
-                if (!$(e.target).closest("#megamenu").length) {
-                    $("#megamenu").fadeOut();
-                }
+            console.log("desktop desktopMegaMenuScript mobileMegamenuScrip")
+            // Show the category list initially (you can adjust this behavior as needed)
+            $(".category-list ul").show();
 
-            })
-            $("#category").mouseover(function (e) {
-                e.stopPropagation();
+            // When hovering over the category, fade in the megamenu
+            $("#category").mouseover(function() {
                 $("#megamenu").fadeIn();
-            })
-            $("#megamenu").mouseover(function (e) {
-                e.stopPropagation();
-            })
-            $(".tab-Index").mouseover(function () {
+                console.log("fadeIn in ");
+            });
+
+            // When leaving the megamenu, fade it out
+            $("#megamenu").mouseleave(function() {
+                $("#megamenu").fadeOut();
+            });
+
+            // Handle tab index changes (assuming you have some tab elements)
+            $(".tab-Index").mouseover(function() {
                 if ($(".tab-Index").hasClass("active")) {
                     $(".tab-Index").removeClass("active");
                 }
@@ -172,14 +174,20 @@
                 var id = $(".tab-Index.active").attr("data-index");
                 $(".tab-container-Item").removeClass("active");
                 $(".tab-container-Item[data-index='" + id + "']").addClass("active");
-            })
+            });
         }
+
         function mobileMegamenuScript() {
-            $(".category-list ul").slideUp();
-            $("#Category").click(function (e) {
+            // Hide the category list initially (you can adjust this behavior as needed)
+            $(".category-list ul").hide();
+
+            // Toggle the megamenu visibility when clicking the category button
+            $("#Category").click(function() {
                 $("#megamenu").fadeToggle();
-            })
-            $(".tab-Index").click(function () {
+            });
+
+            // Handle tab index changes (similar to desktop version)
+            $(".tab-Index").click(function() {
                 if ($(".tab-Index").hasClass("active")) {
                     $(".tab-Index").removeClass("active");
                 }
@@ -187,33 +195,32 @@
                 var id = $(".tab-Index.active").attr("data-index");
                 $(".tab-container-Item").removeClass("active");
                 $(".tab-container-Item[data-index='" + id + "']").addClass("active");
-            })
-            $(".category-list h6").click(function () {
+            });
+
+            // Toggle category list visibility when clicking the category title
+            $(".category-list h6").click(function() {
                 $(this).next("ul").slideToggle();
-            })
+            });
         }
-        //$("#megamenu").fadeOut(0);
 
-        if (Breakpointcheker(768,false)) {
+        // Initial setup based on screen width
+        if (Breakpointcheker(768, false)) {
             desktopMegaMenuScript();
-        }
-
-        else {
+        } else {
             mobileMegamenuScript();
-      
         }
 
-
-        $(window).resize(function () {
+        // Adjust behavior on window resize
+        $(window).resize(function() {
             if (Breakpointcheker(767, true)) {
                 mobileMegamenuScript();
-            }
-            else {
+            } else {
                 desktopMegaMenuScript();
             }
-        })
+        });
+    });
+</script>
 
-    </script>
     <script>
         var dropdownLi = document.querySelectorAll(".dropdown");
         dropdownLi.forEach((item) => {

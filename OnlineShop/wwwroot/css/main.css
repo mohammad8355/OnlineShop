@@ -24,6 +24,10 @@
   src: url("../Fonts/Vazir-Font/Vazir-Black.ttf");
   font-family: "black";
 }
+@font-face {
+    font-family: "Lalezar";
+    src: url("../Fonts//Lalezar-Font//TTF//Lalezar-Regular.ttf");
+}
 * {
   margin: 0;
   padding: 0;
@@ -66,11 +70,9 @@ body, html {
 
 .carousel-container {
   position: relative;
-  width: 95%;
-  margin-top: 1em;
-  margin: 1% auto 0; /* Add 1% margin-top and center horizontally */
-  border-radius: 15px;
-  box-shadow: 0px 0px 10px #6B6B6C;
+  width: 100%; /* Add 1% margin-top and center horizontally */
+/*  border-radius: 15px;
+  box-shadow: 0px 0px 10px #6B6B6C;*/
   display: flex;
   overflow: hidden;
 }
@@ -837,7 +839,7 @@ body, html {
   gap: 0;
 }
 .accountBox .card {
-  width: 18rem;
+ 
   background-color: #fff;
   border: 2px solid #009BD6;
   overflow: hidden;
@@ -1351,6 +1353,7 @@ section#aboutus .header img {
 }
 section#aboutus .header h1 {
   font-family: "Lalezar";
+  color:#009BD6;
 }
 section#aboutus article p {
   line-height: 2em;

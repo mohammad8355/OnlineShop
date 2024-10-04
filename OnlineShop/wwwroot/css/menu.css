@@ -39,7 +39,7 @@ body, html {
   position: relative;
   width: 100%;
   min-height: 100vh;
-  background-color: #F4F4F4;
+  background-color: #FFF;
 }
 
 /* ===== Scrollbar CSS ===== */
@@ -65,15 +65,17 @@ body, html {
 }
 
 header {
+    position:relative;
   width: 100%;
   background-color: #fff;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.6);
   padding: 0.1em;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   gap: 0;
+  z-index:10;
 }
 header div.container {
   padding: 0.5em 0 0.5em 0;
@@ -126,7 +128,7 @@ header div.container div.left-side .login-part div span {
   color: #2F2E2E;
 }
 header div.container div.left-side .login-part div .dropdownList {
-  top: 0.5em;
+  top: 1.5em;
 }
 header div.container div.left-side .login-part div .dropdownList li a {
   text-decoration: none;
@@ -184,7 +186,7 @@ div.footer-menu {
 .dropdown .dropdownList {
   display: none;
   position: absolute;
-  left: 0;
+  left: -2em;
   min-width: 160px;
   height: auto;
   background-color: #E6E7E9;
