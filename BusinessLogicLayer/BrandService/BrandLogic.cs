@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DataAccessLayer.Models;
+using Microsoft.EntityFrameworkCore;
+
 namespace BusinessLogicLayer.BrandService
 {
     public class BrandLogic
@@ -54,15 +56,15 @@ namespace BusinessLogicLayer.BrandService
         {
             if(Id != 0 || Id != null)
             {
-                var brand = await BrandRepository.Get(b => b.Id == Id);
-                return brand.FirstOrDefault();
+                var brand = await BrandRepository.Get(b => b.Id == Id).FirstOrDefaultAsync();
+                return brand;
             }
             return new Brand();
         }
         public async Task<List<Brand>> BrandList()
         {
-            var brandList = await BrandRepository.Get();
-            return brandList.ToList();
+            var brandList = await BrandRepository.Get().ToListAsync();
+            return brandList;
         }
     }
 }

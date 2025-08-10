@@ -54,9 +54,9 @@ namespace BusinessLogicLayer.ProductPhotoService
         }
         public async Task<ProductPhoto> ProductPhotoDetail(int Id)
         {
-            if (ProductPhotoRepository.Get(p => p.Id == Id).Result.Any())
+            if (ProductPhotoRepository.Get(p => p.Id == Id).Any())
             {
-                var model = ProductPhotoRepository.Get(p => p.Id == Id).Result.FirstOrDefault();
+                var model = ProductPhotoRepository.Get(p => p.Id == Id).FirstOrDefault();
                 return model;
             }
             else
@@ -67,7 +67,7 @@ namespace BusinessLogicLayer.ProductPhotoService
         public ICollection<ProductPhoto> ProductPhotoList()
         {
             ICollection<ProductPhoto> ProductPhotos = new List<ProductPhoto>();
-            foreach (var item in ProductPhotoRepository.Get().Result.ToList())
+            foreach (var item in ProductPhotoRepository.Get().ToList())
             {
               
                 ProductPhotos.Add(item);

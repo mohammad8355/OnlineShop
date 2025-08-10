@@ -49,12 +49,12 @@ namespace BusinessLogicLayer.ContactService
         }
         public Contact ContactDetail(int Id)
         {
-            return ContactRepository.Get(c => c.Id == Id).Result.FirstOrDefault();
+            return ContactRepository.Get(c => c.Id == Id).FirstOrDefault();
 
         }
         public List<Contact> ContactList()
         {
-                return ContactRepository.Get().Result.ToList();
+                return ContactRepository.Get().ToList();
         }
     }
 }

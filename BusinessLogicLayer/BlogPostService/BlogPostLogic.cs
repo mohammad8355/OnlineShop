@@ -65,7 +65,7 @@ namespace BusinessLogicLayer.BlogPostService
         }
         public BlogPost BlogPostDetail(int Id)
         {
-            var blogpost = blogRepository.Get(bp => bp.Id == Id,b => b.TagToBlogPosts).Result.FirstOrDefault();
+            var blogpost = blogRepository.Get(bp => bp.Id == Id,b => b.TagToBlogPosts).FirstOrDefault();
             blogpost.Comments = commentLogic.CommentsOfPost(Id);
             foreach(var bt in blogpost.TagToBlogPosts)
             {
@@ -76,7 +76,7 @@ namespace BusinessLogicLayer.BlogPostService
         }
         public BlogPost BlogPostDetail(string Title)
         {
-            var blogpost = blogRepository.Get(bp => bp.Title == Title, b => b.TagToBlogPosts).Result.FirstOrDefault();
+            var blogpost = blogRepository.Get(bp => bp.Title == Title, b => b.TagToBlogPosts).FirstOrDefault();
             blogpost.Comments = commentLogic.CommentsOfPost(blogpost.Id);
             foreach (var bt in blogpost.TagToBlogPosts)
             {
@@ -87,7 +87,7 @@ namespace BusinessLogicLayer.BlogPostService
         }
         public List<BlogPost> blogPostList()
         {
-            var blogpostList = blogRepository.Get().Result.ToList();
+            var blogpostList = blogRepository.Get().ToList();
              foreach(var blogpost in blogpostList)
             {
                 blogpost.Comments = commentLogic.CommentsOfPost(blogpost.Id);

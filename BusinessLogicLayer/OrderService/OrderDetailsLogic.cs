@@ -54,28 +54,29 @@ namespace BusinessLogicLayer.OrderDetailsService
             }
             return false;
         }
-        public OrderDetails OrderDetailsDetail(int Id)
+        public async Task<OrderDetails> OrderDetailsDetail(int Id)
         {
-            var OrderDetails = OrderDetailsRepository.Get(o => o.Id == Id,o => o.order).Result.FirstOrDefault();
+            var OrderDetails = OrderDetailsRepository.Get(o => o.Id == Id,o => o.order).FirstOrDefault();
             if(OrderDetails != null)
             {
-                OrderDetails.Product = _productLogic.ProductDetail(OrderDetails.Product_Id).Result;
+                OrderDetails.Product = await _productLogic.ProductDetail(OrderDetails.Product_Id);
             }
             return OrderDetails;
         }
-        public List<OrderDetails> OrderDetailsList()
+        public async Task<List<OrderDetails>> OrderDetailsList()
         {
-            var OrderDetailss = OrderDetailsRepository.Get(null,o => o.Product).Result.ToList();
+            var OrderDetailss = OrderDetailsRepository.Get(null,o => o.Product).ToList();
             foreach(var orderdetail in OrderDetailss)
             {
-                orderdetail.Product = _productLogic.ProductDetail(orderdetail.Product_Id).Result;
+                orderdetail.Product = await _productLogic.ProductDetail(orderdetail.Product_Id);
             }
             return OrderDetailss;
         }
-        public List<OrderDetails> OrderDetailsByOrderId(int order_Id)
+        public async Task<List<OrderDetails>> OrderDetailsByOrderId(int order_Id)
         {
-            var orderDetailsList = OrderDetailsList().Where(od => od.order_Id == order_Id).ToList();
-            return orderDetailsList;
+            var orderDetailsList = await OrderDetailsList();
+            var orderdetails = orderDetailsList.Where(od => od.order_Id == order_Id).ToList();
+            return orderdetails;
         }
     }
 }

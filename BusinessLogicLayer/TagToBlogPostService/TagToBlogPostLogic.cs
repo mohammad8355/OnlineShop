@@ -23,7 +23,7 @@ namespace BusinessLogicLayer.TagToBlogPostService
             }
             else
             {
-                if (!tagToBlogPostRepository.Get(ks => ks.BlogPost_Id == model.BlogPost_Id && ks.Tag_Id == model.Tag_Id).Result.Any())
+                if (!tagToBlogPostRepository.Get(ks => ks.BlogPost_Id == model.BlogPost_Id && ks.Tag_Id == model.Tag_Id).Any())
                 {
                     await tagToBlogPostRepository.AddItem(model);
                 }
@@ -32,23 +32,23 @@ namespace BusinessLogicLayer.TagToBlogPostService
         }
         public async Task<bool> DeleteTagToBlogPost(int BlogPost_Id, int Tag_Id)
         {
-            if (tagToBlogPostRepository.Get(s => s.Tag_Id == Tag_Id && s.BlogPost_Id == BlogPost_Id).Result.Any())
+            if (tagToBlogPostRepository.Get(s => s.Tag_Id == Tag_Id && s.BlogPost_Id == BlogPost_Id).Any())
             {
-                var TagToBlogPost = tagToBlogPostRepository.Get(s => s.Tag_Id == Tag_Id && s.BlogPost_Id == BlogPost_Id).Result.FirstOrDefault();
+                var TagToBlogPost = tagToBlogPostRepository.Get(s => s.Tag_Id == Tag_Id && s.BlogPost_Id == BlogPost_Id).FirstOrDefault();
                 await tagToBlogPostRepository.DeleteItem(TagToBlogPost); return true;
             }
             return false;
         }
         public TagToBlogPost TagToBlogPostDetail(int BlogPost_Id, int Tag_Id)
         {
-            var model = tagToBlogPostRepository.Get(ks => ks.BlogPost_Id == BlogPost_Id && ks.Tag_Id == Tag_Id).Result.FirstOrDefault();
+            var model = tagToBlogPostRepository.Get(ks => ks.BlogPost_Id == BlogPost_Id && ks.Tag_Id == Tag_Id).FirstOrDefault();
             return model;
         }
         public ICollection<TagToBlogPost> TagToBlogPostList()
         {
 
 
-            return tagToBlogPostRepository.Get(null, ks => ks.Tag, ks => ks.BlogPost).Result.ToList();
+            return tagToBlogPostRepository.Get(null, ks => ks.Tag, ks => ks.BlogPost).ToList();
         }
     }
 }

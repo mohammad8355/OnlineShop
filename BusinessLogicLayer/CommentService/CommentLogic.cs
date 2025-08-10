@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DataAccessLayer.Models;
 using DataAccessLayer.services;
+using Microsoft.EntityFrameworkCore;
 
 namespace BusinessLogicLayer.CommentService
 {
@@ -41,13 +42,13 @@ namespace BusinessLogicLayer.CommentService
         }
         public async Task<bool> DeleteComment(int Id)
         {
-            var isReplyExist = await CommentRepository.Get(c => c.Reply_Id == Id);
-            var target = await CommentRepository.Get(c => c.Id == Id);
-            if (target.Any())
+            var isReplyExist = await CommentRepository.Get(c => c.Reply_Id == Id).AnyAsync();
+            var target = await CommentRepository.Get(c => c.Id == Id).AnyAsync();
+            if (target)
             {
-                if (isReplyExist.Any())
+                if (isReplyExist)
                 {
-                    var comments = isReplyExist.ToList();
+                    var comments = await CommentRepository.Get(c => c.Reply_Id == Id).ToListAsync();
                     foreach (var comment in comments)
                     {
                         comment.Reply_Id = null;
@@ -66,12 +67,12 @@ namespace BusinessLogicLayer.CommentService
         }
         public Commnet CommentDetail(int Id)
         {
-            var comment =  CommentRepository.Get(c => c.Id == Id,c => c.User).Result.FirstOrDefault();
+            var comment =  CommentRepository.Get(c => c.Id == Id,c => c.User).FirstOrDefault();
             return comment;
         }
         public List<Commnet> CommentList()
         {
-            var comment = CommentRepository.Get(null, c => c.User,c => c.Product).Result.ToList();
+            var comment = CommentRepository.Get(null, c => c.User,c => c.Product).ToList();
             return comment;
         }
         public List<Commnet> CommentsOfProduct(int Product_Id)
@@ -94,7 +95,8 @@ namespace BusinessLogicLayer.CommentService
         }
         public List<Commnet> LimitedComment(int value = 10)
         {
-            var comments = CommentRepository.Get(c => c.Product_Id != 0 && c.Product_Id != null, c => c.User, c => c.Product).Result.OrderByDescending(o => o.Id).Take(value).ToList();
+            var comments = CommentRepository.Get(c => c.Product_Id != 0 && c.Product_Id != null, 
+                c => c.User, c => c.Product).OrderByDescending(o => o.Id).Take(value).ToList();
             return comments;
         }
     }

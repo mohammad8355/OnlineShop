@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BusinessLogicLayer.CategoryService.Dtos;
+using Microsoft.EntityFrameworkCore;
 
 namespace BusinessLogicLayer.CategoryService
 {
@@ -94,19 +96,32 @@ namespace BusinessLogicLayer.CategoryService
         public ICollection<Category> CategoryList()
         {
             ICollection<Category> categories = new List<Category>();
-            foreach (var item in CategoryRepository.Get(null,v => v.keyToSubCategories ,f => f.ChildCategories,i => i.ParentCategory ).Result.ToList())
+            foreach (var item in 
+                     CategoryRepository.Get(null,v => v.keyToSubCategories
+                             ,f => f.ChildCategories,i => i.ParentCategory ).
+                         ToList())
             {
                 foreach(var key in item.keyToSubCategories)
                 {
-                    key.adjKey = adjkeyRepository.Get(k => k.Id == key.key_Id).Result.FirstOrDefault();
+                    key.adjKey = adjkeyRepository.Get(k => k.Id == key.key_Id).FirstOrDefault();
                 }
                 categories.Add(item);
             }
             return categories;
         }
+
+        public async Task<List<CategoryNameAndIdListDto>> GetCategoryNameAndIdList()
+        {
+            var list = await CategoryRepository.Get(c => c.ParentId == null).Select(c => new CategoryNameAndIdListDto()
+            {
+                Name = c.Name,
+                Id = c.Id,
+            }).ToListAsync();;
+            return list;
+        }
         public Category CategoryDetail(int Id)
         {
-            return CategoryRepository.Get(c => c.Id == Id,v => v.keyToSubCategories ,o => o.ChildCategories).Result.FirstOrDefault();
+            return CategoryRepository.Get(c => c.Id == Id,v => v.keyToSubCategories ,o => o.ChildCategories).FirstOrDefault();
         }
         public List<Category> CategoryParent()
         {

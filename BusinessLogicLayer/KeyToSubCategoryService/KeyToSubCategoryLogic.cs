@@ -24,7 +24,7 @@ namespace BusinessLogicLayer.KeyToSubCategoryService
             }
             else
             {
-                if(!KeyToSubCategoryRepository.Get(ks => ks.key_Id == model.key_Id && ks.SubCategory_Id == model.SubCategory_Id).Result.Any())
+                if(!KeyToSubCategoryRepository.Get(ks => ks.key_Id == model.key_Id && ks.SubCategory_Id == model.SubCategory_Id).Any())
                 {
                     await KeyToSubCategoryRepository.AddItem(model);
                 }
@@ -33,7 +33,7 @@ namespace BusinessLogicLayer.KeyToSubCategoryService
         }
         //public async Task<bool> DeleteKeyToSubCategoryFromKey(int Id)
         //{
-        //    if (KeyToSubCategoryRepository.Get(s => s.key_Id == Id).Result.Any())
+        //    if (KeyToSubCategoryRepository.Get(s => s.key_Id == Id).Any())
         //    {
         //        await KeyToSubCategoryRepository.DeleteItem(Id); return true;
         //    }
@@ -41,23 +41,23 @@ namespace BusinessLogicLayer.KeyToSubCategoryService
         //}
         public async Task<bool> DeleteKeyToSubCategory(int key_Id,int subcategory_Id)
         {
-            if (KeyToSubCategoryRepository.Get(s => s.SubCategory_Id == subcategory_Id && s.key_Id == key_Id).Result.Any())
+            if (KeyToSubCategoryRepository.Get(s => s.SubCategory_Id == subcategory_Id && s.key_Id == key_Id).Any())
             {
-                var keytosubcategory = KeyToSubCategoryRepository.Get(s => s.SubCategory_Id == subcategory_Id && s.key_Id == key_Id).Result.FirstOrDefault();
+                var keytosubcategory = KeyToSubCategoryRepository.Get(s => s.SubCategory_Id == subcategory_Id && s.key_Id == key_Id).FirstOrDefault();
                 await KeyToSubCategoryRepository.DeleteItem(keytosubcategory); return true;
             }
             return false;
         }
         public KeyToSubCategory KeytoSubCategoryDetail(int key_Id, int SubCategory_Id)
         {
-            var model = KeyToSubCategoryRepository.Get(ks => ks.key_Id == key_Id && ks.SubCategory_Id == SubCategory_Id).Result.FirstOrDefault();
+            var model = KeyToSubCategoryRepository.Get(ks => ks.key_Id == key_Id && ks.SubCategory_Id == SubCategory_Id).FirstOrDefault();
             return model;
         }
         public ICollection<KeyToSubCategory> KeyToSubCategoryList()
         {
 
 
-            return KeyToSubCategoryRepository.Get(null, ks => ks.subCategory, ks => ks.adjKey).Result.ToList();
+            return KeyToSubCategoryRepository.Get(null, ks => ks.subCategory, ks => ks.adjKey).ToList();
         }
     }
 }

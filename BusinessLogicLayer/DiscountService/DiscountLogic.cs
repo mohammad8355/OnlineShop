@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Utility.DiscountCodeGenerator;
 
 namespace BusinessLogicLayer.DiscountService
@@ -65,10 +66,10 @@ namespace BusinessLogicLayer.DiscountService
         }
         public async Task<Discount> DiscountDetails(int Id)
         {
-            if (DiscountRepository.Get(p => p.Id == Id).Result.Any())
+            if (DiscountRepository.Get(p => p.Id == Id).Any())
             {
-                var discount = DiscountRepository.Get(d => d.Id == Id).Result.First();
-                discount.discountToProducts = DiscountToProductRepository.Get(d => d.Discount_Id == Id).Result.ToList();
+                var discount = DiscountRepository.Get(d => d.Id == Id).First();
+                discount.discountToProducts = DiscountToProductRepository.Get(d => d.Discount_Id == Id).ToList();
                 return discount;
             }
             else
@@ -78,11 +79,11 @@ namespace BusinessLogicLayer.DiscountService
         }
         public async Task<Discount> DiscountDetails(string code)
         {
-            if (DiscountRepository.Get(p => p.DiscountCode == code && p.Active == true).Result.Any())
+            if (DiscountRepository.Get(p => p.DiscountCode == code && p.Active == true).Any())
             {
-                var result = await DiscountRepository.Get(d => d.DiscountCode == code && d.Active == true);
+                var result = await DiscountRepository.Get(d => d.DiscountCode == code && d.Active == true).ToListAsync();
                 var discount = result.First();
-                discount.discountToProducts = DiscountToProductRepository.Get(d => d.Discount_Id == discount.Id).Result.ToList();
+                discount.discountToProducts = DiscountToProductRepository.Get(d => d.Discount_Id == discount.Id).ToList();
                 return discount;
             }
             else
@@ -147,9 +148,9 @@ namespace BusinessLogicLayer.DiscountService
         public async Task<ICollection<Discount>> DiscountList()
         {
             ICollection<Discount> discountList = new List<Discount>();
-            foreach (var item in DiscountRepository.Get().Result.ToList())
+            foreach (var item in DiscountRepository.Get().ToList())
             {
-                var discountToProduct = DiscountToProductRepository.Get(d => d.Discount_Id == item.Id).Result.ToList();
+                var discountToProduct = DiscountToProductRepository.Get(d => d.Discount_Id == item.Id).ToList();
                 item.discountToProducts = discountToProduct;
                 discountList.Add(item);
             }

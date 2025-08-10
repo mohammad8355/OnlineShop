@@ -7,6 +7,7 @@ using BusinessLogicLayer.OrderDetailsService;
 using DataAccessLayer.Migrations;
 using DataAccessLayer.Models;
 using DataAccessLayer.services;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace BusinessLogicLayer.OrderService
@@ -48,7 +49,7 @@ namespace BusinessLogicLayer.OrderService
         {
             if (Id != 0)
             {
-                var orderDetails = orderDetailsLogic.OrderDetailsByOrderId(Id);
+                var orderDetails = await orderDetailsLogic.OrderDetailsByOrderId(Id);
                 if (orderDetails != null)
                 {
                     if (orderDetails.Count() == 0)
@@ -64,19 +65,19 @@ namespace BusinessLogicLayer.OrderService
             return false;
         }
         
-    public Order OrderDetail(int Id)
+    public async Task<Order> OrderDetail(int Id)
         {
-            var order = orderRepository.Get(o => o.Id == Id).Result.FirstOrDefault();
-            var orderDetails = orderDetailsLogic.OrderDetailsByOrderId(Id);
+            var order = await orderRepository.Get(o => o.Id == Id).FirstOrDefaultAsync();
+            var orderDetails = await orderDetailsLogic.OrderDetailsByOrderId(Id);
             order.orderDetails = orderDetails;
             return order;
         }
-        public List<Order> OrderList()
+        public async Task<List<Order>> OrderList()
         {
-            var orders = orderRepository.Get().Result.ToList();
+            var orders = orderRepository.Get().ToList();
             foreach (var order in orders)
             {
-                var orderDetails = orderDetailsLogic.OrderDetailsByOrderId(order.Id);
+                var orderDetails = await orderDetailsLogic.OrderDetailsByOrderId(order.Id);
                 order.orderDetails = orderDetails;
             }
             return orders;
@@ -86,7 +87,7 @@ namespace BusinessLogicLayer.OrderService
             var order = new Order();
             if (!string.IsNullOrEmpty(user_Id))
             {
-                order = OrderList().Where(o => o.User_Id == user_Id && o.IsFinally == false).FirstOrDefault();
+                order = OrderList().Result.Where(o => o.User_Id == user_Id && o.IsFinally == false).FirstOrDefault();
             }
             return order;
         }
@@ -95,13 +96,13 @@ namespace BusinessLogicLayer.OrderService
             var order = new List<Order>();
             if (!string.IsNullOrEmpty(user_Id))
             {
-                order.AddRange(OrderList().Where(o => o.User_Id == user_Id).ToList());
+                order.AddRange(OrderList().Result.Where(o => o.User_Id == user_Id).ToList());
             }
             return order;
         }
-        public List<Order> OrderFilter(DateTime fromDate,DateTime ToDate,string Search = "",string Status = "all")
+        public async Task<List<Order>> OrderFilter(DateTime fromDate,DateTime ToDate,string Search = "",string Status = "all")
         {
-            var orders = OrderList();
+            var orders = await OrderList();
             if (!string.IsNullOrEmpty(Search))
             {
                 orders = orders.Where(o => o.orderDetails.Any(od => od.Product.Name.Contains(Search))).ToList();

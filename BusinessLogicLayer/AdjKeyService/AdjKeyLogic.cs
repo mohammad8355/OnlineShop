@@ -49,23 +49,23 @@ namespace BusinessLogicLayer.AdjKeyService
         }
         public async Task<bool> DeleteAdjKey(int Id)
         {
-            if (KeyToSubCategoryRepository.Get(k => k.key_Id == Id).Result.Any())
+            if (KeyToSubCategoryRepository.Get(k => k.key_Id == Id).Any())
             {
-                foreach (var item in KeyToSubCategoryRepository.Get(k => k.key_Id == Id).Result.ToList())
+                foreach (var item in KeyToSubCategoryRepository.Get(k => k.key_Id == Id).ToList())
                 {
                     await KeyToSubCategoryRepository.DeleteItem(item);
                 }
             }
-            if (KeyToProductRepository.Get(k => k.Key_Id == Id).Result.Any())
+            if (KeyToProductRepository.Get(k => k.Key_Id == Id).Any())
             {
-                foreach (var item in KeyToProductRepository.Get(k => k.Key_Id == Id).Result.ToList())
+                foreach (var item in KeyToProductRepository.Get(k => k.Key_Id == Id).ToList())
                 {
                     await KeyToProductRepository.DeleteItem(item);
                 }
             }
-            if (AdjValueRepository.Get(v => v.adjkey_Id == Id).Result.Any())
+            if (AdjValueRepository.Get(v => v.adjkey_Id == Id).Any())
             {
-                foreach (var item in AdjValueRepository.Get(v => v.adjkey_Id == Id).Result.ToList())
+                foreach (var item in AdjValueRepository.Get(v => v.adjkey_Id == Id).ToList())
                 {
                     await AdjValueRepository.DeleteItem(item.Id);
                 }
@@ -81,10 +81,10 @@ namespace BusinessLogicLayer.AdjKeyService
         }
         public AdjKey AdjKeyDetail(int Id)
         {
-            var model = AdjKeyRepository.Get(k => k.Id == Id).Result.FirstOrDefault();
-            var keyToProduct = KeyToProductRepository.Get(kp => kp.Key_Id == Id).Result.ToList();
-            var keyToSubcategory = KeyToSubCategoryRepository.Get(ks => ks.key_Id == Id).Result.ToList();
-            var AdjValues = AdjValueRepository.Get(v => v.adjkey_Id == Id).Result.ToList();
+            var model = AdjKeyRepository.Get(k => k.Id == Id).FirstOrDefault();
+            var keyToProduct = KeyToProductRepository.Get(kp => kp.Key_Id == Id).ToList();
+            var keyToSubcategory = KeyToSubCategoryRepository.Get(ks => ks.key_Id == Id).ToList();
+            var AdjValues = AdjValueRepository.Get(v => v.adjkey_Id == Id).ToList();
             model.KeyToProducts = keyToProduct;
             model.keyToSubCategories = keyToSubcategory;
             model.adjValues = AdjValues;
@@ -94,11 +94,11 @@ namespace BusinessLogicLayer.AdjKeyService
         {
 
             List<AdjKey> keys = new List<AdjKey>();
-            foreach (var item in AdjKeyRepository.Get().Result.ToList())
+            foreach (var item in AdjKeyRepository.Get().ToList())
             {
-                var keyToProduct = KeyToProductRepository.Get(kp => kp.Key_Id == item.Id, v => v.product).Result.ToList();
-                var keyToSubcategory = KeyToSubCategoryRepository.Get(ks => ks.key_Id == item.Id, k => k.subCategory).Result.ToList();
-                var AdjValues = AdjValueRepository.Get(v => v.adjkey_Id == item.Id).Result.ToList();
+                var keyToProduct = KeyToProductRepository.Get(kp => kp.Key_Id == item.Id, v => v.product).ToList();
+                var keyToSubcategory = KeyToSubCategoryRepository.Get(ks => ks.key_Id == item.Id, k => k.subCategory).ToList();
+                var AdjValues = AdjValueRepository.Get(v => v.adjkey_Id == item.Id).ToList();
                 item.keyToSubCategories = keyToSubcategory;
                 item.KeyToProducts = keyToProduct;
                 item.adjValues = AdjValues;

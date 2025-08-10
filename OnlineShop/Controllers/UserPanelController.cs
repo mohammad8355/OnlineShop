@@ -89,16 +89,16 @@ namespace PresentationLayer.Controllers
             return View();
         }
         [HttpGet]
-        public IActionResult OrderFilter(OrderFilterViewModel model)
+        public async Task<IActionResult> OrderFilter(OrderFilterViewModel model)
         {
             var resultModel = new OrdersViewModel();
             if (model != null)
             {
-                resultModel.Orders = _orderLogic.OrderFilter(model.FromDate, model.ToDate, model.Search, model.Status);
+                resultModel.Orders = await _orderLogic.OrderFilter(model.FromDate, model.ToDate, model.Search, model.Status);
             }
             else
             {
-                resultModel.Orders = _orderLogic.OrderList();
+                resultModel.Orders =await _orderLogic.OrderList();
             }
             return PartialView("Partials/_OrdersPartial", resultModel);
         }

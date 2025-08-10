@@ -20,7 +20,7 @@ namespace PresentationLayer.Controllers
         {
             var HaveDiscount = await _discountLogic.DiscountDetails(code);
             var result = _discountLogic.IsValid(HaveDiscount);
-            var order = _orderLogic.OrderDetail(orderId);
+            var order =await  _orderLogic.OrderDetail(orderId);
             var message = "";
             decimal value = 0;
             if (result.result)

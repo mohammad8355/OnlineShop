@@ -26,7 +26,7 @@ namespace BusinessLogicLayer.AdjValueService
             }
             else
             {
-               var adjKey = AdjKeyRepository.Get(k => k.Id == model.adjkey_Id).Result.FirstOrDefault();
+               var adjKey = AdjKeyRepository.Get(k => k.Id == model.adjkey_Id).FirstOrDefault();
                 model.adjKey = adjKey;
                await AdjValueRepository.AddItem(model);
                 return true;
@@ -40,7 +40,7 @@ namespace BusinessLogicLayer.AdjValueService
             }
             else
             {
-                var adjKey = AdjKeyRepository.Get(k => k.Id == model.adjkey_Id).Result.FirstOrDefault();
+                var adjKey = AdjKeyRepository.Get(k => k.Id == model.adjkey_Id).FirstOrDefault();
                 model.adjKey = adjKey;
                  AdjValueRepository.EditItem(model);
 
@@ -60,16 +60,16 @@ namespace BusinessLogicLayer.AdjValueService
         }
         public AdjValue AdjValueDetail(int Id)
         {
-                var model = AdjValueRepository.Get(a => a.Id == Id).Result.FirstOrDefault();
-                    model.adjKey = AdjKeyRepository.Get(k => k.Id == model.adjkey_Id).Result.FirstOrDefault();
+                var model = AdjValueRepository.Get(a => a.Id == Id).FirstOrDefault();
+                    model.adjKey = AdjKeyRepository.Get(k => k.Id == model.adjkey_Id).FirstOrDefault();
                     return model;
         }
         public ICollection<AdjValue> AdjValueList()
         {
             ICollection<AdjValue> adjValues = new List<AdjValue>();
-            foreach(var item in AdjValueRepository.Get().Result.ToList())
+            foreach(var item in AdjValueRepository.Get().ToList())
             {
-                item.adjKey = AdjKeyRepository.Get(k => k.Id == item.adjkey_Id).Result.FirstOrDefault();
+                item.adjKey = AdjKeyRepository.Get(k => k.Id == item.adjkey_Id).FirstOrDefault();
                 adjValues.Add(item);
             }
             return adjValues;

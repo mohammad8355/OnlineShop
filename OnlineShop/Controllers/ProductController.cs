@@ -162,6 +162,10 @@ namespace PresentationLayer.Controllers
             }
             return RedirectToAction("Index", "Home");
         }
+        public async Task<IActionResult> ProductList(int? categoryId)
+        {
+            return ViewComponent("ProductList", new { CategoryId = categoryId });
+        }
 
     }
 }

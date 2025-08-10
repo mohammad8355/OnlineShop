@@ -23,7 +23,7 @@ namespace BusinessLogicLayer.CategoryToProductService
             }
             else
             {
-                if (!CategoryToProductRepository.Get(ks => ks.Category_Id == model.Category_Id && ks.Product_Id == model.Product_Id).Result.Any())
+                if (!CategoryToProductRepository.Get(ks => ks.Category_Id == model.Category_Id && ks.Product_Id == model.Product_Id).Any())
                 {
                     await CategoryToProductRepository.AddItem(model);
                 }
@@ -32,21 +32,21 @@ namespace BusinessLogicLayer.CategoryToProductService
         }
         public async Task<bool> DeleteCategoryToProduct(int Category_Id, int Product_Id)
         {
-            if (CategoryToProductRepository.Get(s => s.Category_Id == Category_Id && s.Product_Id == Product_Id).Result.Any())
+            if (CategoryToProductRepository.Get(s => s.Category_Id == Category_Id && s.Product_Id == Product_Id).Any())
             {
-                var categoryToProduct = CategoryToProductRepository.Get(s => s.Category_Id == Category_Id && s.Product_Id == Product_Id).Result.FirstOrDefault();
+                var categoryToProduct = CategoryToProductRepository.Get(s => s.Category_Id == Category_Id && s.Product_Id == Product_Id).FirstOrDefault();
                 await CategoryToProductRepository.DeleteItem(categoryToProduct); return true;
             }
             return false;
         }
         public CategoryToProduct KeytoSubCategoryDetail(int Category_Id, int Product_Id)
         {
-            var model = CategoryToProductRepository.Get(s => s.Category_Id == Category_Id && s.Product_Id == Product_Id).Result.FirstOrDefault();
+            var model = CategoryToProductRepository.Get(s => s.Category_Id == Category_Id && s.Product_Id == Product_Id).FirstOrDefault();
             return model;
         }
         public ICollection<CategoryToProduct> CategoryToProductList()
         {
-            return CategoryToProductRepository.Get(null, ks => ks.Category, ks => ks.Product,f => f.Product.ProductPhotos).Result.ToList();
+            return CategoryToProductRepository.Get(null, ks => ks.Category, ks => ks.Product,f => f.Product.ProductPhotos).ToList();
         }
     }
 }

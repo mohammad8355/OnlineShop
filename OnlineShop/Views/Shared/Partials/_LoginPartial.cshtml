@@ -1,53 +1,150 @@
-﻿@using DataAccessLayer.Models;
-@using Microsoft.AspNetCore.Identity;
+﻿@using DataAccessLayer.Models
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.IdentityModel.Tokens
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
-
 @if (User.Identity.IsAuthenticated)
 {
+    <div class="flex items-center py-2.5 px-2.5 md:px-4 rounded-xl border border-zinc-200 group relative cursor-pointer transition-all hover:shadow-xl">
+        <button data-modal-id="modal-1" class="show-modal-btn text-gray-700 flex gap-x-1.5 items-center cursor-pointer" type="button">
+            <span class="hidden md:block text-sm">
+                حساب کاربری
+            </span>
+            <svg width="22px" height="22px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <title>1xIconly/Light/Profile</title>
+                <desc>Created with Sketch.</desc>
+                <g id="Iconly/Light/Profile" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+                    <g class="stroke-gray-800" id="Profile" transform="translate(4.000000, 2.500000)" stroke="#200E32" stroke-width="1.5">
+                        <circle id="Ellipse_736" cx="7.57896359" cy="4.77803206" r="4.77803206"></circle>
+                        <path d="M5.32907052e-15,16.2013731 C-0.00126760558,15.8654831 0.0738531734,15.5336997 0.219695816,15.2311214 C0.677361723,14.3157895 1.96797958,13.8306637 3.0389178,13.610984 C3.81127745,13.4461621 4.59430539,13.3360488 5.38216724,13.2814646 C6.84083861,13.1533327 8.30793524,13.1533327 9.76660662,13.2814646 C10.5544024,13.3366774 11.3373865,13.4467845 12.1098561,13.610984 C13.1807943,13.8306637 14.4714121,14.270023 14.929078,15.2311214 C15.2223724,15.8479159 15.2223724,16.5639836 14.929078,17.1807781 C14.4714121,18.1418765 13.1807943,18.5812358 12.1098561,18.7917621 C11.3383994,18.9634099 10.5550941,19.0766219 9.76660662,19.1304349 C8.57936754,19.2310812 7.38658584,19.2494317 6.19681255,19.1853548 C5.92221301,19.1853548 5.65676678,19.1853548 5.38216724,19.1304349 C4.59663136,19.077285 3.8163184,18.9640631 3.04807112,18.7917621 C1.96797958,18.5812358 0.686515041,18.1418765 0.219695816,17.1807781 C0.0745982583,16.8746908 -0.000447947969,16.5401098 5.32907052e-15,16.2013731 Z" id="Path_33945"></path>
+                    </g>
+                </g>
+            </svg>
+        </button>
 
+        <!-- Modal file -->
+        <div id="modal-1" class="Mymodal fixed inset-0 z-50 hidden bg-black/40 flex items-center justify-center">
+            <div class="modal-content relative w-full max-w-7xl max-h-[90vh] transform scale-95 opacity-0 transition-all duration-300">
+                <div class="bg-white rounded-2xl mx-auto border border-zinc-200 w-11/12 sm:w-7/12 md:w-6/12 lg:w-4/12 h-auto py-5 px-4">
+                    <img class="w-32 mx-auto" src="~/Image/logo.png" alt="">
+                    <div class="mt-5 text-lg font-semibold text-zinc-800">
+                        ورود یا ثبت نام
+                    </div>
+                    <div class="my-4 text-xs text-zinc-500">
+                        لطفا شماره موبایل خود را وارد کنید
+                    </div>
+                    <div class="flex flex-col gap-y-1">
+                        <input type="tel" placeholder="شماره تلفن" name="" class="placeholder:text-right text-sm block w-full rounded-md border border-gray-300 px-3 py-3 font-normal text-gray-700 outline-none transition-all focus:border-primary-500 focus:outline-none">
+                    </div>
+                    <a href="" class="flex items-center justify-center gap-x-1 text-sm max-w-md mt-10 py-3 rounded-lg text-white bg-gradient-to-bl from-primary-600 to-primary-800 hover:opacity-85 transition">
+                        ورود
+                    </a>
+                </div>
+                <!-- verify (commented out) -->
+            </div>
+        </div>
 
-    <div class="btn-group login">
-        <a id="manage" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
-            <i class="fa-solid fa-user"></i>
-        </a>
-    </div>
-    <div class="dropdown">
-        <span> سلام @UserManager.GetUserName(User)!</span>
-        <ul class="dropdownList">
-            @{
-            
-                var user = await UserManager.FindByNameAsync(User.Identity.Name);
-                var role = await UserManager.GetRolesAsync(user);
-                @if (User.IsInRole("Admin") || User.IsInRole("admin"))
-                {
-                    <li><a id="manage" asp-area="dashboard" asp-action="Index" asp-controller="Dashboard" title="Manage">پنل مدیریت</a></li>
+        <div class="z-50 group-hover:block left-0 top-[37px] w-60 rounded-lg bg-white shadow-lg hidden absolute">
+            <ul class="space-y-1 p-2">
+                @{
+                    var user = await UserManager.FindByNameAsync(User.Identity.Name);
+                    var role = await UserManager.GetRolesAsync(user);
+                    if (User.IsInRole("Admin") || User.IsInRole("admin"))
+                    {
+                        <li>
+                            <a id="manage" asp-area="dashboard" asp-action="Index" asp-controller="Dashboard" title="Manage" class="flex items-center justify-between gap-x-2 rounded-lg p-2 text-zinc-700 hover:text-zinc-800 transition hover:bg-gray-100">
+                                <span class="flex items-center gap-x-2">
+                                    <span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#4d4d4d" viewBox="0 0 256 256"><path d="M229.19,213c-15.81-27.32-40.63-46.49-69.47-54.62a70,70,0,1,0-63.44,0C67.44,166.5,42.62,185.67,26.81,213a6,6,0,1,0,10.38,6C56.4,185.81,90.34,166,128,166s71.6,19.81,90.81,53a6,6,0,1,0,10.38-6ZM70,96a58,58,0,1,1,58,58A58.07,58.07,0,0,1,70,96Z"></path></svg>
+                                    </span>
+                                    <span class="text-sm">پنل مدیریت</span>
+                                </span>
+                            </a>
+                        </li>
+                    }
 
+                    <li>
+                        <a id="manage" asp-area="" asp-action="Index" asp-controller="UserPanel" title="Manage" class="flex items-center justify-between gap-x-2 rounded-lg p-2 text-zinc-700 hover:text-zinc-800 transition hover:bg-gray-100">
+                            <span class="flex items-center gap-x-2">
+                                <span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#4d4d4d" viewBox="0 0 256 256"><path d="M229.19,213c-15.81-27.32-40.63-46.49-69.47-54.62a70,70,0,1,0-63.44,0C67.44,166.5,42.62,185.67,26.81,213a6,6,0,1,0,10.38,6C56.4,185.81,90.34,166,128,166s71.6,19.81,90.81,53a6,6,0,1,0,10.38-6ZM70,96a58,58,0,1,1,58,58A58.07,58.07,0,0,1,70,96Z"></path></svg>
+                                </span>
+                                @{
+                                    if (string.IsNullOrEmpty(user.FullName))
+                                    {
+                                        <span class="text-sm">@user.UserName</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-sm">@user.FullName</span>
+                                    }
+                                }
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="flex items-center justify-between gap-x-2 rounded-lg p-2 text-zinc-700 hover:text-zinc-800 transition hover:bg-gray-100" href="./profile-order.html">
+                            <span class="flex items-center gap-x-2">
+                                <span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#4d4d4d" viewBox="0 0 256 256"><path d="M237.9,198.36l-14.25-120a14.06,14.06,0,0,0-14-12.36H174V64a46,46,0,0,0-92,0v2H46.33a14.06,14.06,0,0,0-14,12.36l-14.25,120a14,14,0,0,0,14,15.64H223.92a14,14,0,0,0,14-15.64ZM94,64a34,34,0,0,1,68,0v2H94ZM225.5,201.3a2.07,2.07,0,0,1-1.58.7H32.08a2.07,2.07,0,0,1-1.58-.7,1.92,1.92,0,0,1-.49-1.53l14.26-120A2,2,0,0,1,46.33,78H209.67a2,2,0,0,1,2.06,1.77l14.26,120A1.92,1.92,0,0,1,225.5,201.3Z"></path></svg>
+                                </span>
+                                <span class="text-sm">سفارش ها</span>
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <form id="logoutForm" class="flex items-center justify-between gap-x-2 rounded-lg p-2 text-red-500 hover:text-red-600 transition hover:bg-red-100" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                            <button id="logout" type="submit" class="flex items-center gap-x-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#4d4d4d" viewBox="0 0 256 256"><path d="M110,216a6,6,0,0,1-6,6H48a14,14,0,0,1-14-14V48A14,14,0,0,1,48,34h56a6,6,0,0,1,0,12H48a2,2,0,0,0-2,2V208a2,2,0,0,0,2,2h56A6,6,0,0,1,110,216Zm110.24-92.24-40-40a6,6,0,0,0-8.48,8.48L201.51,122H104a6,6,0,0,0,0,12h97.51l-29.75,29.76a6,6,0,1,0,8.48,8.48l40-40A6,6,0,0,0,220.24,123.76Z"></path></svg>
+                                <span>خروج از حساب کاربری</span>
+                            </button>
+                        </form>
+                    </li>
                 }
-            }
-            <li><a id="manage" asp-area="" asp-action="Index" asp-controller="UserPanel"  title="Manage" >پنل کاربری</a></li>
-            <li>
-                <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                    <button id="logout" type="submit">خروج</button>
-                </form>
-            </li>
-        </ul>
+            </ul>
+        </div>
     </div>
 }
 else
 {
-    <div class="btn-group login">
-        <a asp-area="Identity" asp-page="/Account/Register">
-            <i class="fa-solid fa-user"></i>
-        </a>
-    </div>
-    <div class="dropdown">
-        <span>ورود | ثبت نام</span>
-        <ul class="dropdownList">
-            <li><a id="register" asp-area="Identity" asp-page="/Account/Register">ثبت نام</a></li>
-            <li><a id="login" asp-area="Identity" asp-page="/Account/Login">ورود</a></li>
-        </ul>
+    <div class="flex items-center py-2.5 px-2.5 md:px-4 rounded-xl border border-zinc-200 group relative cursor-pointer transition-all hover:shadow-xl">
+        <button data-modal-id="modal-1" class="show-modal-btn text-gray-700 flex gap-x-1.5 items-center cursor-pointer" type="button">
+            <span class="hidden md:block text-sm">
+                ورود | ثبت نام
+            </span>
+            <svg width="22px" height="22px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <title>1xIconly/Light/Profile</title>
+                <desc>Created with Sketch.</desc>
+                <g id="Iconly/Light/Profile" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+                    <g class="stroke-gray-800" id="Profile" transform="translate(4.000000, 2.500000)" stroke="#200E32" stroke-width="1.5">
+                        <circle id="Ellipse_736" cx="7.57896359" cy="4.77803206" r="4.77803206"></circle>
+                        <path d="M5.32907052e-15,16.2013731 C-0.00126760558,15.8654831 0.0738531734,15.5336997 0.219695816,15.2311214 C0.677361723,14.3157895 1.96797958,13.8306637 3.0389178,13.610984 C3.81127745,13.4461621 4.59430539,13.3360488 5.38216724,13.2814646 C6.84083861,13.1533327 8.30793524,13.1533327 9.76660662,13.2814646 C10.5544024,13.3366774 11.3373865,13.4467845 12.1098561,13.610984 C13.1807943,13.8306637 14.4714121,14.270023 14.929078,15.2311214 C15.2223724,15.8479159 15.2223724,16.5639836 14.929078,17.1807781 C14.4714121,18.1418765 13.1807943,18.5812358 12.1098561,18.7917621 C11.3383994,18.9634099 10.5550941,19.0766219 9.76660662,19.1304349 C8.57936754,19.2310812 7.38658584,19.2494317 6.19681255,19.1853548 C5.92221301,19.1853548 5.65676678,19.1853548 5.38216724,19.1304349 C4.59663136,19.077285 3.8163184,18.9640631 3.04807112,18.7917621 C1.96797958,18.5812358 0.686515041,18.1418765 0.219695816,17.1807781 C0.0745982583,16.8746908 -0.000447947969,16.5401098 5.32907052e-15,16.2013731 Z" id="Path_33945"></path>
+                    </g>
+                </g>
+            </svg>
+        </button>
+
+        <!-- Modal file -->
+        <div id="modal-1" class="Mymodal fixed inset-0 z-50 hidden bg-black/40 flex items-center justify-center">
+            <div class="modal-content relative w-full max-w-7xl max-h-[90vh] transform scale-95 opacity-0 transition-all duration-300">
+                <div class="bg-white rounded-2xl mx-auto border border-zinc-200 w-11/12 sm:w-7/12 md:w-6/12 lg:w-4/12 h-auto py-5 px-4">
+                    <img class="w-32 mx-auto" src="~/Image/logo.png" alt="">
+                    <div class="mt-5 text-lg font-semibold text-zinc-800">
+                        ورود یا ثبت نام
+                    </div>
+                    <div class="my-4 text-xs text-zinc-500">
+                        لطفا شماره موبایل خود را وارد کنید
+                    </div>
+                    <div class="flex flex-col gap-y-1">
+                        <input type="tel" placeholder="شماره تلفن" name="" class="placeholder:text-right text-sm block w-full rounded-md border border-gray-300 px-3 py-3 font-normal text-gray-700 outline-none transition-all focus:border-primary-500 focus:outline-none">
+                    </div>
+                    <a href="" class="flex items-center justify-center gap-x-1 text-sm max-w-md mt-10 py-3 rounded-lg text-white bg-gradient-to-bl from-primary-600 to-primary-800 hover:opacity-85 transition">
+                        ورود
+                    </a>
+                </div>
+                <!-- verify (commented out) -->
+            </div>
+        </div>
     </div>
 }
-

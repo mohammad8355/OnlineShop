@@ -5,7 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DataAccessLayer.Models;
- 
+using Microsoft.EntityFrameworkCore;
+
 
 namespace BusinessLogicLayer.GeneralService
 {
@@ -53,9 +54,9 @@ namespace BusinessLogicLayer.GeneralService
         }
         public async Task<General> GeneralDetail(int Id)
         {
-            if (GeneralRepository.Get(p => p.Id == Id).Result.Any())
+            if (GeneralRepository.Get(p => p.Id == Id).Any())
             {
-                var model = GeneralRepository.Get(p => p.Id == Id).Result.FirstOrDefault();
+                var model = GeneralRepository.Get(p => p.Id == Id).FirstOrDefault();
                 return model;
             }
             else
@@ -66,7 +67,7 @@ namespace BusinessLogicLayer.GeneralService
         public ICollection<General> GeneralList()
         {
             ICollection<General> Generals = new List<General>();
-            foreach (var item in GeneralRepository.Get().Result.ToList())
+            foreach (var item in GeneralRepository.Get().ToList())
             {
 
                 Generals.Add(item);
@@ -75,12 +76,12 @@ namespace BusinessLogicLayer.GeneralService
         }
         public async Task<List<General>> ReturnByLabel(string label)
         {
-            var ReturnByLabel = await GeneralRepository.Get(g => g.label == label);
+            var ReturnByLabel = await GeneralRepository.Get(g => g.label == label).ToListAsync();
             return ReturnByLabel.ToList();
         }
         public async Task<General> ReturnByName(string name)
         {
-            var ReturnByName = await GeneralRepository.Get(g => g. Name == name);
+            var ReturnByName = await GeneralRepository.Get(g => g. Name == name).ToListAsync();
             return ReturnByName.FirstOrDefault();
         }
     }

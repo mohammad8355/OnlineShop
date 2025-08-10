@@ -11,13 +11,15 @@ using BusinessLogicLayer.ProductPhotoService;
 using BusinessLogicLayer.AdjValueService;
 using BusinessLogicLayer.favoriteProductService;
 using BusinessLogicLayer.CommentService;
+using BusinessLogicLayer.ProductService.Dtos;
 
 namespace BusinessLogicLayer.ProductService
 {
     public class ProductLogic
     {
         private readonly MainRepository<Product> ProductRepository;
-        private readonly MainRepository<Category> SubCategoryRepository;
+        private readonly MainRepository<CategoryToProduct> CategoryToProductRepository;
+        private readonly MainRepository<Category> CategoryRepository;
         private readonly MainRepository<KeyToProduct> KeyToProductRepository;
         private readonly MainRepository<DiscountToProduct> DiscountToProductRepository;
         private readonly MainRepository<ProductPhoto> productphotoRepository;
@@ -26,14 +28,23 @@ namespace BusinessLogicLayer.ProductService
         private readonly MainRepository<FavoriteProduct> favoriteProductRepository;
         private readonly CommentLogic commentLogic;
         private readonly MainRepository<AdjValue> adjValueLogic;
-        public ProductLogic(CommentLogic commentLogic, MainRepository<ValueToProduct> ValueToProductRepository, MainRepository<FavoriteProduct> favoriteProductRepository, MainRepository<AdjValue> adjValueLogic, CategoryToProductLogic categoryToProductLogic, MainRepository<Product> ProductRepository, MainRepository<Category> SubRepository, MainRepository<KeyToProduct> KeyToProductRepository, MainRepository<DiscountToProduct> discountToProductRepository, MainRepository<ProductPhoto> productphotoRepository)
+        public ProductLogic(CommentLogic commentLogic,
+            MainRepository<ValueToProduct> ValueToProductRepository,
+            
+            MainRepository<FavoriteProduct> favoriteProductRepository,
+            MainRepository<AdjValue> adjValueLogic, CategoryToProductLogic categoryToProductLogic,
+            MainRepository<Category> categoryRepository,
+            MainRepository<Product> ProductRepository, MainRepository<CategoryToProduct> SubRepository, 
+            MainRepository<KeyToProduct> KeyToProductRepository, MainRepository<DiscountToProduct> discountToProductRepository,
+            MainRepository<ProductPhoto> productphotoRepository)
         {
             this.ProductRepository = ProductRepository;
             this.commentLogic = commentLogic;
-            SubCategoryRepository = SubRepository;
+            CategoryToProductRepository = SubRepository;
             this.KeyToProductRepository = KeyToProductRepository;
             DiscountToProductRepository = discountToProductRepository;
             this.productphotoRepository = productphotoRepository;
+            CategoryRepository = categoryRepository;
             this.ValueToProductRepository = ValueToProductRepository;
             this.favoriteProductRepository = favoriteProductRepository;
             this.categoryToProductLogic = categoryToProductLogic;
@@ -52,6 +63,25 @@ namespace BusinessLogicLayer.ProductService
                 await ProductRepository.AddItem(model);
                 return true;
             }
+        }
+
+        public async Task<List<ProductCardDto>> GetProductByCategoryIdList(int categoryId )
+        {
+            var childIds = await CategoryRepository.Get(c => c.ParentId == categoryId).Select(c => c.Id).ToListAsync(); 
+            var productIdList = await CategoryToProductRepository.Get(c => childIds.Contains(c.Category_Id))
+                .Select(c => c.Product_Id).ToListAsync();
+            var products = await ProductRepository.Get(p => productIdList.Contains(p.Id)).Select(c =>
+                new ProductCardDto()
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    Price = (long)c.Price,
+                    Count = c.QuantityInStock,
+                    cover = "",
+                    score = 4,
+                    Sku = c.Name
+                }).ToListAsync();
+            return products;
         }
         public async Task<bool> UpdateProduct(Product model)
         {
@@ -73,8 +103,8 @@ namespace BusinessLogicLayer.ProductService
                     await categoryToProductLogic.DeleteCategoryToProduct(catpro.Category_Id, catpro.Product_Id);
                 };
 
-            if (productphotoRepository.Get(pp => pp.Product_Id == Id).Result.Any())
-                foreach (var photo in productphotoRepository.Get(pp => pp.Product_Id == Id).Result.ToList())
+            if (productphotoRepository.Get(pp => pp.Product_Id == Id).Any())
+                foreach (var photo in productphotoRepository.Get(pp => pp.Product_Id == Id).ToList())
                 {
                     await productphotoRepository.DeleteItem(photo.Id);
                 };
@@ -89,20 +119,20 @@ namespace BusinessLogicLayer.ProductService
         }
         public async Task<Product> ProductDetail(int Id)
         {
-            if (ProductRepository.Get(p => p.Id == Id).Result.Any())
+            if (ProductRepository.Get(p => p.Id == Id).Any())
             {
-                var model = ProductRepository.Get(p => p.Id == Id, b => b.brand).Result.FirstOrDefault();
-                model.keyToProducts = KeyToProductRepository.Get(k => k.Product_Id == model.Id, v => v.adjKey).Result.ToList();
+                var model = ProductRepository.Get(p => p.Id == Id, b => b.brand).FirstOrDefault();
+                model.keyToProducts = KeyToProductRepository.Get(k => k.Product_Id == model.Id, v => v.adjKey).ToList();
                 foreach (var key in model.keyToProducts)
                 {
-                    var values = adjValueLogic.Get(v => v.adjkey_Id == key.Key_Id).Result.ToList();
+                    var values = adjValueLogic.Get(v => v.adjkey_Id == key.Key_Id).ToList();
                     key.adjKey.adjValues = values;
                 }
-                model.discountToProducts = DiscountToProductRepository.Get(d => d.Product_Id == model.Id).Result.ToList();
-                model.ProductPhotos = productphotoRepository.Get(p => p.Product_Id == model.Id).Result.ToList();
-                model.valueToProducts = ValueToProductRepository.Get(v => v.Product_Id == Id).Result.ToList();
+                model.discountToProducts = DiscountToProductRepository.Get(d => d.Product_Id == model.Id).ToList();
+                model.ProductPhotos = productphotoRepository.Get(p => p.Product_Id == model.Id).ToList();
+                model.valueToProducts = ValueToProductRepository.Get(v => v.Product_Id == Id).ToList();
                 model.commnets = commentLogic.CommentsOfProduct(Id);
-                model.favoriteProducts = favoriteProductRepository.Get(f => f.Product_Id == Id).Result.ToList();
+                model.favoriteProducts = favoriteProductRepository.Get(f => f.Product_Id == Id).ToList();
                 model.CategoryToProducts = categoryToProductLogic.CategoryToProductList().Where(cp => cp.Product_Id == model.Id).ToList();
                 return model;
             }
@@ -114,18 +144,18 @@ namespace BusinessLogicLayer.ProductService
         public ICollection<Product> ProductList()
         {
             ICollection<Product> products = new List<Product>();
-            foreach (var item in ProductRepository.Get().Result.ToList())
+            foreach (var item in ProductRepository.Get().ToList())
             {
-                item.keyToProducts = KeyToProductRepository.Get(k => k.Product_Id == item.Id, k => k.adjKey).Result.ToList();
+                item.keyToProducts = KeyToProductRepository.Get(k => k.Product_Id == item.Id, k => k.adjKey).ToList();
                 foreach (var key in item.keyToProducts)
                 {
-                    var values = adjValueLogic.Get(v => v.adjkey_Id == key.Key_Id).Result.ToList();
+                    var values = adjValueLogic.Get(v => v.adjkey_Id == key.Key_Id).ToList();
                     key.adjKey.adjValues = values;
                 }
-                item.valueToProducts = ValueToProductRepository.Get(v => v.Product_Id == item.Id).Result.ToList();
-                item.favoriteProducts = favoriteProductRepository.Get(f => f.Product_Id == item.Id).Result.ToList();
-                item.discountToProducts = DiscountToProductRepository.Get(d => d.Product_Id == item.Id, v => v.discount).Result.ToList();
-                item.ProductPhotos = productphotoRepository.Get(p => p.Product_Id == item.Id).Result.ToList();
+                item.valueToProducts = ValueToProductRepository.Get(v => v.Product_Id == item.Id).ToList();
+                item.favoriteProducts = favoriteProductRepository.Get(f => f.Product_Id == item.Id).ToList();
+                item.discountToProducts = DiscountToProductRepository.Get(d => d.Product_Id == item.Id, v => v.discount).ToList();
+                item.ProductPhotos = productphotoRepository.Get(p => p.Product_Id == item.Id).ToList();
                 item.commnets = commentLogic.CommentsOfProduct(item.Id);
                 item.CategoryToProducts = categoryToProductLogic.CategoryToProductList().Where(cp => cp.Product_Id == item.Id).ToList();
                 products.Add(item);
@@ -223,7 +253,7 @@ namespace BusinessLogicLayer.ProductService
                 var valuesList = new List<AdjValue>();
                 foreach (var id in values)
                 {
-                    valuesList.Add(adjValueLogic.Get(av => av.Id == id).Result.First());
+                    valuesList.Add(adjValueLogic.Get(av => av.Id == id).First());
                 }
                 var GroupedValuesList = valuesList.GroupBy(v => v.adjkey_Id).ToList();
                 foreach (var group in GroupedValuesList)

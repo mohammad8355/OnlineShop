@@ -26,7 +26,7 @@ namespace BusinessLogicLayer.TagService
             }
             else
             {
-                if(!tagRepository.Get(t => t.TagName == model.TagName).Result.Any())
+                if(!tagRepository.Get(t => t.TagName == model.TagName).Any())
                 {
                     await tagRepository.AddItem(model);
                     return true;
@@ -42,7 +42,7 @@ namespace BusinessLogicLayer.TagService
             }
             else
             {
-                if (!tagRepository.Get(t => t.TagName == model.TagName).Result.Any())
+                if (!tagRepository.Get(t => t.TagName == model.TagName).Any())
                 {
                     tagRepository.EditItem(model);
                     return true;
@@ -70,19 +70,19 @@ namespace BusinessLogicLayer.TagService
         }
         public Tag TagDetail(int Id)
         {
-            var Tag = tagRepository.Get(bp => bp.Id == Id, t => t.tagToBlogPosts).Result.FirstOrDefault();
+            var Tag = tagRepository.Get(bp => bp.Id == Id, t => t.tagToBlogPosts).FirstOrDefault();
             //include tags and comments in future;
             return Tag;
         }
         public Tag TagDetail(string TagName)
         {
-            var Tag = tagRepository.Get(t => t.TagName == TagName,t => t.tagToBlogPosts).Result.FirstOrDefault();
+            var Tag = tagRepository.Get(t => t.TagName == TagName,t => t.tagToBlogPosts).FirstOrDefault();
             //include tags and comments in future;
             return Tag;
         }
         public List<Tag> TagList()
         {
-            var TagList = tagRepository.Get(null,t => t.tagToBlogPosts).Result.ToList();
+            var TagList = tagRepository.Get(null,t => t.tagToBlogPosts).ToList();
             return TagList;
         }
     }

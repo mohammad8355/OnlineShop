@@ -40,7 +40,8 @@ namespace DataAccessLayer.services
                 return false;
             }
         }
-        public async Task<IEnumerable<TEntity>> Get(Expression<Func<TEntity,bool>>? where = null,params Expression<Func<TEntity, object>>[]? includes)
+       
+        public IQueryable<TEntity> Get(Expression<Func<TEntity,bool>>? where = null,params Expression<Func<TEntity, object>>[]? includes)
         {
             IQueryable<TEntity> query = _dbSet;
             if (where != null)
@@ -51,7 +52,7 @@ namespace DataAccessLayer.services
             {
                 query = includes.Aggregate(query, (current, include) => current.Include(include));
             }
-            return await query.ToListAsync();
+            return query;
         }
         public async Task SaveChangeAsync()
         {

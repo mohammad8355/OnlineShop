@@ -24,7 +24,7 @@ namespace BusinessLogicLayer.DiscountToProductService
             }
             else
             {
-                if (!DiscountToProductRepository.Get(ks => ks.Discount_Id == model.Discount_Id && ks.Product_Id == model.Product_Id).Result.Any())
+                if (!DiscountToProductRepository.Get(ks => ks.Discount_Id == model.Discount_Id && ks.Product_Id == model.Product_Id).Any())
                 {
                     await DiscountToProductRepository.AddItem(model);
                 }
@@ -33,7 +33,7 @@ namespace BusinessLogicLayer.DiscountToProductService
         }
         //public async Task<bool> DeleteDiscountToProductFromKey(int Id)
         //{
-        //    if (DiscountToProductRepository.Get(s => s.Discount_Id == Id).Result.Any())
+        //    if (DiscountToProductRepository.Get(s => s.Discount_Id == Id).Any())
         //    {
         //        await DiscountToProductRepository.DeleteItem(Id); return true;
         //    }
@@ -41,23 +41,23 @@ namespace BusinessLogicLayer.DiscountToProductService
         //}
         public async Task<bool> DeleteDiscountToProduct(int Discount_Id, int Product_Id)
         {
-            if (DiscountToProductRepository.Get(s => s.Product_Id == Product_Id && s.Discount_Id == Discount_Id).Result.Any())
+            if (DiscountToProductRepository.Get(s => s.Product_Id == Product_Id && s.Discount_Id == Discount_Id).Any())
             {
-                var DiscountToProduct = DiscountToProductRepository.Get(s => s.Product_Id == Product_Id && s.Discount_Id == Discount_Id).Result.FirstOrDefault();
+                var DiscountToProduct = DiscountToProductRepository.Get(s => s.Product_Id == Product_Id && s.Discount_Id == Discount_Id).FirstOrDefault();
                 await DiscountToProductRepository.DeleteItem(DiscountToProduct); return true;
             }
             return false;
         }
         public DiscountToProduct DiscountToProductDetail(int Discount_Id, int Product_Id)
         {
-            var model = DiscountToProductRepository.Get(ks => ks.Discount_Id == Discount_Id && ks.Product_Id == Product_Id).Result.FirstOrDefault();
+            var model = DiscountToProductRepository.Get(ks => ks.Discount_Id == Discount_Id && ks.Product_Id == Product_Id).FirstOrDefault();
             return model;
         }
         public ICollection<DiscountToProduct> DiscountToProductList()
         {
 
 
-            return DiscountToProductRepository.Get(null, ks => ks.discount, ks => ks.product).Result.ToList();
+            return DiscountToProductRepository.Get(null, ks => ks.discount, ks => ks.product).ToList();
         }
     }
 

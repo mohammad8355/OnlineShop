@@ -26,7 +26,8 @@ namespace PresentationLayer.Controllers
         private readonly OrderLogic orderLogic;
         private readonly OrderDetailsLogic orderDetailsLogic;
         private readonly IPayment _payment;
-        public ShopController(ProductCodeGenerator codeGenerator,UserManager<ApplicationUser> _userManager, ProductLogic productLogic, OrderLogic orderLogic, OrderDetailsLogic orderDetailsLogic, ZarinPalPay payment)
+        public ShopController(ProductCodeGenerator codeGenerator,UserManager<ApplicationUser>
+            _userManager, ProductLogic productLogic, OrderLogic orderLogic, OrderDetailsLogic orderDetailsLogic, ZarinPalPay payment)
         {
             this._userManager = _userManager;
             this.productLogic = productLogic;
@@ -38,12 +39,13 @@ namespace PresentationLayer.Controllers
         public async Task<IActionResult> Index(decimal  discount = 0)
         {
             var currentUser = await _userManager.FindByNameAsync(User.Identity.Name);
-            var Order = orderLogic.OrderList().Where(o => o.User_Id == currentUser.Id && o.IsFinally == false).FirstOrDefault();
+            var Order = await orderLogic.OrderList();
+            var filtred_order = Order.Where(o => o.User_Id == currentUser.Id && o.IsFinally == false).FirstOrDefault();
             if (Order != null)
             {
                 var model = new BasketShopViewModel()
                 {
-                    Order = Order,
+                    Order = filtred_order,
                 };
                 return View(model);
             }
@@ -57,10 +59,12 @@ namespace PresentationLayer.Controllers
             var discount = (decimal)product.Discount / 100;
             var price = product.Price - (discount * product.Price);
             var totalPrice = count * price;
-            var Order = orderLogic.OrderList().Where(o => o.User_Id == currentUser.Id && o.IsFinally == false).FirstOrDefault();
-            if (Order != null)
+            var Order = await orderLogic.OrderList();
+            var filtered = Order.Where(o => o.User_Id == currentUser.Id && o.IsFinally == false).FirstOrDefault();
+            ;
+            if (filtered != null)
             {
-                var orderDetail = Order.orderDetails.Where(o => o.order_Id == Order.Id && o.Product_Id == product_Id).FirstOrDefault();
+                var orderDetail = filtered.orderDetails.Where(o => o.order_Id == Order.First().Id && o.Product_Id == product_Id).FirstOrDefault();
                 if (orderDetail != null)
                 {
                     orderDetail.count += count;
@@ -74,11 +78,11 @@ namespace PresentationLayer.Controllers
                         count = count,
                         TotalPrice = totalPrice,
                     };
-                    Order.orderDetails.Add(neworderDetail);
+                    filtered.orderDetails.Add(neworderDetail);
                 }
-                Order.TotalPrice += totalPrice;
-                Order.TotalCount += count;
-                var result = orderLogic.EditOrder(Order);
+                filtered.TotalPrice += totalPrice;
+                filtered.TotalCount += count;
+                var result = orderLogic.EditOrder(filtered);
                 if (result)
                 {
                     product.QuantityInStock -= count;
@@ -126,7 +130,7 @@ namespace PresentationLayer.Controllers
         [HttpGet]
         public async Task<JsonResult> DeleteOrderDetail(int Id, int orderId)
         {
-            var order = orderLogic.OrderDetail(orderId);
+            var order = await orderLogic.OrderDetail(orderId);
             if (order.orderDetails.Count() > 1)
             {
                 var orderDetail = order.orderDetails.Where(o => o.Id == Id).FirstOrDefault();
@@ -168,10 +172,10 @@ namespace PresentationLayer.Controllers
         [HttpGet]
         public async Task<IActionResult> AddCountOrderDetails(int Id)
         {
-            var orderDetail = orderDetailsLogic.OrderDetailsDetail(Id);
+            var orderDetail = await orderDetailsLogic.OrderDetailsDetail(Id);
             if (orderDetail != null)
             {
-                var order = orderLogic.OrderDetail(orderDetail.order_Id);
+                var order = await orderLogic.OrderDetail(orderDetail.order_Id);
                 var product = orderDetail.Product;
                 if (orderDetail.count < orderDetail.Product.QuantityInStock)
                 {
@@ -194,10 +198,10 @@ namespace PresentationLayer.Controllers
         [HttpGet]
         public async Task<IActionResult> MinusCountOrderDetails(int Id)
         {
-            var orderDetail = orderDetailsLogic.OrderDetailsDetail(Id);
+            var orderDetail = await orderDetailsLogic.OrderDetailsDetail(Id);
             if (orderDetail != null)
             {
-                var order = orderLogic.OrderDetail(orderDetail.order_Id);
+                var order = await orderLogic.OrderDetail(orderDetail.order_Id);
                 var product = orderDetail.Product;
                 if (orderDetail.count > 1)
                 {
@@ -232,7 +236,7 @@ namespace PresentationLayer.Controllers
         [HttpGet]
         public async Task<IActionResult> Pay(int order_Id)
         {
-            var order = orderLogic.OrderDetail(order_Id);
+            var order = await orderLogic.OrderDetail(order_Id);
             var description = $"خرید محصول توسط کاربر{order.User.FullName}";
             var callbackurl = "https://localhost:44337/Shop/Verification/" + order_Id;
             var paymentResult = await _payment.Pay("xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", callbackurl, (int)order.TotalPrice, description,"sampleEmial@gmail.com","091234568");
@@ -262,9 +266,9 @@ namespace PresentationLayer.Controllers
             return View(model);
         }
         [HttpGet]
-        public IActionResult OrderDetail(int Id)
+        public async Task<IActionResult> OrderDetail(int Id)
         {
-            var order = orderLogic.OrderDetail(Id);
+            var order = await orderLogic.OrderDetail(Id);
             var Products = order.orderDetails.Select(od => new { od.Product.Name, od.Product.ProductCode }).ToList();
             return Json(new { products = Products.ToArray(), price = order.TotalPrice, FactorNumber = order.FactorNumber, TrackingCode = order.TrackingCode, date = order.PayDate, customerName = order.User.UserName });
         }

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace BusinessLogicLayer.NotificationLogic
 {
@@ -41,8 +42,8 @@ namespace BusinessLogicLayer.NotificationLogic
         }
         public async Task<List<Notification>> AllNotif()
         {
-            var notifs = await _notifRepos.Get(null,n => n.User);
-            return notifs.ToList();
+            var notifs = await _notifRepos.Get(null,n => n.User).ToListAsync();
+            return notifs;
         }
         public async Task<Notification> NotificationDetail(int Id)
         {
