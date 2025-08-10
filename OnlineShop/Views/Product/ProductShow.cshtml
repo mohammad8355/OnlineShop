@@ -206,41 +206,49 @@
                         <a asp-area="Identity" asp-page="/Account/Register" asp-route-returnUrl="@Url.Action("ProductShow","Product",new { Id = Model.product.Id})" type="submit" class="btn btn-primary">ارسال</a>
                     </form>
                 }
-                @if (Model.product.commnets != null)
-                    @if (Model.product.commnets.Count() > 0)
+                @{
+                    if (Model.product.commnets != null)
                     {
-                        <div class="card-slider" dir="ltr">
-                            @foreach (var comment in Model.product.commnets.Where(c => c.IsHide == false).ToList())
-                            {
-                                var classname = "";
-                                @if (User.Identity.Name == comment.User.UserName)
+                        if (Model.product.commnets.Count() > 0)
+                        {
+                            <div class="card-slider" dir="ltr">
+                                @foreach (var comment in Model.product.commnets.Where(c => c.IsHide == false).ToList())
                                 {
-                                    classname = "bg-info";
+                                    var classname = "";
+                                    @if (User.Identity.Name == comment.User.UserName)
+                                    {
+                                        classname = "bg-info";
+                                    }
+                                    <div class="card rounded-4 m-2 @classname" style="width: 18rem">
+                                        <div class="header">
+                                            <span class="badge bg-primary text-wrap m-1">@comment.Product.Name</span>
+                                        </div>
+                                        <div class="card-body">
+                                            <h5 class="card-title">
+                                                @if (string.IsNullOrEmpty(comment.User.FullName))
+                                                {
+                                                    <span>@comment.User.UserName</span>
+                                                }
+                                                else
+                                                {
+                                                    <span>@comment.User.FullName</span>
+                                                }
+                                            </h5>
+                                            <p class="text-wrap">@comment.Description</p>
+                                        </div>
+                                        <div class="footer">
+                                            <span class="badge bg-secondary">@comment.LastUpdate</span>
+                                        </div>
+                                    </div>
                                 }
-                                <div class="card rounded-4 m-2 @classname" style="width: 18rem">
-                                    <div class="header">
-                                        <span class="badge bg-primary text-wrap m-1">@comment.Product.Name</span>
-                                    </div>
-                                    <div class="card-body">
-                                        <h5 class="card-title">
-                                            @if (string.IsNullOrEmpty(comment.User.FullName))
-                                            {
-                                                <span>@comment.User.UserName</span>
-                                            }
-                                            else
-                                            {
-                                                <span>@comment.User.FullName</span>
-                                            }
-                                        </h5>
-                                        <p class="text-wrap">@comment.Description</p>
-                                    </div>
-                                    <div class="footer">
-                                        <span class="badge bg-secondary">@comment.LastUpdate</span>
-                                    </div>
-                                </div>
-                            }
-                        </div>
+                            </div>
+                        }
+              
                     }
+
+            
+
+                }
 
             </div>
         </div>

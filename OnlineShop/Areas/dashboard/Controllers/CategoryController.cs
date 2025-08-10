@@ -24,7 +24,7 @@ namespace PresentationLayer.Areas.dashboard.Controllers
         }
         public IActionResult Index()
         {
-            var model = categoryLogic.CategoryList();
+            var model = categoryLogic.CategoryList().ToList();
             return View(model);
         }
         [HttpGet]

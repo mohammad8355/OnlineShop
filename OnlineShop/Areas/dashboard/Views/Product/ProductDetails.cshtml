@@ -90,11 +90,18 @@
                             </div>
                         </div>
                         <div class="col-12 product-image-thumbs">
-                            @if(Model.product.ProductPhotos.Any())
-                            @foreach (var img in @Model.product.ProductPhotos)
+                            @if (Model.product.ProductPhotos.Any())
                             {
-                                <div class="product-image-thumb active"><img width="200px" src="~/Image/Product/@Model.product.Name/@img.Name"></div>
+                                
+                                    foreach (var img in Model.product.ProductPhotos)
+                                    {
+                                        <div class="product-image-thumb active">
+                                            <img alt="" width="200px" src="~/Image/Product/@Model.product.Name/@img.Name">
+                                        </div>
+                                    }
+                                    
                             }
+                            
                         </div>
                     </div>
                     <div class="col-12 col-sm-6">

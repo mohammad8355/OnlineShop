@@ -4,11 +4,13 @@
 {
     <div class="row">
         <div class="d-flex justify-content-center align-items-center p-2">
-            @{var statusMessageClass = Model.StartsWith("Error") ? "danger" : "success";}
-            <div class="alert alert-@statusMessageClass" alert-dismissible" role="alert">
+            @{
+                var statusMessageClass = Model.StartsWith("Error") ? "danger" : "success";
+            }
+            <div class="alert alert-@statusMessageClass alert-dismissible fade show" role="alert">
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 @Model
-                <div class="row">
+                <div class="row mt-2">
                     <a asp-page="./Login" class="btn btn-primary">متوجه شدم!!</a>
                 </div>
             </div>

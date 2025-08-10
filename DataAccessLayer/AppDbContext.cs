@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+
 namespace DataAccessLayer
 {
     public class AppDbContext :IdentityDbContext<ApplicationUser>
@@ -69,6 +71,26 @@ namespace DataAccessLayer
             builder.Entity<Order>().Property(o => o.TrackingCode).IsRequired(false);
             builder.Entity<Order>().Property(o => o.FactorNumber).IsRequired(false);
             builder.Entity<Notification>().Property(n => n.Title).IsRequired(false);
+            var passwordHasher = new PasswordHasher<ApplicationUser>();
+            var hashed = passwordHasher.HashPassword(null, "1234admin");
+            var userID = Guid.NewGuid().ToString();
+            builder.Entity<ApplicationUser>().HasData(new ApplicationUser()
+            {
+                Id = userID,
+                UserName = "admin",
+                 Address = "address",
+                 Email = "almasikhanobusiness@gmail.com",
+                 PhoneNumber = "09112076352",
+                 EmailConfirmed = true,
+                 PhoneNumberConfirmed = true,
+                 PasswordHash = "hashed",
+                 IsEnable = true,
+            });
+            builder.Entity<IdentityUserRole<string>>().HasData(new IdentityUserRole<string>()
+            {
+              RoleId = "56764fbe-670b-4b30-b218-36a02be4850c",
+              UserId = userID,
+            });
         }
         DbSet<Product> products { get; set; }
         DbSet<AdjKey> adjKeys { get; set; }

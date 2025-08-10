@@ -690,6 +690,14 @@ section.scrollcontainer.seggustion .Product-container .card-footer i.fa-star {
   row-gap: 1em;
   overflow: hidden;
 }
+.Product-container .product-wrapper .product-card div.cover{
+  width: 200px !important;
+  height: 200px !important;
+  overflow: hidden;
+  border: none;
+  border-radius: 8px;
+  
+}
 .Product-container .product-wrapper .product-card .off {
   position: absolute;
   top: 1em;
