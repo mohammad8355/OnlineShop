@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "concurrently \"npm run css:build\" \"dotnet watch run\"",
-    "css:build": "tailwindcss -i ./wwwroot/css/main.css -o ./wwwroot/css/output.css --watch"
+    "css:build": "tailwindcss -i ./wwwroot/css/main.css -o ./wwwroot/css/app.css --watch"
   },
   "devDependencies": {
     "@tailwindcss/cli": "latest",

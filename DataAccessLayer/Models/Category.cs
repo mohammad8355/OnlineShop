@@ -20,6 +20,7 @@ namespace DataAccessLayer.Models
 
         //navigation property
         public Category ParentCategory { get; set; }
+        public string Cover { get; set; }
         public int? ParentId { get; set; }
         public ICollection<KeyToSubCategory> keyToSubCategories { get; set; }
         public ICollection<CategoryToProduct> CategoryToProducts { get; set; }

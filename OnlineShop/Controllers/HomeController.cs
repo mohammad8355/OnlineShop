@@ -8,43 +8,38 @@ using Electrical.Models;
 using Microsoft.AspNetCore.Mvc;
 using PresentationLayer.Models.ViewModels;
 using System.Diagnostics;
+using BusinessLogicLayer.CategoryService;
 
 namespace PresentationLayer.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController (CommentLogic _commentLogic,
+        ILogger<HomeController> logger, 
+        CategoryLogic _categoryLogic,
+        ContactsLogic contactsLogic,
+        ProductLogic productLogic,
+        GeneralLogic generalLogic,
+        BlogPostLogic blogPostLogic): Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        private readonly ProductLogic productLogic;
-        private readonly GeneralLogic generalLogic;
-        private readonly ContactsLogic contactsLogic;
-        private readonly BlogPostLogic blogPostLogic;
-        private readonly CommentLogic _commentLogic;
-        public HomeController(CommentLogic commentLogic,ILogger<HomeController> logger, ContactsLogic contactsLogic, ProductLogic productLogic, GeneralLogic generalLogic, BlogPostLogic blogPostLogic)
-        {
-            _logger = logger;
-            this.productLogic = productLogic;
-            this.blogPostLogic = blogPostLogic;
-            this.contactsLogic = contactsLogic;
-            this.generalLogic = generalLogic;
-            _commentLogic = commentLogic;
-        }
+
 
         public async Task<IActionResult> Index()
         {
-            var offProducts = await productLogic.OffProducts();
+            // var offProducts = await productLogic.OffProducts();
             var PopularProduct = await productLogic.PopularProduct();
-            var newestProduct =  productLogic.NewsetProduct();
+            var categoryList = await _categoryLogic.GetCategoryCoverList();
+            var newestProduct =  await productLogic.NewsetProduct();
             var posts = blogPostLogic.blogPostList();
             var aboutus = await generalLogic.ReturnByLabel("aboutus");
             var slider = generalLogic.GeneralList().Where(s => s.label == "slider").ToList();
             var comments = _commentLogic.LimitedComment();
             var model = new HomePageViewModel()
             {
-                HotDiscountProduct = offProducts.ToList(),
+                // HotDiscountProduct = offProducts.ToList(),
                 PopularProduct = PopularProduct.ToList(),
                 NewsetProduct = newestProduct.ToList(),
                 Posts = posts,
                 Sliders = slider,
+                CategoryList = categoryList,
                 Aboutus = aboutus.First(),
                 Comments = comments,
 

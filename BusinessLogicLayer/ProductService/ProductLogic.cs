@@ -141,6 +141,22 @@ namespace BusinessLogicLayer.ProductService
                 return new Product();
             }
         }
+
+        private async Task<List<ProductCardDto>> GetProductCardListByOrder()
+        {
+            return await ProductRepository.Get().Select(c => new ProductCardDto()
+            {
+                Id = c.Id,
+                Name = c.Name,
+                Price = (long)c.Price,
+                LikeCount = c.Like,
+                Count = c.QuantityInStock,
+                cover = c.ProductPhotos.FirstOrDefault().Name,
+                score = 4,
+                Sku = c.Name
+            }).ToListAsync();
+            
+        }
         public ICollection<Product> ProductList()
         {
             ICollection<Product> products = new List<Product>();
@@ -171,49 +187,49 @@ namespace BusinessLogicLayer.ProductService
             }
             return relatedProduct;
         }
-        public async Task<IEnumerable<Product>> PopularProduct()
+        public async Task<IEnumerable<ProductCardDto>> PopularProduct()
         {
-            var productList = ProductList();
-            var Popularproduct = productList.OrderBy(p => p.Like);
+            var productList = await GetProductCardListByOrder();
+            var Popularproduct = productList.OrderBy(p => p.LikeCount).ToList();
             return Popularproduct;
         }
-        public async Task<IEnumerable<Product>> MostExpensiveProduct()
+        public async Task<IEnumerable<ProductCardDto>> MostExpensiveProduct()
         {
-            var productList = ProductList();
+            var productList = await GetProductCardListByOrder();
             var MostExpensiveProduct = productList.OrderBy(p => p.Price);
             return MostExpensiveProduct;
         }
-        public async Task<IEnumerable<Product>> CheapestProduct()
+        public async Task<IEnumerable<ProductCardDto>> CheapestProduct()
         {
-            var productList = ProductList();
+            var productList = await GetProductCardListByOrder();
             var MostExpensiveProduct = productList.OrderByDescending(p => p.Price);
             return MostExpensiveProduct;
         }
-        public async Task<IEnumerable<Product>> BestSellingProduct()
+        public async Task<IEnumerable<ProductCardDto>> BestSellingProduct()
         {
-            var productList = ProductList();
-            var BestSellingProduct = productList.OrderBy(p => p.OrderDetails.Where(o => o.order.IsFinally == true).Count());
+            var productList = await GetProductCardListByOrder();
+            var BestSellingProduct = productList;
             return BestSellingProduct;
         }
-        public async Task<IEnumerable<Product>> OffProducts()
+        // public async Task<IEnumerable<ProductCardDto>> OffProducts()
+        // {
+        //     var productList = await GetProductCardListByOrder();
+        //     var offProducts = productList.Where(p => p.Discount > 0).OrderBy(p => p.Discount);
+        //     return offProducts;
+        // }
+        // public async Task<IEnumerable<ProductCardDto>> HotDiscountProduct(float redLine)
+        // {
+        //     if (redLine > 0)
+        //     {
+        //         var productList = await GetProductCardListByOrder();
+        //         var HotDiscountProduct = productList.Where(p => p.Discount >= redLine).OrderBy(p => p.Discount);
+        //         return HotDiscountProduct;
+        //     }
+        //     return new List<Product>();
+        // }
+        public async Task<IEnumerable<ProductCardDto>> NewsetProduct()
         {
-            var productList = ProductList();
-            var offProducts = productList.Where(p => p.Discount > 0).OrderBy(p => p.Discount);
-            return offProducts;
-        }
-        public async Task<IEnumerable<Product>> HotDiscountProduct(float redLine)
-        {
-            if (redLine > 0)
-            {
-                var productList = ProductList();
-                var HotDiscountProduct = productList.Where(p => p.Discount >= redLine).OrderBy(p => p.Discount);
-                return HotDiscountProduct;
-            }
-            return new List<Product>();
-        }
-        public IEnumerable<Product> NewsetProduct()
-        {
-            var productList = ProductList();
+            var productList = await GetProductCardListByOrder();
             var newsetProduct = productList.OrderByDescending(p => p.Id);
             return newsetProduct;
         }
@@ -236,13 +252,12 @@ namespace BusinessLogicLayer.ProductService
             var productList = new List<Product>();
             if (Category_Id != 0)
             {
-                var tempList = await SortBy(sortby);
+                var tempList = ProductList();
                 productList = tempList.Where(p => p.CategoryToProducts.Select(cp => cp.Category_Id).Contains(Category_Id)).ToList();
             }
             else
             {
-                var tempList = await SortBy(sortby);
-                productList = tempList.ToList();
+                var tempList = ProductList();                productList = tempList.ToList();
             }
             if (isExit)
             {
@@ -281,7 +296,7 @@ namespace BusinessLogicLayer.ProductService
             }
             return productList.ToList();
         }
-        public async Task<IEnumerable<Product>> SortBy(string sortby = "")
+        public async Task<IEnumerable<ProductCardDto>> SortBy(string sortby = "")
         {
             switch (sortby)
             {
@@ -291,12 +306,14 @@ namespace BusinessLogicLayer.ProductService
                     return await CheapestProduct();
                 case "bestsell":
                     return await BestSellingProduct();
-                case "new":
-                    return NewsetProduct();
-                case "popular":
-                    return await PopularProduct();
                 default:
-                    return ProductList();
+                    return await GetProductCardListByOrder();
+                // case "new":
+                //     return NewsetProduct();
+                // case "popular":
+                //     return await PopularProduct();
+                // default:
+                //     return ProductList();
             }
         }
     }

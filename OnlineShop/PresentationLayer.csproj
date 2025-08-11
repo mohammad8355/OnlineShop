@@ -33,15 +33,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Update="wwwroot/css/main.css" CopyToPublishDirectory="Never" />
-    <Content Update="wwwroot/css/output.css" CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
 
   <Target Name="EnsureNodeModules" BeforeTargets="Tailwind">
     <Exec Command="npm install" Condition="!Exists('node_modules')" />
   </Target>
-  <Target Name="Tailwind" BeforeTargets="Build">
-    <Exec Command="npm run css:build" />
-  </Target>
+<!--  <Target Name="Tailwind" BeforeTargets="Build">-->
+<!--    <Exec Command="npm run css:build" />-->
+<!--  </Target>-->
   <ItemGroup>
 	  <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="7.0.14" />
 	  <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.13" />

@@ -15,7 +15,7 @@ namespace PresentationLayer.Models.ViewModels
         public string Description { get; set; }
 
         public int? ParentId { get; set; }
-
+        public IFormFile? Cover { get; set; }
 
     }
 }

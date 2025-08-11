@@ -17,6 +17,7 @@
                             <td>توضیحات</td>
                             <th>سر دسته بندی  </th>
                             <th>زیر دسته بندی ها </th>
+                            <th>عکس</th>
                             <th>حذف / ویرایش</th>
                         </tr>
 
@@ -62,12 +63,15 @@
                                     }
                                 </td>
                                 <td>
+                                    <img alt="" title="@item.Name" width="200px" src="~/Image/Category/@item.Cover" />
+                                </td>
+                                <td>
                                     <div class="btn-group">
                                         <a type="button" class="btn btn-info" asp-action="EditCategory" asp-route-Id="@item.Id" asp-controller="category"><i class="fa-solid fa-pen"></i></a>
                                         <button type="button" class="btn btn-danger"><i value="@item.Id" class="fa-solid fa-trash-can"></i></button>
                                     </div>
                                 </td>
-                            </tr>
+                            </tr> 
                         }
                     </tbody>
                     <tfoot>
@@ -76,6 +80,7 @@
                             <td>توضیحات</td>
                             <th>سر دسته بندی  </th>
                             <th>زیر دسته بندی ها </th>
+                            <th>عکس</th>
                             <th>حذف / ویرایش</th>
                         </tr>
 

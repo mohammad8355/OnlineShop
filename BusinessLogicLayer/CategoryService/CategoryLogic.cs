@@ -25,16 +25,31 @@ namespace BusinessLogicLayer.CategoryService
             _keyToSubCategoryLogic = keyToSubCategoryLogic;
             this.adjkeyRepository = adjkeyRepository;
         }
-        public async Task<bool> AddCategory(Category model)
+
+        public async Task<bool> UpdateCoverCategory(long Id,string Cover)
+        {
+            try
+            {
+                var category = await CategoryRepository.Get(c => c.Id == Id).FirstOrDefaultAsync();
+                category.Cover = Cover;
+                CategoryRepository.EditItem(category);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        public async Task<int> AddCategory(Category model)
         {
             if (string.IsNullOrEmpty(model.Name) || string.IsNullOrEmpty(model.Description))
             {
-                return false;
+                return model.Id;
             }
             else
             {
                 await CategoryRepository.AddItem(model);
-                return true;
+                return model.Id;
             }
         }
         public  bool UpdateCategory(Category model)
@@ -48,6 +63,18 @@ namespace BusinessLogicLayer.CategoryService
                  CategoryRepository.EditItem(model);
                 return true;
             }
+        }
+
+        public async Task<List<CategoryCoverListDto>> GetCategoryCoverList()
+        {
+            var category = await CategoryRepository.Get(c => c.ParentId == null)
+                .Select(c => new CategoryCoverListDto()
+                {
+                    Id = c.Id,
+                    name = c.Name,
+                    cover = c.Cover,
+                }).ToListAsync();
+            return category;    
         }
         public async Task<bool> AttachCategory(Category model)
         {
