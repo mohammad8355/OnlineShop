@@ -35,9 +35,9 @@
     <Content Update="wwwroot/css/main.css" CopyToPublishDirectory="Never" />
   </ItemGroup>
 
-  <Target Name="EnsureNodeModules" BeforeTargets="Tailwind">
-    <Exec Command="npm install" Condition="!Exists('node_modules')" />
-  </Target>
+<!--  <Target Name="EnsureNodeModules" BeforeTargets="Tailwind">-->
+<!--    <Exec Command="npm install" Condition="!Exists('node_modules')" />-->
+<!--  </Target>-->
 <!--  <Target Name="Tailwind" BeforeTargets="Build">-->
 <!--    <Exec Command="npm run css:build" />-->
 <!--  </Target>-->
@@ -59,6 +59,10 @@
    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.11" />
    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
    <PackageReference Include="Otp.NET" Version="1.3.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="wwwroot\CkEditor\build\ckeditor.d.ts" />
+    <TypeScriptCompile Include="wwwroot\CkEditor\src\ckeditor.ts" />
   </ItemGroup>
 
 </Project>

@@ -7,31 +7,35 @@
 
             @foreach (var orderdetail in order.orderDetails)
             {
-            <tr>
-                <td>@order.User.UserName</td>
-                <td>@orderdetail.Product.Name</td>
-                <td>@orderdetail.Product.Price</td>
-                <td>@orderdetail.TotalPrice</td>
-                <td>@orderdetail.count</td>
-                <td>@orderdetail.Product.ProductCode</td>
-                <td>@order.TrackingCode</td>
-                <td>
+            <tr class="even:bg-zinc-100">
+                <td class="p-4">   <p class="block text-sm">@order.User.UserName</p></td>
+                <td class="p-4">   <p class="block text-sm">@orderdetail.Product.Name</p></td>
+                <td class="p-4">   <p class="block text-sm">@orderdetail.Product.Price</p></td>
+                <td class="p-4">   <p class="block text-sm">@orderdetail.TotalPrice</p></td>
+                <td class="p-4">   <p class="block text-sm">@orderdetail.count</p></td>
+                <td class="p-4">   <p class="block text-sm">@orderdetail.Product.ProductCode</p></td>
+                <td class="p-4">   <p class="block text-sm">@order.TrackingCode</p></td>
+                <td class="p-4">
                     @if (order.IsFinally)
                     {
+                        <p class="block text-sm">
                         <span class="badge bg-success">
                             نهایی شده
                         </span>
+                        </p>
                     }
                     else
                     {
+                        <p class="block text-sm">
                         <span class="badge bg-warning">
                             نهایی نشده
                         </span>
+                        </p>
                     }
                 </td>
                 <td>@order.DateCreate</td>
                 <td>
-                    <button data-order-Id="@order.Id"  class="btn btn-primary view">مشاهده</button>
+                    <button data-order-Id="@order.Id"  class="cursor-pointer bg-orange-500 px-4 py-2 text-white rounded-md view show-modal-btn" data-modal-id="modal-2">مشاهده</button>
                 </td>
             </tr>
             }

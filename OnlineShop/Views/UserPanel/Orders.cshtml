@@ -2,122 +2,122 @@
     Layout = "userPanelLayout";
     ViewData["ActiveLink"] = "order";
 }
-<section class="order">
-    <div class="row col-12">
-        <form method="post" class="form-control d-flex flex-row-reverse flex-wrap">
-            <div class="form-group">
-                <label>وضعیت</label>
-                <select id="status" class="form-control">
-                    <option value="all">همه</option>
-                    <option value="incomplete">نهایی نشده</option>
-                    <option value="complete">نهایی شده</option>
-                    <option value="inprogress">در حال آماده سازی</option>
-                    <option value="sended">ارسال شده</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>از تاریخ</label>
-                <input id="fromDate" type="datetime-local" class="form-control" />
-            </div>
-            <div class="form-group">
-                <label>تا تاریخ</label>
-                <input id="toDate" type="datetime-local" class="form-control" />
-            </div>
-            <div class="form-group flex-fill">
-                <label>جستجو</label>
-                <input id="search" type="text" class="form-control" placeholder="عنوان یا کد کالا را جستجو کنید" />
-            </div>
-            <div class="form-group flex-fill">
-                <button type="button" id="filterBtn" class="btn btn-primary col-12">فیلتر</button>
-            </div>
-        </form>
-    </div>
-    <div class="table-responsive bg-white p-2 border-1 border border-secondary rounded-2 col-12">
-        <table class="table mt-5 mb-5 px-3 table-striped table-hover table-light">
+<section class="order w-full px-4 py-6">
+    <!-- Filters -->
+    <form method="post" class="flex flex-wrap gap-4 bg-white p-4 rounded-2xl shadow-sm border border-zinc-200">
+        <!-- وضعیت -->
+        <div class="sm:w-1/2 md:w-1/4 flex flex-col gap-y-1">
+            <label class="text-zinc-700 flex">
+                وضعیت
+            </label>
+            <select id="status"
+                class="appearance-none rounded-2xl text-sm text-zinc-600 w-full border border-zinc-200 px-5 py-3.5 focus:outline-1 focus:outline-primary-300 focus:border-primary-300">
+                <option value="all">همه</option>
+                <option value="incomplete">نهایی نشده</option>
+                <option value="complete">نهایی شده</option>
+                <option value="inprogress">در حال آماده سازی</option>
+                <option value="sended">ارسال شده</option>
+            </select>
+        </div>
+
+        <!-- از تاریخ -->
+        <div class="sm:w-1/2 md:w-1/4 flex flex-col gap-y-1">
+            <label class="text-zinc-700 flex">
+                از تاریخ
+            </label>
+            <input id="fromDate" type="datetime-local"
+                class="rounded-2xl text-sm text-zinc-600 w-full border border-zinc-200 px-5 py-3.5 focus:outline-1 focus:outline-primary-300 focus:border-primary-300" />
+        </div>
+
+        <!-- تا تاریخ -->
+        <div class="sm:w-1/2 md:w-1/4 flex flex-col gap-y-1">
+            <label class="text-zinc-700 flex">
+                تا تاریخ
+            </label>
+            <input id="toDate" type="datetime-local"
+                class="rounded-2xl text-sm text-zinc-600 w-full border border-zinc-200 px-5 py-3.5 focus:outline-1 focus:outline-primary-300 focus:border-primary-300" />
+        </div>
+
+        <!-- جستجو -->
+        <div class="sm:w-full md:w-1/4 flex flex-col gap-y-1">
+            <label class="text-zinc-700 flex">
+                جستجو
+            </label>
+            <input id="search" type="text" placeholder="عنوان یا کد کالا را جستجو کنید"
+                class="rounded-2xl text-sm text-zinc-600 w-full border border-zinc-200 px-5 py-3.5 placeholder:text-zinc-400 placeholder:text-xs focus:outline-1 focus:outline-primary-300 focus:border-primary-300" />
+        </div>
+
+        <!-- Button -->
+        <div class="sm:w-full md:w-1/4 flex items-end">
+            <button type="button" id="filterBtn"
+                class="min-w-[200px] w-full bg-primary-500 hover:bg-primary-600 text-white rounded-2xl py-3.5 text-sm">
+                فیلتر
+            </button>
+        </div>
+    </form>
+
+    <!-- Table -->
+    <div     class="relative flex flex-col w-full h-full overflow-scroll text-gray-700">
+      
+        <table class="w-full text-right table-auto min-w-max">
             <thead>
                 <tr>
-                    <th>نام کاربر</th>
-                    <th>نام کالا</th>
-                    <th>قیمت واحد</th>
-                    <th>قیمت کل</th>
-                    <th>تعداد</th>
-                    <th>کد کالا</th>
-                    <th>کد رهگیری</th>
-                    <th>وضعیت سفارش</th>
-                    <th>تاریخ</th>
-                    <th>چاپ</th>
+                    <th class="p-4 border-b border-b-zinc-400 text-sm opacity-70">نام کاربر</th>
+                    <th class="p-4 border-b border-b-zinc-400 text-sm opacity-70">نام کالا</th>
+                    <th class="p-4 border-b border-b-zinc-400 text-sm opacity-70">قیمت واحد</th>
+                    <th class="p-4 border-b border-b-zinc-400 text-sm opacity-70">قیمت کل</th>
+                    <th class="p-4 border-b border-b-zinc-400 text-sm opacity-70">تعداد</th>
+                    <th class="p-4 border-b border-b-zinc-400 text-sm opacity-70">کد کالا</th>
+                    <th class="p-4 border-b border-b-zinc-400 text-sm opacity-70">کد رهگیری</th>
+                    <th class="p-4 border-b border-b-zinc-400 text-sm opacity-70">وضعیت سفارش</th>
+                    <th class="p-4 border-b border-b-zinc-400 text-sm opacity-70">تاریخ</th>
+                    <th class="p-4 border-b border-b-zinc-400 text-sm opacity-70">چاپ</th>
                 </tr>
             </thead>
-            <div id="spinner" class="container d-flex justify-content-center align-items-center d-none">
-                <div class="spinner-border text-primary" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
+            <tbody id="tbody" class="[&>tr:nth-child(even)]:bg-zinc-100">
+            <div id="spinner" class="absolute inset-0 flex justify-center items-center bg-white bg-opacity-60 hidden">
+                <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500"></div>
             </div>
-            <tbody id="tbody">
             </tbody>
         </table>
     </div>
-    <!--Modal-->
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
-         tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">فاکتور خرید</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="card-body" id="factor">
-                        <table class="table" id="rowfile">
-                            <tr>
-                                <th>نام کالا</th>
-                                <td>مانیتور 2024</td>
-                            </tr>
-                            <tr>
-                                <th>کد کالا</th>
-                                <td>MQ234-Manitor-4b</td>
-                            </tr>
-                            <tr>
-                                <th>مبلغ</th>
-                                <td>12000000</td>
-                            </tr>
-                            <tr>
-                                <th>شماره فاکتور</th>
-                                <td>123456</td>
-                            </tr>
-                            <tr>
-                                <th>کد پیگیری</th>
-                                <td>5328576339</td>
-                            </tr>
-                            <tr>
-                                <th>تاریخ</th>
-                                <td>1403/01/05</td>
-                            </tr>
-                            <tr>
-                                <th>نام کاربر</th>
-                                <td>َعلیرضا طاهری</td>
-                            </tr>
-                        </table>
+
+    <!-- Modal -->
+    <div   id="modal-2"
+           class="Mymodal fixed inset-0 z-50 hidden bg-black/40 flex items-center justify-center">
+        <div   class="modal-content relative w-full max-w-7xl max-h-[90vh] transform scale-95 opacity-0 transition-all duration-300">
+            <div  id="capture" class=" bg-white rounded-2xl mx-auto border border-zinc-200 w-11/12 sm:w-7/12 md:w-6/12 lg:w-4/12 h-auto py-5 px-4">
+                <div class="px-2 sm:px-6 py-3 rounded-xl border border-zinc-300 my-5 mx-auto w-full bg-white" id="factor">
+                    <div class="flex gap-x-1 justify-center items-center text-zinc-700 mb-4">
+                        <svg class="fill-zinc-500" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256">
+                            <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm-4,48a12,12,0,1,1-12,12A12,12,0,0,1,124,72Zm12,112a16,16,0,0,1-16-16V128a8,8,0,0,1,0-16,16,16,0,0,1,16,16v40a8,8,0,0,1,0,16Z"/>
+                        </svg>         
+                        اطلاعات پرداخت
+                    </div>
+                    <div id="rowfile" class="space-y-3">
+                        <!-- JS will append rows in styled divs here -->
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
-                    <button type="button" onclick="HtmlTopdf('rowfile','orderDetailFactor')" class="btn btn-primary">چاپ</button>
+                <div class="modal-footer flex gap-2">
+                    <button id="closemodal" type="button" class="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded-lg" data-bs-dismiss="modal">بستن</button>
+                    <button type="button" onclick="downloadImage()" class="cursor-pointer bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-lg">چاپ</button>
                 </div>
             </div>
         </div>
     </div>
-    <!--Modal-->
 </section>
+
 @section ScriptRefrence{
     <script src="~/js/html2canvas.js"></script>
     <script src="~/js/function.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha512-qZvrmS2ekKPF2mSznTQsxqPgnpkI4DNTlrdUmTzrDgektczlKNRRhy5X5AAOnx5S09ydFYWWNSfcEqDTTHgtNA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    
+    <script src='~/js/dom-to-image.min.js'></script>
 }
 @section InlineScript{
     <script>
+      
+
         window.jsPDF = window.jspdf.jsPDF;
         $(document).ready(function(){
             $("#tbody").click(function(event){
@@ -127,35 +127,81 @@
                         type: 'GET',
                         data: { Id: $(event.target).attr("data-order-Id") },
                         success: function (data) {
-                            var table = document.querySelector("#factor").querySelector(".table");
-                            $(table).html("");
+                            var container = $("#rowfile");
+                            container.html(""); // clear old content
+
                             data.products.forEach(function (item) {
-                                $(table).append('<tr><th>نام کالا</th><td>' + item.name + '</td></tr>');
-                                $(table).append('<tr><th>کد کالا</th><td>' + item.productCode + '</td></tr>');
+                                container.append(`
+            <div class="flex justify-between items-center text-zinc-600 bg-gray-100 rounded-lg px-2 py-3 text-sm">
+                <div>نام کالا</div>
+                <div>${item.name}</div>
+            </div>
+            <div class="flex justify-between items-center text-zinc-600 bg-gray-100 rounded-lg px-2 py-3 text-sm">
+                <div>کد کالا</div>
+                <div>${item.productCode}</div>
+            </div>
+        `);
                             });
-                            $(table).append('<tr><th>قیمت</th><td>' + data.price + '</td></tr>');
-                            $(table).append('<tr><th>شماره فاکتور</th><td>' + data.factorNumber + '</td></tr>');
-                            $(table).append('<tr><th>کد پیگیری</th><td>' + data.trackingCode + '</td></tr>');
-                            $(table).append('<tr><th>تاریخ</th><td>' + data.date + '</td></tr>');
-                            $(table).append('<tr><th>نام مشتری</th><td>' + data.customerName + '</td></tr>');
-                            $("#staticBackdrop").modal('show');
+
+                            container.append(`
+        <div class="flex justify-between items-center text-zinc-600 bg-gray-100 rounded-lg px-2 py-3 text-sm">
+            <div>قیمت</div>
+            <div>${data.price} تومان</div>
+        </div>
+        <div class="flex justify-between items-center text-zinc-600 bg-gray-100 rounded-lg px-2 py-3 text-sm">
+            <div>شماره فاکتور</div>
+            <div>${data.factorNumber}</div>
+        </div>
+        <div class="flex justify-between items-center text-zinc-600 bg-gray-100 rounded-lg px-2 py-3 text-sm">
+            <div>کد پیگیری</div>
+            <div>${data.trackingCode}</div>
+        </div>
+        <div class="flex justify-between items-center text-zinc-600 bg-gray-100 rounded-lg px-2 py-3 text-sm">
+            <div>تاریخ</div>
+            <div>${data.date}</div>
+        </div>
+        <div class="flex justify-between items-center text-zinc-600 bg-gray-100 rounded-lg px-2 py-3 text-sm">
+            <div>نام مشتری</div>
+            <div>${data.customerName}</div>
+        </div>
+    `);
+
+                            // Show modal
+                            document.getElementById('modal-2').classList.remove('hidden');
+                            document.querySelector('#modal-2 .modal-content').classList.remove('scale-95', 'opacity-0');
                         }
-                    });
+                    }); 
                 }
             })
         });
-      
+      $("#closemodal").click(function(){
+          document.getElementById('modal-2').classList.add('hidden');
+          document.querySelector('#modal-2 .modal-content').classList.add('scale-95', 'opacity-0');
+      })
+        function downloadImage() {
+            const node = document.getElementById('capture');
+
+            domtoimage.toPng(node)
+                .then(function (dataUrl) {
+                    const link = document.createElement('a');
+                    link.download = 'print.png';
+                    link.href = dataUrl;
+                    link.click();
+                })
+                .catch(function (error) {
+                    console.error('خطا در گرفتن عکس:', error);
+                });
+        }
         $("#filterBtn").click(function(){
-            console.log("click filter");
-            $("#spinner").removeClass("d-none");
+            $("#spinner").removeClass("hidden");
             var Url = '@Url.Action("OrderFilter","UserPanel")';
             var model = { FromDate: $("#fromDate").val(), ToDate: $("#toDate").val(), Search: $("#search").val(), Status: $("#status").val() };
             $.ajax({
-                url:Url,
-                data:model,
-                type:'GET',
+                url: Url,
+                data: model,
+                type: 'GET',
                 success: function (res) {
-                    $("#spinner").addClass("d-none");
+                    $("#spinner").addClass("hidden");
                     $("#tbody").html(res);
                 }
             });

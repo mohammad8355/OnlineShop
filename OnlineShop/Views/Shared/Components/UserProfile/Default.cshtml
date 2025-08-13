@@ -1,12 +1,14 @@
 ﻿@using static PresentationLayer.Views.ViewComponents.UserProfileViewComponent;
 @model ProfileViewModel
 
-<div class="profile">
-    <img src="~/@Model.imageaddress" alt="">
+<div class="flex justify-center items-center">
+    <button type="button"
+            class="relative w-[50px] h-[50px] rounded-circle show-modal-btn flex justify-center items-center" data-modal-id="modal-1">
+        
+        <img src="~/@Model.imageaddress" class="rounded-full cursor-pointer w-full h-full object-cover" alt="">
+    </button>
     <p>
-        <button type="button" class="nav-link border-0 bg-transparent text-primary " data-bs-toggle="modal" data-bs-target="#exampleModal">
-             تغییر پروفایل
-        </button>
+
     </p>
-    <h4><a href="Identity/Account/Manage">@Model.Username<i class="fa-solid fa-pen"></i></a></h4>
+    @* <h4><a href="Identity/Account/Manage">@Model.Username<i class="fa-solid fa-pen"></i></a></h4> *@
 </div>

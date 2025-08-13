@@ -1,134 +1,174 @@
 ﻿@using PresentationLayer.Models.ViewModels;
 @{
     Layout = "UserPanelLayout";
-    ViewData["ActiveLink"] = "console";
+    ViewData["ActiveLink"] = "Home";
 }
 @model ConsoleUserViewModel;
 
-<div class="row col-12 d-flex flex-wrap">
-
-    <div class="col-lg-3 col-sm-6 col-12">
-        <div class="box mt-1 m-lg-0"><span class="value">0</span><span class="text">کیف پول</span></div>
-    </div>
-    <div class="col-lg-3 col-sm-6 col-12">
-        <div class="box mt-1 m-lg-0"><span class="value">1</span><span class="text">سفارشات</span></div>
-    </div>
-    <div class="col-lg-3 col-sm-6 col-12">
-        <div class="box mt-1 m-lg-0">
-            <span class="value">2</span><span class="text">سفارشات تکمیل شده</span>
+<div class="grid gap-2 grid-cols-4 max-md:grid-cols-2 max-sm:grid-cols-1  ">
+    <div class="w-full flex  gap-x-2 items-center bg-gradient-to-bl from-red-500 to-red-700 rounded-2xl p-3">
+        <svg class="fill-zinc-100 bg-red-600 rounded-xl p-1" xmlns="http://www.w3.org/2000/svg" width="44" height="44" fill="" viewBox="0 0 256 256"><path d="M232,96v96a8,8,0,0,1-8,8H32a8,8,0,0,1-8-8V96Z" opacity="0.2"></path><path d="M224,48H32A16,16,0,0,0,16,64V192a16,16,0,0,0,16,16H224a16,16,0,0,0,16-16V64A16,16,0,0,0,224,48Zm0,16V88H32V64Zm0,128H32V104H224v88Zm-16-24a8,8,0,0,1-8,8H168a8,8,0,0,1,0-16h32A8,8,0,0,1,208,168Zm-64,0a8,8,0,0,1-8,8H120a8,8,0,0,1,0-16h16A8,8,0,0,1,144,168Z"></path></svg>
+        <div class="text-zinc-50 space-y-1">
+            <div>
+                موجودی حساب
+            </div>
+            <div>
+                75,000 تومان
+            </div>
         </div>
     </div>
-    <div class="col-lg-3 col-sm-6 col-12">
-        <div class="box mt-1 m-lg-0"><span class="value">5</span><span class="text">نطرات</span></div>
+    <div class="w-full flex  gap-x-2 items-center bg-gradient-to-bl from-yellow-500 to-yellow-700 rounded-2xl p-3">
+        <svg class="fill-zinc-100 bg-yellow-600 rounded-xl p-1" xmlns="http://www.w3.org/2000/svg" width="44" height="44" fill="#000000" viewBox="0 0 256 256"><path d="M240,104,128,224,80,104l48-64h56Z" opacity="0.2"></path><path d="M246,98.73l-56-64A8,8,0,0,0,184,32H72a8,8,0,0,0-6,2.73l-56,64a8,8,0,0,0,.17,10.73l112,120a8,8,0,0,0,11.7,0l112-120A8,8,0,0,0,246,98.73ZM222.37,96H180L144,48h36.37ZM74.58,112l30.13,75.33L34.41,112Zm89.6,0L128,202.46,91.82,112ZM96,96l32-42.67L160,96Zm85.42,16h40.17l-70.3,75.33ZM75.63,48H112L76,96H33.63Z"></path></svg>
+        <div class="text-zinc-100 space-y-1">
+            <div>
+                امتیاز ها
+            </div>
+            <div>
+                735 امتیاز
+            </div>
+        </div>
+    </div>
+    <div class="w-full flex  gap-x-2 items-center bg-gradient-to-bl from-blue-500 to-blue-700 rounded-2xl p-3">
+        <svg class="fill-zinc-100 bg-blue-600 rounded-xl p-1" xmlns="http://www.w3.org/2000/svg" width="44" height="44" fill="#000000" viewBox="0 0 256 256"><path d="M216,64l-12.16,66.86A16,16,0,0,1,188.1,144H62.55L48,64Z" opacity="0.2"></path><path d="M222.14,58.87A8,8,0,0,0,216,56H54.68L49.79,29.14A16,16,0,0,0,34.05,16H16a8,8,0,0,0,0,16h18L59.56,172.29a24,24,0,0,0,5.33,11.27,28,28,0,1,0,44.4,8.44h45.42A27.75,27.75,0,0,0,152,204a28,28,0,1,0,28-28H83.17a8,8,0,0,1-7.87-6.57L72.13,152h116a24,24,0,0,0,23.61-19.71l12.16-66.86A8,8,0,0,0,222.14,58.87ZM96,204a12,12,0,1,1-12-12A12,12,0,0,1,96,204Zm96,0a12,12,0,1,1-12-12A12,12,0,0,1,192,204Zm4-74.57A8,8,0,0,1,188.1,136H69.22L57.59,72H206.41Z"></path></svg>
+        <div class="text-zinc-100 space-y-1">
+            <div>
+                سفارشات کل
+            </div>
+            <div>
+                16
+            </div>
+        </div>
+    </div>
+    <div class="w-full flex  gap-x-2 items-center bg-gradient-to-bl from-green-500 to-green-700 rounded-2xl p-3">
+        <svg class="fill-zinc-100 bg-green-600 rounded-xl p-1" xmlns="http://www.w3.org/2000/svg" width="44" height="44" fill="#000000" viewBox="0 0 256 256"><path d="M16,152H48v56H16a8,8,0,0,1-8-8V160A8,8,0,0,1,16,152ZM204,56a28,28,0,0,0-12,2.71h0A28,28,0,1,0,176,85.29h0A28,28,0,1,0,204,56Z" opacity="0.2"></path><path d="M230.33,141.06a24.43,24.43,0,0,0-21.24-4.23l-41.84,9.62A28,28,0,0,0,140,112H89.94a31.82,31.82,0,0,0-22.63,9.37L44.69,144H16A16,16,0,0,0,0,160v40a16,16,0,0,0,16,16H120a7.93,7.93,0,0,0,1.94-.24l64-16a6.94,6.94,0,0,0,1.19-.4L226,182.82l.44-.2a24.6,24.6,0,0,0,3.93-41.56ZM16,160H40v40H16Zm203.43,8.21-38,16.18L119,200H56V155.31l22.63-22.62A15.86,15.86,0,0,1,89.94,128H140a12,12,0,0,1,0,24H112a8,8,0,0,0,0,16h32a8.32,8.32,0,0,0,1.79-.2l67-15.41.31-.08a8.6,8.6,0,0,1,6.3,15.9ZM164,96a36,36,0,0,0,5.9-.48,36,36,0,1,0,28.22-47A36,36,0,1,0,164,96Zm60-12a20,20,0,1,1-20-20A20,20,0,0,1,224,84ZM164,40a20,20,0,0,1,19.25,14.61,36,36,0,0,0-15,24.93A20.42,20.42,0,0,1,164,80a20,20,0,0,1,0-40Z"></path></svg>
+        <div class="text-zinc-100 space-y-1">
+            <div>
+                تحویل داده شده
+            </div>
+            <div>
+                16
+            </div>
+        </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-lg-4 col-12 p-lg-3 p-2">
-        <div class="personal-data">
+<div class="bg-white mt-5 rounded-2xl min-h-80 h-auto shadow-custom p-4">
+<div class="px-2 md:px-3 pt-3 pb-5 mb-3 text-zinc-700 text-sm md:text-base flex items-center gap-x-2 border-b border-zinc-200">
+    <svg class="fill-primary-500" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="" viewBox="0 0 256 256"><path d="M128,16a88.1,88.1,0,0,0-88,88c0,75.3,80,132.17,83.41,134.55a8,8,0,0,0,9.18,0C136,236.17,216,179.3,216,104A88.1,88.1,0,0,0,128,16Zm0,56a32,32,0,1,1-32,32A32,32,0,0,1,128,72Z"></path></svg>
+    اطلاعات شخصی
+</div>
+<div class="flex flex-col lg:flex-row">
+    <!-- Personal Info -->
+    <div class="w-full lg:w-1/3 p-2 lg:p-3">
+        <div class="bg-white rounded-lg shadow p-4  h-full">
             <ul>
-                <li class="header"><span class="text">اطلاعات شخصی</span><a href="Identity/Account/Manage" >ویرایش</a></li>
-                <li>
-                    <span class="text">نام و نام خانوادگی</span>: <span class="value">@Model.User.FullName</span>
+                <li class="flex justify-between items-center border-b pb-2 mb-2">
+                    <span class="font-bold text-gray-800">اطلاعات شخصی</span>
+                    <a href="Identity/Account/Manage" class="text-orange-500 hover:underline">ویرایش</a>
                 </li>
-                <li><span class="text">شماره موبایل</span>: <span class="value">@Model.User.PhoneNumber</span></li>
-                <li><span class="text">ایمیل</span>: <span class="value">@Model.User.Email</span></li>
-                <li><span class="text">کد پستی</span>: <span class="value">@Model.User.PostalCode</span></li>
-                <li><span class="text">شهر</span> :<span class="value">@Model.User.city</span></li>
-                <li><span class="text">آدرس</span> :<span class="value">@Model.User.Address</span></li>
+                <li class="py-1">
+                    <span class="font-medium text-gray-700">نام و نام خانوادگی</span>:
+                    <span class="text-gray-900">@Model.User.FullName</span>
+                </li>
+                <li class="py-1">
+                    <span class="font-medium text-gray-700">شماره موبایل</span>:
+                    <span class="text-gray-900">@Model.User.PhoneNumber</span>
+                </li>
+                <li class="py-1">
+                    <span class="font-medium text-gray-700">ایمیل</span>:
+                    <span class="text-gray-900">@Model.User.Email</span>
+                </li>
+                <li class="py-1">
+                    <span class="font-medium text-gray-700">کد پستی</span>:
+                    <span class="text-gray-900">@Model.User.PostalCode</span>
+                </li>
+                <li class="py-1">
+                    <span class="font-medium text-gray-700">شهر</span>:
+                    <span class="text-gray-900">@Model.User.city</span>
+                </li>
+                <li class="py-1">
+                    <span class="font-medium text-gray-700">آدرس</span>:
+                    <span class="text-gray-900">@Model.User.Address</span>
+                </li>
             </ul>
         </div>
     </div>
-    <div class="col-lg-8 col-12 p-lg-3 p-2">
-        <div class="like-product">
-            <!-- <h3><a href="#">مشاهده بیشتر</a><span class="text">علاقه مندی ها</span></h3> -->
-            <h4 class="text-dark">
-                <span>محصولات موردعلاقه</span><span><a href="#">مشاهده بیشتر</a></span>
+
+    <!-- Liked Products -->
+    <div class="w-full lg:w-2/3 p-2 lg:p-3">
+        <div class="bg-white rounded-lg shadow p-4">
+            <h4 class="flex justify-between items-center text-lg font-semibold mb-4">
+                <span>محصولات موردعلاقه</span>
+                <a href="#" class="text-orange-500 hover:underline">مشاهده بیشتر</a>
             </h4>
-            @if(Model != null)
+
+            @if (Model != null)
             {
-                @if(Model.LikedProducts.Count() > 0)
+                @if (Model.LikedProducts.Count() > 0)
                 {
-                    <div class="Product-container ">
-                        <div class="product-wrapper d-flex " dir="ltr">
+                    <div class="overflow-x-auto" dir="ltr">
+                        <div class="flex gap-4">
                             @foreach (var product in Model.LikedProducts)
                             {
-                                <div class="product-card col-4">
-                                    @if(product.ProductPhotos != null)
-                                    {
-                                        <div class="cover">
-                                            <img src="~/Image/Product/@(product.Name)/@(product.ProductPhotos.First().Name)" alt="tv" width="200px">
-                                        </div>
-                                    }
-                                    <div class="card-body">
-                                        <div class="product-name">
-                                            <a asp-action="ProductShow" asp-controller="Product" asp-route-Id="@product.Id">@product.Name</a>
-                                        </div>
-                                        <div class="price">
-                                            @if (product.Discount > 0)
-                                            {
-                                                <span class="original-price text-danger"><del>@product.Price.ToString("N0") تومان</del></span>
-
-
-                                                var finPrice = product.Price - (product.Price * ((decimal)product.Discount / 100));
-
-
-                                                <span class="off-price">@finPrice.ToString("N0") تومان</span>
-                                            }
-                                            else
-                                            {
-                                                <span class="text-dark">@product.Price.ToString("N0") تومان</span>
-                                            }
-                                        </div>
-                                        <div class="card-footer">
-                                            <a class="shopbtn"><i class="fa-solid fa-cart-shopping"></i></a>
-                                            <div class="rate">
-                                                <i class="fa-solid fa-star"></i><span>4.5</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                     <div class="bg-white border border-zinc-200 rounded-2xl p-2 md:p-3 text-sm hover:shadow-custom transition-shadow">
+            <a href="" class="text-zinc-800">
+              <img class="rounded-xl mb-3" src="https://onlineshop.mohammadmahdialmasi.ir/Image/Product/@(product.Name)/@(product.ProductPhotos.First().Name)" >
+            </a>
+            <p class="text-zinc-400 text-xs">
+             @product.Name
+            </p>
+            <a href="" class="text-zinc-800 text-xs md:text-sm h-8 lg:h-10 line-clamp-2 mt-2">
+             @product.Name
+            </a>
+            <div class="flex items-center justify-between mt-4">
+              <div class="flex gap-1.5">
+                <div class="size-4 bg-zinc-800 rounded-full"></div>
+                <div class="size-4 bg-zinc-500 rounded-full"></div>
+                <div class="size-4 bg-zinc-300 rounded-full"></div>
+              </div>
+              <div class="flex items-start gap-x-1 text-xs text-zinc-500">
+                <span>
+                  <span>
+                   @product.QuantityInStock
+                  </span>
+                  <span>
+                    4.4
+                  </span>
+                </span>
+                <svg class="fill-primary-500" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="#f9bc00" viewBox="0 0 256 256"><path d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z"></path></svg>
+              </div>
+            </div>
+            <div class="flex flex-row-reverse items-center justify-between border-t border-dashed border-zinc-300 mt-4 pt-2">
+              <a href="" class="text-zinc-50 hover:text-zinc-100 transition bg-red-500 hover:bg-red-600 px-3 py-2 block w-fit text-xs rounded-md">
+                حذف از علاقه مندی ها
+              </a>
+              <div class="text-zinc-800 flex flex-col items-center gap-x-1 justify-center font-yekanBakhBold text-lg">
+                  @if (product.Discount > 0)
+                  {
+                      <span class="flex text-red-500 gap-x-1 text-sm line-through mr-2">@product.Price.ToString("N0")   
+                          <img class="size-4" src="~/Image/icons/toman.png" alt="">
+                      </span>
+                      var finPrice = product.Price - (product.Price * ((decimal)product.Discount / 100));
+                      <span class="flex gap-x-1 text-green-600 text-sm font-semibold">@finPrice.ToString("N0")                 <img class="size-4" src="~/Image/icons/toman.png" alt="">
+                      </span>
+                  }
+                  else
+                  {
+                      <span class="text-gray-800 font-semibold">@product.Price.ToString("N0")                 <img class="size-4" src="~/Image/icons/toman.png" alt="">
+                      </span>
+                  }
+              </div>
+            </div>
+          </div>
                             }
                         </div>
                     </div>
                 }
             }
-           
         </div>
     </div>
 </div>
-<div class="row">
-    <div class="factor-detail col-lg-8 col-12">
-        <h3 class="title">محتویات سبد خرید</h3>
-        <div class="product-box col-12">
-            <a href="#"><i class="fa-solid fa-trash"></i></a>
-            <div class="product-img col-lg-2 col-md-4 col-12">
-                <img src="../../image/s22_prev_ui.png" alt="">
-            </div>
-            <div class="product-detail col-lg-10 col-md-8 col-12">
-                <div class="row">
-                    <h3>موس بی سیم ایسوس مدل proAsusM490-87b-QL-9</h3>
-                    <h4>Ckfjow08853-skf-990</h4>
-                </div>
-                <div class="row">
-                    <div class="count col-md-6 col-12">
-                        <span>تعداد:</span><a href="#"><i class="fa-solid fa-plus"></i></a>
-                        <span>2</span><a href="#"><i class="fa-solid fa-minus"></i></a>
-                    </div>
-                    <div class="price col-md-6 col-12">
-                        <h4 class="priceUnit">قیمت واحد:<span>20,000 تومان</span></h4>
-                        <h4 class="totalPrice">قیمت کل:<span>40,000 تومان</span></h4>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
 </div>
-@section InLineCss{
-    <link rel="stylesheet" type="text/css"
-          href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.css" />
-    <link rel="stylesheet" type="text/css"
-          href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.css" />
-}
 @section ScriptRefrence{
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
 }

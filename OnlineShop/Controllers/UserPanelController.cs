@@ -64,7 +64,7 @@ namespace PresentationLayer.Controllers
             if (file != null)
             {
                 var name = User.Identity.Name;
-                var destination = "Image\\Users" + "\\" + name + "\\";
+                var destination = Path.Combine("Image","Users",name);
                 var webrootpath = webHostEnvironment.WebRootPath;
                 var path = Path.Combine(webrootpath, destination);
                 var result = await fileManage.Upload(name, path, 0, formats, file);
@@ -79,7 +79,7 @@ namespace PresentationLayer.Controllers
                     }
                     return Json(new { message = updateUserResult.Errors.First().Description });
                 }
-                return Json(new { message = "خطا در سرور !" });
+                return Json(new { message = result.message });
             }
             return Json(new { message = "لطفا یک عکس انتخاب کنید" });
         }

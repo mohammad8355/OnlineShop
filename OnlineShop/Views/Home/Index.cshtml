@@ -100,7 +100,7 @@
                     
      
                     <div class="card swiper-slide bg-white border border-zinc-200 rounded-2xl p-2 md:p-3 text-sm hover:shadow-custom transition-shadow">
-                        <a href="" class="text-zinc-800">
+                        <a asp-action="ProductShow" asp-controller="Product" asp-route-Id="@product.Id" class="text-zinc-800">
                             <img class="rounded-xl mb-3" 
                                  src="https://onlineshop.mohammadmahdialmasi.ir/Image/Product/@(product.Name)/@(product.cover)">
                         </a>
@@ -172,7 +172,7 @@
                     
      
                     <div class="card swiper-slide bg-white border border-zinc-200 rounded-2xl p-2 md:p-3 text-sm hover:shadow-custom transition-shadow">
-                        <a href="" class="text-zinc-800">
+                        <a asp-action="ProductShow" asp-controller="Product" asp-route-Id="@product.Id" class="text-zinc-800">
                             <img class="rounded-xl mb-3" 
                                  src="https://onlineshop.mohammadmahdialmasi.ir/Image/Product/@(product.Name)/@(product.cover)">
                         </a>
