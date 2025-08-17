@@ -11,6 +11,8 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
+using BusinessLogicLayer.OtpCodes;
+using DataAccessLayer;
 using DataAccessLayer.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -32,16 +34,19 @@ namespace Electrical.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<ApplicationUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly EmailSender _emailSender;
+        private readonly OtpCodeLogic _otpCodeLogic;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             IUserStore<ApplicationUser> userStore,
+            OtpCodeLogic  otpCodeLogic,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
             EmailSender emailSender)
         {
             _userManager = userManager;
             _userStore = userStore;
+            _otpCodeLogic = otpCodeLogic;
             _emailStore = GetEmailStore();
             _signInManager = signInManager;
             _logger = logger;
@@ -73,23 +78,7 @@ namespace Electrical.Areas.Identity.Pages.Account
         /// </summary>
         public class InputModel
         {
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
-            [Required]
-            [EmailAddress]
-            [Display(Name = "Email")]
-            public string Email { get; set; }
-            [Required]
-            [MaxLength(100)]
-            [DataType(DataType.Text)]
-            [DisplayName("نام کاربری")]
-            public string Name { get; set; }
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
+          
             [Phone]
             [Display(Name ="شماره موبایل")]
             public string PhoneNumber { get; set; }
@@ -126,12 +115,13 @@ namespace Electrical.Areas.Identity.Pages.Account
                 user.IsEnable = true;
                 user.EmailConfirmed = true;
                 user.PhoneNumber = Input.PhoneNumber;
-                await _userStore.SetUserNameAsync(user, Input.Name, CancellationToken.None);
-                await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+                await _userStore.SetUserNameAsync(user, Input.PhoneNumber, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
                 {
+                    await _userManager.AddPasswordAsync(user,Input.Password);
+
                     _logger.LogInformation("User created a new account with password.");
                    // await _userManager.AddToRoleAsync(user, "User");
                    //  var userId = await _userManager.GetUserIdAsync(user);
@@ -145,28 +135,26 @@ namespace Electrical.Areas.Identity.Pages.Account
                    //
                    //  await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
                    //      $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-                   await _userManager.AddToRoleAsync(user, "Admin");
+                   await _userManager.AddToRoleAsync(user, "User");
                    var userId = await _userManager.GetUserIdAsync(user);
-                   var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                   code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                   var callbackUrl = Url.Page(
-                       "/Account/ConfirmEmail",
-                       pageHandler: null,
-                       values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
-                       protocol: Request.Scheme);
+                   var _code = new Random().Next(100000, 999999).ToString();
+                   var otp = new OtpCode
+                   {
+                       PhoneNumber = Input.PhoneNumber,
+                       Code = _code, // 6-digit
+                       Expiry = DateTime.UtcNow.AddMinutes(5)
+                   };
+                   _otpCodeLogic.AddOtpCode(otp);
+                   // var callbackUrl = Url.Page();
                    //
                    // await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
                    //     $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+        
+                   return RedirectToPage(
+                       "/Account/PhoneNumberConfrim",
+                       new { area = "Identity", phonenumber = Input.PhoneNumber }
+                   );
 
-                    if (_userManager.Options.SignIn.RequireConfirmedAccount)
-                    {
-                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
-                    }
-                    else
-                    {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
-                    }
                 }
                 foreach (var error in result.Errors)
                 {

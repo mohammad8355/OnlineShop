@@ -3,62 +3,37 @@
 @{
     ViewData["Title"] = "Register";
 }
-<section class="container accountBox">
-    <div class="card col-4">
-        <div class="card-header">
-            <img src="~/Image/static/Logo.jpg" title="SalehIT" width="100px">
-        </div>
-        <div class="card-body">
-            <h4>ثبت نام </h4>
-            <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-                <div class="firstSide col-12">
-                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-                <div class="form-group">
-                    <input asp-for="Input.Name" class="form-control" autocomplete="username" aria-required="true" placeholder="نام کاربری" />
-                 @*   <label asp-for="Input.Name"></label>*@
-                    <span asp-validation-for="Input.Name" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-                   @* <label asp-for="Input.Email">Email</label>*@
-                    <span asp-validation-for="Input.Email" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <input asp-for="Input.PhoneNumber" class="form-control" autocomplete="username" aria-required="true" placeholder="09123456789" />
-@*                    <label asp-for="Input.PhoneNumber">شماره موبایل</label>*@
-                    <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
-                </div>
-                    <div class="form-group">
-                        <button type="button" id="continueBtn" class="btn btn-primary col-12">ادامه</button>
-                    </div>
-                    <div class="form-group">
-                        <a class="btn btn-danger col-12">ثبت نام با گوگل</a>
-                    </div>
-                    <span>قبلا عضو شده اید؟<a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl">اکنون وارد شوید</a></span>
-                </div>
-                <div class="secondSide col-12">
-                <div class="form-group">
-                    <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-              @*      <label asp-for="Input.Password">Password</label>*@
-                    <span asp-validation-for="Input.Password" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                 @*   <label asp-for="Input.ConfirmPassword">Confirm Password</label>*@
-                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-                </div>
-                    <div class="form-group">
-                        <button type="button" id="backBtn" class="btn btn-primary col-12">برگشت</button>
-                    </div>
-                    <div class="form-group">
-                        <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">ثبت نام</button>
-                    </div>
-                    <span>قبلا عضو شده اید؟<a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl" >اکنون وارد شوید</a></span>
-                </div>
+<div class="h-screen flex justify-center items-center bg-gradient-to-bl from-primary-600 to-primary-800">
+    <div class="bg-white rounded-2xl shadow-custom w-11/12 sm:w-7/12 md:w-6/12 lg:w-4/12 xl:w-3/12 h-auto py-5 px-4">
+        
+        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+            <h2 class="w-full text-center">ثبت نام</h2>
+
+            <div class="w-full flex py-2">
+                <input aria-required="true" asp-for="Input.PhoneNumber" class="rounded-2xl text-sm text-zinc-600 w-full border border-zinc-200 px-5 py-3.5 placeholder:text-zinc-400 placeholder:text-xs focus:outline-1 focus:outline-primary-300 focus:border-primary-300" type="text" placeholder=" شماره موبایل">
+            </div>
+            <div class="w-full flex py-2 flex-col gap-y-1">
+                <input
+                    asp-for="Input.Password"
+                    class="rounded-2xl text-sm text-zinc-600
+ w-full border border-zinc-200 px-5
+ py-3.5 placeholder:text-zinc-400
+ placeholder:text-xs focus:outline-1 focus:outline-primary-300 focus:border-primary-300" type="password" placeholder="رمز عبور">
+            </div>
+            <div class="w-full flex py-2 flex-col gap-y-1">
+                <input asp-for="Input.ConfirmPassword" class="rounded-2xl text-sm text-zinc-600 w-full border 
+border-zinc-200 px-5 py-3.5
+ placeholder:text-zinc-400 
+placeholder:text-xs focus:outline-1 focus:outline-primary-300 focus:border-primary-300" type="password" placeholder="تکرار رمز عبور">
+            </div>
+            <button type="submit" class="bg-primary-500 py-2 px-4 rounded-2xl hover:bg-primary-700 text-white cursor-pointer w-full " >ثبت نام</button>
+            <a class="text-decoration-underline text-primary-500" asp-page="/Account/Login" asp-area="Identity">اکانت داری؟</a>
+
+        
             </form>
-        </div>
     </div>
-</section>
+    </div>
 @*<div class="row">
     <div class="col-md-4">
     </div>

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Text;
+using BusinessLogicLayer.OtpCodes;
 
 namespace PresentationLayer.Areas.Identity.Pages.Account
 {
@@ -11,38 +12,54 @@ namespace PresentationLayer.Areas.Identity.Pages.Account
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly OtpCodeLogic _otpCodeLogic;
 
-        public PhoneNumberConfrimModel(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public PhoneNumberConfrimModel(OtpCodeLogic otpCodeLogic,UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager;
+            _otpCodeLogic = otpCodeLogic;
             _signInManager = signInManager;
         }
-        [TempData]
-        public string StatusMessage { get; set; }
+        [BindProperty]
+        public OtpCodeVerify Input { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(string userId, string phonenumber, string code)
+        public string PhoneNumber { get; set; }
+        public class OtpCodeVerify
         {
-            if (userId == null || phonenumber == null || code == null)
+            public string Code { get; set; }
+        }
+
+        public async Task<IActionResult> OnGetAsync(string phonenumber)
+        { 
+            PhoneNumber = phonenumber;
+            return Page();
+        }
+        public async Task<IActionResult> OnPostAsync()
+        {
+            if ( PhoneNumber == null)
             {
                 return RedirectToPage("/Index");
             }
 
-            var user = await _userManager.FindByIdAsync(userId);
+            var user = await _userManager.FindByNameAsync(PhoneNumber);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{userId}'.");
+                return NotFound($"Unable to load user with ID '{PhoneNumber}'.");
             }
 
-            code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
-            var resualt = await _userManager.ChangePhoneNumberAsync(user, phonenumber, code);
-            if(!resualt.Succeeded)
+            var code = await _otpCodeLogic.GetCodeByphoneNumber(PhoneNumber);
+            if (code == Input.Code)
             {
-                StatusMessage = "Error changing email.";
+                user.PhoneNumberConfirmed = true;
+                await _userManager.UpdateAsync(user);
+                await _signInManager.RefreshSignInAsync(user);
+                return RedirectToPage("Login");    
+            }
+            else
+            {
                 return Page();
             }
-            await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Thank you for confirming your email change.";
-            return Page();
+            
         }
     }
 }

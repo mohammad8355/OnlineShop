@@ -17,7 +17,11 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
 using System.ComponentModel;
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
 using DataAccessLayer.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Electrical.Areas.Identity.Pages.Account
 {
@@ -26,10 +30,12 @@ namespace Electrical.Areas.Identity.Pages.Account
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly IConfiguration _config;
 
-        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger, UserManager<ApplicationUser> userManager)
+        public LoginModel(IConfiguration config,SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger, UserManager<ApplicationUser> userManager)
         {
             _signInManager = signInManager;
+            _config = config;
             _logger = logger;
             _userManager = userManager;
         }
@@ -66,30 +72,34 @@ namespace Electrical.Areas.Identity.Pages.Account
         /// </summary>
         public class InputModel
         {
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
-            [Required]
-            [MaxLength(100)]
-            [DataType(DataType.Text)]
-            [Display(Name = "نام کاربری")]
-            public string Name { get; set; }
+            // /// <summary>
+            // ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
+            // ///     directly from your code. This API may change or be removed in future releases.
+            // /// </summary>
+            // [Required]
+            // [MaxLength(100)]
+            // [DataType(DataType.Text)]
+            // [Display(Name = "نام کاربری")]
+            // public string Name { get; set; }
+            //
+            // /// <summary>
+            // ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
+            // ///     directly from your code. This API may change or be removed in future releases.
+            // /// </summary>
+            // [Required]
+            // [DataType(DataType.Password)]
+            // public string Password { get; set; }
+            //
+            // /// <summary>
+            // ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
+            // ///     directly from your code. This API may change or be removed in future releases.
+            // /// </summary>
+            // [Display(Name = "Remember me?")]
+            // public bool RememberMe { get; set; }
+            public string PhoneNumber { get; set; }
 
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
-            [Required]
-            [DataType(DataType.Password)]
+
             public string Password { get; set; }
-
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
-            [Display(Name = "Remember me?")]
-            public bool RememberMe { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -109,7 +119,7 @@ namespace Electrical.Areas.Identity.Pages.Account
             ReturnUrl = returnUrl;
         }
 
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+        public async Task<IActionResult> OnPostAsync(string returnUrl = null,CancellationToken cancellationToken = default)
         {
             returnUrl ??= Url.Content("~/");
 
@@ -119,18 +129,30 @@ namespace Electrical.Areas.Identity.Pages.Account
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(Input.Name, Input.Password, Input.RememberMe, lockoutOnFailure: false);
-                var user = await _userManager.FindByNameAsync(Input.Name);
+                var user = await _userManager.Users.Where(c => c.PhoneNumber == Input.PhoneNumber)
+                    .FirstOrDefaultAsync(cancellationToken);
                 if (user != null)
                 {
-                    if (result.Succeeded)
+                    var passwordcheck = await _userManager.CheckPasswordAsync(user,Input.Password);
+                    if (!passwordcheck)
                     {
+                        ModelState.AddModelError(string.Empty, "نام کاربری یا رمز عبور اشتباه است");
+                        return Page();
+                    }
+                    var token = GenerateJwtToken(user.Id,user.PhoneNumber);
+
+                    // Store token in cookie (or localStorage in SPA scenario)
+                    Response.Cookies.Append("jwt", token, new CookieOptions
+                    {
+                        HttpOnly = true,
+                        Secure = true
+                    });
                         if (user.IsEnable)
                         {
                             var claims = new List<Claim>
                         {
                              new Claim(ClaimTypes.NameIdentifier,user.Id),
-                             new Claim(ClaimTypes.Email,user.Email),
+                             new Claim(ClaimTypes.MobilePhone,user.PhoneNumber),
                              new Claim(ClaimTypes.Name,user.UserName),
                              new Claim(ClaimTypes.Role, "Administrator"),
                         };
@@ -139,7 +161,7 @@ namespace Electrical.Areas.Identity.Pages.Account
                                 claims, CookieAuthenticationDefaults.AuthenticationScheme);
                             var authProperties = new AuthenticationProperties
                             {
-                                IsPersistent = Input.RememberMe,
+                                IsPersistent = true,
                             };
                             await HttpContext.SignInAsync(
                            CookieAuthenticationDefaults.AuthenticationScheme,
@@ -148,19 +170,11 @@ namespace Electrical.Areas.Identity.Pages.Account
                             _logger.LogInformation("User logged in.");
                             return LocalRedirect(returnUrl);
 
-                        }
-                        else
-                        {
-                            ModelState.AddModelError(string.Empty, "خطایی رخ داده است ");
-                            return Page();
-                        }
-
-                    }
-                    if (result.RequiresTwoFactor)
+                        }else  if (user.TwoFactorEnabled)
                     {
-                        return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
+                        return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = true });
                     }
-                    if (result.IsLockedOut)
+                   else if (user.LockoutEnabled && user.LockoutEnd.HasValue)
                     {
                         _logger.LogWarning("User account locked out.");
                         return RedirectToPage("./Lockout");
@@ -180,6 +194,28 @@ namespace Electrical.Areas.Identity.Pages.Account
 
             // If we got this far, something failed, redisplay form
             return Page();
+        }
+        private string GenerateJwtToken(string Id,string PhoneNumber)
+        {
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+            var claims = new[]
+            {
+                new Claim(JwtRegisteredClaimNames.Sub,Id.ToString()),
+                new Claim("phone",PhoneNumber),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            };
+
+            var token = new JwtSecurityToken(
+                issuer: _config["Jwt:Issuer"],
+                audience: _config["Jwt:Audience"],
+                claims: claims,
+                expires: DateTime.UtcNow.AddHours(1),
+                signingCredentials: credentials
+            );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }

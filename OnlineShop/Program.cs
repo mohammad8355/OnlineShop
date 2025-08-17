@@ -7,6 +7,8 @@ using BusinessLogicLayer.GeneralService;
 using BusinessLogicLayer.ProductService;
 using DataAccessLayer;
 using DataAccessLayer.services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -39,12 +41,15 @@ using Utility.ProductCodeGenerator;
 using BusinessLogicLayer.favoriteProductService;
 using Microsoft.Extensions.Options;
 using System.Security.Claims;
+using System.Text;
 using Microsoft.AspNetCore.Authentication;
 using PresentationLayer.Areas.Identity.Claims;
 using Infrustructure.Payment;
 using BusinessLogicLayer.NotificationLogic;
+using BusinessLogicLayer.OtpCodes;
 using Infrustructure.SignalR;
 using Microsoft.AspNet.SignalR;
+using Microsoft.IdentityModel.Tokens;
 using PresentationLayer.NotificationSystem;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -86,13 +91,43 @@ builder.Services.Configure<TotpPhoneProviderOptions>(options =>
 });
 #endregion
 #region Addcookies
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
-{
-    options.LoginPath = "/Identity/Account/Login";
-    options.AccessDeniedPath = "/Identity/Account/AccessDenied";
-    options.ExpireTimeSpan = TimeSpan.FromDays(15);
-    options.LogoutPath = "/Identity/Account/Logout";
-});
+builder.Services.AddAuthentication(options =>
+    {
+        // Default scheme for Identity/Razor Pages (cookies)
+        options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+        options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme; // For APIs
+    })
+    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+    {
+        options.LoginPath = "/Identity/Account/Login";
+        options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+        options.ExpireTimeSpan = TimeSpan.FromDays(15);
+    })
+    .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+        };
+        options.Events = new JwtBearerEvents
+        {
+            OnMessageReceived = ctx =>
+            {
+                if (ctx.Request.Cookies.ContainsKey("AuthToken"))
+                {
+                    ctx.Token = ctx.Request.Cookies["AuthToken"];
+                }
+                return Task.CompletedTask;
+            }
+        };
+    });
 #endregion
 #region main repository service
 builder.Services.AddScoped<MainRepository<KeyToProduct>>();
@@ -100,6 +135,7 @@ builder.Services.AddScoped<MainRepository<DiscountToProduct>>();
 builder.Services.AddScoped<MainRepository<KeyToSubCategory>>();
 builder.Services.AddScoped<MainRepository<Product>>();
 builder.Services.AddScoped<MainRepository<AdjKey>>();
+builder.Services.AddScoped<MainRepository<OtpCode>>();
 builder.Services.AddScoped<MainRepository<AdjValue>>();
 builder.Services.AddScoped<MainRepository<Discount>>();
 builder.Services.AddScoped<MainRepository<Order>>();
@@ -107,6 +143,7 @@ builder.Services.AddScoped<MainRepository<Notification>>();
 builder.Services.AddScoped<MainRepository<OrderDetails>>();
 builder.Services.AddScoped<MainRepository<General>>();
 builder.Services.AddScoped<MainRepository<BlogPost>>();
+
 builder.Services.AddScoped<MainRepository<ProductPhoto>>();
 builder.Services.AddScoped<MainRepository<Category>>();
 builder.Services.AddScoped<MainRepository<CategoryToProduct>>();
@@ -125,6 +162,7 @@ builder.Services.AddTransient<IClaimsTransformation,RoleClaimsTransformation>();
 builder.Services.AddScoped<AdjKeyLogic>();
 builder.Services.AddScoped<AdjValueLogic>();
 builder.Services.AddScoped<DiscountLogic>();
+builder.Services.AddScoped<OtpCodeLogic>();
 builder.Services.AddScoped<ProductLogic>();
 builder.Services.AddScoped<GeneralLogic>();
 builder.Services.AddScoped<ProductPhotoLogic>();
@@ -159,6 +197,7 @@ builder.Services.AddScoped<Dictionary<string, INotificationProvider>>(provider =
     {"push",provider.GetRequiredService<PushNotification>() },
 });
 builder.Services.AddScoped<NotificationManager>();
+
 //builder.Services.AddScoped<IHubContext<HubConfig>>();
 builder.Services.AddScoped<ZarinPalPay>();
 builder.Services.AddScoped<CodeGenerator>();

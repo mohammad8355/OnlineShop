@@ -1,8 +1,54 @@
 ﻿@page
-@model ConfirmEmailModel
+@model PresentationLayer.Areas.Identity.Pages.Account.PhoneNumberConfrimModel
 @{
     ViewData["Title"] = "شماره موبایل";
 }
 
 <h1>@ViewData["Title"]</h1>
-<partial name="_StatusMessage" model="Model.StatusMessage" />
+<div class="h-screen flex justify-center items-center ">
+  <form method="post" >
+  
+    <div class="bg-white rounded-2xl shadow-custom min-w-[300px] h-auto py-5 px-4">
+      <img class="w-32 mx-auto" src="~/Image/logo.png" alt="">
+      <div class="mt-5 text-lg font-semibold text-zinc-800">
+        احراز هویت
+      </div>
+      <div class="my-4 text-xs text-zinc-500">کد تایید ارسال شده به شماره   @Model.PhoneNumber را وارد کنید    
+      </div>
+      <div class="input-field mb-5 flex flex-row-reverse gap-x-4 justify-center">
+        <input type="text" maxlength="1" asp-for="Input.Code" class="code-input border border-zinc-300 w-10 h-11 rounded-md outline-none text-center focus:outline-0 focus:border-primary-500 focus:shadow-lg" required/>
+        <input type="text" maxlength="1" asp-for="Input.Code" class="code-input border border-zinc-300 w-10 h-11 rounded-md outline-none text-center focus:outline-0 focus:border-primary-500 focus:shadow-lg" required/>
+        <input type="text" maxlength="1" asp-for="Input.Code" class="code-input border border-zinc-300 w-10 h-11 rounded-md outline-none text-center focus:outline-0 focus:border-primary-500 focus:shadow-lg" required/>
+        <input type="text" maxlength="1" asp-for="Input.Code" class="code-input border border-zinc-300 w-10 h-11 rounded-md outline-none text-center focus:outline-0 focus:border-primary-500 focus:shadow-lg" required/>
+        <input type="text" maxlength="1" asp-for="Input.Code" class="code-input border border-zinc-300 w-10 h-11 rounded-md outline-none text-center focus:outline-0 focus:border-primary-500 focus:shadow-lg" required/>
+        <input type="text" maxlength="1" asp-for="Input.Code" class="code-input border border-zinc-300 w-10 h-11 rounded-md outline-none text-center focus:outline-0 focus:border-primary-500 focus:shadow-lg" required/>
+      </div>
+      <button type="submit" class="w-full  rounded-2xl flex items-center justify-center gap-x-1 text-sm max-w-md mt-10 py-3 
+text-white bg-gradient-to-bl from-primary-600 to-primary-800 hover:opacity-85 transition">
+        تایید
+      </button>
+    </div>
+    
+  </form>
+</div>
+
+@section InlineScript{
+    <script>
+    const inputs = document.querySelectorAll('.otp-input');
+    const hiddenInput = document.getElementById('OtpCodeHidden');
+
+    // Move focus automatically to next input
+    inputs.forEach((input, index) => {
+        input.addEventListener('input', () => {
+            if (input.value.length === 1 && index < inputs.length - 1) {
+                inputs[index + 1].focus();
+            }
+        });
+    });
+
+    // Before form submit, combine all digits into hidden input
+    document.getElementById('otpForm').addEventListener('submit', function(e) {
+        hiddenInput.value = Array.from(inputs).map(i => i.value).join('');
+    });
+</script>
+}

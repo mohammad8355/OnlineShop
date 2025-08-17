@@ -6,61 +6,110 @@
 @using Utility.PersianDate;
 
 @model List<Ticket>
-<div class="ticket-info">
-    <div class="row">
-        <a asp-action="AddTicket" asp-controller="Ticket" class="btn btn-outline-primary col-lg-2 col-md-4 col-6">افزودن تیکت</a>
+
+<div class="w-full flex-col gap-y-2">
+    <div class="w-full flex justify-start py-2">
+        <a asp-action="AddTicket" asp-controller="Ticket" class="bg-orange-500 text-white py-2 px-4 rounded-md hover:bg-orange-600 col-lg-2 col-md-4 col-6">افزودن تیکت</a>
     </div>
-    <div class="row bg-light p-2 shadow-sm m-1">
-        <div class="col-lg-3 col-md-6 d-flex flex-column align-items-center">
-            <span class="ticket-info-item"><i class="fa-solid fa-ticket"></i> <span>تعداد&zwnj;تیکت&zwnj;ها</span></span>
-            <span class="ticket-info-item text-secondary">@Model.Count()</span>
+ 
+    <div class="grid gap-2 grid-cols-4 max-md:grid-cols-2 max-sm:grid-cols-1  ">
+        <div class="w-full flex  gap-x-2 items-center bg-gradient-to-bl from-sky-500 to-sky-700 rounded-2xl p-3">
+            <svg class="fill-zinc-100 bg-sky-600 rounded-xl p-1" xmlns="http://www.w3.org/2000/svg" width="44" height="44" fill="" viewBox="0 0 256 256"><path d="M232,96v96a8,8,0,0,1-8,8H32a8,8,0,0,1-8-8V96Z" opacity="0.2"></path><path d="M224,48H32A16,16,0,0,0,16,64V192a16,16,0,0,0,16,16H224a16,16,0,0,0,16-16V64A16,16,0,0,0,224,48Zm0,16V88H32V64Zm0,128H32V104H224v88Zm-16-24a8,8,0,0,1-8,8H168a8,8,0,0,1,0-16h32A8,8,0,0,1,208,168Zm-64,0a8,8,0,0,1-8,8H120a8,8,0,0,1,0-16h16A8,8,0,0,1,144,168Z"></path></svg>
+            <div class="text-zinc-50 space-y-1">
+                <div>
+                    تعداد&zwnj;تیکت&zwnj;ها
+                </div>
+                <div>
+                    @Model.Count()
+                </div>
+            </div>
         </div>
-        <div class="col-lg-3 col-md-6 d-flex flex-column align-items-center">
-            <span class="ticket-info-item"><i class="fa-solid fa-check"></i> <span>تیکت&zwnj;های&zwnj;پاسخ&zwnj;داده&zwnj;شده</span></span>
-            <span class="ticket-info-item text-secondary">
-                @Model.Where(t => t.Status == "responed").Count()
-            </span>
+        <div class="w-full flex  gap-x-2 items-center bg-gradient-to-bl from-teal-500 to-teal-700 rounded-2xl p-3">
+            <svg class="fill-zinc-100 bg-teal-600 rounded-xl p-1" xmlns="http://www.w3.org/2000/svg" width="44" height="44" fill="" viewBox="0 0 256 256"><path d="M232,96v96a8,8,0,0,1-8,8H32a8,8,0,0,1-8-8V96Z" opacity="0.2"></path><path d="M224,48H32A16,16,0,0,0,16,64V192a16,16,0,0,0,16,16H224a16,16,0,0,0,16-16V64A16,16,0,0,0,224,48Zm0,16V88H32V64Zm0,128H32V104H224v88Zm-16-24a8,8,0,0,1-8,8H168a8,8,0,0,1,0-16h32A8,8,0,0,1,208,168Zm-64,0a8,8,0,0,1-8,8H120a8,8,0,0,1,0-16h16A8,8,0,0,1,144,168Z"></path></svg>
+            <div class="text-zinc-50 space-y-1">
+                <div>
+                    تیکت&zwnj;های&zwnj;پاسخ&zwnj;داده&zwnj;شده
+                </div>
+                <div>
+                    @Model.Where(t => t.Status == "responed").Count()
+                </div>
+            </div>
         </div>
-        <div class="col-lg-3 col-md-6 d-flex flex-column align-items-center">
-            <span class="ticket-info-item"><i class="fa-regular fa-clock"></i> <span>تیکت&zwnj;های&zwnj;درانتظار&zwnj;پاسخ&zwnj;</span></span>
-            <span class="ticket-info-item text-secondary">
-                @Model.Where(t => t.Status == "open").Count()
-            </span>
+        <div class="w-full flex  gap-x-2 items-center bg-gradient-to-bl from-yellow-500 to-yellow-700 rounded-2xl p-3">
+            <svg class="fill-zinc-100 bg-yellow-600 rounded-xl p-1" xmlns="http://www.w3.org/2000/svg" width="44" height="44" fill="" viewBox="0 0 256 256"><path d="M232,96v96a8,8,0,0,1-8,8H32a8,8,0,0,1-8-8V96Z" opacity="0.2"></path><path d="M224,48H32A16,16,0,0,0,16,64V192a16,16,0,0,0,16,16H224a16,16,0,0,0,16-16V64A16,16,0,0,0,224,48Zm0,16V88H32V64Zm0,128H32V104H224v88Zm-16-24a8,8,0,0,1-8,8H168a8,8,0,0,1,0-16h32A8,8,0,0,1,208,168Zm-64,0a8,8,0,0,1-8,8H120a8,8,0,0,1,0-16h16A8,8,0,0,1,144,168Z"></path></svg>
+            <div class="text-zinc-50 space-y-1">
+                <div>
+                    تیکت&zwnj;های&zwnj;درانتظار&zwnj;پاسخ&zwnj;
+                </div>
+                <div>
+                    @Model.Where(t => t.Status == "open").Count()
+                </div>
+            </div>
         </div>
-        <div class="col-lg-3 col-md-6 d-flex flex-column align-items-center">
-            <span class="ticket-info-item"><i class="fa-solid fa-close"></i> <span>تیکت&zwnj;های&zwnj;بسته</span></span>
-            <span class="ticket-info-item text-secondary">
-                @Model.Where(t => t.Status == "close").Count()
-            </span>
+        <div class="w-full flex  gap-x-2 items-center bg-gradient-to-bl from-red-500 to-red-700 rounded-2xl p-3">
+            <svg class="fill-zinc-100 bg-red-600 rounded-xl p-1" xmlns="http://www.w3.org/2000/svg" width="44" height="44" fill="" viewBox="0 0 256 256"><path d="M232,96v96a8,8,0,0,1-8,8H32a8,8,0,0,1-8-8V96Z" opacity="0.2"></path><path d="M224,48H32A16,16,0,0,0,16,64V192a16,16,0,0,0,16,16H224a16,16,0,0,0,16-16V64A16,16,0,0,0,224,48Zm0,16V88H32V64Zm0,128H32V104H224v88Zm-16-24a8,8,0,0,1-8,8H168a8,8,0,0,1,0-16h32A8,8,0,0,1,208,168Zm-64,0a8,8,0,0,1-8,8H120a8,8,0,0,1,0-16h16A8,8,0,0,1,144,168Z"></path></svg>
+            <div class="text-zinc-50 space-y-1">
+                <div>
+                    تیکت&zwnj;های&zwnj;بسته
+                </div>
+                <div>
+                    @Model.Where(t => t.Status == "close").Count()
+                </div>
+            </div>
         </div>
     </div>
-    <div class="ticket-container">
+    <div
+        class="relative flex flex-col w-full h-full overflow-scroll text-gray-700">
+        <table class="w-full text-right table-auto min-w-max">
+        <thead>
+        <tr>
+        
+            <th class="p-4 border-b border-b-zinc-400">
+                <p class="block text-sm opacity-70">
+                    عنوان
+                </p>
+            </th>
+            <th class="p-4 border-b border-b-zinc-400">
+                <p class="block text-sm opacity-70">
+                    تاریخ
+                </p>
+            </th>
+            <th class="p-4 border-b border-b-zinc-400">
+                <p class="block text-sm opacity-70">
+                    وضعیت
+                </p>
+            </th>
+            <th class="p-4 border-b border-b-zinc-400">
+                <p class="block text-sm opacity-70">
+                    جزئیات
+                </p>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
         @foreach (var ticket in Model)
         {
-            <div class="ticket col-12 p-2 my-1  bg-light shadow-sm">
-                <div class=" text-secondary d-flex flex-row justify-content-between">
-                    <h6>@ticket.User.FullName</h6>
-                    <h6>@ticket.LastUpdate.Date.ToPersianDate()</h6>
-                </div>
-                <div class="row">
-                    <h5 class="text-dark">@ticket.Title</h5>
-                    <p>
-                        @if (ticket.Description.Length > 230)
-                        {
-                            ticket.Description.Substring(0, 230); 
-                        }
-                        ...
+            <tr class="even:bg-zinc-100">
+                <td class="p-4">
+                    <p class="block text-sm">
+                        @ticket.Title
                     </p>
-                </div>
-                <div class="d-flex justify-content-between align-items-center">
-                    @switch (ticket.Status)
-                    {
-                        case "open":
+                </td>
+                <td class="p-4">
+                    <p class="block text-sm">
+                       @ticket.LastUpdate.Date.ToPersianDate()
+                    </p>
+                </td>
+                <td class="p-4">
+                    <p class="block text-sm">
+                        @switch (ticket.Status)
+                        {
+                            case "open":
                             {
                                 <span class="badge bg-warning">درانتظار پاسخ</span>
                                 break;
                             };
-                        case "responed":
+                            case "responed":
                             {
                                 <span class="badge bg-success">پاسخ داده شده</span>
                                 @if (ticket.commnets != null)
@@ -69,7 +118,7 @@
                                 }
                                 break;
                             };
-                        case "close":
+                            case "close":
                             {
                                 <span class="badge bg-danger">بسته</span>
                                 @if(ticket.commnets != null)
@@ -78,11 +127,17 @@
                                 }
                                 break;
                             }
-                    }
-                    <a class="btn btn-primary p-1" asp-action="TicketDetail" asp-controller="Ticket" asp-route-Id="@ticket.Id">جزییات</a>
-                </div>
-            </div>
+                        }
+                    </p>
+                </td>
+                <td class="p-4">
+                    <a class="bg-orange-500 text-white py-2 px-4 rounded-md hover:bg-orange-600" asp-action="TicketDetail" asp-controller="Ticket" asp-route-Id="@ticket.Id">جزییات</a>
+                </td>
+            </tr>
+      
         }
+        </tbody>
+        </table>
     </div>
 </div>
 

@@ -71,6 +71,7 @@ namespace DataAccessLayer
             builder.Entity<Order>().Property(o => o.TrackingCode).IsRequired(false);
             builder.Entity<Order>().Property(o => o.FactorNumber).IsRequired(false);
             builder.Entity<Notification>().Property(n => n.Title).IsRequired(false);
+            builder.Entity<OtpCode>().Property(c => c.Code).IsUnicode();
             var passwordHasher = new PasswordHasher<ApplicationUser>();
             var hashed = passwordHasher.HashPassword(null, "1234admin");
             var userID = Guid.NewGuid().ToString();
@@ -105,6 +106,7 @@ namespace DataAccessLayer
         DbSet<ValueToProduct> valueToProducts { get; set; }
         DbSet<Order> orders { get; set; }
         DbSet<Notification> notifications { get; set; }
+        DbSet<OtpCode> otpCodes { get; set; }
         DbSet<OrderDetails> orderDetails { get; set; }
         DbSet<Contact> contacts { get; set; }
         DbSet<General> generals { get; set; }
