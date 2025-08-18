@@ -6,7 +6,7 @@ EXPOSE 8081
 
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG BUILD_CONFIGURATION=Release
-WORKDIR /src
+WORKDIR /
 COPY ["OnlineShop/PresentationLayer.csproj", "OnlineShop/"]
 COPY ["BusinessLogicLayer/BusinessLogicLayer.csproj", "BusinessLogicLayer/"]
 COPY ["DataAccessLayer/DataAccessLayer.csproj", "DataAccessLayer/"]
@@ -14,7 +14,7 @@ COPY ["Utility/Utility.csproj", "Utility/"]
 COPY ["Infrustructure/Infrustructure.csproj", "Infrustructure/"]
 RUN dotnet restore "OnlineShop/PresentationLayer.csproj"
 COPY . .
-WORKDIR "/src/OnlineShop"
+WORKDIR "/OnlineShop"
 RUN dotnet build "./PresentationLayer.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
