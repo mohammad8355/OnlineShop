@@ -28,7 +28,7 @@ COPY . .
 
 # Set working directory to the PresentationLayer project
 WORKDIR /app_build/OnlineShop
-
+COPY OnlineShop/wwwroot/css/main.css /app/publish/wwwroot/css/main.css
 # Build project
 RUN dotnet build PresentationLayer.csproj -c $BUILD_CONFIGURATION -o /app/build
 
