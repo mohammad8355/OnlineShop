@@ -9,45 +9,91 @@
         <div class="alert alert-warning">please enable your 2fa authentication</div>
     }*@
 
+<form id="profile-form" method="post" class="w-full space-y-6 mt-16 gap-x-2 grid grid-cols-2 max-md:grid-cols-1">
+    <div asp-validation-summary="ModelOnly" class="text-red-500 text-sm" role="alert"></div>
 
-<form id="profile-form" method="post" class="col-md-8 col-12">
-    <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-    <div class="form-group">
-        <label asp-for="Input.Username" class="col-12 pe-3"></label>
-        <input asp-for="Input.Username"  placeholder="لطفا نام کاربری خود را وارد کنید" />
-        <span asp-validation-for="Input.Username" class="text-danger" ></span>
+    <!-- Username -->
+    <div class="flex flex-col gap-1">
+        <label asp-for="Input.Username" class="text-zinc-700 flex">
+            نام کاربری
+            <svg class="fill-red-500 ml-1" xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 256 256">
+                <path d="M210.23,101.57l-72.6,29 51.11,65.71a6,6,0,0,1-9.48,7.36L128,137.77,76.74,203.68a6,6,0,1,1-9.48-7.36l51.11-65.71-72.6-29a6,6,0,1,1,4.46-11.14L122,119.14V40a6,6,0,0,1,12,0v79.14l71.77-28.71a6,6,0,1,1,4.46,11.14Z"/>
+            </svg>
+        </label>
+        <input asp-for="Input.Username" placeholder="لطفا نام کاربری خود را وارد کنید"
+            class="rounded-2xl text-sm text-zinc-600 w-full border border-zinc-200 px-5 py-3.5 
+                   placeholder:text-zinc-400 placeholder:text-xs 
+                   focus:outline-1 focus:outline-primary-300 focus:border-primary-300" />
+        <span asp-validation-for="Input.Username" class="text-red-500 text-sm"></span>
     </div>
-    <div class="form-group">
-                <label asp-for="Input.PhoneNumber" class="col-12 pe-3"></label>
-        <input asp-for="Input.PhoneNumber"  placeholder="شماره موبایل خود را وارد کنید" />>
-        <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+
+    <!-- Phone -->
+    <div class="flex flex-col gap-1">
+        <label asp-for="Input.PhoneNumber" class="text-zinc-700 flex">
+            شماره موبایل
+            <svg class="fill-red-500 ml-1" xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 256 256">
+                <path d="M210.23,101.57l-72.6,29 51.11,65.71a6,6,0,0,1-9.48,7.36L128,137.77,76.74,203.68a6,6,0,1,1-9.48-7.36l51.11-65.71-72.6-29a6,6,0,1,1,4.46-11.14L122,119.14V40a6,6,0,0,1,12,0v79.14l71.77-28.71a6,6,0,1,1,4.46,11.14Z"/>
+            </svg>
+        </label>
+        <input asp-for="Input.PhoneNumber" placeholder="شماره موبایل خود را وارد کنید"
+            class="rounded-2xl text-sm text-zinc-600 w-full border border-zinc-200 px-5 py-3.5 
+                   placeholder:text-zinc-400 placeholder:text-xs 
+                   focus:outline-1 focus:outline-primary-300 focus:border-primary-300" />
+        <span asp-validation-for="Input.PhoneNumber" class="text-red-500 text-sm"></span>
     </div>
-    <div class="form-group">
-                <label asp-for="Input.FullName" class="col-12 pe-3"></label>
-        <input asp-for="Input.FullName" placeholder="نام و نام خانوداگی  خود را وارد کنید" />
-        <span asp-validation-for="Input.FullName" class="text-danger"></span>
+
+    <!-- Full Name -->
+    <div class="flex flex-col gap-1">
+        <label asp-for="Input.FullName" class="text-zinc-700 flex">نام و نام خانوادگی</label>
+        <input asp-for="Input.FullName" placeholder="نام و نام خانوادگی خود را وارد کنید"
+            class="rounded-2xl text-sm text-zinc-600 w-full border border-zinc-200 px-5 py-3.5 
+                   placeholder:text-zinc-400 placeholder:text-xs 
+                   focus:outline-1 focus:outline-primary-300 focus:border-primary-300" />
+        <span asp-validation-for="Input.FullName" class="text-red-500 text-sm"></span>
     </div>
-    <div class="form-group">
-        <label asp-for="Input.birthDate" class="col-12 pe-3"></label>
-        <input asp-for="Input.birthDate" />
-        <span asp-validation-for="Input.birthDate" class="text-danger"></span>
+
+    <!-- Birthdate -->
+    <div class="flex flex-col gap-1">
+        <label asp-for="Input.birthDate" class="text-zinc-700 flex">تاریخ تولد</label>
+        <input asp-for="Input.birthDate" type="date"
+            class="rounded-2xl text-sm text-zinc-600 w-full border border-zinc-200 px-5 py-3.5 
+                   focus:outline-1 focus:outline-primary-300 focus:border-primary-300" />
+        <span asp-validation-for="Input.birthDate" class="text-red-500 text-sm"></span>
     </div>
-    <div class="form-group">
-        <label asp-for="Input.Address" class="col-12 pe-3"></label>
-        <textarea asp-for="Input.Address"  placeholder="آدرس خود را وارد کنید" >
-        </textarea>
-        <span asp-validation-for="Input.Address" class="text-danger"></span>
+
+    <!-- Address -->
+    <div class="flex flex-col gap-1">
+        <label asp-for="Input.Address" class="text-zinc-700 flex">آدرس</label>
+        <textarea asp-for="Input.Address" placeholder="آدرس خود را وارد کنید"
+            class="rounded-2xl text-sm text-zinc-600 w-full border border-zinc-200 px-5 py-3.5 
+                   placeholder:text-zinc-400 placeholder:text-xs 
+                   focus:outline-1 focus:outline-primary-300 focus:border-primary-300"></textarea>
+        <span asp-validation-for="Input.Address" class="text-red-500 text-sm"></span>
     </div>
-    <div class="form-group">
-        <label asp-for="Input.PostalCode" class="col-12 pe-3"></label>
-        <input asp-for="Input.PostalCode" placeholder="کد پستی خود را وارد کنید" />
-        <span asp-validation-for="Input.PostalCode" class="text-danger"></span>
+
+    <!-- PostalCode + City (Side by Side) -->
+    <div class="sm:flex gap-x-5">
+        <div class="sm:w-1/2 flex flex-col gap-y-1">
+            <label asp-for="Input.PostalCode" class="text-zinc-700 flex">کد پستی</label>
+            <input asp-for="Input.PostalCode" placeholder="کد پستی خود را وارد کنید"
+                class="rounded-2xl text-sm text-zinc-600 w-full border border-zinc-200 px-5 py-3.5 
+                       placeholder:text-zinc-400 placeholder:text-xs 
+                       focus:outline-1 focus:outline-primary-300 focus:border-primary-300" />
+            <span asp-validation-for="Input.PostalCode" class="text-red-500 text-sm"></span>
+        </div>
+        <div class="sm:w-1/2 flex flex-col gap-y-1 mt-4 sm:mt-0">
+            <label asp-for="Input.city" class="text-zinc-700 flex">شهر</label>
+            <input asp-for="Input.city" placeholder="نام شهر خود را وارد کنید"
+                class="rounded-2xl text-sm text-zinc-600 w-full border border-zinc-200 px-5 py-3.5 
+                       placeholder:text-zinc-400 placeholder:text-xs 
+                       focus:outline-1 focus:outline-primary-300 focus:border-primary-300" />
+            <span asp-validation-for="Input.city" class="text-red-500 text-sm"></span>
+        </div>
     </div>
-    <div class="form-group">
-        <label asp-for="Input.city" class="col-12 pe-3"></label>
-        <input asp-for="Input.city"  placeholder="نام شهر خود را وارد کنید" />
-        <span asp-validation-for="Input.city" class="text-danger"></span>
-    </div>
-    <button id="update-profile-button" type="submit" class="btn btn-block btn-success">ثبت</button>
+
+    <!-- Submit -->
+    <button id="update-profile-button" type="submit"
+        class="w-full rounded-2xl bg-green-600 hover:bg-green-700 text-white font-medium py-3 mt-6 transition">
+        ثبت
+    </button>
 </form>
-

@@ -7,63 +7,115 @@
 
 <partial name="_StatusMessage" for="StatusMessage" />
 @{
-    var consentFeature = HttpContext.Features.Get<ITrackingConsentFeature>();
-    @if (consentFeature?.CanTrack ?? true)
-    {
-        @if (Model.Is2faEnabled)
+    @{
+        var consentFeature = HttpContext.Features.Get<ITrackingConsentFeature>();
+
+        @if (consentFeature?.CanTrack ?? true)
         {
-            if (Model.RecoveryCodesLeft == 0)
+            @if (Model.Is2faEnabled)
             {
-                <div class="alert alert-danger">
-                    <strong>شما کد ریکاوری ندارید .</strong>
-                    <p>You must <a asp-page="./GenerateRecoveryCodes" class="m-2">یک کد تنظیم ریکاوری جدید تولید کن</a> قبل از اینکه بتوانید با کد ریکاوری وارد شوید</p>
-                </div>
-            }
-            else if (Model.RecoveryCodesLeft == 1)
-            {
-                <div class="alert alert-danger">
-                    <strong>You have 1 recovery code left.</strong>
-                    <p>You can <a asp-page="./GenerateRecoveryCodes" class="m-2">یک کد تنظیم ریکاوری جدید تولید کن </a>.</p>
-                </div>
-            }
-            else if (Model.RecoveryCodesLeft <= 3)
-            {
-                <div class="alert alert-warning">
-                    <strong> شما دارید @Model.RecoveryCodesLeft recovery codes left.</strong>
-                    <p>شما باید  <a asp-page="./GenerateRecoveryCodes" class="m-2">یک کد تنظیم ریکاوری جدید تولید کن</a>.</p>
+                if (Model.RecoveryCodesLeft == 0)
+                {
+                    <div class="rounded-2xl border border-red-300 bg-red-50 p-5 text-red-700 mb-6">
+                        <strong class="block font-bold mb-2">شما کد ریکاوری ندارید!</strong>
+                        <p class="text-sm">
+                            شما باید
+                            <a asp-page="./GenerateRecoveryCodes"
+                               class="text-red-600 underline hover:text-red-800 mx-1">
+                                یک کد تنظیم ریکاوری جدید تولید کنید
+                            </a>
+                            قبل از اینکه بتوانید با کد ریکاوری وارد شوید.
+                        </p>
+                    </div>
+                }
+                else if (Model.RecoveryCodesLeft == 1)
+                {
+                    <div class="rounded-2xl border border-red-300 bg-red-50 p-5 text-red-700 mb-6">
+                        <strong class="block font-bold mb-2">فقط ۱ کد ریکاوری باقی مانده.</strong>
+                        <p class="text-sm">
+                            شما می‌توانید
+                            <a asp-page="./GenerateRecoveryCodes"
+                               class="text-red-600 underline hover:text-red-800 mx-1">
+                                یک کد تنظیم ریکاوری جدید تولید کنید
+                            </a>.
+                        </p>
+                    </div>
+                }
+                else if (Model.RecoveryCodesLeft <= 3)
+                {
+                    <div class="rounded-2xl border border-yellow-300 bg-yellow-50 p-5 text-yellow-700 mb-6">
+                        <strong class="block font-bold mb-2">شما فقط @Model.RecoveryCodesLeft کد ریکاوری باقی مانده
+                            دارید.</strong>
+                        <p class="text-sm">
+                            توصیه می‌شود
+                            <a asp-page="./GenerateRecoveryCodes"
+                               class="text-yellow-600 underline hover:text-yellow-800 mx-1">
+                                یک کد جدید تولید کنید
+                            </a>.
+                        </p>
+                    </div>
+                }
+
+                <!-- Buttons -->
+                <div class="flex flex-wrap gap-3 mb-8">
+                    @if (Model.IsMachineRemembered)
+                    {
+                        <form method="post" class="inline-block">
+                            <button type="submit"
+                                    class="rounded-2xl bg-blue-500 hover:bg-blue-600 text-white px-5 py-3 text-sm font-medium transition">
+                                این مرورگر را فراموش کن
+                            </button>
+                        </form>
+                    }
+                    <a asp-page="./Disable2fa"
+                       class="rounded-2xl bg-blue-500 hover:bg-blue-600 text-white px-5 py-3 text-sm font-medium transition">
+                        غیر فعال کردن احراز هویت دو مرحله‌ای
+                    </a>
+                    <a asp-page="./GenerateRecoveryCodes"
+                       class="rounded-2xl bg-blue-500 hover:bg-blue-600 text-white px-5 py-3 text-sm font-medium transition">
+                        تولید کد ریکاوری جدید
+                    </a>
                 </div>
             }
 
-            if (Model.IsMachineRemembered)
+            <!-- Authenticator app -->
+            <h4 class="text-lg font-semibold text-zinc-700 mb-4">برنامه Authenticator</h4>
+            @if (!Model.HasAuthenticator)
             {
-                <form method="post" style="display: inline-block">
-                    <button type="submit" class="btn btn-primary">این مرورگر رو فراموش کن</button>
-                </form>
+                <a id="enable-authenticator" asp-page="./EnableAuthenticator"
+                   class="rounded-2xl bg-blue-500 hover:bg-blue-600 text-white px-5 py-3 text-sm font-medium transition">
+                    افزودن برنامه احراز هویت دو مرحله‌ای
+                </a>
             }
-            <a asp-page="./Disable2fa" class="btn btn-primary m-2">غیر فعال کردن احراز هویت دو مرحله ای</a>
-            <a asp-page="./GenerateRecoveryCodes" class="btn btn-primary m-2"> کد ریکاوری جدید</a>
-        }
-
-        <h4>Authenticator app</h4>
-        @if (!Model.HasAuthenticator)
-        {
-            <a id="enable-authenticator" asp-page="./EnableAuthenticator" class="btn btn-primary m-2">افزودن برنامه احراز هویت دو مرحله ای</a>
+            else
+            {
+                <div class="flex flex-col gap-3">
+                    <a id="enable-authenticator" asp-page="./EnableAuthenticator"
+                       class="rounded-2xl bg-blue-500 hover:bg-blue-600 text-white px-5 py-3 text-sm font-medium transition">
+                        تنظیم برنامه احراز هویت دو مرحله‌ای
+                    </a>
+                    <a id="reset-authenticator" asp-page="./ResetAuthenticator"
+                       class="rounded-2xl bg-blue-500 hover:bg-blue-600 text-white px-5 py-3 text-sm font-medium transition">
+                        تنظیم دوباره برنامه احراز هویت دو مرحله‌ای
+                    </a>
+                </div>
+            }
         }
         else
         {
-            <a id="enable-authenticator" asp-page="./EnableAuthenticator" class="btn btn-primary col-md-8 col-12 m-2">تنظیم برنامه احراز هویت دو مرحله ای</a>
-            <a id="reset-authenticator" asp-page="./ResetAuthenticator" class="btn btn-primary col-md-8 col-12 m-2">تنظیم دوباره برنامه احراز هویت دو مرحله ای</a>
+            <div class="rounded-2xl border border-red-300 bg-red-50 p-5 text-red-700">
+                <strong class="block font-bold mb-2">کوکی و قوانین پذیرفته نشده است!</strong>
+                <p class="text-sm">
+                    شما باید قوانین را بپذیرید تا بتوانید از احراز هویت دو مرحله‌ای استفاده کنید.
+                </p>
+            </div>
         }
-    }
-    else
-    {
-        <div class="alert alert-danger">
-            <strong>کوکی و قوانین پذیرفته نشده است !</strong>
-            <p>شما باید قوانین را بپذیرید تا بتوانید از احراز هویت دو مرحله ای استفاده کنید</p>
-        </div>
+
+        @* @section ScriptRefrence { *@
+        @*     <partial name="_ValidationScriptsPartial" /> *@
+
+
     }
 }
 
-@section ScriptRefrence {
-    <partial name="_ValidationScriptsPartial" />
-}
+

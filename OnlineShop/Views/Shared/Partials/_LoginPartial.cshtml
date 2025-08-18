@@ -7,7 +7,7 @@
 @if (User.Identity.IsAuthenticated)
 {
     <div class="flex items-center py-2.5 px-2.5 md:px-4 rounded-xl border border-zinc-200 group relative cursor-pointer transition-all hover:shadow-xl">
-    <a asp-area="Identity" asp-page="/Account/PhoneNumberConfirm"
+    <a asp-area="Identity" asp-page="/Account/login"
        asp-route-returnUrl="@Url.Content("~/")"  class="show-modal-btn text-gray-700 flex gap-x-1.5 items-center cursor-pointer" >
             <span class="hidden md:block text-sm">
                 حساب کاربری
@@ -90,7 +90,7 @@
 else
 {
     <div class="flex items-center py-2.5 px-2.5 md:px-4 rounded-xl border border-zinc-200 group relative cursor-pointer transition-all hover:shadow-xl">
-        <a asp-area="Identity" asp-page="/Account/PhoneNumberConfirm"
+        <a asp-area="Identity" asp-page="/Account/login"
            asp-route-returnUrl="@Url.Content("~/")"  class="show-modal-btn text-gray-700 flex gap-x-1.5 items-center cursor-pointer" >
             <span class="hidden md:block text-sm">
                 ورود | ثبت نام
