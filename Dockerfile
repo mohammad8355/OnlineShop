@@ -23,10 +23,10 @@ COPY Infrustructure/Infrustructure.csproj Infrustructure/
 # Restore dependencies
 RUN dotnet restore OnlineShop/PresentationLayer.csproj
 
-# Copy full source code (from build context, repo root)
+# Copy the full source code
 COPY . .
 
-# Set working directory to PresentationLayer project
+# Set working directory to the PresentationLayer project
 WORKDIR /app_build/OnlineShop
 
 # Build project
