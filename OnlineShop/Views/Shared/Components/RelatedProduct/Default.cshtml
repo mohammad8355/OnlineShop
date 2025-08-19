@@ -1,86 +1,98 @@
 ﻿@using PresentationLayer.Views.ViewComponents;
 @model RelatedProductViewModel;
 
-<div class="related-product Product-container d-flex flex-column mt-2" dir="ltr">
-    <h3 class="text-end mt-2">محصولات مشابه</h3>
-    <div class="product-wrapper flex-nowrap" width="100%">
-        @foreach(var product in Model.relatedProduct)
-        {
-            <div class="product-card" style="min-width: 15rem;">
-                <div class="cover">
-                    @if(product.ProductPhotos != null)
-                    {
-                            <a class="nav-link" asp-action="ProductShow" asp-controller="Product" asp-route-Id="@product.Id">
-                        <img src="~/Image/Product/@(product.Name)/@(product.ProductPhotos.Last().Name)" alt="@product.Name" width="200px">
-                  </a>
-                    }
-                </div>
-                <div class="card-body">
-                    <div class="product-name">
-                        <a class="nav-link" asp-action="ProductShow" asp-controller="Product" asp-route-Id="@product.Id">@product.Name</a>
-                    </div>
-                    <div class="price">
-                        @if (product.Discount > 0)
+<div class="mt-12 md:mt-20" dir="rtl">
+    <!-- top slider -->
+    <div class="flex gap-x-4 justify-between items-center mb-7">
+        <div class="w-48 min-w-fit text-zinc-700 md:font-yekanBakhBold">
+            محصولات مشابه
+        </div>
+        <div class="h-[1px] w-full bg-gradient-to-r from-white via-zinc-300 to-white">
+        </div>
+        <div class="w-32 min-w-fit text-left">
+            <a href="@Url.Action("Index", "Product")" class="group transition flex items-center justify-center gap-x-1 md:gap-x-2 text-zinc-600 hover:text-primary-500 text-xs md:text-sm text-center">
+                مشاهده همه
+                <svg class="fill-zinc-600 group-hover:-translate-x-1 transition group-hover:fill-primary-500 size-2.5 md:size-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"></path></svg>
+            </a>
+        </div>
+    </div>
+    <!-- main slider -->
+    <div class="containerPSlider swiper">
+        <div class="productSlider1">
+            <div class="card-wrapper swiper-wrapper pb-10">
+                @foreach (var product in Model.relatedProduct)
+                {
+                <div class="card swiper-slide bg-white border border-zinc-200 rounded-2xl p-2 md:p-3 text-sm hover:shadow-custom transition-shadow">
+                    <a href="@Url.Action("ProductShow", "Product", new { Id = product.Id })" class="text-zinc-800">
+                        @if (product.ProductPhotos != null && product.ProductPhotos.Any())
                         {
-                            <span class="original-price text-danger"><del>@product.Price.ToString("N0") تومان</del></span>
-
-
+                        <img class="rounded-xl mb-3" src="https://onlineshop.mohammadmahdialmasi.ir/Image/Product/@product.Name/@product.ProductPhotos.Last().Name" alt="@product.Name">
+                        }
+                    </a>
+                    <p class="text-zinc-400 text-xs">
+                        @product.Name
+                    </p>
+                    <a href="@Url.Action("ProductShow", "Product", new { Id = product.Id })" class="text-zinc-800 text-xs md:text-sm h-8 lg:h-10 line-clamp-2 mt-2">
+                        @product.Name
+                    </a>
+                    <div class="flex items-center justify-between mt-4">
+                        <div class="flex gap-1.5">
+                            <div class="size-4 bg-zinc-800 rounded-full"></div>
+                            <div class="size-4 bg-zinc-500 rounded-full"></div>
+                            <div class="size-4 bg-zinc-300 rounded-full"></div>
+                        </div>
+                        <div class="flex items-start gap-x-1 text-xs text-zinc-500">
+                                <span>
+                                    <span>(72)</span>
+                                    <span>4.4</span>
+                                </span>
+                            <svg class="fill-primary-500" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="#f9bc00" viewBox="0 0 256 256"><path d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z"></path></svg>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-end border-t border-dashed border-zinc-300 mt-4 pt-2">
+                        <div class="text-zinc-800 flex items-center gap-x-1 justify-end font-yekanBakhBold text-lg">
+                            @if (product.Discount > 0)
+                            {
                             var finPrice = product.Price - (product.Price * ((decimal)product.Discount / 100));
-
-
-                            <span class="off-price">@finPrice.ToString("N0") تومان</span>
-                        }
-                        else
-                        {
-                            <span class="text-dark">@product.Price.ToString("N0") تومان</span>
-                        }
-                    </div>
-                    <div class="card-footer">
-                        <a href="#" class="shopbtn"><i class="fa-solid fa-cart-shopping"></i></a>
-                        <div class="rate">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
+                            <span class="original-price text-danger"><del>@product.Price.ToString("N0")</del></span>
+                            <span>@finPrice.ToString("N0")</span>
+                            }
+                            else
+                            {
+                            <span>@product.Price.ToString("N0")</span>
+                            }
+                            <img class="size-4" src="~/Image/icons/toman.png" alt="toman">
                         </div>
                     </div>
                 </div>
+                }
             </div>
-        }
+        </div>
     </div>
 </div>
-@section InlineScript{
-    <script>
-        //related product
-        $(document).ready(function () {
-            $(".product-wrapper").slick({
-                slidesToShow: 5,
-                slidesToScroll: 1,
-                autoplay: true,
-                autoplaySpeed: 2000,
-                responsive: [
-                    {
-                        breakpoint: 992,
-                        settings: {
-                            slidesToShow: 4
-                        }
-                    },
-                    {
-                        breakpoint: 767,
-                        settings: {
-                            slidesToShow: 3
-                        }
-                    },
-                    {
-                        breakpoint: 500,
-                        settings: {
-                            slidesToShow: 2
-                        }
-                    },
-                ]
-            })
-        })
-                    //start shop product
-    </script>
+
+@section InlineScript {
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var swiper = new Swiper('.containerPSlider', {
+            slidesPerView: 5,
+            spaceBetween: 10,
+            autoplay: {
+                delay: 2000,
+                disableOnInteraction: false,
+            },
+            breakpoints: {
+                992: {
+                    slidesPerView: 4,
+                },
+                767: {
+                    slidesPerView: 3,
+                },
+                500: {
+                    slidesPerView: 2,
+                },
+            },
+        });
+    });
+</script>
 }

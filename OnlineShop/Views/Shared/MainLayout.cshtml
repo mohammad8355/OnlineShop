@@ -88,7 +88,7 @@
     
         <!-- cart -->
         <div class="flex items-center py-2 px-2.5 rounded-xl border border-zinc-200 group relative cursor-pointer transition-all hover:shadow-xl">
-          <button class="relative">
+          <a asp-controller="Shop" asp-action="Index" class="relative" >
             <span class="cursor-pointer">
               <svg width="22px" height="22px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                 <g id="Iconly/Light/Bag" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
@@ -101,7 +101,7 @@
                 </g>
             </svg>
             </span>
-          </button>
+          </a>
           <div class="z-50 group-hover:block -left-4 md:left-0 top-[39px] w-96 md:w-[400px] rounded-lg bg-white shadow-lg hidden absolute">
             <!-- Head -->
             <div class="flex items-center justify-between p-4 pb-2 border-b border-zinc-200 mx-5">

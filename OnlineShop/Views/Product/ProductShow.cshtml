@@ -1,285 +1,757 @@
 ﻿@model ProductShowViewModel
-<section class="Product-container">
-    <nav aria-label="breadcrumb" class="p-3">
-        @await Component.InvokeAsync("CategoryBreadCrump",Model.product.CategoryToProducts.First().Category_Id)
-    </nav>
-    <div class="container-lg container-fluid">
-        <div class="product-info d-flex flex-wrap">
-            <div class="product-images col-lg-6 col-12">
-                <div class="tools">
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        @if (Model.product.favoriteProducts.FirstOrDefault() != null)
-                        {
-                            <a onclick="like(@Model.product.Id)"><i class="fa-solid fa-heart like"></i></a>
-                        }
-                        else
-                        {
-                            <a onclick="like(@Model.product.Id)"><i class="fa-regular fa-heart like"></i></a>
-                        }
-                    }
-                    else
-                    {
-                        <a onclick="alert('لطفا وارد وبسایت شوید')" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Url.Action("ProductShow","Product",new { Id = Model.product.Id})"><i class="fa-regular fa-heart like"></i></a>
-                    }
-                    <a href="#"><i class="fa-regular fa-bookmark"></i></a>
-                    <a href="#"><i class="fa-solid fa-share-nodes"></i></a>
+    <div class="pb-20">
+      <div class="flex flex-col lg:flex-row gap-8">
+        <!-- photo -->
+        <div class="lg:w-4/12">
+            <div class="flex gap-x-5 pr-10">
+              <a href="#" class="relative">
+                <div class="group cursor-pointer relative inline-block text-center">
+                  <svg class="fill-zinc-700 hover:fill-red-400 transition" xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="" viewBox="0 0 256 256"><path d="M178,32c-20.65,0-38.73,8.88-50,23.89C116.73,40.88,98.65,32,78,32A62.07,62.07,0,0,0,16,94c0,70,103.79,126.66,108.21,129a8,8,0,0,0,7.58,0C136.21,220.66,240,164,240,94A62.07,62.07,0,0,0,178,32ZM128,206.8C109.74,196.16,32,147.69,32,94A46.06,46.06,0,0,1,78,48c19.45,0,35.78,10.36,42.6,27a8,8,0,0,0,14.8,0c6.82-16.67,23.15-27,42.6-27a46.06,46.06,0,0,1,46,46C224,147.61,146.24,196.15,128,206.8Z"></path></svg>
+                  <div class="opacity-0 w-28 transition-all bg-zinc-800 text-white text-center text-xs rounded-lg py-2 absolute z-10 -left-11 group-hover:opacity-100 px-3 pointer-events-none">
+                    افزودن به علاقه مندی ها
+                    <svg class="absolute text-black h-2 w-full left-0 bottom-full rotate-180" x="0px" y="0px" viewBox="0 0 255 255" xml:space="preserve"><polygon class="fill-current" points="0,0 127.5,127.5 255,0"></polygon></svg>
+                  </div>
                 </div>
-                <div class="col-10">
-                    <img class="selectedImage" id="MainImage"
-                         src="~/Image/Product/@(Model.product.Name)/@(Model.product.ProductPhotos.FirstOrDefault().Name)"
-                         alt="@(Model.product.Name)">
+              </a>
+              <a href="" class="relative">
+                <div class="group cursor-pointer relative inline-block text-center">
+                  <svg class="fill-zinc-700 hover:fill-zinc-800 transition" xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="#000000" viewBox="0 0 256 256"><path d="M112,152a8,8,0,0,0-8,8v28.69L75.72,160.4A39.71,39.71,0,0,1,64,132.12V95a32,32,0,1,0-16,0v37.13a55.67,55.67,0,0,0,16.4,39.6L92.69,200H64a8,8,0,0,0,0,16h48a8,8,0,0,0,8-8V160A8,8,0,0,0,112,152ZM40,64A16,16,0,1,1,56,80,16,16,0,0,1,40,64Zm168,97V123.88a55.67,55.67,0,0,0-16.4-39.6L163.31,56H192a8,8,0,0,0,0-16H144a8,8,0,0,0-8,8V96a8,8,0,0,0,16,0V67.31L180.28,95.6A39.71,39.71,0,0,1,192,123.88V161a32,32,0,1,0,16,0Zm-8,47a16,16,0,1,1,16-16A16,16,0,0,1,200,208Z"></path></svg>
+                  <div class="opacity-0 w-28 transition-all bg-zinc-800 text-white text-center text-xs rounded-lg py-2 absolute z-10 -left-11 group-hover:opacity-100 px-3 pointer-events-none">
+                   افزودن به مقایسه
+                    <svg class="absolute text-black h-2 w-full left-0 bottom-full rotate-180" x="0px" y="0px" viewBox="0 0 255 255" xml:space="preserve"><polygon class="fill-current" points="0,0 127.5,127.5 255,0"></polygon></svg>
+                  </div>
                 </div>
-                <hr>
-                <div class="image-wrapper col-12" dir="ltr">
-                    @foreach (var img in Model.product.ProductPhotos)
-                    {
-                        <img src="~/Image/Product/@(Model.product.Name)/@img.Name" alt="@(Model.product.Name)" class="image">
-                    }
-                </div>
-            </div>
-
-            <div class="content col-lg-6 col-12 d-flex flex-wrap">
-
-                <div class="col-12 d-flex flex-wrap">
-                    <div class="header col-12">
-                        <h2>@Model.product.Name</h2>
-                        <p> Samsung Odyssey G5 G51C LS27CG510EMXUE 27Inch 1ms 165Hz QHD Gaming Monitor</p>
-                        <div class="col-12 d-flex  flex-wrap">
-                            <div class="col-lg-6 col-md-12">
-                                <ul>
-                                    <li>کدکالا:@Model.product.ProductCode</li>
-                                    <li>برند: @Model.product.brand.Name</li>
-                                    <li>
-                                        @foreach (var cp in Model.product.CategoryToProducts)
-                                        {
-                                            <span>@cp.Category.Name /</span>
-                                        }
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="col-lg-6 col-12">
-                                <img width="100px" src="~/Image/Brand/@(Model.product.brand.Name)/@(Model.product.brand.ImageName)" />
-                                <h4>@Model.product.brand.Name</h4>
-                            </div>
-                        </div>
-
+              </a>
+              <a href="#" class="relative" onclick="copyToClipboard(event)">
+                <div class="group cursor-pointer relative inline-block text-center">
+                    <svg class="fill-zinc-700 hover:fill-zinc-800 transition" xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 256 256">
+                        <path d="M176,160a39.89,39.89,0,0,0-28.62,12.09l-46.1-29.63a39.8,39.8,0,0,0,0-28.92l46.1-29.63a40,40,0,1,0-8.66-13.45l-46.1,29.63a40,40,0,1,0,0,55.82l46.1,29.63A40,40,0,1,0,176,160Zm0-128a24,24,0,1,1-24,24A24,24,0,0,1,176,32ZM64,152a24,24,0,1,1,24-24A24,24,0,0,1,64,152Zm112,72a24,24,0,1,1,24-24A24,24,0,0,1,176,224Z"></path>
+                    </svg>
+                    <div class="opacity-0 w-28 transition-all bg-zinc-800 text-white text-center text-xs rounded-lg py-2 absolute z-10 -left-11 group-hover:opacity-100 px-3 pointer-events-none">
+                        اشتراک گذاری
+                        <svg class="absolute text-black h-2 w-full left-0 bottom-full rotate-180" x="0px" y="0px" viewBox="0 0 255 255">
+                            <polygon class="fill-current" points="0,0 127.5,127.5 255,0"></polygon>
+                        </svg>
                     </div>
                 </div>
-                <div class="keyattr col-12 col-md-6">
-                    <h5>ویژگی های کلیدی</h5>
-                    <ul>
-                        <li><span>عرض</span>@Model.product.Width</li>
-                        <li><span>طول</span>@Model.product.length</li>
-                        <li><span>وزن</span>@Model.product.Weight</li>
-                        <li><span>ارتفاع</span> @Model.product.height</li>
-                        @foreach (var specKey in Model.specialkeys)
-                        {
-                            <li>
-                                <span>@specKey.Name</span>
-                                @foreach (var value in Model.product.valueToProducts.Where(v => v.Value.adjkey_Id == specKey.Id).ToList())
-                                {
-                                    <span>@value.Value.Value /</span>
-                                }
-                            </li>
-                        }
-                    </ul>
-                </div>
-                <div class="shop-box col-md-6 col-12">
-                    <div class="container">
-                        <h5 class="text-right">تعداد:</h5>
-                        <div class="inline">
-                            <div class="shop col-6">
-                                <i class="fa-solid fa-plus"></i>
-                                <span id="countProduct" value="0">0</span>
-                                <i class="fa-solid fa-minus"></i>
-                            </div>
-                            @if (Model.product.Discount != 0)
-                            {
-                                <!--this is for whem we have an off-->
-                                <div class="offprice">
-                                    <span class="col-6 price">@Model.product.Price.ToString("N0") تومان </span>
-                                    <span class="off">
-                                        @{
-                                            var price = Model.product.Price;
-                                            var offprice = (Model.product.Price) * ((decimal)Model.product.Discount / 100);
-                                            var pricewithoff = price - offprice;
-                                        }
-                                        @pricewithoff.ToString("N0") تومان
-                                    </span>
-                                    <h6 class="text-secondary">@Model.product.Discount % تخفیف</h6>
-                                </div>
-                                <!--this is for whem we have an off-->
-                            }
-                            else
-                            {
-                                <!--this is for whem we dont have an off-->
-                                <div class="originalPrice">
-                                    <span class="col-6 price">@Model.product.Price تومان </span>
-                                </div>
-                                <!--this is for whem we dont have an off-->
-                            }
-                        </div>
-                        @if (User.Identity.IsAuthenticated && Model.product.QuantityInStock > 0)
-                        {
-                            @if (Model.product.QuantityInStock < 6)
-                            {
-                                <span class="text-danger">تنها @Model.product.QuantityInStock عدد در انبار موجود است</span>
-                            }
-                            <button type="button" id="shop" class="btn btn-success">خرید</button>
-                        }
-                        else
-                        {
-                            @if (Model.product.QuantityInStock <= 0)
-                            {
-                                <span class="text-danger">این کالا در انبار موجود نیست</span>
-                            }
-                            <button type="button" disabled id="shop" class="btn btn-success disabled">خرید</button>
-                        }
-                    </div>
-                </div>
-                <div class="description col-12">
-                    <h5>درباره محصول</h5>
-                    <p class="text-wrap">
-                        @Model.product.Description
-                    </p>
-                </div>
+              </a>
             </div>
-
+            <div class="relative">
+              <div class="flex gap-4 justify-center">
+                  <div id="zoomBox" class="hidden absolute -left-56 top-0 md:size-64 bg-no-repeat bg-cover border-2 border-gray-300 rounded-md bg-white"></div>
+                  <div class="relative overflow-hidden group">
+                      <img id="mainImage" src="https://onlineshop.mohammadmahdialmasi.ir/Image/Product/@(Model.product.Name)/@Model.product.ProductPhotos.FirstOrDefault()?.Name"
+                          class="w-full max-w-96 object-cover rounded-lg"
+                          alt="@Model.product.Name">
+                      <div id="zoomLens" class="hidden absolute w-20 h-20 bg-gray-300 opacity-30 pointer-events-none"></div>
+                  </div>
+              </div>
+              <div class="flex justify-start gap-2 mt-4 pb-4 overflow-x-auto">
+                @foreach (var img in Model.product.ProductPhotos) 
+                { 
+                  <img src="https://onlineshop.mohammadmahdialmasi.ir/Image/Product/@(Model.product.Name)/@img.Name" alt="@(Model.product.Name)"  onclick="changeImage(this)"
+                       class="w-20 h-20 object-cover rounded-md cursor-pointer border border-zinc-200 hover:border-zinc-400 opacity-80 hover:opacity-100 transition-all"> 
+                  } 
+              </div>
+            </div>
         </div>
-        <hr>
-        <div class="product-detail d-flex flex-column flex-wrap">
-            <nav>
-                <ul class="tab">
-                    <li class="tab-item active" data-id="tab1">نکات فنی</li>
-                    <li class="tab-item" data-id="tab2">نظرات</li>
+        <!-- info -->
+        <div class="lg:w-5/12">
+      @await Component.InvokeAsync("CategoryBreadCrump",Model.product.CategoryToProducts.First().Category_Id) 
+          <div class="text-zinc-800 md:text-2xl font-semibold leading-7">
+           @Model.product.Name
+          </div>
+          <div class="text-zinc-400 text-xs md:text-sm mt-4">
+           @Model.product.Name - @Model.product.brand.Name - @Model.product.ProductCode
+          </div>
+          <div class="flex gap-x-5 items-center mt-3">
+            <a href="" class="flex items-start gap-x-1 text-sm text-primary-500">
+              <svg class="fill-primary-400" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="" viewBox="0 0 256 256"><path d="M140,128a12,12,0,1,1-12-12A12,12,0,0,1,140,128ZM84,116a12,12,0,1,0,12,12A12,12,0,0,0,84,116Zm88,0a12,12,0,1,0,12,12A12,12,0,0,0,172,116Zm60,12A104,104,0,0,1,79.12,219.82L45.07,231.17a16,16,0,0,1-20.24-20.24l11.35-34.05A104,104,0,1,1,232,128Zm-16,0A88,88,0,1,0,51.81,172.06a8,8,0,0,1,.66,6.54L40,216,77.4,203.53a7.85,7.85,0,0,1,2.53-.42,8,8,0,0,1,4,1.08A88,88,0,0,0,216,128Z"></path></svg>
+              <span>
+                <span>
+                  @Model.product.commnets.Count()
+                </span>
+                <span>
+                  دیدگاه
+                </span>
+              </span>
+            </a>
+            <div class="flex items-start gap-x-1 text-sm text-zinc-500">
+              <span>
+                <span>
+                  (72)
+                </span>
+                <span>
+                  4.4
+                </span>
+              </span>
+              <svg class="fill-primary-500" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="#f9bc00" viewBox="0 0 256 256"><path d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z"></path></svg>
+            </div>
+          </div>
+          <div class="mt-8 text-zinc-700">
+            ویژگی های محصول:
+          </div>
+          <div class="grid grid-cols-2 md:grid-cols-3 max-w-md py-3 mb-5 gap-3">
+            @foreach (var specKey in Model.specialkeys) 
+            {
+              <div class="flex flex-col gap-x-2 justufy-center bg-gray-100 rounded-md px-2 py-3">
+                <div class="text-zinc-500 text-xs">
+                  @specKey.Name:
+                </div>
+                <div class="text-zinc-700 text-sm">
+                  @foreach (var value in Model.product.valueToProducts.Where(v => v.Value.adjkey_Id == specKey.Id).ToList())
+                  {
+                    <span>@value.Value.Value /</span>
+                  }
+                </div>
+              </div>
+             
+            }
+          </div>
+          <div class="flex gap-x-2 mt-2 pt-2 text-zinc-500 text-xs md:text-sm border-t border-t-zinc-200 leading-6">
+            <svg class="fill-zinc-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="" viewBox="0 0 256 256"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm16-40a8,8,0,0,1-8,8,16,16,0,0,1-16-16V128a8,8,0,0,1,0-16,16,16,0,0,1,16,16v40A8,8,0,0,1,144,176ZM112,84a12,12,0,1,1,12,12A12,12,0,0,1,112,84Z"></path></svg>
+            درخواست مرجوع کردن کالا در گروه لپ تاپ با دلیل "انصراف از خرید" تنها در صورتی قابل تایید است که کالا در شرایط اولیه باشد (در صورت پلمپ بودن، کالا نباید باز شده باشد).
+          </div>
+        </div>
+        <!-- buy -->
+        <div class="lg:w-3/12">
+          <div class="lg:mt-8 mb-8">
+            <div class="text-zinc-700">
+              رنگ:
+            </div>
+            <ul class="flex flex-wrap gap-2">
+              <li>
+                <input type="radio" id="1" name="hosting" value="1" class="hidden peer" required="">
+                <label for="1" class="inline-flex items-center justify-center px-2 py-3 text-gray-600 bg-white border-2 border-gray-200 rounded-2xl cursor-pointer peer-checked:border-primary-300 hover:text-gray-600 hover:bg-gray-100">
+                  <div class="flex gap-x-2">
+                    <div class="w-5 h-5 bg-gray-400 rounded-full"></div>
+                    <div class="text-sm">خاکستری</div>
+                  </div>
+                </label>
+              </li>
+              <li>
+                <input type="radio" id="2" name="hosting" value="2" class="hidden peer" required="">
+                <label for="2" class="inline-flex items-center justify-center px-2 py-3 text-gray-600 bg-white border-2 border-gray-200 rounded-2xl cursor-pointer peer-checked:border-primary-300 hover:text-gray-600 hover:bg-gray-100">
+                  <div class="flex gap-x-2">
+                    <div class="w-5 h-5 bg-gray-900 rounded-full"></div>
+                    <div class="text-sm">مشکی</div>
+                  </div>
+                </label>
+              </li>
+              <li>
+                <input type="radio" id="3" name="hosting" value="3" class="hidden peer" required="">
+                <label for="3" class="inline-flex items-center justify-center px-2 py-3 text-gray-600 bg-white border-2 border-gray-200 rounded-2xl cursor-pointer peer-checked:border-primary-300 hover:text-gray-600 hover:bg-gray-100">
+                  <div class="flex gap-x-2">
+                    <div class="w-5 h-5 bg-blue-400 rounded-full"></div>
+                    <div class="text-sm">آبی روشن</div>
+                  </div>
+                </label>
+              </li>
+            </ul>
+          </div>
+          <div class="p-3 border border-zinc-300 rounded-xl mx-auto divide-y divide-zinc-200">
+            <div class="flex gap-x-1 items-center text-zinc-600 text-sm pb-5 pt-3">
+              <svg class="fill-zinc-700" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="" viewBox="0 0 256 256"><path d="M208,40H48A16,16,0,0,0,32,56v58.78c0,89.61,75.82,119.34,91,124.39a15.53,15.53,0,0,0,10,0c15.2-5.05,91-34.78,91-124.39V56A16,16,0,0,0,208,40Zm0,74.79c0,78.42-66.35,104.62-80,109.18-13.53-4.51-80-30.69-80-109.18V56H208ZM82.34,141.66a8,8,0,0,1,11.32-11.32L112,148.68l50.34-50.34a8,8,0,0,1,11.32,11.32l-56,56a8,8,0,0,1-11.32,0Z"></path></svg>
+              <div>
+                گارانتی 12 ماهه
+              </div>
+            </div>
+            <div class="flex gap-x-1 items-center text-zinc-600 text-sm py-5">
+              <svg class="fill-zinc-700" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="" viewBox="0 0 256 256"><path d="M247.42,117l-14-35A15.93,15.93,0,0,0,218.58,72H184V64a8,8,0,0,0-8-8H24A16,16,0,0,0,8,72V184a16,16,0,0,0,16,16H41a32,32,0,0,0,62,0h50a32,32,0,0,0,62,0h17a16,16,0,0,0,16-16V120A7.94,7.94,0,0,0,247.42,117ZM184,88h34.58l9.6,24H184ZM24,72H168v64H24ZM72,208a16,16,0,1,1,16-16A16,16,0,0,1,72,208Zm81-24H103a32,32,0,0,0-62,0H24V152H168v12.31A32.11,32.11,0,0,0,153,184Zm31,24a16,16,0,1,1,16-16A16,16,0,0,1,184,208Zm48-24H215a32.06,32.06,0,0,0-31-24V128h48Z"></path></svg>
+              <div>
+                ارسال 3 روز کاری
+              </div>
+            </div>
+            <div class="flex gap-x-1 items-center text-green-500 text-sm py-5">
+              <svg class="fill-green-500" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="" viewBox="0 0 256 256"><path d="M234,80.12A24,24,0,0,0,216,72H160V56a40,40,0,0,0-40-40,8,8,0,0,0-7.16,4.42L75.06,96H32a16,16,0,0,0-16,16v88a16,16,0,0,0,16,16H204a24,24,0,0,0,23.82-21l12-96A24,24,0,0,0,234,80.12ZM32,112H72v88H32ZM223.94,97l-12,96a8,8,0,0,1-7.94,7H88V105.89l36.71-73.43A24,24,0,0,1,144,56V80a8,8,0,0,0,8,8h64a8,8,0,0,1,7.94,9Z"></path></svg>
+              <div>
+                رضایت از محصول:
+              </div>
+              <span>
+                97%
+              </span>
+            </div>
+           
+      <div class="mt-6">
+    <!-- تعداد -->
+   
+    <!-- قیمت -->
+    @if (Model.product.Discount != 0)
+    {
+        var price = Model.product.Price;
+        var offprice = (Model.product.Price) * ((decimal)Model.product.Discount / 100);
+        var pricewithoff = price - offprice;
+
+        <div class="mt-4 flex flex-col gap-1">
+          <div class="flex items-center gap-2">
+            <span class="text-xl font-yekanBakhExtraBold text-zinc-800">@pricewithoff.ToString("N0")</span>
+            <span class="text-xs">تومان</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-gray-400 line-through text-sm">@price.ToString("N0") تومان</span>
+            <span class="text-xs text-red-500 ">@Model.product.Discount% تخفیف</span>
+          </div>
+        </div>
+    }
+    else
+    {
+        <div class="mt-4 flex items-center gap-2">
+            <span class="text-xl font-yekanBakhExtraBold text-zinc-800">@Model.product.Price.ToString("N0")</span>
+            <span class="text-xs">تومان</span>
+        </div>
+    }
+    <div class="quantity-container mt-5 flex h-10 w-full items-center justify-between rounded-lg border border-gray-100 px-2 py-1">
+      <button class="cursor-pointer" type="button" data-action="increment">
+        <svg class="fill-green-500 size-5" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 256 256"><path d="M222,128a6,6,0,0,1-6,6H134v82a6,6,0,0,1-12,0V134H40a6,6,0,0,1,0-12h82V40a6,6,0,0,1,12,0v82h82A6,6,0,0,1,222,128Z"></path></svg>
+      </button>
+      <input value="1" disabled="" type="number" id="countProduct" class="flex h-5 w-full grow select-none items-center justify-center bg-transparent text-center text-sm md:text-lg font-yekanBakhExtraBold text-zinc-600 outline-none">
+      <button class="cursor-pointer" type="button" data-action="decrement">
+        <svg class="fill-red-500 size-5" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 256 256"><path d="M222,128a6,6,0,0,1-6,6H40a6,6,0,0,1,0-12H216A6,6,0,0,1,222,128Z"></path></svg>
+      </button>
+    </div>
+
+    <!-- دکمه خرید -->
+    <div class="mt-6 hidden lg:block">
+        @if (User.Identity.IsAuthenticated && Model.product.QuantityInStock > 0)
+        {
+            @if (Model.product.QuantityInStock < 6)
+            {
+                <div class="text-xs text-red-400 mb-2">
+                    تنها @Model.product.QuantityInStock عدد در انبار موجود است
+                </div>
+            }
+            <button type="button" id="shop"
+                    class="w-full px-4 py-3 cursor-pointer
+ text-sm bg-gradient-to-bl from-primary-400 to-primary-600 hover:opacity-80 transition text-white rounded-lg shadow">
+              افزودن به سبد خرید
+            </button>
+        }
+        else
+        {
+            @if (Model.product.QuantityInStock <= 0)
+            {
+                <div class="text-xs text-red-500 mb-2">این کالا در انبار موجود نیست</div>
+            }
+            <button type="button" disabled id="shop"
+                    class="w-full px-4 py-3 text-sm bg-gradient-to-bl from-primary-500 to-primary-400 opacity-80 cursor-not-allowed transition text-white rounded-lg">
+              افزودن به سبد خرید
+            </button>
+        }
+    </div>
+</div>
+
+<!-- نسخه موبایل (Fixed Bottom Buy Bar) -->
+<div class="fixed flex bottom-0 right-0 lg:hidden bg-white border-t border-zinc-300 w-full px-5 py-3 gap-x-2 z-50">
+  <button id="shop" class="mx-auto w-1/2 px-2 py-3
+ text-sm bg-gradient-to-bl from-primary-400 to-primary-600 hover:opacity-80 transition text-gray-100 rounded-lg">
+        افزودن به سبد خرید
+    </button>
+    <span class="flex flex-col justify-center items-end w-1/2">
+        <div class="text-zinc-700 text-left">
+            <span class="font-yekanBakhExtraBold text-xl">@((Model.product.Discount != 0 ? (Model.product.Price - (Model.product.Price * ((decimal)Model.product.Discount / 100))) : Model.product.Price).ToString("N0"))</span>
+            <span class="text-xs">تومان</span>
+        </div>
+        @if (Model.product.QuantityInStock < 6 && Model.product.QuantityInStock > 0)
+        {
+            <div class="text-xs text-red-400">
+                تنها @Model.product.QuantityInStock عدد در انبار باقی مانده
+            </div>
+        }
+    </span>
+</div>
+
+            <!-- <button class="hidden lg:block mx-auto w-full px-2 py-3 text-sm bg-gradient-to-bl from-primary-500 to-primary-400 opacity-80 cursor-not-allowed transition text-gray-100 rounded-lg">
+              محصول موجود نیست!
+            </button> -->
+          </div>
+        </div>
+      </div>
+      <div class="flex gap-x-8 mt-20 pb-2 border-b border-zinc-200">
+        <a class="text-zinc-600 hover:text-zinc-800 transition" href="#details">
+          توضیحات
+        </a>
+        <a class="text-zinc-600 hover:text-zinc-800 transition" href="#proper">
+          مشخصات
+        </a>
+        <a class="text-zinc-600 hover:text-zinc-800 transition" href="#comments">
+          دیدگاه ها
+        </a>
+        <a class="text-zinc-600 hover:text-zinc-800 transition" href="#comments2">
+          پرسش ها
+        </a>
+      </div>
+      <div class="p-4 border-b border-zinc-200 scroll-mt-36" id="details">
+        <p class="text-zinc-800 md:text-lg mb-1 mt-4">
+          توضیحات این محصول
+        </p>
+        <p class="text-zinc-600 text-xs md:text-sm leading-8 my-2">
+        @Model.product.Description
+          </p>
+      </div>
+      <div class="p-4 border-b border-zinc-200 scroll-mt-36" id="proper">
+        <p class="text-zinc-800 md:text-lg mb-1 mt-4">
+          مشخصات محصول
+        </p>
+        <div class="text-gray-500 text-sm divide-y divide-zinc-200">
+          @foreach (var kv in Model.product.keyToProducts) 
+          {
+            <div class="flex items-center justify-start p-3 pb-6 w-full my-4">
+              <div class="text-sm md:text-basetext-zinc-700 w-3/12 font-yekanBakhRegular">
+                @kv.adjKey.Name
+              </div>
+              <div class="md:text-lg text-zinc-600 w-9/12 font-yekanBakhExtraBold">
+                @foreach (var value in Model.product.valueToProducts.Where(v => v.Value.adjkey_Id == kv.adjKey.Id).ToList())
+                {
+                  <span>@value.Value.Value</span> 
+                  @if (value.Value_Id != Model.product.valueToProducts.Where(v => v.Value.adjkey_Id == kv.adjKey.Id).LastOrDefault().Value_Id)
+                  {
+                    <span>/</span>
+                  }
+                }
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+      <div class="p-4 scroll-mt-36" id="comments">
+        <p class="text-zinc-800 md:text-lg mb-1 mt-4">
+          دیدگاه ها
+        </p>
+        <div class="lg:flex gap-5">
+          <form method="post"  id="comment" class="lg:w-3/12 py-5">
+            <div class="mt-4 mb-2 text-sm text-zinc-700">
+              شما هم دیدگاه خود را ثبت کنید
+            </div>
+            <ul class="grid my-3 gap-5 grid-cols-2">
+              <li>
+                <input type="radio" id="yes" name="hosting" value="yes" class="hidden peer" required="">
+                <label for="yes" class="inline-flex items-center justify-center w-full px-2 py-3 text-gray-600 bg-white border border-gray-200 rounded-lg cursor-pointer peer-checked:border-green-400 peer-checked:text-green-500 hover:text-gray-600 hover:bg-gray-100">
+                  <div class="flex items-center gap-x-1">
+                    <svg class="fill-green-500" xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="" viewBox="0 0 256 256"><path d="M234,80.12A24,24,0,0,0,216,72H160V56a40,40,0,0,0-40-40,8,8,0,0,0-7.16,4.42L75.06,96H32a16,16,0,0,0-16,16v88a16,16,0,0,0,16,16H204a24,24,0,0,0,23.82-21l12-96A24,24,0,0,0,234,80.12ZM32,112H72v88H32ZM223.94,97l-12,96a8,8,0,0,1-7.94,7H88V105.89l36.71-73.43A24,24,0,0,1,144,56V80a8,8,0,0,0,8,8h64a8,8,0,0,1,7.94,9Z"></path></svg>
+                    <div class="text-sm">پیشنهاد میشود</div>
+                  </div>
+                </label>
+              </li>
+              <li>
+                <input type="radio" id="no" name="hosting" value="no" class="hidden peer" required="">
+                <label for="no" class="inline-flex items-center justify-center w-full px-2 py-3 text-gray-600 bg-white border border-gray-200 rounded-lg cursor-pointer peer-checked:border-red-400 peer-checked:text-red-400 hover:text-gray-600 hover:bg-gray-100">
+                  <div class="flex items-center gap-x-1">
+                    <svg class="fill-red-500" xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="" viewBox="0 0 256 256"><path d="M239.82,157l-12-96A24,24,0,0,0,204,40H32A16,16,0,0,0,16,56v88a16,16,0,0,0,16,16H75.06l37.78,75.58A8,8,0,0,0,120,240a40,40,0,0,0,40-40V184h56a24,24,0,0,0,23.82-27ZM72,144H32V56H72Zm150,21.29a7.88,7.88,0,0,1-6,2.71H152a8,8,0,0,0-8,8v24a24,24,0,0,1-19.29,23.54L88,150.11V56H204a8,8,0,0,1,7.94,7l12,96A7.87,7.87,0,0,1,222,165.29Z"></path></svg>
+                    <div class="text-sm">پیشنهاد نمیشود</div>
+                  </div>
+                </label>
+              </li>
+            </ul>
+            <textarea placeholder="متن دیدگاه"  required id="description" cols="30" rows="7" class="rounded-2xl rounded-tr-sm text-sm text-zinc-600 w-full bg-white border border-zinc-200 px-5 py-3.5 placeholder:text-zinc-400 placeholder:text-xs focus:outline-1 focus:outline-zinc-300"></textarea>
+          @if (User.Identity.IsAuthenticated)
+            {
+              <button type="submit" id="sendComment" class=" mx-auto cursor-pointer w-full px-2 py-3 text-sm bg-gradient-to-bl from-primary-400 to-primary-600 hover:opacity-80 transition text-gray-100 rounded-lg">
+                ارسال دیدگاه
+              </button>
+            }
+          else
+          {
+            <a asp-area="Identity" asp-page="/Account/Register" class="hidden lg:block mx-auto cursor-pointer w-full px-2 py-3 text-sm bg-gradient-to-bl from-primary-400 to-primary-600 hover:opacity-80 transition text-gray-100 rounded-lg" asp-route-returnUrl="@Url.Action("ProductShow","Product",new { Id = Model.product.Id})" >ارسال</a>
+          }
+
+          </form>
+          <div class="lg:w-9/12 divide-y-2 divide-zinc-300">
+            @foreach (var comment in Model.product.commnets)
+            {
+                <div class="px-2 pt-5">
+              <div class="text-lg text-zinc-700">
+               @comment.Title
+              </div>
+              <div class="mt-2 flex gap-x-4 items-center border-b border-zinc-200 pb-3">
+                <div class="text-xs text-zinc-600">
+                 @comment.LastUpdate
+                </div>
+                <div class="text-xs text-zinc-600">
+                  @if (string.IsNullOrEmpty(comment.User.FullName)) 
+                  {
+                      <span>@comment.User.UserName</span>
+                  }
+                  else
+                  {
+                      <span>@comment.User.FullName</span>
+                  }
+                </div>
+                <div class="text-xs text-zinc-50 bg-green-400 rounded-full px-2 py-1">
+                  خریدار
+                </div>
+              </div>
+              <div class="flex items-center gap-x-1 pt-3">
+                <svg class="fill-green-500" xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="" viewBox="0 0 256 256"><path d="M234,80.12A24,24,0,0,0,216,72H160V56a40,40,0,0,0-40-40,8,8,0,0,0-7.16,4.42L75.06,96H32a16,16,0,0,0-16,16v88a16,16,0,0,0,16,16H204a24,24,0,0,0,23.82-21l12-96A24,24,0,0,0,234,80.12ZM32,112H72v88H32ZM223.94,97l-12,96a8,8,0,0,1-7.94,7H88V105.89l36.71-73.43A24,24,0,0,1,144,56V80a8,8,0,0,0,8,8h64a8,8,0,0,1,7.94,9Z"></path></svg>
+                <div class="text-sm text-green-500">پیشنهاد میشود</div>
+              </div>
+              <div class="mt-2 text-zinc-600 text-sm">
+              @comment.Description
+              </div>
+              <div class="flex justify-end items-center gap-x-5 mt-3">
+                <div class="text-sm text-zinc-400">
+                  آیا این دیدگاه برایتان مفید بود؟
+                </div>
+                <ul class="grid my-3 gap-5 grid-cols-2">
+                  <li>
+                    <input type="radio" id="isgood" name="what" value="isgood" class="hidden peer" required="">
+                    <label for="isgood" class="inline-flex p-2 border border-gray-200 rounded-lg cursor-pointer peer-checked:border-green-400 hover:bg-gray-100">
+                      <svg class="fill-green-500" xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="" viewBox="0 0 256 256"><path d="M234,80.12A24,24,0,0,0,216,72H160V56a40,40,0,0,0-40-40,8,8,0,0,0-7.16,4.42L75.06,96H32a16,16,0,0,0-16,16v88a16,16,0,0,0,16,16H204a24,24,0,0,0,23.82-21l12-96A24,24,0,0,0,234,80.12ZM32,112H72v88H32ZM223.94,97l-12,96a8,8,0,0,1-7.94,7H88V105.89l36.71-73.43A24,24,0,0,1,144,56V80a8,8,0,0,0,8,8h64a8,8,0,0,1,7.94,9Z"></path></svg>
+                    </label>
+                  </li>
+                  <li>
+                    <input type="radio" id="isbad" name="what" value="isbad" class="hidden peer" required="">
+                    <label for="isbad" class="inline-flex p-2 border border-gray-200 rounded-lg cursor-pointer peer-checked:border-red-400 hover:bg-gray-100">
+                      <svg class="fill-red-500" xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="" viewBox="0 0 256 256"><path d="M239.82,157l-12-96A24,24,0,0,0,204,40H32A16,16,0,0,0,16,56v88a16,16,0,0,0,16,16H75.06l37.78,75.58A8,8,0,0,0,120,240a40,40,0,0,0,40-40V184h56a24,24,0,0,0,23.82-27ZM72,144H32V56H72Zm150,21.29a7.88,7.88,0,0,1-6,2.71H152a8,8,0,0,0-8,8v24a24,24,0,0,1-19.29,23.54L88,150.11V56H204a8,8,0,0,1,7.94,7l12,96A7.87,7.87,0,0,1,222,165.29Z"></path></svg>
+                    </label>
+                  </li>
                 </ul>
-            </nav>
-            <div class="tab-container active" data-id="tab1">
-                <table class="table col-12">
-                    <thead>
-                    <td>
-                        مشخصه فنی
-                    </td>
-                    <td>
-                        مقدار مشخصه
-                    </td>
-                    </thead>
-                    <tbody>
-                        @foreach (var kv in Model.product.keyToProducts)
-                        {
-                            <tr>
-                                <td>@kv.adjKey.Name</td>
-                                <td>
-                                    @foreach (var value in Model.product.valueToProducts.Where(v => v.Value.adjkey_Id == kv.adjKey.Id).ToList())
-                                    {
-                                        <span>@value.Value.Value /</span>
-                                    }
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+              </div>
             </div>
-            <div class="tab-container" data-id="tab2">
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <form method="post" class="form-control" id="comment">
-                        <div class="form-group mb-3">
-                            <label>نظر خود را بنویسید</label>
-                            <textarea placeholder="نظر خود را بنویسید" class="form-control" required id="description">
-
-                                                    </textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">ارسال</button>
-                    </form>
-                }
-                else
-                {
-                    <form class="form-control">
-                        <div class="form-floating mb-3">
-                            <label>نظر خود را بنویسید</label>
-                            <textarea placeholder="نظر خود را بنویسید" class="form-control">
-
-                                                        </textarea>
-                        </div>
-                        <a asp-area="Identity" asp-page="/Account/Register" asp-route-returnUrl="@Url.Action("ProductShow","Product",new { Id = Model.product.Id})" type="submit" class="btn btn-primary">ارسال</a>
-                    </form>
-                }
-                @{
-                    if (Model.product.commnets != null)
-                    {
-                        if (Model.product.commnets.Count() > 0)
-                        {
-                            <div class="card-slider" dir="ltr">
-                                @foreach (var comment in Model.product.commnets.Where(c => c.IsHide == false).ToList())
-                                {
-                                    var classname = "";
-                                    @if (User.Identity.Name == comment.User.UserName)
-                                    {
-                                        classname = "bg-info";
-                                    }
-                                    <div class="card rounded-4 m-2 @classname" style="width: 18rem">
-                                        <div class="header">
-                                            <span class="badge bg-primary text-wrap m-1">@comment.Product.Name</span>
-                                        </div>
-                                        <div class="card-body">
-                                            <h5 class="card-title">
-                                                @if (string.IsNullOrEmpty(comment.User.FullName))
-                                                {
-                                                    <span>@comment.User.UserName</span>
-                                                }
-                                                else
-                                                {
-                                                    <span>@comment.User.FullName</span>
-                                                }
-                                            </h5>
-                                            <p class="text-wrap">@comment.Description</p>
-                                        </div>
-                                        <div class="footer">
-                                            <span class="badge bg-secondary">@comment.LastUpdate</span>
-                                        </div>
-                                    </div>
-                                }
-                            </div>
-                        }
-              
-                    }
-
-            
-
-                }
-
-            </div>
+            }
+          
+       
+          </div>
         </div>
+      </div>
+      @* <div class="p-4 scroll-mt-36" id="comments2"> *@
+      @*   <p class="text-zinc-800 md:text-lg mb-1 mt-4"> *@
+      @*     پرسش و پاسخ *@
+      @*   </p> *@
+      @*   <div class="lg:flex gap-5"> *@
+      @*     <div class="lg:w-3/12 py-5"> *@
+      @*       <div class="mt-4 mb-2 text-sm text-zinc-700"> *@
+      @*         اگر سوالی دارید بپرسید *@
+      @*       </div> *@
+      @*       <textarea placeholder="متن سوال" name="mailTicket" cols="30" rows="7" class="rounded-2xl rounded-tr-sm text-sm text-zinc-600 w-full bg-white border border-zinc-200 px-5 py-3.5 placeholder:text-zinc-400 placeholder:text-xs focus:outline-1 focus:outline-zinc-300"></textarea> *@
+      @*       <button class="hidden lg:block mx-auto cursor-pointer w-full px-2 py-3 text-sm bg-gradient-to-bl from-primary-400 to-primary-600 hover:opacity-80 transition text-gray-100 rounded-lg"> *@
+      @*         ارسال پرسش *@
+      @*       </button> *@
+      @*     </div> *@
+      @*     <div class="lg:w-9/12 divide-y-2 divide-zinc-300"> *@
+      @*       <div class="px-2 pt-5"> *@
+      @*         <div class="text-lg text-zinc-700"> *@
+      @*           خوب بود ارزش خرید داره *@
+      @*         </div> *@
+      @*         <div class="mt-2 flex gap-x-4 items-center border-b border-zinc-200 pb-3"> *@
+      @*           <div class="text-xs text-zinc-600"> *@
+      @*             11 بهمن 1402 *@
+      @*           </div> *@
+      @*           <div class="text-xs text-zinc-600"> *@
+      @*             امیررضا کریمی *@
+      @*           </div> *@
+      @*         </div> *@
+      @*         <div class="mt-4 text-zinc-600 text-sm"> *@
+      @*           آیا ویندوز به صورت پیش فرض روش نصبه یا باید خودمون نصب کنیم؟ *@
+      @*         </div> *@
+      @*         <div class="flex justify-end items-center gap-x-5 mt-3"> *@
+      @*           <div class="text-sm text-zinc-400"> *@
+      @*             آیا این سوال برایتان مفید بود؟ *@
+      @*           </div> *@
+      @*           <ul class="grid my-3 gap-5 grid-cols-2"> *@
+      @*             <li> *@
+      @*               <input type="radio" id="isgood" name="what" value="isgood" class="hidden peer" required=""> *@
+      @*               <label for="isgood" class="inline-flex p-2 border border-gray-200 rounded-lg cursor-pointer peer-checked:border-green-400 hover:bg-gray-100">                            *@
+      @*                 <svg class="fill-green-500" xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="" viewBox="0 0 256 256"><path d="M234,80.12A24,24,0,0,0,216,72H160V56a40,40,0,0,0-40-40,8,8,0,0,0-7.16,4.42L75.06,96H32a16,16,0,0,0-16,16v88a16,16,0,0,0,16,16H204a24,24,0,0,0,23.82-21l12-96A24,24,0,0,0,234,80.12ZM32,112H72v88H32ZM223.94,97l-12,96a8,8,0,0,1-7.94,7H88V105.89l36.71-73.43A24,24,0,0,1,144,56V80a8,8,0,0,0,8,8h64a8,8,0,0,1,7.94,9Z"></path></svg> *@
+      @*               </label> *@
+      @*             </li> *@
+      @*             <li> *@
+      @*               <input type="radio" id="isbad" name="what" value="isbad" class="hidden peer" required=""> *@
+      @*               <label for="isbad" class="inline-flex p-2 border border-gray-200 rounded-lg cursor-pointer peer-checked:border-red-400 hover:bg-gray-100">                            *@
+      @*                 <svg class="fill-red-500" xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="" viewBox="0 0 256 256"><path d="M239.82,157l-12-96A24,24,0,0,0,204,40H32A16,16,0,0,0,16,56v88a16,16,0,0,0,16,16H75.06l37.78,75.58A8,8,0,0,0,120,240a40,40,0,0,0,40-40V184h56a24,24,0,0,0,23.82-27ZM72,144H32V56H72Zm150,21.29a7.88,7.88,0,0,1-6,2.71H152a8,8,0,0,0-8,8v24a24,24,0,0,1-19.29,23.54L88,150.11V56H204a8,8,0,0,1,7.94,7l12,96A7.87,7.87,0,0,1,222,165.29Z"></path></svg> *@
+      @*               </label> *@
+      @*             </li> *@
+      @*           </ul> *@
+      @*         </div> *@
+      @*       </div> *@
+      @*     </div> *@
+      @*   </div> *@
+      @* </div> *@
+      <!-- sldier products -->
+      <div class="mt-12 md:mt-20">
+             @await Component.InvokeAsync("RelatedProduct",Model.RelatedProduct) 
+
+      </div>
     </div>
-    @await Component.InvokeAsync("RelatedProduct",Model.RelatedProduct)
-</section>
-<section class="container-fluid fillscreen" style="display:none">
-    <div class="ImageView d-flex flex-wrap">
-        <div class="col-12 header">
-            <i class="fas fa-close closeZoomBox"></i>
-            <h6 class="p-3 text-right">@Model.product.Name</h6>
-        </div>
-        <div class="col-12 content">
-            <button type="button" class="nextBtn"><i class="fa-solid fa-caret-left"></i></button>
-            <div class="image-slider" dir="ltr">
-                @foreach (var img in Model.product.ProductPhotos)
-                {
-                    <div class="slide current">
-                        <img src="~/Image/Product/@(Model.product.Name)/@img.Name" alt="@(Model.product.Name)" class="image">
-                    </div>
-                }
-            </div>
-            <button type="button" class="prevBtn"><i class="fa-solid fa-caret-right"></i></button>
-            <div class="zoomtool">
-                <i class="fa-solid fa-magnifying-glass-plus zoom-in"></i>
-                <i class="fa-solid fa-magnifying-glass-minus zoom-out"></i>
-            </div>
-        </div>
-
-    </div>
-</section>
+@* <section class="Product-container"> *@
+@*     <nav aria-label="breadcrumb" class="p-3"> *@
+@*         @await Component.InvokeAsync("CategoryBreadCrump",Model.product.CategoryToProducts.First().Category_Id) *@
+@*     </nav> *@
+@*     <div class="container-lg container-fluid"> *@
+@*         <div class="product-info d-flex flex-wrap"> *@
+@*             <div class="product-images col-lg-6 col-12"> *@
+@*                 <div class="tools"> *@
+@*                     @if (User.Identity.IsAuthenticated) *@
+@*                     { *@
+@*                         @if (Model.product.favoriteProducts.FirstOrDefault() != null) *@
+@*                         { *@
+@*                             <a onclick="like(@Model.product.Id)"><i class="fa-solid fa-heart like"></i></a> *@
+@*                         } *@
+@*                         else *@
+@*                         { *@
+@*                             <a onclick="like(@Model.product.Id)"><i class="fa-regular fa-heart like"></i></a> *@
+@*                         } *@
+@*                     } *@
+@*                     else *@
+@*                     { *@
+@*                         <a onclick="alert('لطفا وارد وبسایت شوید')" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Url.Action("ProductShow","Product",new { Id = Model.product.Id})"><i class="fa-regular fa-heart like"></i></a> *@
+@*                     } *@
+@*                     <a href="#"><i class="fa-regular fa-bookmark"></i></a> *@
+@*                     <a href="#"><i class="fa-solid fa-share-nodes"></i></a> *@
+@*                 </div> *@
+@*                 <div class="col-10"> *@
+@*                     <img class="selectedImage" id="MainImage" *@
+@*                          src="~/Image/Product/@(Model.product.Name)/@(Model.product.ProductPhotos.FirstOrDefault().Name)" *@
+@*                          alt="@(Model.product.Name)"> *@
+@*                 </div> *@
+@*                 <hr> *@
+@*                 <div class="image-wrapper col-12" dir="ltr"> *@
+@*                     @foreach (var img in Model.product.ProductPhotos) *@
+@*                     { *@
+@*                         <img src="~/Image/Product/@(Model.product.Name)/@img.Name" alt="@(Model.product.Name)" class="image"> *@
+@*                     } *@
+@*                 </div> *@
+@*             </div> *@
+@* *@
+@*             <div class="content col-lg-6 col-12 d-flex flex-wrap"> *@
+@* *@
+@*                 <div class="col-12 d-flex flex-wrap"> *@
+@*                     <div class="header col-12"> *@
+@*                         <h2>@Model.product.Name</h2> *@
+@*                         <p> Samsung Odyssey G5 G51C LS27CG510EMXUE 27Inch 1ms 165Hz QHD Gaming Monitor</p> *@
+@*                         <div class="col-12 d-flex  flex-wrap"> *@
+@*                             <div class="col-lg-6 col-md-12"> *@
+@*                                 <ul> *@
+@*                                     <li>کدکالا:@Model.product.ProductCode</li> *@
+@*                                     <li>برند: @Model.product.brand.Name</li> *@
+@*                                     <li> *@
+@*                                         @foreach (var cp in Model.product.CategoryToProducts) *@
+@*                                         { *@
+@*                                             <span>@cp.Category.Name /</span> *@
+@*                                         } *@
+@*                                     </li> *@
+@*                                 </ul> *@
+@*                             </div> *@
+@*                             <div class="col-lg-6 col-12"> *@
+@*                                 <img width="100px" src="~/Image/Brand/@(Model.product.brand.Name)/@(Model.product.brand.ImageName)" /> *@
+@*                                 <h4>@Model.product.brand.Name</h4> *@
+@*                             </div> *@
+@*                         </div> *@
+@* *@
+@*                     </div> *@
+@*                 </div> *@
+@*                 <div class="keyattr col-12 col-md-6"> *@
+@*                     <h5>ویژگی های کلیدی</h5> *@
+@*                     <ul> *@
+@*                         <li><span>عرض</span>@Model.product.Width</li> *@
+@*                         <li><span>طول</span>@Model.product.length</li> *@
+@*                         <li><span>وزن</span>@Model.product.Weight</li> *@
+@*                         <li><span>ارتفاع</span> @Model.product.height</li> *@
+@*                         @foreach (var specKey in Model.specialkeys) *@
+@*                         { *@
+@*                             <li> *@
+@*                                 <span>@specKey.Name</span> *@
+@*                                 @foreach (var value in Model.product.valueToProducts.Where(v => v.Value.adjkey_Id == specKey.Id).ToList()) *@
+@*                                 { *@
+@*                                     <span>@value.Value.Value /</span> *@
+@*                                 } *@
+@*                             </li> *@
+@*                         } *@
+@*                     </ul> *@
+@*                 </div> *@
+@*                 <div class="shop-box col-md-6 col-12"> *@
+@*                     <div class="container"> *@
+@*                         <h5 class="text-right">تعداد:</h5> *@
+@*                         <div class="inline"> *@
+@*                             <div class="shop col-6"> *@
+@*                                 <i class="fa-solid fa-plus"></i> *@
+@*                                 <span id="countProduct" value="0">0</span> *@
+@*                                 <i class="fa-solid fa-minus"></i> *@
+@*                             </div> *@
+@*                             @if (Model.product.Discount != 0) *@
+@*                             { *@
+@*                                 <!--this is for whem we have an off--> *@
+@*                                 <div class="offprice"> *@
+@*                                     <span class="col-6 price">@Model.product.Price.ToString("N0") تومان </span> *@
+@*                                     <span class="off"> *@
+@*                                         @{ *@
+@*                                             var price = Model.product.Price; *@
+@*                                             var offprice = (Model.product.Price) * ((decimal)Model.product.Discount / 100); *@
+@*                                             var pricewithoff = price - offprice; *@
+@*                                         } *@
+@*                                         @pricewithoff.ToString("N0") تومان *@
+@*                                     </span> *@
+@*                                     <h6 class="text-secondary">@Model.product.Discount % تخفیف</h6> *@
+@*                                 </div> *@
+@*                                 <!--this is for whem we have an off--> *@
+@*                             } *@
+@*                             else *@
+@*                             { *@
+@*                                 <!--this is for whem we dont have an off--> *@
+@*                                 <div class="originalPrice"> *@
+@*                                     <span class="col-6 price">@Model.product.Price تومان </span> *@
+@*                                 </div> *@
+@*                                 <!--this is for whem we dont have an off--> *@
+@*                             } *@
+@*                         </div> *@
+@*                         @if (User.Identity.IsAuthenticated && Model.product.QuantityInStock > 0) *@
+@*                         { *@
+@*                             @if (Model.product.QuantityInStock < 6) *@
+@*                             { *@
+@*                                 <span class="text-danger">تنها @Model.product.QuantityInStock عدد در انبار موجود است</span> *@
+@*                             } *@
+@*                             <button type="button" id="shop" class="btn btn-success">خرید</button> *@
+@*                         } *@
+@*                         else *@
+@*                         { *@
+@*                             @if (Model.product.QuantityInStock <= 0) *@
+@*                             { *@
+@*                                 <span class="text-danger">این کالا در انبار موجود نیست</span> *@
+@*                             } *@
+@*                             <button type="button" disabled id="shop" class="btn btn-success disabled">خرید</button> *@
+@*                         } *@
+@*                     </div> *@
+@*                 </div> *@
+@*                 <div class="description col-12"> *@
+@*                     <h5>درباره محصول</h5> *@
+@*                     <p class="text-wrap"> *@
+@*                         @Model.product.Description *@
+@*                     </p> *@
+@*                 </div> *@
+@*             </div> *@
+@* *@
+@*         </div> *@
+@*         <hr> *@
+@*         <div class="product-detail d-flex flex-column flex-wrap"> *@
+@*             <nav> *@
+@*                 <ul class="tab"> *@
+@*                     <li class="tab-item active" data-id="tab1">نکات فنی</li> *@
+@*                     <li class="tab-item" data-id="tab2">نظرات</li> *@
+@*                 </ul> *@
+@*             </nav> *@
+@*             <div class="tab-container active" data-id="tab1"> *@
+@*                 <table class="table col-12"> *@
+@*                     <thead> *@
+@*                     <td> *@
+@*                         مشخصه فنی *@
+@*                     </td> *@
+@*                     <td> *@
+@*                         مقدار مشخصه *@
+@*                     </td> *@
+@*                     </thead> *@
+@*                     <tbody> *@
+@*                         @foreach (var kv in Model.product.keyToProducts) *@
+@*                         { *@
+@*                             <tr> *@
+@*                                 <td>@kv.adjKey.Name</td> *@
+@*                                 <td> *@
+@*                                     @foreach (var value in Model.product.valueToProducts.Where(v => v.Value.adjkey_Id == kv.adjKey.Id).ToList()) *@
+@*                                     { *@
+@*                                         <span>@value.Value.Value /</span> *@
+@*                                     } *@
+@*                                 </td> *@
+@*                             </tr> *@
+@*                         } *@
+@*                     </tbody> *@
+@*                 </table> *@
+@*             </div> *@
+@*             <div class="tab-container" data-id="tab2"> *@
+@*                 @if (User.Identity.IsAuthenticated) *@
+@*                 { *@
+@*                     <form method="post" class="form-control" id="comment"> *@
+@*                         <div class="form-group mb-3"> *@
+@*                             <label>نظر خود را بنویسید</label> *@
+@*                             <textarea placeholder="نظر خود را بنویسید" class="form-control" required id="description"> *@
+@* *@
+@*                                                     </textarea> *@
+@*                         </div> *@
+@*                         <button type="submit" class="btn btn-primary">ارسال</button> *@
+@*                     </form> *@
+@*                 } *@
+@*                 else *@
+@*                 { *@
+@*                     <form class="form-control"> *@
+@*                         <div class="form-floating mb-3"> *@
+@*                             <label>نظر خود را بنویسید</label> *@
+@*                             <textarea placeholder="نظر خود را بنویسید" class="form-control"> *@
+@* *@
+@*                                                         </textarea> *@
+@*                         </div> *@
+@*                         <a asp-area="Identity" asp-page="/Account/Register" asp-route-returnUrl="@Url.Action("ProductShow","Product",new { Id = Model.product.Id})" type="submit" class="btn btn-primary">ارسال</a> *@
+@*                     </form> *@
+@*                 } *@
+@*                 @{ *@
+@*                     if (Model.product.commnets != null) *@
+@*                     { *@
+@*                         if (Model.product.commnets.Count() > 0) *@
+@*                         { *@
+@*                             <div class="card-slider" dir="ltr"> *@
+@*                                 @foreach (var comment in Model.product.commnets.Where(c => c.IsHide == false).ToList()) *@
+@*                                 { *@
+@*                                     var classname = ""; *@
+@*                                     @if (User.Identity.Name == comment.User.UserName) *@
+@*                                     { *@
+@*                                         classname = "bg-info"; *@
+@*                                     } *@
+@*                                     <div class="card rounded-4 m-2 @classname" style="width: 18rem"> *@
+@*                                         <div class="header"> *@
+@*                                             <span class="badge bg-primary text-wrap m-1">@comment.Product.Name</span> *@
+@*                                         </div> *@
+@*                                         <div class="card-body"> *@
+@*                                             <h5 class="card-title"> *@
+@*                                                 @if (string.IsNullOrEmpty(comment.User.FullName)) *@
+@*                                                 { *@
+@*                                                     <span>@comment.User.UserName</span> *@
+@*                                                 } *@
+@*                                                 else *@
+@*                                                 { *@
+@*                                                     <span>@comment.User.FullName</span> *@
+@*                                                 } *@
+@*                                             </h5> *@
+@*                                             <p class="text-wrap">@comment.Description</p> *@
+@*                                         </div> *@
+@*                                         <div class="footer"> *@
+@*                                             <span class="badge bg-secondary">@comment.LastUpdate</span> *@
+@*                                         </div> *@
+@*                                     </div> *@
+@*                                 } *@
+@*                             </div> *@
+@*                         } *@
+@*                *@
+@*                     } *@
+@* *@
+@*              *@
+@* *@
+@*                 } *@
+@* *@
+@*             </div> *@
+@*         </div> *@
+@*     </div> *@
+@* </section> *@
+@* <section class="container-fluid fillscreen" style="display:none"> *@
+@*     <div class="ImageView d-flex flex-wrap"> *@
+@*         <div class="col-12 header"> *@
+@*             <i class="fas fa-close closeZoomBox"></i> *@
+@*             <h6 class="p-3 text-right">@Model.product.Name</h6> *@
+@*         </div> *@
+@*         <div class="col-12 content"> *@
+@*             <button type="button" class="nextBtn"><i class="fa-solid fa-caret-left"></i></button> *@
+@*             <div class="image-slider" dir="ltr"> *@
+@*                 @foreach (var img in Model.product.ProductPhotos) *@
+@*                 { *@
+@*                     <div class="slide current"> *@
+@*                         <img src="~/Image/Product/@(Model.product.Name)/@img.Name" alt="@(Model.product.Name)" class="image"> *@
+@*                     </div> *@
+@*                 } *@
+@*             </div> *@
+@*             <button type="button" class="prevBtn"><i class="fa-solid fa-caret-right"></i></button> *@
+@*             <div class="zoomtool"> *@
+@*                 <i class="fa-solid fa-magnifying-glass-plus zoom-in"></i> *@
+@*                 <i class="fa-solid fa-magnifying-glass-minus zoom-out"></i> *@
+@*             </div> *@
+@*         </div> *@
+@* *@
+@*     </div> *@
+@* </section> *@
 @* @section InLineCss{ *@
 @*     <link rel="stylesheet" type="text/css" *@
 @*           href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.css" /> *@
@@ -411,99 +883,121 @@
 }
 @section InlineScript{
     <script>
-        $(document).ready(function () {
-            $('.image-wrapper').slick({
-                slidesToShow: 3,
-                slidesToScroll: 1,
-            })
+      $(document).ready(function () {
+        // Initialize Swiper instead of Slick for image slider
+        var swiper = new Swiper('.image-wrapper', {
+          slidesPerView: 3,
+          spaceBetween: 10,
+          navigation: {
+            nextEl: '.nextBtn',
+            prevEl: '.prevBtn',
+          },
+        });
 
-            //tab item scripts
-            $(".tab-item").click(function () {
-                if ($(".tab-item").hasClass("active")) {
-                    $(".tab-item").removeClass("active");
-                }
-                $(this).toggleClass("active");
-                var id = $(".tab-item.active").attr("data-id");
-                $(".tab-container").removeClass("active");
-                $(".tab-container[data-id='" + id + "']").addClass("active");
-            })
-            //tab item scripts
+        // Tab item scripts
+        $(".tab-item").click(function () {
+          $(".tab-item").removeClass("active");
+          $(this).addClass("active");
+          var id = $(this).attr("data-id");
+          $(".tab-container").removeClass("active").addClass("hidden");
+          $(".tab-container[data-id='" + id + "']").removeClass("hidden").addClass("active");
+        });
 
+        // Product counter
+        const counter = document.querySelector("#countProduct");
+        const incrementBtn = document.querySelector("#increment");
+        const decrementBtn = document.querySelector("#decrement");
+        const shopBtn = document.querySelector("#shop");
+        let intValue = parseInt(counter ? counter.value : 0) || 0;
+        const maxStock = @Model.product.QuantityInStock;
+        const productId = @Model.product.Id;
 
-            // ---> counter the product
-            var counter = document.querySelector("#countProduct");
-            var intValue = 0;
-            var stringvalue = "";
-            $(".fa-plus").click(function () {
-                stringvalue = counter.innerHTML;
-                intValue = parseInt(stringvalue);
-                if (intValue < @Model.product.QuantityInStock) {
-                    intValue += 1;
-                    counter.innerHTML = intValue.toString();
-                }
-                else {
-                    Swal.fire({
-                        text: "تعداد سفارش بیش از حد مجاز است ",
-                        title: "هشدار",
-                        icon: "warning",
-                    });
-                }
-            })
-            $(".fa-minus").click(function () {
-                stringvalue = counter.innerHTML;
-                intValue = parseInt(stringvalue);
-                if (intValue != 0) {
-                    intValue -= 1;
-                }
-                counter.innerHTML = intValue.toString();
-            })
-            // ---> counter the product
-            // --> ajax to server
-            var productId = @Model.product.Id;
-            $("#shop").click(function () {
-                console.log(intValue);
-                $.ajax({
-                    url: '@Url.Action("AddToCart","shop")',
-                    type: 'GET',
-                    async: false,
-                    data: { product_Id: productId, count: intValue },
-                    success: function (data) {
-                        Swal.fire({
-                            icon: data.type,
-                            title: data.message,
-                        });
-                    },
-                    error: function () {
-                        Swal.fire({
-                            title: "خطا در برقراری ارتباط",
-                            text: "دوباره تلاش کنید",
-                            icon: "error",
-                        });
-                    },
-                })
-            })
+        if (incrementBtn) {
+          incrementBtn.addEventListener("click", function () {
+            if (intValue < maxStock) {
+              intValue++;
+              if (counter) counter.textContent = intValue.toString();
+            } else {
+              Swal.fire({
+                text: "تعداد سفارش بیش از حد مجاز است",
+                title: "هشدار",
+                icon: "warning",
+              });
+            }
+          });
+        } else {
+          console.warn("Element with ID 'increment' not found.");
+        }
 
-            // --> ajax to server
-            //end shop product
+        if (decrementBtn) {
+          decrementBtn.addEventListener("click", function () {
+            if (intValue > 0) {
+              intValue--;
+              if (counter) counter.textContent = intValue.toString();
+            }
+          });
+        } else {
+          console.warn("Element with ID 'decrement' not found.");
+        }
 
-            //chnage main image
-            $(".image").click(function () {
-                $("#MainImage").attr("src", $(this).attr("src"));
+        if (shopBtn) {
+          shopBtn.addEventListener("click", function () {
+            if (intValue === 0) {
+              Swal.fire({
+                title: "تعداد صفر است",
+                text: "لطفا تعداد محصول را مشخص کنید",
+                icon: "info",
+              });
+              return;
+            }
+
+            $.ajax({
+              url: '@Url.Action("AddToCart", "Shop")',
+              type: 'GET', // Changed to POST for better practice
+              data: { product_Id: productId, count: intValue },
+              success: function (data) {
+                Swal.fire({
+                  icon: data.type,
+                  title: data.message,
+                });
+              },
+              error: function () {
+                Swal.fire({
+                  title: "خطا در برقراری ارتباط",
+                  text: "دوباره تلاش کنید",
+                  icon: "error",
+                });
+              },
             });
-            //change main image
-            //zoom box
-            ZoomBoxImageView('.image-slider', '.prevBtn', '.nextBtn', '.slide');
-            $('.selectedImage').click(function () {
-                $('.fillscreen').css('display', 'flex');
-                $("body").css("overflow-y", "hidden");
-            })
-            $('.closeZoomBox').click(function () {
-                $('.fillscreen').css('display', 'none');
-                $("body").css("overflow-y", "auto");
-            })
-            //zoom box
-        })
-        if ($('.card-slider').children().length > 4) {
+          });
+        } else {
+          console.warn("Element with ID 'shop' not found.");
+        }
+
+        // Change main image
+        $(".image").click(function () {
+          $("#MainImage").attr("src", $(this).attr("src"));
+          $(".selectedImage").attr("src", $(this).attr("src"));
+        });
+
+        // Zoom box
+        $('.selectedImage').click(function () {
+          $('.fillscreen').css('display', 'flex');
+          $("body").css("overflow-y", "hidden");
+        });
+
+        $('.closeZoomBox').click(function () {
+          $('.fillscreen').css('display', 'none');
+          $("body").css("overflow-y", "auto");
+        });
+
+        // ZoomBoxImageView (assuming it's a custom function, ensure it's defined)
+        if (typeof ZoomBoxImageView === 'function') {
+          ZoomBoxImageView('.image-slider', '.prevBtn', '.nextBtn', '.slide');
+        } else {
+          console.warn("ZoomBoxImageView function is not defined.");
+        }
+      });        if ($('.card-slider').children().length > 4) {
             $('.card-slider').slick({
                 slidesToShow: 4,
                 slidesToScroll: 1,
@@ -532,28 +1026,51 @@
             });
         }
         $("#comment").submit(function (e) {
-            e.preventDefault();
-            $.ajax({
-                url: '@Url.Action("AddComment","Comment")',
-                type: 'GET',
-                data: { description: $("#description").val(), product_Id: @Model.product.Id },
-                success: function (data) {
-                    Swal.fire({
-                        title: data.message,
-                        icon: data.type,
-                    }).then((result) => {
-                        location.reload();
-                    });
-                },
-                error: function () {
-                    Swal.fire({
-                        title: "خطا در برقراری ارتباط",
-                        text: "دوباره تلاش کنید",
-                        icon: "error",
-                    });
+          e.preventDefault();
+
+          var sendCommentBtn = document.getElementById("sendComment");
+          if (sendCommentBtn) {
+            sendCommentBtn.classList.add("bg-primary-200");
+            sendCommentBtn.classList.remove("bg-gradient-to-bl", "from-primary-400", "to-primary-600");
+            sendCommentBtn.disabled = true;
+          }
+
+          $.ajax({
+            url: '@Url.Action("AddComment", "Comment")',
+            type: 'GET', // Changed to POST to match form method
+            data: {
+              description: $("#description").val(),
+              product_Id: @Model.product.Id,
+              hosting: $('input[name="hosting"]:checked').val()
+            },
+            success: function (data) {
+              Swal.fire({
+                title: data.message,
+                icon: data.type,
+              }).then((result) => {
+                if (sendCommentBtn) {
+                  sendCommentBtn.classList.remove("bg-primary-100");
+                  sendCommentBtn.classList.add("bg-gradient-to-bl", "from-primary-400", "to-primary-600");
+                  sendCommentBtn.disabled = false;
                 }
-            })
-        })
+                location.reload();
+              });
+            },
+            error: function () {
+              Swal.fire({
+                title: "خطا در برقراری ارتباط",
+                text: "دوباره تلاش کنید",
+                icon: "error",
+              }).then((result) => {
+                if (sendCommentBtn) {
+                  sendCommentBtn.classList.remove("bg-primary-100");
+                  sendCommentBtn.classList.add("bg-gradient-to-bl", "from-primary-400", "to-primary-600");
+                  sendCommentBtn.disabled = false;
+                }
+              });
+            }
+          });
+        });
     </script>
     <script>
         function like(Id) {

@@ -1,88 +1,174 @@
 ﻿@model BasketShopViewModel
 
-@if (Model != null)
-{
-    <section class="basketShop">
-        <div class="container-lg container-fluid d-flex flex-wrap">
-            <div class="factor-detail col-lg-8 col-12">
-                <h3 class="title">محتویات سبد خرید</h3>
+<div class="px-4 md:px-12 py-8" dir="rtl">
+    <!-- Navigation -->
+    <nav class="flex items-center gap-2 md:gap-6 w-full md:w-10/12 mx-auto mt-2 md:mt-0">
+        <a class="flex flex-col md:flex-row items-center min-w-[6rem] md:min-w-[8rem] gap-1.5 text-primary-500 text-sm font-yekanBakhBold hover:text-primary-600 transition" href="@Url.Action("Cart", "Shop")">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path class="fill-primary-500" fill-rule="evenodd" clip-rule="evenodd" d="M3.03998 2.292C2.85221 2.22609 2.64595 2.23748 2.46657 2.32365C2.28719 2.40982 2.14939 2.56373 2.08348 2.7515C2.01758 2.93927 2.02896 3.14554 2.11513 3.32491C2.20131 3.50429 2.35521 3.64209 2.54298 3.708L2.80398 3.799C3.47198 4.034 3.91098 4.189 4.23398 4.348C4.53698 4.497 4.66998 4.618 4.75798 4.746C4.84798 4.878 4.91798 5.06 4.95798 5.423C4.99798 5.803 4.99998 6.298 4.99998 7.038V9.64C4.99998 12.582 5.06298 13.552 5.92998 14.466C6.79598 15.38 8.18998 15.38 10.98 15.38H16.282C17.843 15.38 18.624 15.38 19.175 14.93C19.727 14.48 19.885 13.716 20.2 12.188L20.7 9.763C21.047 8.023 21.22 7.154 20.776 6.577C20.332 6 18.816 6 17.131 6H6.49198C6.48776 5.75351 6.47342 5.50731 6.44898 5.262C6.39498 4.765 6.27898 4.312 5.99698 3.9C5.71298 3.484 5.33498 3.218 4.89398 3.001C4.48198 2.799 3.95798 2.615 3.34198 2.398L3.03998 2.292ZM15.517 8.457C15.817 8.743 15.829 9.217 15.543 9.517L12.686 12.517C12.6159 12.5905 12.5317 12.649 12.4384 12.689C12.345 12.729 12.2445 12.7496 12.143 12.7496C12.0414 12.7496 11.9409 12.729 11.8476 12.689C11.7543 12.649 11.67 12.5905 11.6 12.517L10.457 11.317C10.3861 11.2463 10.3302 11.1621 10.2924 11.0694C10.2546 10.9767 10.2357 10.8774 10.2369 10.7773C10.2381 10.6773 10.2593 10.5784 10.2993 10.4867C10.3393 10.3949 10.3972 10.3121 10.4697 10.243C10.5422 10.174 10.6278 10.1202 10.7214 10.0848C10.815 10.0494 10.9147 10.033 11.0148 10.0367C11.1148 10.0405 11.2131 10.0642 11.3038 10.1065C11.3945 10.1488 11.4758 10.2088 11.543 10.283L12.143 10.913L14.457 8.483C14.5941 8.33904 14.7828 8.25544 14.9816 8.25057C15.1804 8.24569 15.3729 8.31994 15.517 8.457Z" fill="black"></path>
+                <path class="fill-primary-500" d="M7.5 18C7.89782 18 8.27936 18.158 8.56066 18.4393C8.84196 18.7206 9 19.1022 9 19.5C9 19.8978 8.84196 20.2794 8.56066 20.5607C8.27936 20.842 7.89782 21 7.5 21C7.10218 21 6.72064 20.842 6.43934 20.5607C6.15804 20.2794 6 19.8978 6 19.5C6 19.1022 6.15804 18.7206 6.43934 18.4393C6.72064 18.158 7.10218 18 7.5 18ZM16.5 18C16.8978 18 17.2794 18.158 17.5607 18.4393C17.842 18.7206 18 19.1022 18 19.5C18 19.8978 17.842 20.2794 17.5607 20.5607C17.2794 20.842 16.8978 21 16.5 21C16.1022 21 15.7206 20.842 15.4393 20.5607C15.158 20.2794 15 19.8978 15 19.5C15 19.1022 15.158 18.7206 15.4393 18.4393C15.7206 18.158 16.1022 18 16.5 18Z" fill="black"></path>
+                <path class="stroke-primary-500" d="M15.0742 8.8568C14.9303 8.87118 14.8255 9.10815 14.7562 9.22021C14.6354 9.41529 14.5162 9.57762 14.3665 9.75099C14.0074 10.1667 13.4839 10.4894 13.0467 10.8173C12.7359 11.0504 12.3724 11.3453 12.0162 11.5011C11.6944 11.6419 11.3865 11.1364 11.244 10.9225" stroke="black" stroke-width="3" stroke-linecap="round"></path>
+            </svg>
+            سبد خرید
+        </a>
+        <div class="h-0.5 w-full bg-gradient-to-r from-white via-zinc-300 to-white"></div>
+        <a class="flex flex-col md:flex-row items-center min-w-[6rem] md:min-w-[8rem] gap-1.5 text-zinc-700 text-sm font-yekanBakhBold hover:text-primary-600 transition" href="@Url.Action("Payment", "Shop")">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path class="fill-zinc-700" d="M12 10C14.2091 10 16 8.20914 16 6C16 3.79086 14.2091 2 12 2C9.79086 2 8 3.79086 8 6C8 8.20914 9.79086 10 12 10Z" fill="black"></path>
+                <path class="fill-zinc-700" d="M20 17.5C20 19.985 20 22 12 22C4 22 4 19.985 4 17.5C4 15.015 7.582 13 12 13C16.418 13 20 15.015 20 17.5Z" fill="black"></path>
+            </svg>
+            اطلاعات پرداخت
+        </a>
+        <div class="h-0.5 w-full bg-gradient-to-r from-white via-zinc-300 to-white"></div>
+        <a class="flex flex-col md:flex-row items-center min-w-[6rem] md:min-w-[8rem] gap-1.5 text-zinc-700 text-sm font-yekanBakhBold hover:text-primary-600 transition" href="@Url.Action("Checkout", "Shop")">
+            <svg width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path class="stroke-zinc-700" d="M20.5312 5.625H6.46875C4.60479 5.625 3.09375 7.13604 3.09375 9V18C3.09375 19.864 4.60479 21.375 6.46875 21.375H20.5312C22.3952 21.375 23.9062 19.864 23.9062 18V9C23.9062 7.13604 22.3952 5.625 20.5312 5.625Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                <path class="stroke-zinc-700" d="M3.09375 10.6875H23.9062" stroke="black" stroke-width="1.5"></path>
+                <path class="stroke-zinc-700" d="M16.5938 16.0312H19.9688" stroke="black" stroke-width="1.5" stroke-linecap="round"></path>
+            </svg>
+            اتمام خرید
+        </a>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="flex flex-col lg:flex-row px-4 md:px-10 mt-10 gap-6 md:gap-8 pb-20">
+        @if (Model != null && Model.Order?.orderDetails?.Any() == true)
+        {
+            <!-- Cart Items -->
+            <div class="lg:w-9/12 border border-zinc-200 rounded-2xl divide-y divide-zinc-200 bg-white shadow-sm">
                 @foreach (var orderDetail in Model.Order.orderDetails)
                 {
-                    <div class="product-box col-12">
-                        <a href="#" id="DeleteOrder" data-Id="@orderDetail.Id" data-orderId="@Model.Order.Id"><i class="fa-solid fa-trash"></i></a>
-                        <div class="product-img col-lg-2 col-md-4 col-12">
-                            @if (orderDetail.Product.ProductPhotos != null)
-                            {
-                                @if (orderDetail.Product.ProductPhotos.Count() > 0)
-                                {
-                                    <img src="~/Image/Product/@(orderDetail.Product.Name)/@(orderDetail.Product.ProductPhotos.First().Name)" alt="@(orderDetail.Product.Name)">
-                                }
-                            }
+                    <div class="flex flex-col md:flex-row gap-y-6 p-4 md:p-6">
+                        <div class="w-10/12 mx-auto max-w-[10rem] md:max-w-[9rem]">
+                            <img class="rounded-lg object-cover w-full h-32 md:h-24" src="https://onlineshop.mohammadmahdialmasi.ir/Image/Product/@(orderDetail.Product.Name)/@(orderDetail.Product.ProductPhotos.First().Name)" alt="@orderDetail.Product.Name">
                         </div>
-                        <div class="product-detail col-lg-10 col-md-8 col-12">
-                            <div class="row">
-                                <h3>@orderDetail.Product.Name</h3>
-                                <h4>Ckfjow08853-skf-990</h4>
-                            </div>
-                            <div class="row">
-                                <div class="count col-md-6 col-12">
-                                    <span>تعداد:</span><a data-Id="@orderDetail.Id" class="plusbtn"><i class="fa-solid fa-plus"></i></a>
-                                    <span class="countProduct">@orderDetail.count</span><a data-Id="@orderDetail.Id" class="minusbtn"><i class="fa-solid fa-minus"></i></a>
+                        <div class="mr-0 md:mr-6 w-full flex flex-col md:flex-row gap-y-4 md:gap-y-0">
+                            <div class="md:w-8/12">
+                                <a href="@Url.Action("ProductShow", "Product", new { Id = orderDetail.Product.Id })" class="text-sm md:text-base text-zinc-700 font-yekanBakhBold hover:text-primary-500 transition line-clamp-2">
+                                    @orderDetail.Product.Name
+                                </a>
+                                <div class="flex gap-2 mt-4">
+                                    <div class="size-4 bg-zinc-800 rounded-full"></div>
+                                    <div class="size-4 bg-zinc-500 rounded-full"></div>
+                                    <div class="size-4 bg-zinc-300 rounded-full"></div>
                                 </div>
-                                <div class="price col-md-6 col-12">
-                                    <h4 class="priceUnit">قیمت واحد:<span>@orderDetail.Product.Price.ToString("N0") تومان</span></h4>
-                                    <h4 class="totalPrice">قیمت کل:<span><span class="totalOrderPrice">@orderDetail.TotalPrice.ToString("N0")</span> تومان</span></h4>
+                            </div>
+                            <div class="w-full md:w-4/12 flex flex-col items-end gap-y-4">
+                                <div class="quantity-container flex items-center justify-between w-36 h-10 rounded-lg border border-zinc-200 bg-zinc-50 px-2">
+                                    <button data-id="@orderDetail.Id" class="plusbtn cursor-pointer hover:bg-zinc-200 rounded p-1 transition" type="button" data-action="increment">
+                                        <svg class="fill-green-500 size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path d="M222,128a6,6,0,0,1-6,6H134v82a6,6,0,0,1-12,0V134H40a6,6,0,0,1,0-12h82V40a6,6,0,0,1,12,0v82h82A6,6,0,0,1,222,128Z"></path></svg>
+                                    </button>
+                                    <input value="@orderDetail.count" disabled type="number" class="w-12 bg-transparent text-center text-sm text-zinc-700 outline-none font-yekanBakhBold">
+                                    <button data-id="@orderDetail.Id" class="minusbtn cursor-pointer hover:bg-zinc-200 rounded p-1 transition" type="button" data-action="decrement">
+                                        <svg class="fill-red-500 size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path d="M222,128a6,6,0,0,1-6,6H40a6,6,0,0,1,0-12H216A6,6,0,0,1,222,128Z"></path></svg>
+                                    </button>
+                                </div>
+                                <div class="flex items-center gap-x-4">
+                                    <div class="flex items-center gap-x-1">
+                                        <span class="text-lg md:text-xl text-zinc-700 font-yekanBakhBold">@orderDetail.Product.Price.ToString("N0")</span>
+                                        <span class="text-xs text-zinc-400">تومان</span>
+                                    </div>
+                                    <div class="flex items-center gap-x-1">
+                                        <span class="text-lg md:text-xl text-zinc-700 font-yekanBakhBold">@orderDetail.TotalPrice.ToString("N0")</span>
+                                        <span class="text-xs text-zinc-400">تومان</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 }
-                <div class="factor col-lg-4 col-12">
-                    <h3 class="title">خلاصه فاکتور</h3>
-                    <div class="box">
-                        <h4>مجموع تعداد محصول:<span class="totalCount">@Model.Order.TotalCount</span></h4>
-                        <h4>مجموع سبد خرید:<span><span id="TotalPrice">@Model.Order.TotalPrice.ToString("N0")</span> تومان</span></h4>
-                        <h4>مجموع تخفیف :<span>@Model.Order.DiscountValue %</span></h4>
-                        <hr>
-                        <h4>
-                            قیمت کل :<span>
-                                <span id="finalyprice">
-                                    @{
-                                        var Totalprice = Model.Order.TotalPrice;
-                                        var discountAmount = Totalprice * (Model.Order.DiscountValue / 100);
-                                        Totalprice -= discountAmount;
-                                    }
-                                    @Totalprice.ToString("N0")
-                                </span> تومان
-                            </span>
-                        </h4>
+            </div>
 
-                        <div class="input-group" id="discountBox" dir="ltr">
-                            <input id="discountCode" type="text" class="form-control" placeholder="کد تخفیف">
-                            <button type="button" class="btn btn-primary" id="discountBtn">اعمال</button>
+            <!-- Total Price and Discount Section -->
+            <div class="lg:w-3/12 bg-white border border-zinc-200 rounded-2xl p-6 shadow-sm">
+                <div class="flex flex-col gap-y-6">
+                    <!-- Discount Input -->
+                    <div class="flex flex-col gap-y-3">
+                        <label for="discountCode" class="text-sm text-zinc-700 font-yekanBakhBold">کد تخفیف</label>
+                        <div class="flex gap-x-2">
+                            <input id="discountCode" type="text" class="rounded-lg text-sm text-zinc-600 w-full border border-zinc-200 px-4 py-2.5 placeholder:text-zinc-400 placeholder:text-xs focus:outline-none focus:ring-2 focus:ring-primary-300" placeholder="کد تخفیف را وارد کنید">
+                            <button type="button" id="discountBtn" class="bg-primary-500 hover:bg-primary-600 text-white rounded-lg px-4 py-2.5 text-sm font-yekanBakhBold transition">اعمال</button>
                         </div>
                     </div>
-                    <a asp-action="OrderFinally" asp-controller="Shop" class="btn btn-block col-12">ادامه فرایند خرید</a>
+
+                    <!-- Summary -->
+                    <div class="flex flex-col gap-y-4 border-t border-zinc-200 pt-4">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-zinc-600">جمع مبلغ کل</span>
+                            <div class="flex items-center gap-x-1">
+                                @{
+                                    var totalPrice = Model.Order.TotalPrice;
+                                    var discountAmount = totalPrice * (Model.Order.DiscountValue / 100);
+                                    var finalPrice = totalPrice - discountAmount;
+                                }
+                                <span class="text-lg md:text-xl text-zinc-700 font-yekanBakhBold">@finalPrice.ToString("N0")</span>
+                                <span class="text-xs text-zinc-400">تومان</span>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-zinc-600">مجموع تعداد محصول</span>
+                            <span class="text-lg md:text-xl text-zinc-700 font-yekanBakhBold">@Model.Order.TotalCount</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-zinc-600">مجموع سبد خرید</span>
+                            <div class="flex items-center gap-x-1">
+                                <span class="text-lg md:text-xl text-zinc-700 font-yekanBakhBold" id="TotalPrice">@Model.Order.TotalPrice.ToString("N0")</span>
+                                <span class="text-xs text-zinc-400">تومان</span>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-zinc-600">مجموع تخفیف</span>
+                            <span class="text-lg md:text-xl text-primary-500 font-yekanBakhBold">@Model.Order.DiscountValue%</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-zinc-600 font-yekanBakhBold">مبلغ نهایی</span>
+                            <div class="flex items-center gap-x-1">
+                                <span class="text-xl md:text-2xl text-primary-500 font-yekanBakhBold">@finalPrice.ToString("N0")</span>
+                                <span class="text-xs text-zinc-400">تومان</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Continue Button -->
+                    <a href="@Url.Action("Checkout", "Shop")" class="block bg-gradient-to-bl from-primary-400 to-primary-600 hover:opacity-80 text-white text-center px-5 py-3 rounded-lg shadow-lg transition-all font-yekanBakhBold text-sm md:text-base">
+                        ثبت و ادامه
+                    </a>
                 </div>
             </div>
-        </div>
-
-    </section>
-
-
-
-
-
-}
-else
-{
-    <div class="container-lg container-fluid">
-        <div class="alert alert-warning m-2" role="alert">
-            <p>سبد خرید شما خالی است !</p>
-        </div>
+        }
+        else
+        {
+            <!-- Empty Cart -->
+            <div class="flex flex-col justify-center items-center mx-auto py-10">
+                <div class="text-zinc-600 text-center font-yekanBakhRegular text-xl md:text-2xl flex items-center gap-x-2">
+                    <img class="size-8 md:size-10" src="~/Image/icons/cancel.svg" alt="سبد خالی">
+                    سبد خرید خالی است!
+                </div>
+                <a href="@Url.Action("Index", "Product")" class="bg-gradient-to-bl from-primary-400 to-primary-600 hover:opacity-80 text-white px-6 py-3 rounded-lg shadow-lg transition-all font-yekanBakhBold text-sm md:text-base mt-4">
+                    مشاهده جدیدترین محصولات
+                </a>
+            </div>
+        }
     </div>
-}
-@section ScriptRefrence{
+</div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  @section ScriptRefrence{
     <script src="~/js/function.js"></script>
 }
 @section InlineScript{
