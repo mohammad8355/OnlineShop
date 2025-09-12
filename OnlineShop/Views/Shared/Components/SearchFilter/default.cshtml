@@ -1,44 +1,87 @@
 ﻿@model SearchFilterViewModel
-<form class="form-control bg-white" asp-action="SearchFilter" asp-controller="Product" >
-    <input asp-for="Category_Id" hidden class="hidden" />
-    <label>مرتب سازی بر اساس</label>
-    <select class="form-control col-4" asp-for="Sortby">
-        <option value="default">پیش فرض</option>
-        <option value="cheap" >ارزانترین</option>
-        <option value="expensive" >گرانترین</option>
-        <option value="new" >جدیدترین</option>
-        <option value="bestsell">پر فروش ترین ها</option>
-        <option value="popular" >محبوبترین</option>
-    </select>
-    @if(Model.keys.Count() > 0)
-    {
-        @foreach (var kv in Model.keys)
+<div class="space-y-5">
+    <form asp-action="SearchFilter" asp-controller="Product" class="space-y-5">
+        <input asp-for="Category_Id" hidden class="hidden" />
+        <!-- Sorting Options -->
+        <div class="border rounded-2xl border-zinc-100 h-fit hover:shadow-sm transition-all py-2">
+            <button type="button" class="flex justify-between px-4 w-full menu-toggle cursor-pointer py-3 rounded-2xl headlist">
+                <span class="text-sm text-zinc-700">مرتب سازی بر اساس</span>
+                <img class="transition-transform opacity-80 w-4" src="./assets/image/icons/arrowDown.svg" alt="">
+            </button>
+            <div class="hidden mt-2 submenu px-4">
+                <select asp-for="Sortby" class="w-full text-sm text-zinc-700 border border-zinc-200 rounded-lg p-2 focus:ring-primary-500 focus:border-primary-500">
+                    <option value="default">پیش فرض</option>
+                    <option value="cheap">ارزانترین</option>
+                    <option value="expensive">گرانترین</option>
+                    <option value="new">جدیدترین</option>
+                    <option value="bestsell">پر فروش ترین ها</option>
+                    <option value="popular">محبوبترین</option>
+                </select>
+            </div>
+        </div>
+        <!-- Dynamic Filters -->
+        @if (Model.keys.Count() > 0)
         {
-            <div class="form-group">
-                <label class="headlist">@kv.Name</label>
-                <div>
-                    @foreach (var v in kv.adjValues)
-                    {
-                        <div class="form-check">
-                            <label class="form-check-label">@v.Value</label>
-                            <input type="checkbox" name="Values" value="@v.Id" class="form-check-input" />
-                        </div>
-                    }
+            @foreach (var kv in Model.keys)
+            {
+                <div class="border rounded-2xl border-zinc-100 h-fit hover:shadow-sm transition-all py-2">
+                    <button type="button" class="flex justify-between px-4 w-full menu-toggle cursor-pointer py-3 rounded-2xl headlist">
+                        <span class="text-sm text-zinc-700">@kv.Name</span>
+                        <img class="transition-transform opacity-80 w-4" src="./assets/image/icons/arrowDown.svg" alt="">
+                    </button>
+                    <ul class="hidden mt-2 submenu">
+                        @foreach (var v in kv.adjValues)
+                        {
+                            <li>
+                                <div class="flex items-center gap-x-2 px-4 py-1 w-full">
+                                    <input type="checkbox" name="Values" value="@v.Id" class="cursor-pointer accent-primary-500 bg-gray-100 border-gray-300 h-4 rounded-xl w-4" id="filter-@v.Id">
+                                    <label class="text-xs cursor-pointer pl-4 py-2 text-zinc-600 w-full" for="filter-@v.Id">@v.Value</label>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            }
+        }
+        <!-- Price Filter -->
+        <div class="border rounded-2xl border-zinc-100 h-fit hover:shadow-sm transition-all py-2">
+            <button type="button" class="flex justify-between px-4 w-full menu-toggle cursor-pointer py-3 rounded-2xl headlist">
+                <span class="text-sm text-zinc-700">فیلتر بر اساس قیمت</span>
+                <img class="transition-transform opacity-80 w-4" src="./assets/image/icons/arrowDown.svg" alt="">
+            </button>
+            <div class="hidden mt-2 submenu px-6 space-y-4">
+                <div class="space-y-2">
+                    <label class="text-sm text-zinc-700">از مبلغ:</label>
+                    <input type="number" asp-for="FromPrice" class="w-full text-sm text-zinc-700 border border-zinc-200 rounded-lg p-2 focus:ring-primary-500 focus:border-primary-500" />
+                </div>
+                <div class="space-y-2">
+                    <label class="text-sm text-zinc-700">تا مبلغ:</label>
+                    <input type="number" asp-for="ToPrice" class="w-full text-sm text-zinc-700 border border-zinc-200 rounded-lg p-2 focus:ring-primary-500 focus:border-primary-500" />
                 </div>
             </div>
-        }
-    }
-    <div class="form-group">
-        <label>از مبلغ:</label>
-        <input type="number" class="form-control" asp-for="FromPrice" />
-    </div>
-    <div class="form-group">
-        <label>تا مبلغ:</label>
-        <input type="number" class="form-control" asp-for="ToPrice" />
-    </div>
-    <div class="form-group">
-        <label>فقط کالا های موجود</label>
-        <input type="checkbox" class="form-check" asp-for="IsExist" />
-    </div>
-    <button type="submit" class="btn col-12 btn-outline-primary">فیلتر</button>
-</form>
+        </div>
+        <!-- Availability Checkbox -->
+        <label class="flex justify-between px-4 w-full cursor-pointer rounded-2xl border border-zinc-100 h-fit hover:shadow-sm py-5 transition-all" for="onlyAvailable">
+            <div class="text-sm text-zinc-700">فقط کالا های موجود</div>
+            <div class="items-center cursor-pointer inline-flex relative">
+                <input asp-for="IsExist" class="peer sr-only" id="onlyAvailable" type="checkbox">
+                <div class="rounded-full after:absolute after:bg-white after:content-[''] after:h-5 after:left-[2px] after:rounded-full after:top-0.5 after:transition-all after:w-5 bg-gray-200 h-6 peer peer-checked:after:translate-x-full peer-checked:bg-primary-400 peer-focus:ring-primary-400 w-11"></div>
+            </div>
+        </label>
+        <!-- Submit Button -->
+        <button type="submit" class="w-full bg-primary-500 text-white text-sm font-semibold py-3 rounded-2xl hover:bg-primary-600 transition-colors">فیلتر</button>
+    </form>
+</div>
+
+@section InlineScript {
+    <script>
+        $(document).ready(function () {
+            $(".headlist").next().slideUp();
+            $(".headlist").click(function () {
+                $(this).next().slideToggle();
+                $(this).find("img").toggleClass("rotate-180");
+                $(this).toggleClass("text-primary-500");
+            });
+        });
+    </script>
+}

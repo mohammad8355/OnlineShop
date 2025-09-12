@@ -25,6 +25,7 @@ namespace PresentationLayer.Controllers
             var model = new PostViewModel()
             {
                 Post = blogPostLogic.BlogPostDetail(Title),
+                SidebarPost = blogPostLogic.blogPostList()
             };
             return View(model);
         }

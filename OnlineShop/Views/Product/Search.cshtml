@@ -1,69 +1,175 @@
-﻿@model SearchResultViewModel
-<section class="d-flex flex-row justify-content-center flex-wrap">
-    @if (Model.Products.Count > 0)
-    {
-        <div class="col-lg-4 col-12 d-flex align-items-top p-2">
-           @await Component.InvokeAsync("SearchFilter",Model.Category_Id)
-        </div>
-        <div class="col-lg-8 col-12 d-flex flex-column p-0 m-0 justify-content-start align-items-center ">
-            <div class=" col-12 d-flex flex-wrap  p-1 m-3">
-                @foreach (var product in Model.Products)
-                {
-                    <div class="col-lg-3 col-md-4 col-sm-6 col-12 bg-white border border-1 border-light p-2 d-flex flex-sm-column flex-row justify-content-center align-items-center">
-                        <div class="cover col-sm-12 col-6">
-                            <a class="nav-link" asp-action="ProductShow" asp-controller="Product" asp-route-Id="@product.Id">
-                                <img src="~/Image/Product/@(product.Name)/@(product.ProductPhotos.First().Name)" alt="@product.Name" class="col-12">
-                            </a>
-                        </div>
-                        <div class="card-body col-sm-12 col-6">
-                            <div class="product-name">
-                                <a class="nav-link" asp-action="ProductShow" asp-controller="Product" asp-route-Id="@product.Id">@product.Name</a>
-                            </div>
-                            <div class="price d-flex flex-column">
-                                @if (product.Discount > 0)
-                                {
-                                    <span class="original-price text-danger"><del>@product.Price.ToString("N0") تومان</del></span>
-
-
-                                    var finPrice = product.Price - (product.Price * ((decimal)product.Discount / 100));
-
-
-                                    <span class="off-price">@finPrice.ToString("N0") تومان</span>
-                                }
-                                else
-                                {
-                                    <span class="text-dark">@product.Price.ToString("N0") تومان</span>
-                                }
-                            </div>
-                            <div class="card-footer d-flex align-items-center justify-content-between">
-                                <a href="#" class="shopbtn"><i class="fa-solid fa-cart-shopping"></i></a>
-                                <div class="d-flex flex-row-reverse">
-                                    <i class="fa-solid fa-star text-warning"></i><span>4.5</span>
-                                    @*         <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>*@
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                }
+﻿@* @model SearchResultViewModel *@
+@* <section class="d-flex flex-row justify-content-center flex-wrap"> *@
+@*     @if (Model.Products.Count > 0) *@
+@*     { *@
+@*         <div class="col-lg-4 col-12 d-flex align-items-top p-2"> *@
+@*            @await Component.InvokeAsync("SearchFilter",Model.Category_Id) *@
+@*         </div> *@
+@*         <div class="col-lg-8 col-12 d-flex flex-column p-0 m-0 justify-content-start align-items-center "> *@
+@*             <div class=" col-12 d-flex flex-wrap  p-1 m-3"> *@
+@*                 @foreach (var product in Model.Products) *@
+@*                 { *@
+@*                     <div class="col-lg-3 col-md-4 col-sm-6 col-12 bg-white border border-1 border-light p-2 d-flex flex-sm-column flex-row justify-content-center align-items-center"> *@
+@*                         <div class="cover col-sm-12 col-6"> *@
+@*                             <a class="nav-link" asp-action="ProductShow" asp-controller="Product" asp-route-Id="@product.Id"> *@
+@*                                 <img src="~/Image/Product/@(product.Name)/@(product.ProductPhotos.First().Name)" alt="@product.Name" class="col-12"> *@
+@*                             </a> *@
+@*                         </div> *@
+@*                         <div class="card-body col-sm-12 col-6"> *@
+@*                             <div class="product-name"> *@
+@*                                 <a class="nav-link" asp-action="ProductShow" asp-controller="Product" asp-route-Id="@product.Id">@product.Name</a> *@
+@*                             </div> *@
+@*                             <div class="price d-flex flex-column"> *@
+@*                                 @if (product.Discount > 0) *@
+@*                                 { *@
+@*                                     <span class="original-price text-danger"><del>@product.Price.ToString("N0") تومان</del></span> *@
+@* *@
+@* *@
+@*                                     var finPrice = product.Price - (product.Price * ((decimal)product.Discount / 100)); *@
+@* *@
+@* *@
+@*                                     <span class="off-price">@finPrice.ToString("N0") تومان</span> *@
+@*                                 } *@
+@*                                 else *@
+@*                                 { *@
+@*                                     <span class="text-dark">@product.Price.ToString("N0") تومان</span> *@
+@*                                 } *@
+@*                             </div> *@
+@*                             <div class="card-footer d-flex align-items-center justify-content-between"> *@
+@*                                 <a href="#" class="shopbtn"><i class="fa-solid fa-cart-shopping"></i></a> *@
+@*                                 <div class="d-flex flex-row-reverse"> *@
+@*                                     <i class="fa-solid fa-star text-warning"></i><span>4.5</span> *@
+@*                                     @*         <i class="fa-solid fa-star"></i> *@
+@*                             <i class="fa-solid fa-star"></i> *@
+@*                             <i class="fa-regular fa-star"></i> *@
+@*                             <i class="fa-regular fa-star"></i>*@ 
+@*                                 </div> *@
+@*                             </div> *@
+@*                         </div> *@
+@*                     </div> *@
+@*                 } *@
+@*             </div> *@
+@*         </div> *@
+@*     } *@
+@*     else *@
+@*     { *@
+@*         <div class="alert alert-warning"> *@
+@*             <p>نتیجه ای یافت نشد</p> *@
+@*         </div> *@
+@*     } *@
+@* </section> *@
+@* @section InlineScript{ *@
+@*     <script> *@
+@*         $(".headlist").next().slideUp(); *@
+@*         $(".headlist").click(function(){ *@
+@*             $(this).next().slideToggle(); *@
+@*             $(this).toggleClass("text-primary"); *@
+@*         }); *@
+@*     </script> *@
+@* } *@
+@model SearchResultViewModel
+    <div class="text-zinc-800 text-lg md:px-20 md:py-2 md:text-2xl pb-6 pt-5 px-4">نتیجه جستجو برای ""</div>
+    <div class="flex flex-col gap-5 lg:flex-row md:mt-10 md:px-8 pb-20">
+        <!-- Filter Section -->
+        <div class="lg:w-3/12">
+            <a href="#" class="border rounded-2xl border-zinc-200 bg-primary-500 bottom-5 filter-mobile fixed md:hidden p-4 right-5 z-10">
+                <svg fill="#fff" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" height="32" width="32">
+                    <path d="M230.6,49.53A15.81,15.81,0,0,0,216,40H40A16,16,0,0,0,28.19,66.76l.08.09L96,139.17V216a16,16,0,0,0,24.87,13.32l32-21.34A16,16,0,0,0,160,194.66V139.17l67.74-72.32.08-.09A15.8,15.8,0,0,0,230.6,49.53ZM40,56h0Zm106.18,74.58A8,8,0,0,0,144,136v58.66L112,216V136a8,8,0,0,0-2.16-5.47L40,56H216Z"></path>
+                </svg>
+            </a>
+            <div class="border bg-white px-5 border-zinc-300 bottom-0 duration-300 ease-in-out fixed md:border-0 md:px-0 md:rounded-none md:shadow-none md:static md:translate-y-0 md:w-full pb-5 right-4 rounded-t-2xl shadow-2xl space-y-5 transform transition-transform translate-y-full w-11/12 z-[15]" id="mobile-filter">
+                @await Component.InvokeAsync("SearchFilter", Model.Category_Id)
             </div>
         </div>
-    }
-    else
-    {
-        <div class="alert alert-warning">
-            <p>نتیجه ای یافت نشد</p>
+        <!-- Product Section -->
+        <div class="lg:w-9/12">
+            @if (Model.Products.Count > 0)
+            {
+                <div class="flex items-center bg-white border border-zinc-100 flex-wrap gap-3 justify-start mb-5 md:gap-5 px-5 py-6 rounded-3xl shadow-box-sm">
+                    <div class="text-sm text-zinc-600">مرتب سازی:</div>
+                    <div class="text-xs cursor-pointer transition hover:text-primary-500 text-primary-500">محبوب ترین</div>
+                    <div class="text-xs cursor-pointer transition hover:text-primary-400 text-zinc-500">پرفروش ترین</div>
+                    <div class="text-xs cursor-pointer transition hover:text-primary-400 text-zinc-500">ارزان ترین</div>
+                    <div class="text-xs cursor-pointer transition hover:text-primary-400 text-zinc-500">گران ترین</div>
+                    <div class="text-xs cursor-pointer transition hover:text-primary-400 text-zinc-500">جدیدترین</div>
+                    <div class="text-xs cursor-pointer transition hover:text-primary-400 text-zinc-500">پربازدیدترین</div>
+                </div>
+                <div class="grid gap-3 grid-cols-2 lg:grid-cols-4">
+                    @foreach (var product in Model.Products)
+                    {
+                        <div class="border bg-white text-sm border-zinc-200 card hover:shadow-custom md:p-3 p-2 rounded-2xl swiper-slide transition-shadow">
+                            <a href="@Url.Action("ProductShow", "Product", new { id = product.Id })" class="text-zinc-800">
+                                <img class="rounded-xl mb-3" src="~/Image/Product/@product.Name/@product.ProductPhotos.First().Name" alt="@product.Name">
+                            </a>
+                            <p class="text-xs text-zinc-400">@product.Name</p>
+                            <a href="@Url.Action("ProductShow", "Product", new { id = product.Id })" class="text-xs h-8 lg:h-10 line-clamp-2 md:text-sm mt-2 text-zinc-800">@product.Name</a>
+                            <div class="flex items-center mt-4 justify-between">
+                                <div class="flex gap-1.5">
+                                    <div class="size-4 rounded-full bg-zinc-800"></div>
+                                    <div class="size-4 rounded-full bg-zinc-500"></div>
+                                    <div class="size-4 rounded-full bg-zinc-300"></div>
+                                </div>
+                                <div class="flex gap-x-1 items-start text-xs text-zinc-500">
+                                    <span><span>(72)</span><span>4.5</span></span>
+                                    <svg fill="#f9bc00" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" class="fill-primary-500" height="14" width="14">
+                                        <path d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-end border-dashed border-t border-zinc-300 mt-4 pt-2">
+                                <div class="flex items-center justify-end font-yekanBakhBold gap-x-1 text-lg text-zinc-800">
+                                    @if (product.Discount > 0)
+                                    {
+                                        var finPrice = product.Price - (product.Price * ((decimal)product.Discount / 100));
+                                        <span class="text-danger text-sm"><del>@product.Price.ToString("N0")</del> تومان</span>
+                                        <span>@finPrice.ToString("N0") <img class="size-4" src="./assets/image/icons/toman.png" alt=""></span>
+                                    }
+                                    else
+                                    {
+                                        <span>@product.Price.ToString("N0") <img class="size-4" src="./assets/image/icons/toman.png" alt=""></span>
+                                    }
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between mt-2">
+                                <a href="#" class="shopbtn text-primary-500 hover:text-primary-600">
+                                    <i class="fa-solid fa-cart-shopping"></i>
+                                </a>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-warning text-center text-zinc-700 p-4 rounded-2xl">نتیجه ای یافت نشد</div>
+            }
+            <!-- Pagination -->
+            <div class="flex justify-center mb-12">
+                <a href="#" class="flex items-center bg-white -scale-x-100 duration-300 hover:bg-primary-500 hover:text-white justify-center md:px-4 mx-1 px-3.5 py-2 rounded-md text-gray-700 transform transition-colors">
+                    <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" class="size-4 md:size-5">
+                        <path d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" fill-rule="evenodd" />
+                    </svg>
+                </a>
+                <a href="#" class="border border-zinc-100 py-2 duration-300 md:px-4 md:text-base mx-1 px-3.5 rounded-md text-sm transform transition-colors bg-primary-500 text-white">1</a>
+                <a href="#" class="border bg-white text-sm border-zinc-100 duration-300 hover:bg-primary-500 hover:text-white md:px-4 md:text-base mx-1 px-3.5 py-2 rounded-md text-gray-700 transform transition-colors">2</a>
+                <a href="#" class="border bg-white text-sm border-zinc-100 duration-300 hover:bg-primary-500 hover:text-white md:px-4 md:text-base mx-1 px-3.5 py-2 rounded-md text-gray-700 transform transition-colors">...</a>
+                <a href="#" class="border bg-white text-sm border-zinc-100 duration-300 hover:bg-primary-500 hover:text-white md:px-4 md:text-base mx-1 px-3.5 py-2 rounded-md text-gray-700 transform transition-colors">9</a>
+                <a href="#" class="border bg-white text-sm border-zinc-100 duration-300 hover:bg-primary-500 hover:text-white md:px-4 md:text-base mx-1 px-3.5 py-2 rounded-md text-gray-700 transform transition-colors">10</a>
+                <a href="#" class="flex items-center bg-white -scale-x-100 duration-300 hover:bg-primary-500 hover:text-white justify-center md:px-4 mx-1 px-3.5 py-2 rounded-md text-gray-700 transform transition-colors">
+                    <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" class="size-4 md:size-5">
+                        <path d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" fill-rule="evenodd" />
+                    </svg>
+                </a>
+            </div>
         </div>
-    }
-</section>
-@section InlineScript{
+    </div>
+
+@section InlineScript {
     <script>
         $(".headlist").next().slideUp();
-        $(".headlist").click(function(){
+        $(".headlist").click(function () {
             $(this).next().slideToggle();
-            $(this).toggleClass("text-primary");
+            $(this).toggleClass("text-primary-500");
         });
     </script>
 }
