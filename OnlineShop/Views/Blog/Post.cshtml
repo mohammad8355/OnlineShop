@@ -714,7 +714,7 @@
               </a>
           </div>
           <div class="border border-zinc-300 rounded-3xl p-1.5 md:p-3">
-              <img class="w-full h-72 md:h-96 rounded-3xl object-cover object-center mb-3.5" src="./assets/image/blog/keybl.jpg" alt="blog">
+              <img class="w-full h-72 md:h-96 rounded-3xl object-cover object-center mb-3.5" src="@Model.Post.CoverLink" alt="blog">
               <div class="flex gap-4 mb-10 flex-wrap">
                   <div class="text-xs flex gap-x-1 items-center text-zinc-400">
                       <svg class="fill-zinc-400" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="" viewBox="0 0 256 256"><path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM72,48v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V80H48V48ZM208,208H48V96H208V208Z"></path></svg>
@@ -779,44 +779,45 @@
                   }
               </form>
               <div class="lg:w-9/12 divide-y-2 divide-zinc-300">
-                  @foreach (var comment in Model.Post.Comments)
-                  {
-                      <div class="px-2 pt-5">
-                          <div class="text-lg text-zinc-700">
-                              @comment.Title
-                          </div>
-                          <div class="mt-2 flex gap-x-4 items-center border-b border-zinc-200 pb-3">
-                              <div class="text-xs text-zinc-600">
-                                  @comment.LastUpdate
-                              </div>
-                              <div class="text-xs text-zinc-600">
-                                  @if (string.IsNullOrEmpty(comment.User.FullName))
-                                  {
-                                      <span>@comment.User.UserName</span>
-                                  }
-                                  else
-                                  {
-                                      <span>@comment.User.FullName</span>
-                                  }
-                              </div>
-                          </div>
-                          @* <div class="flex items-center gap-x-1 pt-3"> *@
-                          @*     <p> *@
-                          @*         @comment.reply.Description *@
-                          @*     </p> *@
-                          @* </div> *@
-                          <div class="mt-2 text-zinc-600 text-sm">
-                              @comment.Description
-                          </div>
-                          <div class="flex justify-end items-center gap-x-5 mt-3">
-                              <a href="#comment" class="editcomment text-gray-500 hover:text-gray-700" data-Id="@comment.Id" data-description="@comment.Description">ویرایش</a> 
-                            <button type="button" class="text-gray-500 cursor-pointer hover:text-gray-700" onclick="deleteHandler(@comment.Id)" >حذف</button>
+             @if (Model.Post.Comments != null)
+             {
+                 @if (Model.Post.Comments.Count > 0)
+                 {
+                     @foreach (var comment in Model.Post.Comments)
+                     {
+                         <div class="px-2 pt-5">
+                             <div class="text-lg text-zinc-700">
+                                 @comment.Title
+                             </div>
+                             <div class="mt-2 flex gap-x-4 items-center border-b border-zinc-200 pb-3">
+                                 <div class="text-xs text-zinc-600">
+                                     @comment.LastUpdate
+                                 </div>
+                                 <div class="text-xs text-zinc-600">
+                                     @if (string.IsNullOrEmpty(comment.User.FullName))
+                                     {
+                                         <span>@comment.User.UserName</span>
+                                     }
+                                     else
+                                     {
+                                         <span>@comment.User.FullName</span>
+                                     }
+                                 </div>
+                             </div>
+                             <div class="mt-2 text-zinc-600 text-sm">
+                                 @comment.Description
+                             </div>
+                             <div class="flex justify-end items-center gap-x-5 mt-3">
+                                 <a href="#comment" class="editcomment text-gray-500 hover:text-gray-700" data-Id="@comment.Id" data-description="@comment.Description">ویرایش</a> 
+                                 <button type="button" class="text-gray-500 cursor-pointer hover:text-gray-700" onclick="deleteHandler(@comment.Id)" >حذف</button>
                               
-                          </div>
-                      </div>
-                  }
+                             </div>
+                         </div>
+                     }
+                 }
 
-
+             }
+ 
               </div>
           </div>
       </div>

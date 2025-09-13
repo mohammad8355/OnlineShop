@@ -29,7 +29,7 @@ namespace PresentationLayer.Controllers
             var categoryList = await _categoryLogic.GetCategoryCoverList();
             var newestProduct =  await productLogic.NewsetProduct();
             var posts = blogPostLogic.blogPostList();
-            var aboutus = await generalLogic.ReturnByLabel("aboutus");
+            // var aboutus = await generalLogic.ReturnByLabel("aboutus");
             var slider = generalLogic.GeneralList().Where(s => s.label == "slider").ToList();
             var comments = _commentLogic.LimitedComment();
             var model = new HomePageViewModel()
@@ -40,7 +40,7 @@ namespace PresentationLayer.Controllers
                 Posts = posts,
                 Sliders = slider,
                 CategoryList = categoryList,
-                Aboutus = aboutus.First(),
+                Aboutus = null,
                 Comments = comments,
 
             };
