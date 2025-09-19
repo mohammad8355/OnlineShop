@@ -40,7 +40,7 @@
               <div class="flex gap-4 justify-center">
                   <div id="zoomBox" class="hidden absolute -left-56 top-0 md:size-64 bg-no-repeat bg-cover border-2 border-gray-300 rounded-md bg-white"></div>
                   <div class="relative overflow-hidden group">
-                      <img id="mainImage" src="https://onlineshop.mohammadmahdialmasi.ir/Image/Product/@(Model.product.Name)/@Model.product.ProductPhotos.FirstOrDefault()?.Name"
+                      <img id="mainImage" src="~/Image/Product/@(Model.product.Name)/@Model.product.ProductPhotos.FirstOrDefault()?.Name"
                           class="w-full max-w-96 object-cover rounded-lg"
                           alt="@Model.product.Name">
                       <div id="zoomLens" class="hidden absolute w-20 h-20 bg-gray-300 opacity-30 pointer-events-none"></div>
@@ -49,7 +49,7 @@
               <div class="flex justify-start gap-2 mt-4 pb-4 overflow-x-auto">
                 @foreach (var img in Model.product.ProductPhotos) 
                 { 
-                  <img src="https://onlineshop.mohammadmahdialmasi.ir/Image/Product/@(Model.product.Name)/@img.Name" alt="@(Model.product.Name)"  onclick="changeImage(this)"
+                  <img src="~/Image/Product/@(Model.product.Name)/@img.Name" alt="@(Model.product.Name)"  onclick="changeImage(this)"
                        class="w-20 h-20 object-cover rounded-md cursor-pointer border border-zinc-200 hover:border-zinc-400 opacity-80 hover:opacity-100 transition-all"> 
                   } 
               </div>
