@@ -38,9 +38,6 @@
   <ItemGroup>
     <Content Update="wwwroot/css/main.css" CopyToPublishDirectory="Never" />
   </ItemGroup>
-    <ItemGroup>
-        <Content Include="web.config" CopyToOutputDirectory="Always" />
-    </ItemGroup>
 <!--  <Target Name="EnsureNodeModules" BeforeTargets="Tailwind">-->
 <!--    <Exec Command="npm install" Condition="!Exists('node_modules')" />-->
 <!--  </Target>-->
