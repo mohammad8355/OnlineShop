@@ -146,7 +146,7 @@ namespace PresentationLayer.Areas.dashboard.Controllers
 
                     #region set requried parameters such as limitsize and destination of files
                     var limitsize = 0;
-                    var destination = Path.Combine(webrootpath, "Image\\Product\\" + model.Name);
+                    var destination = Path.Combine(webrootpath,"Image","Product",model.Name);
                     #endregion
 
                     #region upload image files 
@@ -271,19 +271,21 @@ namespace PresentationLayer.Areas.dashboard.Controllers
             if (resault)
             {
                 var webrootpath = webHostEnvironment.WebRootPath;
-                var newpath = "Image\\Product\\" + model.Name + "\\";
+                var newpath = "\\Image\\Product\\" + model.Name + "\\";
                 var completeNewpath = Path.Combine(webrootpath, newpath);
-                var oldpath = "Image\\Product\\" + oldName + "\\";
+                var oldpath = "\\Image\\Product\\" + oldName + "\\";
                 var completeOldPath = Path.Combine(webrootpath, oldpath);
                 fileManager.ChangeDirFile(completeOldPath, completeNewpath);
                 //fileManager.DeleteDire("Image\\Product\\" + oldName);
-                var categorytoproductlist = categoryToProductLogic.CategoryToProductList().Where(cp => cp.Product_Id == model.Id).ToList();
+                var categorytoproductlist = categoryToProductLogic
+                    .CategoryToProductList().Where(cp => cp.Product_Id == model.Id).ToList();
                 foreach (var catToPro in categorytoproductlist)
                 {
                     var deleteResult = await categoryToProductLogic.DeleteCategoryToProduct(catToPro.Category_Id, catToPro.Product_Id);
                     if (!deleteResult)
                         Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine($"can not delete relation between category with id {catToPro} with product {model.Name} with Id {model.Id}");
+                    Console.WriteLine($"can not delete relation between category" +
+                                      $" with id {catToPro} with product {model.Name} with Id {model.Id}");
                     Console.ForegroundColor = ConsoleColor.White;
                 }
                 foreach (var cat in model.SelectList)
@@ -296,7 +298,8 @@ namespace PresentationLayer.Areas.dashboard.Controllers
                     var addResult = await categoryToProductLogic.AddCategoryToProduct(categoryToProduct);
                     if (!addResult)
                         Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine($"can not add relation between category with id {cat} with product {model.Name} with Id {model.Id}");
+                    Console.WriteLine($"can not add relation between category " +
+                                      $"with id {cat} with product {model.Name} with Id {model.Id}");
                     Console.ForegroundColor = ConsoleColor.White;
                 }
 
@@ -314,7 +317,7 @@ namespace PresentationLayer.Areas.dashboard.Controllers
                     }
                     #endregion
                     var limitsize = 0;
-                    var destination = Path.Combine(webrootpath, "Image\\Product\\" + model.Name);
+                    var destination = Path.Combine(webrootpath,"Image","Product",model.Name);
                     #region delete last files 
                     foreach (var pp in productPhotoLogic.ProductPhotoList().Where(pp => pp.Product_Id == model.Id).ToList())
                     {
