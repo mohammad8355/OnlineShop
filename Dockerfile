@@ -19,7 +19,7 @@ COPY BusinessLogicLayer/BusinessLogicLayer.csproj BusinessLogicLayer/
 COPY DataAccessLayer/DataAccessLayer.csproj DataAccessLayer/
 COPY Utility/Utility.csproj Utility/
 COPY Infrustructure/Infrustructure.csproj Infrustructure/
-
+RUN mkdir -p /app/logs
 # Restore dependencies
 RUN dotnet restore OnlineShop/PresentationLayer.csproj
 
