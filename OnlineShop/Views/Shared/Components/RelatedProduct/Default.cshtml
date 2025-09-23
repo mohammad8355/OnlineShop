@@ -26,7 +26,7 @@
                     <a href="@Url.Action("ProductShow", "Product", new { Id = product.Id })" class="text-zinc-800">
                         @if (product.ProductPhotos != null && product.ProductPhotos.Any())
                         {
-                        <img class="rounded-xl mb-3" src="https://onlineshop.mohammadmahdialmasi.ir/Image/Product/@product.Name/@product.ProductPhotos.Last().Name" alt="@product.Name">
+                        <img class="rounded-xl mb-3" src="~/Image/Product/@product.Name/@product.ProductPhotos.Last().Name" alt="@product.Name">
                         }
                     </a>
                     <p class="text-zinc-400 text-xs">

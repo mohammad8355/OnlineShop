@@ -12,10 +12,11 @@ namespace DataAccessLayer.services
            this.context = context;
             _dbSet = context.Set<TEntity>();
         }
-        public async Task AddItem(TEntity entity)
+        public async Task<TEntity> AddItem(TEntity entity)
         {
-           await context.AddAsync(entity);
+            var model = await context.AddAsync(entity);
             context.SaveChanges();
+            return model.Entity;    
         }
         public void EditItem(TEntity entity)
         {

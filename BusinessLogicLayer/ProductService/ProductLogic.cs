@@ -52,36 +52,37 @@ namespace BusinessLogicLayer.ProductService
 
         }
 
-        public async Task<bool> AddProduct(Product model)
+        public async Task<Product> AddProduct(Product model)
         {
             if (model == null || string.IsNullOrEmpty(model.Name) || string.IsNullOrEmpty(model.Description) || string.IsNullOrEmpty(model.ProductCode))
             {
-                return false;
+                return new Product();
             }
             else
             {
-                await ProductRepository.AddItem(model);
-                return true;
+                var product = await ProductRepository.AddItem(model);
+                return product;
             }
         }
 
-        public async Task<List<ProductCardDto>> GetProductByCategoryIdList(int categoryId )
+        public async Task<List<ProductCardDto>> GetProductByCategoryIdList(int categoryId)
         {
-            var childIds = await CategoryRepository.Get(c => c.ParentId == categoryId).Select(c => c.Id).ToListAsync(); 
-            var productIdList = await CategoryToProductRepository.Get(c => childIds.Contains(c.Category_Id))
-                .Select(c => c.Product_Id).ToListAsync();
-            var products = await ProductRepository.Get(p => productIdList.Contains(p.Id)).Select(c =>
-                new ProductCardDto()
+            return await ProductRepository.Get(
+                    p => p.CategoryToProducts
+                        .Any(cp => cp.Category_Id == categoryId || cp.Category.ParentId == categoryId),
+                    p => p.ProductPhotos
+                )
+                .Select(p => new ProductCardDto
                 {
-                    Id = c.Id,
-                    Name = c.Name,
-                    Price = (long)c.Price,
-                    Count = c.QuantityInStock,
-                    cover = "",
+                    Id = p.Id,
+                    Name = p.Name,
+                    Price = (long)p.Price,
+                    Count = p.QuantityInStock,
+                    cover = p.ProductPhotos.FirstOrDefault().Name ?? "",
                     score = 4,
-                    Sku = c.Name
-                }).ToListAsync();
-            return products;
+                    Sku = p.ProductCode
+                })
+                .ToListAsync();
         }
         public async Task<bool> UpdateProduct(Product model)
         {
@@ -117,29 +118,21 @@ namespace BusinessLogicLayer.ProductService
                 return false;
             }
         }
-        public async Task<Product> ProductDetail(int Id)
+        public async Task<Product?> ProductDetail(int id)
         {
-            if (ProductRepository.Get(p => p.Id == Id).Any())
-            {
-                var model = ProductRepository.Get(p => p.Id == Id, b => b.brand).FirstOrDefault();
-                model.keyToProducts = KeyToProductRepository.Get(k => k.Product_Id == model.Id, v => v.adjKey).ToList();
-                foreach (var key in model.keyToProducts)
-                {
-                    var values = adjValueLogic.Get(v => v.adjkey_Id == key.Key_Id).ToList();
-                    key.adjKey.adjValues = values;
-                }
-                model.discountToProducts = DiscountToProductRepository.Get(d => d.Product_Id == model.Id).ToList();
-                model.ProductPhotos = productphotoRepository.Get(p => p.Product_Id == model.Id).ToList();
-                model.valueToProducts = ValueToProductRepository.Get(v => v.Product_Id == Id).ToList();
-                model.commnets = commentLogic.CommentsOfProduct(Id);
-                model.favoriteProducts = favoriteProductRepository.Get(f => f.Product_Id == Id).ToList();
-                model.CategoryToProducts = categoryToProductLogic.CategoryToProductList().Where(cp => cp.Product_Id == model.Id).ToList();
-                return model;
-            }
-            else
-            {
-                return new Product();
-            }
+            return await ProductRepository.Get(p => p.Id == id)
+                .Include(p => p.brand)
+                .Include(c => c.commnets)
+                .Include(c => c.ProductPhotos)
+                .Include(p => p.keyToProducts)
+                .ThenInclude(k => k.adjKey)
+                .ThenInclude(a => a.adjValues)
+                .Include(p => p.discountToProducts)
+                .Include(p => p.ProductPhotos)
+                .Include(p => p.valueToProducts)
+                .Include(p => p.favoriteProducts)
+                .Include(p => p.CategoryToProducts)
+                .FirstOrDefaultAsync();
         }
 
         private async Task<List<ProductCardDto>> GetProductCardListByOrder()
@@ -157,27 +150,29 @@ namespace BusinessLogicLayer.ProductService
             }).ToListAsync();
             
         }
-        public ICollection<Product> ProductList()
+
+        public async Task<List<SelectListItemDto>> ProductSelectList()
         {
-            ICollection<Product> products = new List<Product>();
-            foreach (var item in ProductRepository.Get().ToList())
-            {
-                item.keyToProducts = KeyToProductRepository.Get(k => k.Product_Id == item.Id, k => k.adjKey).ToList();
-                foreach (var key in item.keyToProducts)
-                {
-                    var values = adjValueLogic.Get(v => v.adjkey_Id == key.Key_Id).ToList();
-                    key.adjKey.adjValues = values;
-                }
-                item.valueToProducts = ValueToProductRepository.Get(v => v.Product_Id == item.Id).ToList();
-                item.favoriteProducts = favoriteProductRepository.Get(f => f.Product_Id == item.Id).ToList();
-                item.discountToProducts = DiscountToProductRepository.Get(d => d.Product_Id == item.Id, v => v.discount).ToList();
-                item.ProductPhotos = productphotoRepository.Get(p => p.Product_Id == item.Id).ToList();
-                item.commnets = commentLogic.CommentsOfProduct(item.Id);
-                item.CategoryToProducts = categoryToProductLogic.CategoryToProductList().Where(cp => cp.Product_Id == item.Id).ToList();
-                products.Add(item);
-            }
-            return products;
+            return await ProductRepository.Get()
+                .Select(c => new SelectListItemDto(c.Name, c.Id.ToString()))
+                .ToListAsync();
         }
+        public async Task<List<Product>> ProductList()
+        {
+            return await ProductRepository.Get()
+                .Include(p => p.ProductPhotos)
+                .Select(c => new Product()
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                    Description = c.Description,
+                    Price = c.Price,
+                    QuantityInStock = c.QuantityInStock,
+                    ProductPhotos = c.ProductPhotos,
+                })
+                .ToListAsync();
+        }
+
         public List<Product> RelatedProduct(List<int> categoryIds)
         {
             var relatedProduct = new List<Product>();
@@ -233,68 +228,53 @@ namespace BusinessLogicLayer.ProductService
             var newsetProduct = productList.OrderByDescending(p => p.Id);
             return newsetProduct;
         }
-        public List<Product> Search(string SearchInput = "", int Category_Id = 0)
+        public async Task<List<Product>> Search(string searchInput = "", int categoryId = 0)
         {
-            var productList = ProductList().ToList();
-            if (Category_Id != 0)
-            {
-                productList = productList.Where(p => p.Name.Contains(SearchInput) && p.CategoryToProducts.Select(c => c.Category_Id).Contains(Category_Id)).ToList();
+            var query = ProductRepository.Get(
+                p => p.Name.Contains(searchInput),
+                p => p.CategoryToProducts
+            ).Include(c => c.ProductPhotos).AsQueryable();
 
-            }
-            else
-            {
-                productList = productList.Where(p => p.Name.Contains(SearchInput)).ToList();
-            }
-            return productList;
+            if (categoryId != 0)
+                query = query.Where(p => p.CategoryToProducts.Any(c => c.Category_Id == categoryId));
+
+            return await query.ToListAsync();
         }
-        public async Task<List<Product>> SearchFilter(int Category_Id, bool isExit, List<int> values, decimal minPrice = 0, decimal maxPrice = 0,string sortby = "")
+        public async Task<List<Product>> SearchFilter(
+            int categoryId, bool isExit, List<int> values,
+            decimal minPrice = 0, decimal maxPrice = 0, string sortby = "")
         {
-            var productList = new List<Product>();
-            if (Category_Id != 0)
-            {
-                var tempList = ProductList();
-                productList = tempList.Where(p => p.CategoryToProducts.Select(cp => cp.Category_Id).Contains(Category_Id)).ToList();
-            }
-            else
-            {
-                var tempList = ProductList();                productList = tempList.ToList();
-            }
-            if (isExit)
-            {
-                productList = productList.Where(p => p.QuantityInStock > 0).ToList();
-            }
-            if (values.Count() > 0)
-            {
-                var valuesList = new List<AdjValue>();
-                foreach (var id in values)
-                {
-                    valuesList.Add(adjValueLogic.Get(av => av.Id == id).First());
-                }
-                var GroupedValuesList = valuesList.GroupBy(v => v.adjkey_Id).ToList();
-                foreach (var group in GroupedValuesList)
-                {
-                    var groupvalue = new List<Product>();
-                    foreach (var value in group)
-                    {
-                        groupvalue.AddRange(productList.Where(p => p.valueToProducts.Select(vp => vp.Value_Id).Contains(value.Id)).ToList());
-                    }
-                    productList = groupvalue;
+            var query = ProductRepository.Get(
+                p => true,
+                p => p.valueToProducts,
+                p => p.CategoryToProducts
+            ).Include(c => c.ProductPhotos).AsQueryable();
 
-                }
-            }
-            if (minPrice != 0 && maxPrice != 0)
+            if (categoryId != 0)
+                query = query.Where(p => p.CategoryToProducts.Any(cp => cp.Category_Id == categoryId));
+
+            if (isExit)
+                query = query.Where(p => p.QuantityInStock > 0);
+
+            if (values.Any())
+                query = query.Where(p => p.valueToProducts.Any(v => values.Contains(v.Value_Id)));
+
+            if (minPrice > 0)
+                query = query.Where(p => p.Price >= minPrice);
+
+            if (maxPrice > 0)
+                query = query.Where(p => p.Price <= maxPrice);
+
+            // Sorting
+            query = sortby switch
             {
-                productList = productList.Where(p => p.Price >= minPrice && p.Price <= maxPrice).ToList();
-            }
-            if (minPrice != 0 && maxPrice == 0)
-            {
-                productList = productList.Where(p => p.Price >= minPrice).ToList();
-            }
-            if (minPrice == 0 && maxPrice != 0)
-            {
-                productList = productList.Where(p => p.Price <= maxPrice).ToList();
-            }
-            return productList.ToList();
+                "expensive" => query.OrderByDescending(p => p.Price),
+                "cheap" => query.OrderBy(p => p.Price),
+                "bestsell" => query.OrderByDescending(p => p.Like),
+                _ => query.OrderBy(p => p.Id)
+            };
+
+            return await query.ToListAsync();
         }
         public async Task<IEnumerable<ProductCardDto>> SortBy(string sortby = "")
         {

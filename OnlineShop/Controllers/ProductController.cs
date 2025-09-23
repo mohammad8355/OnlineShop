@@ -108,11 +108,11 @@ namespace PresentationLayer.Controllers
                 return Json(new { islike = false });
             }
         }
-        public IActionResult Search(SearchViewModel model)
+        public async Task<IActionResult> Search(SearchViewModel model)
         {
             if(model != null)
             {
-                var result = productLogic.Search(model.SearchInput,model.CategoryId);
+                var result = await productLogic.Search(model.SearchInput,model.CategoryId);
                 var viewmodel = new SearchResultViewModel()
                 {
                     Products = result,
@@ -125,9 +125,9 @@ namespace PresentationLayer.Controllers
                 return RedirectToAction("Index","Home");
             }
         }
-        public IActionResult ParameterSearch(string Search="",int Category_Id = 0)
+        public async Task<IActionResult> ParameterSearch(string Search="",int Category_Id = 0)
         {
-                var result = productLogic.Search(Search,Category_Id);
+                var result = await productLogic.Search(Search,Category_Id);
                 var viewmodel = new SearchResultViewModel()
                 {
                     Products = result,

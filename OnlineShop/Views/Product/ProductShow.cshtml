@@ -356,7 +356,9 @@
 
           </form>
           <div class="lg:w-9/12 divide-y-2 divide-zinc-300">
-            @foreach (var comment in Model.product.commnets)
+           @if (Model.product.commnets != null)
+           {
+ @foreach (var comment in Model.product.commnets)
             {
                 <div class="px-2 pt-5">
               <div class="text-lg text-zinc-700">
@@ -408,8 +410,9 @@
               </div>
             </div>
             }
-          
-       
+           }
+
+
           </div>
         </div>
       </div>

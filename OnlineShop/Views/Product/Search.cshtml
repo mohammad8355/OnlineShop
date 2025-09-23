@@ -144,17 +144,16 @@
                 <div class="alert alert-warning text-center text-zinc-700 p-4 rounded-2xl">نتیجه ای یافت نشد</div>
             }
             <!-- Pagination -->
-            <div class="flex justify-center mb-12">
+            <div class="flex justify-center mb-12 mt-12">
                 <a href="#" class="flex items-center bg-white -scale-x-100 duration-300 hover:bg-primary-500 hover:text-white justify-center md:px-4 mx-1 px-3.5 py-2 rounded-md text-gray-700 transform transition-colors">
                     <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" class="size-4 md:size-5">
                         <path d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" fill-rule="evenodd" />
                     </svg>
                 </a>
-                <a href="#" class="border border-zinc-100 py-2 duration-300 md:px-4 md:text-base mx-1 px-3.5 rounded-md text-sm transform transition-colors bg-primary-500 text-white">1</a>
-                <a href="#" class="border bg-white text-sm border-zinc-100 duration-300 hover:bg-primary-500 hover:text-white md:px-4 md:text-base mx-1 px-3.5 py-2 rounded-md text-gray-700 transform transition-colors">2</a>
-                <a href="#" class="border bg-white text-sm border-zinc-100 duration-300 hover:bg-primary-500 hover:text-white md:px-4 md:text-base mx-1 px-3.5 py-2 rounded-md text-gray-700 transform transition-colors">...</a>
-                <a href="#" class="border bg-white text-sm border-zinc-100 duration-300 hover:bg-primary-500 hover:text-white md:px-4 md:text-base mx-1 px-3.5 py-2 rounded-md text-gray-700 transform transition-colors">9</a>
-                <a href="#" class="border bg-white text-sm border-zinc-100 duration-300 hover:bg-primary-500 hover:text-white md:px-4 md:text-base mx-1 px-3.5 py-2 rounded-md text-gray-700 transform transition-colors">10</a>
+                @for (var i = 0; i < Math.Ceiling((double)Model.Products.Count() / 10); i++)
+                {
+                    <a href="#" class="border border-zinc-100 py-2 duration-300 md:px-4 md:text-base mx-1 px-3.5 rounded-md text-sm transform transition-colors bg-primary-500 text-white">@(i + 1)</a>
+                }
                 <a href="#" class="flex items-center bg-white -scale-x-100 duration-300 hover:bg-primary-500 hover:text-white justify-center md:px-4 mx-1 px-3.5 py-2 rounded-md text-gray-700 transform transition-colors">
                     <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" class="size-4 md:size-5">
                         <path d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" fill-rule="evenodd" />

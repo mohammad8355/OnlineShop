@@ -57,12 +57,12 @@ namespace PresentationLayer.Areas.dashboard.Controllers
             this.brandLogic = brandLogic;
         }
         //list of product
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             #region bind view model
             var model = new ProductListViewModel()
             {
-                products = productLogic.ProductList(),
+                products = await productLogic.ProductList(),
                 categories = categoryLogic.CategoryList(),
             };
             #endregion
@@ -127,20 +127,19 @@ namespace PresentationLayer.Areas.dashboard.Controllers
                 #endregion
                 var resault = await productLogic.AddProduct(ProductModel);
                 var webrootpath = webHostEnvironment.WebRootPath;
-                if (resault)
+                if (!string.IsNullOrEmpty(resault.Name))
                 {
-                    var product = productLogic.ProductList().Where(p => p.Name == model.Name).First();
                     foreach (var cat in model.SelectList)
                     {
                         var categoryToProduct = new CategoryToProduct()
                         {
                             Category_Id = cat,
-                            Product_Id = product.Id,
+                            Product_Id = resault.Id,
                         };
                         var addResult = await categoryToProductLogic.AddCategoryToProduct(categoryToProduct);
                         if (!addResult)
                             Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine($"can not add relation between category with id {cat} with product {product.Name} with Id {product.Id}");
+                        Console.WriteLine($"can not add relation between category with id {cat} with product {resault.Name} with Id {resault.Id}");
                         Console.ForegroundColor = ConsoleColor.White;
                     }
 
@@ -167,7 +166,7 @@ namespace PresentationLayer.Areas.dashboard.Controllers
                             {
                                 Name = ImageName + UploadFileResault.message.ToString(),
                                 Size = (int)ImageSize,
-                                Product_Id = product.Id,
+                                Product_Id = resault.Id,
                                 format = UploadFileResault.message.ToString(),
                             };
                             #endregion
@@ -425,10 +424,11 @@ namespace PresentationLayer.Areas.dashboard.Controllers
             #endregion
         }
         [HttpGet]
-        public IActionResult AddOptions()
+        public async Task<IActionResult> AddOptions()
         {
+            var product_list = await productLogic.ProductSelectList();
             ViewBag.keys = new SelectList(adjKeyLogic.AdjKeyList(), "Id", "Name");
-            ViewBag.Products = new SelectList(productLogic.ProductList(), "Id", "Name");
+            ViewBag.Products = new SelectList(product_list, "Id", "Name");
             var model = new AddKeyValueToProduct();
             return View(model);
         }
@@ -437,8 +437,9 @@ namespace PresentationLayer.Areas.dashboard.Controllers
         [HttpPost]
         public async Task<IActionResult> AddOptions(AddKeyValueToProduct model)
         {
+            var product_list = await productLogic.ProductSelectList();
             ViewBag.keys = new SelectList(adjKeyLogic.AdjKeyList(), "Id", "Name");
-            ViewBag.Products = new SelectList(productLogic.ProductList(), "Id", "Name");
+            ViewBag.Products = new SelectList(product_list, "Id", "Name");
             if (ModelState.IsValid)
             {
                 foreach (var product in model.ProductIds)

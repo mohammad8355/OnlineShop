@@ -48,17 +48,18 @@ namespace PresentationLayer.Areas.Identity.Pages.Account
             }
 
             var code = await _otpCodeLogic.GetCodeByphoneNumber(PhoneNumber);
-            if (code == Input.Code)
-            {
+            //TODO: i comment code becuase send otp code via sms is not work
+            // if (code == Input.Code)
+            // {
                 user.PhoneNumberConfirmed = true;
                 await _userManager.UpdateAsync(user);
                 await _signInManager.RefreshSignInAsync(user);
                 return RedirectToPage("Login");    
-            }
-            else
-            {
-                return Page();
-            }
+            // }
+            // else
+            // {
+            //     return Page();
+            // }
             
         }
     }

@@ -28,13 +28,13 @@ namespace PresentationLayer.Areas.dashboard.Controllers
             return View(model.ToList());
         }
         [HttpGet]
-        public IActionResult AddDiscount()
+        public async Task<IActionResult> AddDiscount()
         {
-            var products = productLogic.ProductList();
+            var products = await productLogic.ProductSelectList();
             var selectlist = new SelectList(products, "Id", "Name");
             var model = new AddEditDiscountViewModel()
             {
-                discountToProducts = products.Select(p => p.Id).ToList(),
+                discountToProducts = products.Select(p => Int32.Parse(p.Value)).ToList(),
                 selectLists = selectlist,
             };
             return View(model);
@@ -84,7 +84,7 @@ namespace PresentationLayer.Areas.dashboard.Controllers
         public async Task<IActionResult> EditDiscount(int Id)
         {
             var discount = await discountLogic.DiscountDetails(Id);
-            var products = productLogic.ProductList();
+            var products = await productLogic.ProductSelectList();
             var selectlist = new SelectList(products, "Id", "Name");
             var model = new AddEditDiscountViewModel()
             {
