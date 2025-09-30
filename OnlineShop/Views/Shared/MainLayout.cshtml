@@ -12,7 +12,7 @@
     @RenderSection("InLineCss",false)
     <title>@ViewBag.Title</title>
 </head>
-<body class="max-w-[1700px] mx-auto" >
+<body class="w-full mx-auto" >
     @* <header> *@
     @*     <div class=" container d-flex flex-wrap"> *@
     @*         <div class="logo col-lg-2 col-md-3 col-12"> *@
@@ -52,7 +52,7 @@
     @*     </nav> *@
     @* </header> *@
    
-  <header class="max-w-[1700px] fixed w-full z-50 flex md:block bg-white md:bg-transparent">
+  <header class="w-full fixed w-full z-50 flex md:block bg-white md:bg-transparent">
     <!-- top -->
     <div class="flex items-center justify-between bg-white px-4 md:px-8 lg:px-20 py-5 shadow-lg relative order-2 md:order-none w-full border-b border-zinc-200">
       <!-- logo -->
@@ -71,7 +71,10 @@
         </defs>
       </svg>
       <!-- search -->
+      <div class="max-[768px]:hidden">
         @await Component.InvokeAsync("Search") 
+      </div>
+        
 
       <!-- buttons -->
       <div class="flex gap-x-2">
@@ -109,23 +112,18 @@
           <li>
             <!-- search -->
             <div class="relative md:hidden">
-              <input class="rounded-2xl text-zinc-700 bg-zinc-100 px-5 py-2.5 w-full placeholder:text-zinc-400 placeholder:text-xs focus:outline-0" type="text" placeholder="جستجو محصول ...">
-              <button class="absolute top-2 left-3 z-50 text-white cursor-pointer">
-                <svg class="size-6 fill-zinc-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
-                  <path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"></path>
-                </svg>
-              </button>
+              @await Component.InvokeAsync("Search");
             </div>
           </li>
           <li>
-            <a href="/" class="py-2 md:py-0 md:hover:bg-transparent md:rounded-none transition-all">
+            <a  href="/" class="py-2 md:py-0 md:hover:bg-transparent md:rounded-none transition-all">
               <span class="text-zinc-800 hover:text-primary-500 transition-all">صفحه اصلی</span>
             </a>
           </li>
           @await Component.InvokeAsync("CategoryMegaMenu")
 
           <li>
-            <a asp-action="Aboutus" asp-controller="Home" asp-area="" class="py-2 md:py-0 md:hover:bg-transparent md:rounded-none transition-all">
+            <a asp-action="Aboutus"  asp-controller="Home" asp-area="" class="py-2 md:py-0 md:hover:bg-transparent md:rounded-none transition-all">
               <span class="text-zinc-800 hover:text-primary-500 transition-all">درباره ما</span>
             </a>
           </li>

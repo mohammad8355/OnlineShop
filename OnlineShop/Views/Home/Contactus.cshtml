@@ -77,37 +77,51 @@
           @{
               var list = Model.Where(c => c.IsSocialMedia == false).ToList();
           }
-          @if (list != null)
-          {
-              <ul>
+          <div class="mt-10 md:max-w-3xl mx-auto">
+              <h3 class="text-center text-xl md:text-2xl font-DANABOLD text-primary-600 mb-6">
+                  روش‌های ارتباطی مستقیم
+              </h3>
+              <ul class="space-y-4">
                   @foreach (var con in list)
                   {
                       <li>
-                          <a href="@con.Content">
-                              <p>@con.Name : @con.Content </p>
-                              <i class="fa-solid fa-phone"></i>
+                          <a href="@con.Content" 
+                             class="flex items-center gap-3 p-4 rounded-xl border border-zinc-200 hover:bg-primary-50 transition">
+                              <div class="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-primary-100 rounded-full text-primary-600">
+                                  <i class="fa-solid fa-phone"></i>
+                              </div>
+                              <div class="flex flex-col text-sm md:text-base text-zinc-700">
+                                  <span class="font-DANABOLD">@con.Name</span>
+                                  <span class="font-DANALIGHT">@con.Content</span>
+                              </div>
                           </a>
                       </li>
                   }
-
               </ul>
-          }
+          </div>
+
           <h3 class="text-center">ما را در فضای مجازی دنبال کنید </h3>
           @{
               var sociallist = Model.Where(c => c.IsSocialMedia == true).ToList();
           }
-          @if(list != null)
-          {
-              <ul class="nav col-12 m-3 justify-content-center">
+          <div class="mt-12">
+              <h3 class="text-center text-xl md:text-2xl font-DANABOLD text-primary-600 mb-6">
+                  ما را در شبکه‌های اجتماعی دنبال کنید
+              </h3>
+              <ul class="flex justify-center gap-6 flex-wrap">
                   @foreach (var con in sociallist)
                   {
-                      <li><a href="@con.Content">
-                          <!--<i class="fa-brands fa-telegram"></i>-->
-                          @con.Name
-                      </a></li>
+                      <li>
+                          <a href="@con.Content" target="_blank"
+                             class="flex items-center gap-2 px-5 py-3 rounded-lg border border-zinc-200 hover:bg-primary-50 hover:border-primary-300 transition text-zinc-700 text-sm md:text-base">
+                              <i class="fa-brands fa-@con.Name.ToLower() text-primary-600 text-lg"></i>
+                              <span class="font-DANALIGHT">@con.Name</span>
+                          </a>
+                      </li>
                   }
               </ul>
-          }
+          </div>
+
 
       </div>
       <div class="md:max-w-2xl mx-auto mt-10">

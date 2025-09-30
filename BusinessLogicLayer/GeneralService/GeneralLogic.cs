@@ -17,6 +17,21 @@ namespace BusinessLogicLayer.GeneralService
         {
             this.GeneralRepository = GeneralRepository;
         }
+
+        public async Task<bool> DeleteRangeBylabel(string label)
+        {
+            var generals =
+                await GeneralRepository.Get(c => c.label == label).Select(v => v.Id).ToListAsync();
+            if (generals.Any())
+            {
+                foreach (var general in generals)
+                {
+                    await GeneralRepository.DeleteItem(general);
+                }
+            }
+
+            return true;
+        }
         public async Task<bool> AddGeneral(General model)
         {
             if (model == null || string.IsNullOrEmpty(model.Name))

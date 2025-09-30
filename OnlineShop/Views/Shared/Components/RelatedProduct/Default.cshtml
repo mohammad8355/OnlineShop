@@ -22,8 +22,11 @@
             <div class="card-wrapper swiper-wrapper pb-10">
                 @foreach (var product in Model.relatedProduct)
                 {
-                <div class="card swiper-slide bg-white border border-zinc-200 rounded-2xl p-2 md:p-3 text-sm hover:shadow-custom transition-shadow">
-                    <a href="@Url.Action("ProductShow", "Product", new { Id = product.Id })" class="text-zinc-800">
+                    <div class="max-h-[472px]
+ card swiper-slide bg-white border border-zinc-200
+ rounded-2xl p-2 md:p-3 text-sm hover:shadow-custom transition-shadow">
+                    <a href="@Url.Action("ProductShow", "Product", new { Id = product.Id })" 
+                       class="flex justify-center items-start h-[297.453px]  text-zinc-800">
                         @if (product.ProductPhotos != null && product.ProductPhotos.Any())
                         {
                         <img class="rounded-xl mb-3" src="~/Image/Product/@product.Name/@product.ProductPhotos.Last().Name" alt="@product.Name">

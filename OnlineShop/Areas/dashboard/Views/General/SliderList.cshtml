@@ -2,6 +2,8 @@
 @model List<General>
 <section class="content">
     <div class="container-fluid">
+            <a asp-action="DeleteRangeSliders" asp-controller="General" asp-area="dashboard"
+               class="btn btn-danger" >Delete Range</a>
         <div class="row">
             <div class="card col-12">
                 <div class="card-header">
@@ -11,33 +13,33 @@
                 <div class="card-body">
                     <table id="example1" class="table table-bordered table-striped">
                         <thead>
-                            <tr>
-                                <th>عنوان</th>
-                                <th>عکس</th>
-                                <th>کنترل</th>
-                            </tr>
+                        <tr>
+                            <th>عنوان</th>
+                            <th>عکس</th>
+                            <th>کنترل</th>
+                        </tr>
                         </thead>
                         <tbody>
-                            @foreach (var slide in Model)
-                            {
-                                <tr>
-                                    <td>@slide.Name</td>
-                                    <td><img src="~/Image/slider/@(slide.ImageName)" width="200px" alt="@slide.Name" /></td>
-                                    <td>
-                                        <div class="btn-group">
-                                            <a asp-action="EditSlide" asp-controller="General" asp-route-Id="@slide.Id" class="btn btn-info"><i class="fa-solid fa-pen"></i></a>
-                                            <a class="btn btn-danger delete" data-Id="@slide.Id"><i class="fa-solid fa-trash-can"></i></a>
-                                        </div>
-                                    </td>
-                                </tr>
-                            }
+                        @foreach (var slide in Model)
+                        {
+                            <tr>
+                                <td>@slide.Name</td>
+                                <td><img src="~/Image/slider/@(slide.ImageName)" width="200px" alt="@slide.Name"/></td>
+                                <td>
+                                    <div class="btn-group">
+                                        <a asp-action="EditSlide" asp-controller="General" asp-route-Id="@slide.Id" class="btn btn-info"><i class="fa-solid fa-pen"></i></a>
+                                        <a class="btn btn-danger delete" data-Id="@slide.Id"><i class="fa-solid fa-trash-can"></i></a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
                         </tbody>
                         <tfoot>
-                            <tr>
-                                <th>عنوان</th>
-                                <th>عکس</th>
-                                <th>کنترل</th>
-                            </tr>
+                        <tr>
+                            <th>عنوان</th>
+                            <th>عکس</th>
+                            <th>کنترل</th>
+                        </tr>
                         </tfoot>
                     </table>
                 </div>

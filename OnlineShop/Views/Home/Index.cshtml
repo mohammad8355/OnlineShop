@@ -92,55 +92,70 @@
         </div>
     </div>
     <!-- main slider -->
-    <div class="containerPSlider swiper">
-        <div class="productSlider1">
-            <div class="card-wrapper swiper-wrapper pb-10">
-                @foreach (var product in Model.PopularProduct)
-                {
-                    
-     
-                    <div class="card swiper-slide bg-white border border-zinc-200 rounded-2xl p-2 md:p-3 text-sm hover:shadow-custom transition-shadow">
-                        <a asp-action="ProductShow" asp-controller="Product" asp-route-Id="@product.Id" class="text-zinc-800">
-                            <img class="rounded-xl mb-3" 
-                                 src="~/Image/Product/@(product.Name)/@(product.cover)">
-                        </a>
-                        <p class="text-zinc-400 text-xs">
-                            @product.Name
-                        </p>
-                        <a href="" class="text-zinc-800 text-xs md:text-sm h-8 lg:h-10 line-clamp-2 mt-2">
-                            @product.Name
-                        </a>
-                        <div class="flex items-center justify-between mt-4">
-                            <div class="flex gap-1.5">
-                                <div class="size-4 bg-zinc-800 rounded-full"></div>
-                                <div class="size-4 bg-zinc-500 rounded-full"></div>
-                                <div class="size-4 bg-zinc-300 rounded-full"></div>
-                            </div>
-                            <div class="flex items-start gap-x-1 text-xs text-zinc-500">
-                                <span>
-                                    <span>
-                                        @product.Count
-                                    </span>
-                                    <span>
-                                        4.4
-                                    </span>
-                                </span>
-                                <svg class="fill-primary-500" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="#f9bc00" viewBox="0 0 256 256"><path d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z"></path></svg>
-                            </div>
-                        </div>
-                        <div class="flex items-center justify-end border-t border-dashed border-zinc-300 mt-4 pt-2">
-                            <div class="text-zinc-800 flex items-center gap-x-1 justify-end font-yekanBakhBold text-lg">
-                                @product.Price.ToString("N0")
-                                <img class="size-4" src="~/Image/icons/toman.png" alt="">
-                            </div>
-                        </div>
-                    </div>
-                }
+<div class="containerPSlider swiper">
+  <div class="productSlider1">
+    <div 
+         class="card-wrapper swiper-wrapper grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 items-stretch">
+      @foreach (var product in Model.PopularProduct)
+      {
+        <div class="card swiper-slide bg-white border border-zinc-200 rounded-2xl 
+                    p-3 text-sm hover:shadow-custom transition-shadow 
+                    flex flex-col h-full">
+          
+          <!-- Product Image -->
+          <a asp-area="" asp-action="ProductShow" asp-controller="Product" asp-route-Id="@product.Id"
+             class="text-zinc-800">
+            <img class="rounded-xl mb-3 w-full object-cover aspect-[4/3]" 
+                 src="~/Image/Product/@product.Name/@product.cover" 
+                 alt="@product.Name" />
+          </a>
+
+          <!-- Subtitle -->
+          <p class="text-zinc-400 text-xs">
+            Lap Top Lenovo Laser 107W
+          </p>
+
+          <!-- Product name -->
+          <a asp-area="" asp-action="ProductShow" asp-controller="Product" asp-route-Id="@product.Id"
+             class="text-zinc-800 text-xs md:text-sm line-clamp-2 mt-2 flex-grow">
+            @product.Name
+          </a>
+
+          <!-- Colors + Rating -->
+          <div class="flex items-center justify-between mt-4">
+            <div class="flex gap-1.5">
+              <div class="size-4 bg-zinc-800 rounded-full"></div>
+              <div class="size-4 bg-zinc-500 rounded-full"></div>
+              <div class="size-4 bg-zinc-300 rounded-full"></div>
             </div>
+            <div class="flex items-start gap-x-1 text-xs text-zinc-500">
+              <span>
+                <span>@product.Count</span>
+                <span>4.4</span>
+              </span>
+              <svg class="fill-primary-500" xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                   viewBox="0 0 256 256">
+                <path d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z"/>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Price -->
+          <div class="mt-auto pt-2 border-t border-dashed border-zinc-300">
+            <div class="text-zinc-800 flex items-center gap-x-1 justify-end 
+                        font-yekanBakhBold text-lg">
+              @product.Price.ToString("N0")
+              <img class="size-4" src="~/Image/icons/toman.png" alt="تومان">
+            </div>
+          </div>
         </div>
+      }
     </div>
+  </div>
 </div>
-<div class="flex flex-col md:flex-row gap-5 mt-12 md:mt-20">
+
+</div>
+<div class="flex flex-col justify-center md:flex-row gap-5 mt-12 md:mt-20">
     <a href="">
         <img class="rounded-xl md:rounded-3xl h-fit" src="~/Image/banner/1.webp" alt="">
     </a>
@@ -164,53 +179,68 @@
         </div>
     </div>
     <!-- main slider -->
-    <div class="containerPSlider swiper">
-        <div class="productSlider2">
-            <div class="card-wrapper swiper-wrapper pb-10">
-                @foreach (var product in Model.NewsetProduct)
-                {
-                    
-     
-                    <div class="card swiper-slide bg-white border border-zinc-200 rounded-2xl p-2 md:p-3 text-sm hover:shadow-custom transition-shadow">
-                        <a asp-action="ProductShow" asp-controller="Product" asp-route-Id="@product.Id" class="text-zinc-800">
-                            <img class="rounded-xl mb-3" 
-                                 src="~/Image/Product/@(product.Name)/@(product.cover)">
-                        </a>
-                        <p class="text-zinc-400 text-xs">
-                            @product.Name
-                        </p>
-                        <a href="" class="text-zinc-800 text-xs md:text-sm h-8 lg:h-10 line-clamp-2 mt-2">
-                            @product.Name
-                        </a>
-                        <div class="flex items-center justify-between mt-4">
-                            <div class="flex gap-1.5">
-                                <div class="size-4 bg-zinc-800 rounded-full"></div>
-                                <div class="size-4 bg-zinc-500 rounded-full"></div>
-                                <div class="size-4 bg-zinc-300 rounded-full"></div>
-                            </div>
-                            <div class="flex items-start gap-x-1 text-xs text-zinc-500">
-                                <span>
-                                    <span>
-                                        @product.Count
-                                    </span>
-                                    <span>
-                                        4.4
-                                    </span>
-                                </span>
-                                <svg class="fill-primary-500" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="#f9bc00" viewBox="0 0 256 256"><path d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z"></path></svg>
-                            </div>
-                        </div>
-                        <div class="flex items-center justify-end border-t border-dashed border-zinc-300 mt-4 pt-2">
-                            <div class="text-zinc-800 flex items-center gap-x-1 justify-end font-yekanBakhBold text-lg">
-                                @product.Price.ToString("N0")
-                                <img class="size-4" src="~/Image/icons/toman.png" alt="">
-                            </div>
-                        </div>
-                    </div>
-                }
+   <div class="containerPSlider swiper">
+  <div class="productSlider2">
+    <div 
+         class="card-wrapper swiper-wrapper grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 items-stretch">
+      @foreach (var product in Model.NewsetProduct)
+      {
+        <div class="card swiper-slide bg-white border border-zinc-200 rounded-2xl 
+                    p-3 text-sm hover:shadow-custom transition-shadow 
+                    flex flex-col h-full">
+          
+          <!-- Product Image -->
+          <a asp-area="" asp-action="ProductShow" asp-controller="Product" asp-route-Id="@product.Id"
+             class="text-zinc-800">
+            <img class="rounded-xl mb-3 w-full object-cover aspect-[4/3]" 
+                 src="~/Image/Product/@product.Name/@product.cover" 
+                 alt="@product.Name" />
+          </a>
+
+          <!-- Subtitle -->
+          <p class="text-zinc-400 text-xs">
+            Lap Top Lenovo Laser 107W
+          </p>
+
+          <!-- Product name -->
+          <a asp-area="" asp-action="ProductShow" asp-controller="Product" asp-route-Id="@product.Id"
+             class="text-zinc-800 text-xs md:text-sm line-clamp-2 mt-2 flex-grow">
+            @product.Name
+          </a>
+
+          <!-- Colors + Rating -->
+          <div class="flex items-center justify-between mt-4">
+            <div class="flex gap-1.5">
+              <div class="size-4 bg-zinc-800 rounded-full"></div>
+              <div class="size-4 bg-zinc-500 rounded-full"></div>
+              <div class="size-4 bg-zinc-300 rounded-full"></div>
             </div>
+            <div class="flex items-start gap-x-1 text-xs text-zinc-500">
+              <span>
+                <span>@product.Count</span>
+                <span>4.4</span>
+              </span>
+              <svg class="fill-primary-500" xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                   viewBox="0 0 256 256">
+                <path d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z"/>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Price -->
+          <div class="mt-auto pt-2 border-t border-dashed border-zinc-300">
+            <div class="text-zinc-800 flex items-center gap-x-1 justify-end 
+                        font-yekanBakhBold text-lg">
+              @product.Price.ToString("N0")
+              <img class="size-4" src="~/Image/icons/toman.png" alt="تومان">
+            </div>
+          </div>
         </div>
+      }
     </div>
+  </div>
+</div>
+
 </div>
 <div class="mt-12 md:mt-20">
     <!-- top slider -->
@@ -404,12 +434,12 @@
                 @foreach (var post in Model.Posts)
                 {
                                     <div
-                    class="card swiper-slide bg-white min-h-60 rounded-2xl border hover:border-primary-500 transition border-zinc-300 group p-2 md:p-3 hover:drop-shadow-lg">
+                    class="h-full card swiper-slide bg-white min-h-60 rounded-2xl border hover:border-primary-500 transition border-zinc-300 group p-2 md:p-3 hover:drop-shadow-lg">
                     <a
                         href="/blog/post?Title=@post.Title"
                         class="image-box block overflow-hidden rounded-lg md:rounded-2xl">
                         <img
-                            class="rounded-lg md:rounded-2xl max-h-56 w-full transition-transform duration-300 ease-in-out group-hover:rotate-3 group-hover:scale-110"
+                            class="rounded-lg h-[218px] md:rounded-2xl max-h-56 w-full transition-transform duration-300 ease-in-out group-hover:rotate-3 group-hover:scale-110"
                             src="@post.CoverLink"/>
                     </a>
                     <div class="p-2 mt-2">

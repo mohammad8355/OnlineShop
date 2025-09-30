@@ -68,7 +68,7 @@
 @*     </script> *@
 @* } *@
 @model SearchResultViewModel
-    <div class="text-zinc-800 text-lg md:px-20 md:py-2 md:text-2xl pb-6 pt-5 px-4">نتیجه جستجو برای ""</div>
+    @* <div class="text-zinc-800 text-lg md:px-20 md:py-2 md:text-2xl pb-6 pt-5 px-4">نتیجه جستجو برای ""</div> *@
     <div class="flex flex-col gap-5 lg:flex-row md:mt-10 md:px-8 pb-20">
         <!-- Filter Section -->
         <div class="lg:w-3/12">
@@ -85,15 +85,15 @@
         <div class="lg:w-9/12">
             @if (Model.Products.Count > 0)
             {
-                <div class="flex items-center bg-white border border-zinc-100 flex-wrap gap-3 justify-start mb-5 md:gap-5 px-5 py-6 rounded-3xl shadow-box-sm">
-                    <div class="text-sm text-zinc-600">مرتب سازی:</div>
-                    <div class="text-xs cursor-pointer transition hover:text-primary-500 text-primary-500">محبوب ترین</div>
-                    <div class="text-xs cursor-pointer transition hover:text-primary-400 text-zinc-500">پرفروش ترین</div>
-                    <div class="text-xs cursor-pointer transition hover:text-primary-400 text-zinc-500">ارزان ترین</div>
-                    <div class="text-xs cursor-pointer transition hover:text-primary-400 text-zinc-500">گران ترین</div>
-                    <div class="text-xs cursor-pointer transition hover:text-primary-400 text-zinc-500">جدیدترین</div>
-                    <div class="text-xs cursor-pointer transition hover:text-primary-400 text-zinc-500">پربازدیدترین</div>
-                </div>
+                @* <div class="flex items-center bg-white border border-zinc-100 flex-wrap gap-3 justify-start mb-5 md:gap-5 px-5 py-6 rounded-3xl shadow-box-sm"> *@
+                @*     <div class="text-sm text-zinc-600">مرتب سازی:</div> *@
+                @*     <div class="text-xs cursor-pointer transition hover:text-primary-500 text-primary-500">محبوب ترین</div> *@
+                @*     <div class="text-xs cursor-pointer transition hover:text-primary-400 text-zinc-500">پرفروش ترین</div> *@
+                @*     <div class="text-xs cursor-pointer transition hover:text-primary-400 text-zinc-500">ارزان ترین</div> *@
+                @*     <div class="text-xs cursor-pointer transition hover:text-primary-400 text-zinc-500">گران ترین</div> *@
+                @*     <div class="text-xs cursor-pointer transition hover:text-primary-400 text-zinc-500">جدیدترین</div> *@
+                @*     <div class="text-xs cursor-pointer transition hover:text-primary-400 text-zinc-500">پربازدیدترین</div> *@
+                @* </div> *@
                 <div class="grid gap-3 grid-cols-2 lg:grid-cols-4">
                     @foreach (var product in Model.Products)
                     {

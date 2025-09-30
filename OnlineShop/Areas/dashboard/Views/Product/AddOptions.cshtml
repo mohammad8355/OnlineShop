@@ -16,12 +16,12 @@
                     <div class="form-group col-12">
                         <div class="form-group col-sm-12">
                             <label>محصولات</label>
-                            <select class="select2 multiplelist" multiple="multiple" data-placeholder="Select a State" style="width:100%" id="productlist" asp-for="ProductIds" asp-items="ViewBag.Products">
+                            <select class="select2 multiplelist" multiple="multiple" data-placeholder="Select a State" style="width:100%" id="productlist" asp-for="ProductIds" asp-items="Model.Products">
                             </select>
                         </div>
                         <div class="form-group col-sm-12">
                             <label>مشخصات کلید ها</label>
-                            <select class="form-control" asp-items="ViewBag.keys" id="adjkey" asp-for="KeyId">
+                            <select class="form-control" asp-items="Model.Keys" id="adjkey" asp-for="KeyId">
                             </select>
                         </div>
                         <div class="form-group col-sm-12">

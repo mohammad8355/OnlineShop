@@ -427,10 +427,22 @@ namespace PresentationLayer.Areas.dashboard.Controllers
         public async Task<IActionResult> AddOptions()
         {
             var product_list = await productLogic.ProductSelectList();
-            ViewBag.keys = new SelectList(adjKeyLogic.AdjKeyList(), "Id", "Name");
-            ViewBag.Products = new SelectList(product_list, "Id", "Name");
-            var model = new AddKeyValueToProduct();
-            return View(model);
+
+            var viewModel = new AddKeyValueToProduct
+            {
+                Products = product_list.Select(p => new SelectListItem
+                {
+                    Value = p.Value.ToString(),
+                    Text = p.Text
+                }),
+                Keys = adjKeyLogic.AdjKeyList().Select(k => new SelectListItem
+                {
+                    Value = k.Id.ToString(),
+                    Text = k.Name
+                })
+            };
+
+            return View(viewModel);
         }
 
 

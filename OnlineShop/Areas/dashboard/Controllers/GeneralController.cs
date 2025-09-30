@@ -44,6 +44,12 @@ namespace PresentationLayer.Areas.dashboard.Controllers
             };
             return View(model);
         }
+        [HttpGet]
+        public async Task<IActionResult> DeleteRangeSliders()
+        {
+            var result = await generalLogic.DeleteRangeBylabel("slider");
+            return RedirectToAction("SliderList");
+        }
         [HttpPost]
         public async Task<IActionResult> Aboutus(AddEditAboutusViewModel model)
         {
@@ -202,8 +208,8 @@ namespace PresentationLayer.Areas.dashboard.Controllers
                 var destination = "Image/slider/" + slide.ImageName;
                 var path = Path.Combine(webroot, destination);
                 var result = await FileManager.DeleteFile(path);
-                if (result.result)
-                {
+                // if (result.result)
+                // {
                     var deleteRes = await generalLogic.DeleteGeneral(slide.Id);
                     FinResult = deleteRes;
                     if (deleteRes)
@@ -214,12 +220,12 @@ namespace PresentationLayer.Areas.dashboard.Controllers
                     {
                         message = "خطایی رخ داده است ";
                     }
-                }
-                else
-                {
+                // }
+                // else
+                // {
                     FinResult = result.result;
                     message = result.message;
-                }
+                // }
             }
             return Json(new { result = FinResult, message = message });
         }

@@ -72,6 +72,7 @@
     --container-md: 28rem;
     --container-lg: 32rem;
     --container-2xl: 42rem;
+    --container-3xl: 48rem;
     --container-4xl: 56rem;
     --container-7xl: 80rem;
     --text-xs: 0.75rem;
@@ -331,9 +332,6 @@
   .top-0 {
     top: calc(var(--spacing) * 0);
   }
-  .top-2 {
-    top: calc(var(--spacing) * 2);
-  }
   .top-2\.5 {
     top: calc(var(--spacing) * 2.5);
   }
@@ -369,6 +367,9 @@
   }
   .right-5 {
     right: calc(var(--spacing) * 5);
+  }
+  .right-10 {
+    right: calc(var(--spacing) * 10);
   }
   .right-full {
     right: 100%;
@@ -886,6 +887,9 @@
   .table-row-group {
     display: table-row-group;
   }
+  .aspect-\[4\/3\] {
+    aspect-ratio: 4/3;
+  }
   .size-2 {
     width: calc(var(--spacing) * 2);
     height: calc(var(--spacing) * 2);
@@ -1000,6 +1004,12 @@
   .h-\[50px\] {
     height: 50px;
   }
+  .h-\[218px\] {
+    height: 218px;
+  }
+  .h-\[297\.453px\] {
+    height: 297.453px;
+  }
   .h-auto {
     height: auto;
   }
@@ -1020,6 +1030,9 @@
   }
   .max-h-\[90vh\] {
     max-height: 90vh;
+  }
+  .max-h-\[472px\] {
+    max-height: 472px;
   }
   .min-h-60 {
     min-height: calc(var(--spacing) * 60);
@@ -1316,6 +1329,9 @@
   .items-start {
     align-items: flex-start;
   }
+  .items-stretch {
+    align-items: stretch;
+  }
   .justify-between {
     justify-content: space-between;
   }
@@ -1536,6 +1552,14 @@
   .rounded-t-2xl {
     border-top-left-radius: var(--radius-2xl);
     border-top-right-radius: var(--radius-2xl);
+  }
+  .rounded-l-2xl {
+    border-top-left-radius: var(--radius-2xl);
+    border-bottom-left-radius: var(--radius-2xl);
+  }
+  .rounded-r-2xl {
+    border-top-right-radius: var(--radius-2xl);
+    border-bottom-right-radius: var(--radius-2xl);
   }
   .rounded-tr-sm {
     border-top-right-radius: var(--radius-sm);
@@ -3052,6 +3076,11 @@
       outline-style: none;
     }
   }
+  .max-\[768px\]\:hidden {
+    @media (width < 768px) {
+      display: none;
+    }
+  }
   .max-md\:grid-cols-1 {
     @media (width < 48rem) {
       grid-template-columns: repeat(1, minmax(0, 1fr));
@@ -3331,6 +3360,11 @@
   .md\:max-w-2xl {
     @media (width >= 48rem) {
       max-width: var(--container-2xl);
+    }
+  }
+  .md\:max-w-3xl {
+    @media (width >= 48rem) {
+      max-width: var(--container-3xl);
     }
   }
   .md\:max-w-4xl {
