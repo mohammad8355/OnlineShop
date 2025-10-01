@@ -45,6 +45,7 @@ if (document.getElementById("mobile-filter")) {
   function closeMenu() {
     filters.classList.add("translate-y-full");
   }
+ 
   openFilter.addEventListener("click", openMenu);
   closeFilter.addEventListener("click", closeMenu);
 }

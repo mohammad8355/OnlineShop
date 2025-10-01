@@ -22,7 +22,7 @@ namespace PresentationLayer.Areas.Identity.Pages.Account
         }
         [BindProperty]
         public OtpCodeVerify Input { get; set; }
-
+        [BindProperty]
         public string PhoneNumber { get; set; }
         public class OtpCodeVerify
         {

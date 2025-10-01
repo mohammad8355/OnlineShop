@@ -1,7 +1,10 @@
 ﻿@model SearchFilterViewModel
 <div class="space-y-5">
+    <button id="closeFilter" type="button" class="md:hidden mt-5 text-gray-400 cursor-pointer bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 inline-flex items-center">
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  
+    </button>
     <form asp-action="SearchFilter" asp-controller="Product" class="space-y-5">
-        <input asp-for="Category_Id" hidden class="hidden" />
+        <input asp-for="Category_Id" hidden class="hidden"/>
         <!-- Sorting Options -->
         <div class="border rounded-2xl border-zinc-100 h-fit hover:shadow-sm transition-all py-2">
             <button type="button" class="flex justify-between px-4 w-full menu-toggle cursor-pointer py-3 rounded-2xl headlist">
@@ -52,11 +55,11 @@
             <div class="hidden mt-2 submenu px-6 space-y-4">
                 <div class="space-y-2">
                     <label class="text-sm text-zinc-700">از مبلغ:</label>
-                    <input type="number" asp-for="FromPrice" class="w-full text-sm text-zinc-700 border border-zinc-200 rounded-lg p-2 focus:ring-primary-500 focus:border-primary-500" />
+                    <input type="number" asp-for="FromPrice" class="w-full text-sm text-zinc-700 border border-zinc-200 rounded-lg p-2 focus:ring-primary-500 focus:border-primary-500"/>
                 </div>
                 <div class="space-y-2">
                     <label class="text-sm text-zinc-700">تا مبلغ:</label>
-                    <input type="number" asp-for="ToPrice" class="w-full text-sm text-zinc-700 border border-zinc-200 rounded-lg p-2 focus:ring-primary-500 focus:border-primary-500" />
+                    <input type="number" asp-for="ToPrice" class="w-full text-sm text-zinc-700 border border-zinc-200 rounded-lg p-2 focus:ring-primary-500 focus:border-primary-500"/>
                 </div>
             </div>
         </div>

@@ -602,10 +602,18 @@
     <script src="~/lib/bootstrap/bootstrap-5.2.3-dist/js/bootstrap.min.js"></script>
     <script src="~/lib/bootstrap/bootstrap-5.2.3-dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/sweetalert2@11.js"></script>
-    <script src="~/js/function.js"></script>
+  <script src="~/js/function.js"></script>
+    
     @RenderSection("ScriptRefrence",false)
     <script>
-
+      $(document).ready(function () {
+        $("#dropdown-menu").fadeOut();
+        console.log("doucment is reasy");
+        $("#categoryLink").click(function () {
+          console.log("click category link");
+          $("#dropdown-menu").fadeToggle();
+        })
+      })
         function desktopMegaMenuScript() {
             $(".category-list ul").slideDown();
             $(window).mouseover(function (e) {

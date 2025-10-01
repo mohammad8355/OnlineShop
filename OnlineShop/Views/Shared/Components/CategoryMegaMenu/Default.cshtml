@@ -2,13 +2,16 @@
 @model CategoryMegaMenuViewComponentModel;
 
 <div class="relative inline-block group" dir="rtl">
-    <a href="#" class="flex gap-x-2 items-center group relative">
+    <a href="#" id="categoryLink" class="flex gap-x-2 items-center group relative">
         <span class="relative text-zinc-800 hover:text-primary-500 transition-all pb-2">دسته‌بندی‌ها</span>
         <svg class="group-hover:rotate-180 transition-all duration-300 fill-zinc-600 mb-2 group-hover:fill-primary-500" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 256 256">
             <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path>
         </svg>
     </a>
-    <div id="dropdown-menu" class="absolute z-10 right-10 mt-2 w-96 h-fit bg-white p-5 shadow-lg rounded-3xl flex opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+    <div id="dropdown-menu" class="max-md:relative md:absolute max-md:z-50 
+md:right-10 mt-2 w-96 h-fit bg-white p-5
+ md:shadow-lg rounded-3xl flex md:opacity-0 md:invisible md:group-hover:opacity-100 md:group-hover:visible 
+transition-all duration-300">
         <ul class="rounded-2xl bg-white flex flex-col gap-y-3 w-full">
             @if (Model.ParentCategories != null)
             {
